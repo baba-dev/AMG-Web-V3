@@ -121,16 +121,21 @@ async function testViewport(browser, width, height) {
   await page.waitForTimeout(350);
   const fourth = await page.evaluate(() => ({
     top: document.querySelector(".aiwa-about").getBoundingClientRect().top,
-    heading: document.querySelector("#aiwa-about-heading").textContent.replace(/\\s+/g, " ").trim(),
+    heading: document.querySelector("#aiwa-about-heading").textContent.replace(/\s+/g, " ").trim(),
     body: document.querySelector(".aiwa-about__aside p").textContent,
     link: document.querySelector(".aiwa-about__cta").getAttribute("href"),
     label: document.querySelector(".aiwa-about__eyebrow").textContent,
     overflow: document.documentElement.scrollWidth - innerWidth,
+    headlineBoxes: [...document.querySelectorAll(".aiwa-about__line-text")].map(el => {
+      const b = el.getBoundingClientRect();
+      return {left:b.left,right:b.right,width:b.width};
+    }),
   }));
   assert(closeTo(fourth.top, 0, 4),"Section 4 must start at the top of the viewport");
   assert(fourth.label.includes("ABOUT US"),"Section 4 lacks About Us eyebrow");
   assert(fourth.heading.includes("CREATIVE MEDIA") && fourth.heading.includes("TO BLEND IN."),"About headline is missing");
-  assert(fourth.body.includes("Aiwa Media Group") && fourth.body.includes("Muscat") === false,"About description must be Aiwa-specific without invented office claims");
+  assert(fourth.body.includes("Aiwa Media Group") && fourth.body.includes("production"),"About description must mention Aiwa and its real work");
+  assert(fourth.headlineBoxes.every(b => b.left >= -2 && b.right <= width + 2),"At least one About headline line is clipped horizontally");
   assert.equal(fourth.link,"https://aiwamediagroup.com/about-us/","About CTA must use the real About page");
   assert(fourth.overflow <= 2,"Section 4 has horizontal overflow");
   await page.screenshot({path:"test-artifacts/"+id+"-about.png",fullPage:false});
