@@ -81,6 +81,93 @@ async function testAboutEntrance(browser) {
   return { initial, entering, midway, settled, reversed };
 }
 
+async function testHeroSpecialismsMotion(browser, width, height) {
+  const context = await browser.newContext({
+    viewport: { width, height },
+    reducedMotion: "no-preference",
+  });
+  const page = await context.newPage();
+  const errors = [];
+  page.on("pageerror", e=>errors.push(e.message));
+  await page.goto(URL,{waitUntil:"domcontentloaded",timeout:30_000});
+  await page.evaluate(()=>document.fonts.ready);
+  await page.waitForTimeout(1700); // Let intro masks settle.
+
+  const checkpoints = [];
+  for (const ratio of [0,.25,.5,.75,1]) {
+    await page.evaluate(p => {
+      const hero = document.querySelector(".aiwa-hero");
+      window.scrollTo({top:hero.getBoundingClientRect().top+scrollY+hero.offsetHeight*p,behavior:"instant"});
+    },ratio);
+    await page.waitForTimeout(160);
+    const values=await page.evaluate(()=>{
+      const reveal=document.querySelector(".aiwa-reel").getBoundingClientRect();
+      const title=document.querySelector(".aiwa-hero__center");
+      const last=[...document.querySelectorAll(".aiwa-hero__line")].at(-1)?.getBoundingClientRect();
+      return {
+        width:reveal.width,height:reveal.height,x:reveal.x,y:reveal.y,
+        titleOpacity:Number(getComputedStyle(title).opacity),
+        lineRight:last?.right,
+      };
+    });
+    checkpoints.push({...values,ratio});
+    await page.screenshot({path:"test-artifacts/"+width+"x"+height+"-hero-motion-"+Math.round(ratio*100)+".png",fullPage:false});
+  }
+  assert(checkpoints[1].width>checkpoints[0].width*1.6,"Inline tile should grow substantially in first quarter");
+  assert(checkpoints[2].width>checkpoints[1].width,"Film must keep expanding at halfway");
+  assert(checkpoints[3].width>checkpoints[2].width,"Film must keep expanding at three-quarter progress");
+  assert(closeTo(checkpoints[4].width,width,4),"Hero film should fill the next viewport");
+  assert(checkpoints[2].titleOpacity>.85,"Headline must remain visible behind expanding film at halfway");
+  assert(checkpoints[4].titleOpacity<.05,"Headline must disappear at full expansion");
+
+  const spec = await page.evaluate(()=>{
+    const section=document.querySelector(".aiwa-specialisms");
+    const list=[...section.querySelectorAll(".aiwa-specialisms__row")];
+    const bounds=list.map(row=>{
+      const b=row.getBoundingClientRect(), t=row.querySelector(".aiwa-specialisms__visual")?.getBoundingClientRect();
+      return {width:b.width,right:b.right,mediaWidth:t?.width,category:row.textContent?.trim()};
+    });
+    return {top:section.getBoundingClientRect().top+scrollY,rows:bounds,
+      background:getComputedStyle(section).backgroundColor};
+  });
+  assert(spec.background==="rgb(245, 245, 245)","Reference Specialisms needs a light canvas");
+  assert(spec.rows.length===7,"Seven specialisms required");
+  assert(spec.rows.every(r=>r.mediaWidth>20),"Each category needs an embedded media tile");
+
+  const firstRowPosition=await page.locator(".aiwa-specialisms__row").first().evaluate(el=>el.getBoundingClientRect().top+scrollY);
+  const states=[];
+  for(const phase of [1.08,.70,.42]) {
+    await page.evaluate(({position,phase})=>window.scrollTo({top:position-innerHeight*phase,behavior:"instant"}),{position:firstRowPosition,phase});
+    await page.waitForTimeout(130);
+    const row=await page.locator(".aiwa-specialisms__row").first().evaluate(el=>({
+      reveal:Number(el.style.getPropertyValue("--row-reveal")),
+      opacity:Number(getComputedStyle(el).opacity),
+      transform:getComputedStyle(el).transform,
+    }));
+    states.push(row);
+  }
+  assert(states[0].reveal<.06,"Specialism row should be folded before entering");
+  assert(states[1].reveal>states[0].reveal && states[1].reveal<.98,"Specialism should partially unfold while entering");
+  assert(states[2].reveal>.98,"Specialism should be fully open inside viewport");
+
+  await page.evaluate(()=>window.scrollTo({top:0,behavior:"instant"}));
+  await page.waitForTimeout(180);
+  const reset=await page.locator(".aiwa-specialisms__row").first().evaluate(el=>Number(el.style.getPropertyValue("--row-reveal")));
+  assert(reset<.06,"Reverse scroll should refold specialisms");
+  const restored=await page.evaluate(()=>{
+    const r=document.querySelector(".aiwa-reel").getBoundingClientRect();
+    const t=document.querySelector(".aiwa-hero__film-tile").getBoundingClientRect();
+    return {width:r.width, tileWidth:t.width,scrollY,projectionX:r.x,projectionY:r.y,tileX:t.x,tileY:t.y};
+  });
+  await page.screenshot({path:"test-artifacts/"+width+"x"+height+"-hero-return.png",fullPage:false});
+  console.log("HERO_REVERSE_DIAGNOSTIC",JSON.stringify({viewport:width,start:checkpoints[0],restored}));
+  assert(closeTo(restored.width,restored.tileWidth,4),"Hero reel must align to inline tile on reverse scroll, measured "+JSON.stringify(restored));
+  assert.equal(errors.length,0,"Uncaught motion errors: "+errors.join("; "));
+
+  await context.close();
+  return {viewport:width+"x"+height,checkpoints,states,reset};
+}
+
 async function testViewport(browser, width, height) {
   const id = width + "x" + height;
   const ctx = await browser.newContext({
@@ -223,7 +310,6 @@ async function testViewport(browser, width, height) {
   return {viewport:id,initial,inFilm,third,fourth,reversed:{titleOpacity:reversed.titleOpacity}};
 }
 
-
 async function testDuotoneTheme(browser,width,height) {
   const ctx = await browser.newContext({
     viewport: { width, height },
@@ -288,6 +374,10 @@ async function testDuotoneTheme(browser,width,height) {
   );
   assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor),
     "rgb(245, 243, 237)", "Saved theme failed after reload");
+  // A reload preserves scroll position; return to the hero before interacting
+  // with its scoped header rather than clicking a clipped offscreen control.
+  await page.evaluate(() => window.scrollTo({top: 0, behavior: "instant"}));
+  await page.waitForFunction(() => Math.abs(window.scrollY) < 2);
   await page.getByRole("button", { name: "Toggle colour theme" }).click();
   await page.waitForFunction(() => document.documentElement.classList.contains("dark"));
   assert.equal(await page.evaluate(() => localStorage.getItem("theme")), "dark",
@@ -303,11 +393,14 @@ async function testDuotoneTheme(browser,width,height) {
     const results=[];
     results.push(await testViewport(browser,1440,900));
     results.push(await testViewport(browser,390,844));
+    const motionFrames = [];
+    motionFrames.push(await testHeroSpecialismsMotion(browser,1440,900));
+    motionFrames.push(await testHeroSpecialismsMotion(browser,390,844));
     const aboutMotion = await testAboutEntrance(browser);
     const themes = [await testDuotoneTheme(browser,1440,900), await testDuotoneTheme(browser,390,844)];
-    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,aboutMotion,themes},null,2));
+    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,motionFrames,aboutMotion,themes},null,2));
     console.log("AIWA_EDITORIAL_DUOTONE_THEME_PASS");
-    console.log("AIWA_SECTION4_SCROLL_POLISH_PASS");
+    console.log("AIWA_HERO_SPECIALISMS_MOTION_PASS");
     console.log(JSON.stringify(results.map(r=>({viewport:r.viewport,hero:r.initial.hero,film:r.inFilm.film,projection:r.inFilm.projection,third:r.third,about:r.fourth})),null,2));
   } finally {
     await browser.close();

@@ -4,20 +4,51 @@ import { useEffect, useRef, type MouseEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import "./aiwa-specialisms.css";
 
-const categories = [
-  "Global",
-  "Consumer",
-  "Corporate",
-  "Sports",
-  "Social",
-  "Studio",
-  "TECH",
-] as const;
+type Specialism = {
+  name: string;
+  side: "left" | "right";
+  tint: string;
+  image?: string;
+};
+
+const categories: Specialism[] = [
+  { name: "Global", side: "right", tint: "global" },
+  { name: "Consumer", side: "left", tint: "consumer" },
+  { name: "Corporate", side: "right", tint: "corporate" },
+  { name: "Sports", side: "left", tint: "sports" },
+  { name: "Social", side: "right", tint: "social" },
+  { name: "Studio", side: "left", tint: "studio" },
+  { name: "TECH", side: "right", tint: "tech" },
+];
+
+const clamp = (x: number) => Math.min(1, Math.max(0, x));
+const smoother = (x: number) => {
+  const t = clamp(x);
+  return t * t * (3 - 2 * t);
+};
+
+function VisualTile({ category, index }: {category: Specialism; index: number}) {
+  return (
+    <span
+      className={"aiwa-specialisms__visual aiwa-specialisms__visual--" + category.tint}
+      aria-hidden="true"
+    >
+      {category.image ? (
+        <img src={category.image} alt="" loading="lazy" decoding="async" />
+      ) : (
+        <>
+          <span className="aiwa-specialisms__visual-shape" />
+          <span className="aiwa-specialisms__visual-caption">AIWA / 0{index + 1}</span>
+        </>
+      )}
+    </span>
+  );
+}
 
 export function AiwaSpecialisms() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollToAbout = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
     const about = document.getElementById("about");
     if (!about) return;
     event.preventDefault();
@@ -30,59 +61,89 @@ export function AiwaSpecialisms() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    const rows = Array.from(section.querySelectorAll<HTMLAnchorElement>(".aiwa-specialisms__row"));
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
 
-    const rows = Array.from(section.querySelectorAll<HTMLElement>(".aiwa-specialisms__row"));
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    // Each row folds out from its upper edge as it enters the viewport.
-    // Unlike a timed one-shot animation, re-entering while scrolling
-    // upward unfolds the list again in reverse travel order.
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(({ target, isIntersecting }) => {
-          const row = target as HTMLElement;
-          row.dataset.visible = String(isIntersecting || reducedMotion.matches);
+    const render = () => {
+      frame = 0;
+      if (mediaQuery.matches) {
+        rows.forEach((row) => {
+          row.style.removeProperty("transform");
+          row.style.removeProperty("opacity");
+          row.style.removeProperty("filter");
+          row.dataset.visible = "true";
         });
-      },
-      { rootMargin: "0px 0px -7% 0px", threshold: 0.08 },
-    );
+        return;
+      }
 
-    rows.forEach((row) => {
-      if (reducedMotion.matches) row.dataset.visible = "true";
-      observer.observe(row);
-    });
-    return () => observer.disconnect();
+      const viewport = window.innerHeight;
+      // Read all row geometry before writing transforms, keeping one layout pass.
+      const rects = rows.map(row => row.getBoundingClientRect());
+      rows.forEach((row, index) => {
+        const b = rects[index];
+        // A category unfolds as its top crosses 88% -> 48% viewport height.
+        // The same measured scroll state drives the reverse when scrolling up.
+        const p = smoother((viewport * .88 - b.top) / (viewport * .40));
+        const closed = 1 - p;
+        row.style.transform =
+          "perspective(1250px) rotateX(" + (-64 * closed).toFixed(2) +
+          "deg) translate3d(0," + (68 * closed).toFixed(2) +
+          "px,0) skewX(" + (5 * closed).toFixed(2) + "deg)";
+        row.style.opacity = Math.max(.04, p).toFixed(3);
+        row.style.filter = "blur(" + (Math.min(2.6, closed * 2.6)).toFixed(2) + "px)";
+        row.dataset.visible = String(p > .87);
+        row.style.setProperty("--row-reveal", p.toFixed(4));
+      });
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(render);
+    };
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    mediaQuery.addEventListener("change", schedule);
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      mediaQuery.removeEventListener("change", schedule);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
-    <section ref={sectionRef} className="aiwa-specialisms" id="specialisms"
-      aria-labelledby="aiwa-specialisms-title">
+    <section
+      ref={sectionRef}
+      className="aiwa-specialisms"
+      id="specialisms"
+      aria-labelledby="aiwa-specialisms-title"
+    >
       <div className="aiwa-specialisms__top">
         <h2 id="aiwa-specialisms-title">SPECIALISMS</h2>
-        <span>WHAT WE DO <span aria-hidden="true">↘</span></span>
       </div>
-
       <ol className="aiwa-specialisms__list">
-        {categories.map((name, index) => (
-          <li className="aiwa-specialisms__item" key={name}>
-            <a className="aiwa-specialisms__row" href="#" data-visible="false"
-              aria-label={name + " – coming soon"}>
-              <span className="aiwa-specialisms__number">0{index + 1}</span>
-              <span className="aiwa-specialisms__name">{name}</span>
-              <ArrowUpRight className="aiwa-specialisms__arrow" strokeWidth={1.6}
-                aria-hidden="true" />
+        {categories.map((category, index) => (
+          <li className="aiwa-specialisms__item" key={category.name}>
+            <a
+              className={"aiwa-specialisms__row aiwa-specialisms__row--" + category.tint}
+              href="#"
+              aria-label={category.name + " — coming soon"}
+              data-visible="false"
+            >
+              {category.side === "left" && <VisualTile category={category} index={index} />}
+              <span className="aiwa-specialisms__name">{category.name}</span>
+              {category.side === "right" && <VisualTile category={category} index={index} />}
             </a>
           </li>
         ))}
       </ol>
-
       <div className="aiwa-specialisms__footer">
         <p>
           No ordinary ideas. No ordinary results. Everything we make is built
           to move culture, shape conversation and make brands impossible to ignore.
         </p>
         <a href="#about" className="aiwa-specialisms__why" onClick={scrollToAbout}>
-          THIS IS WHY <ArrowUpRight size={20} aria-hidden="true" />
+          THIS IS WHY <ArrowUpRight size={19} strokeWidth={2} aria-hidden="true" />
         </a>
       </div>
     </section>

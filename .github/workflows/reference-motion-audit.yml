@@ -1,0 +1,38 @@
+name: Public reference motion frame audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/reference-motion-audit.cjs
+      - .github/workflows/reference-motion-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install temporary browser
+        run: |
+          npm ci --no-audit --no-fund
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Capture public visible frames
+        run: node scripts/reference-motion-audit.cjs
+      - name: Inventory Aiwa public site media for placeholders
+        run: node scripts/aiwa-media-inventory.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-motion-reference-frames
+          path: reference-motion/
+          retention-days: 2

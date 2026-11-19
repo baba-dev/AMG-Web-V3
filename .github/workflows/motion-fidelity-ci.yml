@@ -1,0 +1,50 @@
+name: Cinematic motion regression
+
+on:
+  push:
+    branches:
+      - feat/hero-specialisms-motion-fidelity
+  pull_request:
+    branches:
+      - main
+    paths:
+      - src/components/aiwa-hero.tsx
+      - src/components/aiwa-hero.css
+      - src/components/aiwa-specialisms.tsx
+      - src/components/aiwa-specialisms.css
+      - scripts/hero-visual-smoke.cjs
+      - .github/workflows/motion-fidelity-ci.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fidelity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Build exact static export
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          test -f out/index.html
+      - name: Install headless Chromium for motion regression
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Audit scroll choreography desktop and mobile
+        run: |
+          python3 -m http.server 4173 --directory out > /tmp/aiwa-motion-preview.log 2>&1 &
+          node scripts/hero-visual-smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aiwa-motion-regression-frames
+          path: test-artifacts/
+          retention-days: 7
