@@ -26,7 +26,7 @@ jobs:
       - name: Install temporary browser test dependency
         run: |
           npm install --no-save --package-lock=false playwright
-          npx playwright install --with-deps chromium
+          npx playwright install chromium --only-shell
       - name: Start static preview and test desktop/mobile
         run: |
           python3 -m http.server 4173 --directory out > /tmp/aiwa-preview-http.log 2>&1 &
