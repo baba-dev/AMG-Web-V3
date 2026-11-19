@@ -223,6 +223,73 @@ async function testViewport(browser, width, height) {
   return {viewport:id,initial,inFilm,third,fourth,reversed:{titleOpacity:reversed.titleOpacity}};
 }
 
+
+async function testDuotoneTheme(browser,width,height) {
+  const ctx = await browser.newContext({
+    viewport: { width, height },
+    reducedMotion: "reduce",
+  });
+  const page = await ctx.newPage();
+  const errors = [];
+  page.on("pageerror", e => errors.push(e.message));
+  await page.goto(URL, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  const toggle = page.getByRole("button", { name: "Toggle colour theme" });
+  await toggle.waitFor();
+  await page.waitForFunction(() => document.documentElement.classList.contains("dark"));
+  const initial = await page.evaluate(() => ({
+    dark: document.documentElement.classList.contains("dark"),
+    hero: getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor,
+    toggle: document.querySelector(".aiwa-theme-toggle").getBoundingClientRect().toJSON(),
+    header: document.querySelector(".aiwa-header").getBoundingClientRect().toJSON(),
+  }));
+  assert(initial.dark && initial.hero === "rgb(7, 7, 7)", "Original dark hero must stay the default");
+  assert(initial.toggle.x >= initial.header.left && initial.toggle.right <= initial.header.right,
+    "Theme control must fit inside header at " + width);
+
+  await toggle.click();
+  await page.waitForFunction(() => document.documentElement.classList.contains("light"));
+  const light = await page.evaluate(() => ({
+    hero: getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor,
+    heading: getComputedStyle(document.querySelector(".aiwa-hero__headline")).color,
+    specialisms: getComputedStyle(document.querySelector(".aiwa-specialisms")).backgroundColor,
+    specialismsText: getComputedStyle(document.querySelector(".aiwa-specialisms__row")).color,
+    about: getComputedStyle(document.querySelector(".aiwa-about")).backgroundColor,
+    aboutCopy: getComputedStyle(document.querySelector(".aiwa-about__description")).color,
+    themeStored: localStorage.getItem("theme"),
+    togglePressed: document.querySelector(".aiwa-theme-toggle").getAttribute("aria-pressed"),
+    overflow: document.documentElement.scrollWidth - innerWidth,
+    toggleMotion: getComputedStyle(document.querySelector(".aiwa-theme-toggle__orb")).transitionDuration,
+  }));
+  assert.equal(light.hero, "rgb(245, 243, 237)", "Hero did not change to warm paper");
+  assert.equal(light.heading, "rgb(21, 22, 19)", "Hero heading lacks ink contrast");
+  assert.equal(light.specialisms, "rgb(233, 231, 223)", "Specialisms is not soft ivory");
+  assert.equal(light.specialismsText, "rgb(21, 22, 19)", "Specialisms text lacks ink contrast");
+  assert.equal(light.about, "rgb(245, 243, 237)", "About did not change to paper");
+  assert.equal(light.aboutCopy, "rgb(65, 66, 61)", "About copy colour is not from light tokens");
+  assert.equal(light.themeStored, "light", "Light choice not persisted");
+  assert.equal(light.togglePressed, "true", "Toggle accessibility state incorrect");
+  assert(light.overflow <= 2, "Theme switch created horizontal overflow");
+  assert(light.toggleMotion.split(",").every(x => Number.parseFloat(x) <= .001),
+    "Reduced-motion visitors should not receive a travelling toggle");
+  await page.screenshot({ path: "test-artifacts/" + width + "x" + height + "-light-hero.png" });
+  await page.evaluate(() => document.querySelector(".aiwa-specialisms").scrollIntoView({ behavior:"instant" }));
+  await page.screenshot({ path: "test-artifacts/" + width + "x" + height + "-light-specialisms.png" });
+  await page.evaluate(() => document.querySelector(".aiwa-about").scrollIntoView({ behavior:"instant" }));
+  await page.screenshot({ path: "test-artifacts/" + width + "x" + height + "-light-about.png" });
+
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => document.documentElement.classList.contains("light"));
+  assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor),
+    "rgb(245, 243, 237)", "Saved theme failed after reload");
+  await page.getByRole("button", { name: "Toggle colour theme" }).click();
+  await page.waitForFunction(() => document.documentElement.classList.contains("dark"));
+  assert.equal(await page.evaluate(() => localStorage.getItem("theme")), "dark",
+    "Switching back to dark did not persist");
+  assert.equal(errors.length,0,"Uncaught errors in theme check: "+errors.join("; "));
+  await ctx.close();
+  return {viewport:width+"x"+height,initial,light};
+}
+
 (async () => {
   const browser=await chromium.launch({headless:true});
   try {
@@ -230,7 +297,9 @@ async function testViewport(browser, width, height) {
     results.push(await testViewport(browser,1440,900));
     results.push(await testViewport(browser,390,844));
     const aboutMotion = await testAboutEntrance(browser);
-    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,aboutMotion},null,2));
+    const themes = [await testDuotoneTheme(browser,1440,900), await testDuotoneTheme(browser,390,844)];
+    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,aboutMotion,themes},null,2));
+    console.log("AIWA_EDITORIAL_DUOTONE_THEME_PASS");
     console.log("AIWA_SECTION4_SCROLL_POLISH_PASS");
     console.log(JSON.stringify(results.map(r=>({viewport:r.viewport,hero:r.initial.hero,film:r.inFilm.film,projection:r.inFilm.projection,third:r.third,about:r.fourth})),null,2));
   } finally {
