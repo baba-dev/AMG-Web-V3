@@ -114,6 +114,9 @@ export function AiwaHero() {
       projection.style.height = h.toFixed(2) + "px";
       projection.style.opacity = "1";
       projection.style.borderRadius = "0";
+      // Morph the slanted inline video aperture into the square-edged reel.
+      const slant = (8 * (1 - expansion)).toFixed(3);
+      projection.style.clipPath = "polygon(" + slant + "% 0,100% 0," + (100 - Number(slant)).toFixed(3) + "% 100%,0 100%)";
 
       tile.style.opacity = progress > 0.025 ? "0" : "1";
       // Keep typography visible behind the expanding film much longer,
