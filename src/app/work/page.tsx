@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 export default function WorkDirectory() {
   return (
     <main className="aiwa-directory">
+      <a className="aiwa-directory__skip" href="#aiwa-work-projects">SKIP TO PROJECTS</a>
       <header className="aiwa-directory__nav">
         <Link className="aiwa-directory__brand" href="/">AIWA</Link>
         <Link className="aiwa-directory__back" href="/#work">
@@ -28,7 +29,7 @@ export default function WorkDirectory() {
           Explore the documented projects and services behind each story.
         </p>
       </div>
-      <ol className="aiwa-directory__grid">
+      <ol className="aiwa-directory__grid" id="aiwa-work-projects">
         {workProjects.map((project, index) => (
           <li key={project.slug} className="aiwa-directory__project">
             <a href={project.href} target="_blank" rel="noopener noreferrer"
@@ -47,6 +48,7 @@ export default function WorkDirectory() {
           </li>
         ))}
       </ol>
+      <p className="aiwa-directory__disclosure">The compositions above are original editorial interpretations, not photographs of the referenced client campaigns. Project summaries link to Aiwa's published work.</p>
       <footer className="aiwa-directory__footer">
         <p>GOOD WORK BEGINS WITH A CONVERSATION.</p>
         <a href="https://aiwamediagroup.com/contact-us/">

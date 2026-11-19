@@ -39,3 +39,15 @@
   .aiwa-directory__footer a { margin-top:26px; }
 }
 @media(prefers-reduced-motion:reduce){ .aiwa-directory__visual img, .aiwa-directory__visual svg { transition:none!important; } }
+
+.aiwa-directory__skip {
+  position: absolute; top: 9px; left: 9px; z-index: 50;
+  display: block; padding: 11px 15px; background: #fff; color: #080808!important;
+  transform: translateY(-180%);
+}
+.aiwa-directory__skip:focus-visible { transform: translateY(0); outline: 3px solid #ffa65a; }
+.aiwa-directory__disclosure {
+  max-width: 900px; margin: clamp(65px,7vw,108px) 0 0;
+  padding-top: 15px; border-top: 1px solid #434343;
+  color: #bcbcb6; font-size: 13px; line-height: 1.5;
+}

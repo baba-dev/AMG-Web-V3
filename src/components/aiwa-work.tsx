@@ -82,6 +82,7 @@ export function AiwaWorkShowcase() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const slots = Array.from(scene.querySelectorAll<HTMLElement>(".aiwa-work__slot"));
     let frame = 0;
+    let nearby = true;
 
     const revealObserver = new IntersectionObserver((entries) => {
       if (desktop.matches || reduced.matches) return;
@@ -138,14 +139,22 @@ export function AiwaWorkShowcase() {
           "deg) scale(" + scale.toFixed(3) + ")";
         slot.style.opacity = alpha.toFixed(3);
 
-        const active = alpha > .35;
+        // Keep keyboard-focused project links accessible as tracks leave.
+        const active = alpha > .35 || slot.contains(document.activeElement);
         slot.inert = !active;
         slot.dataset.active = String(active);
       });
     };
     const schedule = () => {
-      if (!frame) frame = window.requestAnimationFrame(paint);
+      if (!nearby || frame) return;
+      frame = window.requestAnimationFrame(paint);
     };
+    // Skip scroll-layout work whenever this section is far offscreen.
+    const proximityObserver = new IntersectionObserver(([entry]) => {
+      nearby = entry?.isIntersecting ?? true;
+      if (nearby) schedule();
+    }, { rootMargin: "125% 0px 125% 0px", threshold: 0 });
+    proximityObserver.observe(section);
     const configure = () => {
       if (reduced.matches) {
         reset();
@@ -179,6 +188,7 @@ export function AiwaWorkShowcase() {
       reduced.removeEventListener("change", configure);
       if (frame) window.cancelAnimationFrame(frame);
       revealObserver.disconnect();
+      proximityObserver.disconnect();
       reset();
     };
   }, []);
@@ -197,9 +207,12 @@ export function AiwaWorkShowcase() {
             {workProjects.map((project, index) =>
               <WorkCard key={project.slug} project={project} index={index} />)}
           </div>
-          <Link className="aiwa-work__cta" href="/work">
+          <Link className="aiwa-work__cta" href="/work" aria-label="Explore all selected Aiwa Media Group work">
             <span>VIEW ALL WORK</span><MoveRight size={23} strokeWidth={2} aria-hidden="true"/>
           </Link>
+          <p className="aiwa-work__art-disclosure">
+            ORIGINAL EDITORIAL ARTWORK / EXPLORE DOCUMENTED AIWA PROJECTS
+          </p>
         </div>
       </div>
     </section>
