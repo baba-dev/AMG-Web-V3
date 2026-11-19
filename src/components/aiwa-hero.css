@@ -304,6 +304,7 @@
   min-height: 100%;
   transform: translate(-50%,-50%);
   border: 0;
+  object-fit: cover;
   pointer-events: none;
 }
 .aiwa-reel__shade {
@@ -456,11 +457,14 @@
   background: transparent;
   cursor: pointer;
 }
-.aiwa-film-dialog iframe {
+.aiwa-film-dialog iframe,
+.aiwa-film-dialog video {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
+  max-height: calc(95svh - 70px);
   border: 0;
+  object-fit: contain;
 }
 
 @keyframes aiwa-hero-word-in {
