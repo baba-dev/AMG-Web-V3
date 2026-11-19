@@ -552,3 +552,18 @@
 @media (prefers-reduced-motion: reduce) {
   .aiwa-hero__film-tile { animation: none !important; clip-path: polygon(8% 0,100% 0,92% 100%,0 100%); }
 }
+
+/* Pin the editorial foreground while the film flies over it. The actual
+   1st/2nd section elements remain ordinary adjacent in-flow sections. */
+.aiwa-header,
+.aiwa-hero__center,
+.aiwa-hero__bottom {
+  position: fixed;
+}
+.aiwa-hero__center { inset: 50% 0 auto; }
+.aiwa-header { inset: 0 0 auto; }
+.aiwa-hero__bottom { inset: auto var(--aiwa-gutter) clamp(22px, 3.5vw, 53px); }
+@media (max-width: 720px) {
+  .aiwa-hero__center { inset: 43% 0 auto; }
+  .aiwa-hero__bottom { inset: auto var(--aiwa-gutter) 28px; }
+}
