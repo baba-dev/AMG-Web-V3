@@ -14,8 +14,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AMG-Web-V3 | Aiwa Media Group",
-  description: "Aiwa Media Group website renovation v3",
+  title: "Aiwa Media Group | Creative, Digital & Technology Agency",
+  description:
+    "Aiwa Media Group is a Muscat-based creative, digital and technology agency. Branding, digital marketing, film production, events and software.",
+  openGraph: {
+    title: "Aiwa Media Group",
+    description: "Ideas that move people. Creative, digital and technology, from Muscat to everywhere.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
