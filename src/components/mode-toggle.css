@@ -1,0 +1,81 @@
+/* Motion lives in the control; colours come from the page's duotone tokens. */
+.aiwa-theme-toggle {
+  flex: none;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 68px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  color: var(--aiwa-ink);
+  background: transparent;
+  cursor: pointer;
+}
+.aiwa-theme-toggle__track {
+  position: relative;
+  display: block;
+  width: 62px;
+  height: 33px;
+  overflow: hidden;
+  border: 1px solid var(--aiwa-rule-strong);
+  border-radius: 999px;
+  background: var(--aiwa-toggle-track);
+  transition: background-color .55s ease, border-color .55s ease;
+}
+.aiwa-theme-toggle__orb {
+  --orbit: 0px;
+  position: absolute;
+  z-index: 2;
+  top: 3px;
+  left: 3px;
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: var(--aiwa-bg);
+  background: var(--aiwa-ink);
+  box-shadow: 0 1px 8px rgb(0 0 0 / 12%);
+  transform: translateX(var(--orbit));
+  transition: transform .65s cubic-bezier(.22,1,.36,1),
+    background-color .5s ease, color .5s ease;
+}
+.light .aiwa-theme-toggle__orb { --orbit: 28px; }
+.aiwa-theme-toggle:hover .aiwa-theme-toggle__orb { transform: translateX(var(--orbit)) scale(1.08); }
+.aiwa-theme-toggle__moon,
+.aiwa-theme-toggle__sun {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  transition: opacity .35s ease, transform .65s cubic-bezier(.22,1,.36,1);
+}
+.aiwa-theme-toggle__moon { opacity: 1; transform: rotate(0) scale(1); }
+.aiwa-theme-toggle__sun { opacity: 0; transform: rotate(-100deg) scale(.3); }
+.light .aiwa-theme-toggle__moon { opacity: 0; transform: rotate(100deg) scale(.3); }
+.light .aiwa-theme-toggle__sun { opacity: 1; transform: rotate(0deg) scale(1); }
+.aiwa-theme-toggle__spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--aiwa-ink);
+  opacity: .7;
+  transition: opacity .2s ease, transform .55s ease;
+  animation: aiwa-theme-twinkle 2.8s infinite alternate ease-in-out;
+}
+.aiwa-theme-toggle__spark--one { top: 9px; left: 39px; }
+.aiwa-theme-toggle__spark--two { top: 19px; left: 48px; width: 2px; height: 2px; animation-delay: .6s; }
+.aiwa-theme-toggle__spark--three { top: 23px; left: 33px; width: 2px; height: 2px; animation-delay: 1.2s; }
+.light .aiwa-theme-toggle__spark { opacity: 0; transform: translateY(8px) scale(.4); animation: none; }
+@keyframes aiwa-theme-twinkle {
+  from { opacity: .24; transform: scale(.75); }
+  to { opacity: .8; transform: scale(1.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aiwa-theme-toggle *, .aiwa-theme-toggle *::before, .aiwa-theme-toggle *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
