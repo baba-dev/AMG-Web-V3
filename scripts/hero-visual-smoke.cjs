@@ -52,13 +52,26 @@ async function runCase(browser, label, width, height) {
     const menu = page.getByRole("button", { name: "Open navigation" });
     assert(await menu.isVisible(), "Mobile menu is not visible");
     await menu.click();
-    const navVisibility = await page.locator("#aiwa-mobile-menu").evaluate((el) => getComputedStyle(el).visibility);
-    assert.equal(navVisibility, "visible", "Mobile navigation does not open");
+    await page.waitForFunction(
+      () => getComputedStyle(document.querySelector("#aiwa-mobile-menu")).visibility === "visible",
+      null,
+      { timeout: 2_500 },
+    );
     await page.getByRole("button", { name: "Close navigation" }).click();
+    await page.waitForFunction(
+      () => getComputedStyle(document.querySelector("#aiwa-mobile-menu")).visibility === "hidden",
+      null,
+      { timeout: 2_500 },
+    );
   }
 
-  // Scroll the sticky stage to its expanded film viewport; use instant
-  // positioning to make the test deterministic on slow GitHub runners.
+  await page.getByRole("button", { name: "Scroll to Aiwa showreel" }).click();
+  await page.waitForTimeout(1_400);
+  const buttonScrollY = await page.evaluate(() => window.scrollY);
+  assert(buttonScrollY > 50, "Scroll arrow did not move the page");
+
+  // Independently position the stage deterministically after testing the
+  // user-facing scroll cue (smooth-scroll durations vary by browser).
   await page.evaluate(() => {
     const stage = document.querySelector(".aiwa-hero-stage");
     const absoluteTop = stage.getBoundingClientRect().top + window.scrollY;
