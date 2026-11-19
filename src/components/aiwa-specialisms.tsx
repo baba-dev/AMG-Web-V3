@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import "./aiwa-specialisms.css";
 
@@ -16,6 +16,16 @@ const categories = [
 
 export function AiwaSpecialisms() {
   const sectionRef = useRef<HTMLElement>(null);
+  const scrollToAbout = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const about = document.getElementById("about");
+    if (!about) return;
+    event.preventDefault();
+    window.history.pushState(null, "", "#about");
+    about.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    });
+  };
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -71,7 +81,7 @@ export function AiwaSpecialisms() {
           No ordinary ideas. No ordinary results. Everything we make is built
           to move culture, shape conversation and make brands impossible to ignore.
         </p>
-        <a href="#about" className="aiwa-specialisms__why">
+        <a href="#about" className="aiwa-specialisms__why" onClick={scrollToAbout}>
           THIS IS WHY <ArrowUpRight size={20} aria-hidden="true" />
         </a>
       </div>

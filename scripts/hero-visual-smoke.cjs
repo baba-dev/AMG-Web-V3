@@ -20,31 +20,65 @@ async function testAboutEntrance(browser) {
     reducedMotion: "no-preference",
   });
   const page = await ctx.newPage();
+  const errors = [];
+  page.on("pageerror", e => errors.push(e.message));
   await page.goto(URL, { waitUntil: "domcontentloaded", timeout: 30_000 });
-  await page.waitForFunction(() => document.getElementById("about")?.dataset.motion === "ready");
+  await page.waitForFunction(() => document.getElementById("about")?.dataset.motion === "scrub");
 
-  const initial = await page.locator(".aiwa-about__line-text").first().evaluate((el) => ({
-    opacity: Number(getComputedStyle(el).opacity),
-    visible: el.closest("#about")?.dataset.visible,
+  async function captureState(label, viewportTopRatio) {
+    await page.evaluate((ratio) => {
+      const about = document.getElementById("about");
+      const documentTop = about.getBoundingClientRect().top + scrollY;
+      window.scrollTo({ top: documentTop - innerHeight * ratio, behavior: "instant" });
+    }, viewportTopRatio);
+    await page.waitForTimeout(150);
+    const snapshot = await page.evaluate(() => ({
+      progress: Number(getComputedStyle(document.getElementById("about")).getPropertyValue("--aiwa-about-progress")),
+      lines: [...document.querySelectorAll(".aiwa-about__line-text")].map(el => ({
+        opacity: Number(getComputedStyle(el).opacity),
+        transform: getComputedStyle(el).transform,
+      })),
+      bodyOpacity: Number(getComputedStyle(document.querySelector(".aiwa-about__description")).opacity),
+      ctaOpacity: Number(getComputedStyle(document.querySelector(".aiwa-about__cta")).opacity),
+      ruleTransform: getComputedStyle(document.querySelector(".aiwa-about__rule")).transform,
+    }));
+    await page.screenshot({ path: "test-artifacts/1440x900-about-" + label + ".png", fullPage: false });
+    return snapshot;
+  }
+
+  const initial = await page.evaluate(() => ({
+    progress: Number(getComputedStyle(document.getElementById("about")).getPropertyValue("--aiwa-about-progress")),
+    first: Number(getComputedStyle(document.querySelector(".aiwa-about__line-text")).opacity),
   }));
-  assert(initial.visible !== "true", "About should not reveal before scrolling into view");
-  assert(initial.opacity < .8, "About intro should start visually concealed");
+  assert(initial.progress <= .01, "About reveal should not start far below viewport");
+  assert(initial.first < .03, "First line should start masked below the fold");
 
-  await page.evaluate(() => document.getElementById("about").scrollIntoView({ behavior: "instant" }));
-  await page.waitForFunction(() => document.getElementById("about")?.dataset.visible === "true");
-  await page.waitForTimeout(1_700);
+  const entering = await captureState("entering", .62);
+  assert(entering.progress > .35 && entering.progress < .45, "Early scroll progress not linked to section entrance");
+  assert(entering.lines[0].opacity > .5, "First line should reveal before last line");
+  assert(entering.lines[3].opacity < .1, "Final line should remain hidden at initial entrance");
+  assert(entering.bodyOpacity < .1, "Supporting copy should enter after the typography");
 
-  const entered = await page.locator(".aiwa-about__line-text").last().evaluate((el) => ({
-    opacity: Number(getComputedStyle(el).opacity),
-    transform: getComputedStyle(el).transform,
+  const midway = await captureState("midway", .27);
+  assert(midway.lines[2].opacity > entering.lines[2].opacity, "Third line should advance with scroll");
+  assert(midway.ctaOpacity > entering.ctaOpacity, "CTA should advance with scroll");
+
+  const settled = await captureState("settled", 0);
+  assert(settled.progress > .99, "About entrance must complete at section top");
+  assert(settled.lines.every(line => line.opacity > .98), "All headline lines must be visible once settled");
+  assert(settled.bodyOpacity > .98 && settled.ctaOpacity > .98, "About copy and CTA must become visible");
+
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  await page.waitForTimeout(200);
+  const reversed = await page.evaluate(() => ({
+    progress: Number(getComputedStyle(document.getElementById("about")).getPropertyValue("--aiwa-about-progress")),
+    lastOpacity: Number(getComputedStyle([...document.querySelectorAll(".aiwa-about__line-text")].at(-1)).opacity),
   }));
-  assert(entered.opacity > .98, "Final About text line must become fully visible");
-  await page.screenshot({path:"test-artifacts/1440x900-about-motion.png",fullPage:false});
+  assert(reversed.progress <= .01 && reversed.lastOpacity < .02, "Reverse scroll must rewind the headline reveal");
+  assert.equal(errors.length, 0, "Browser errors during About motion: " + errors.join("; "));
 
-  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
-  await page.waitForFunction(() => document.getElementById("about")?.dataset.visible === "false");
   await ctx.close();
-  return { initial, entered, reversed:true };
+  return { initial, entering, midway, settled, reversed };
 }
 
 async function testViewport(browser, width, height) {
@@ -197,12 +231,12 @@ async function testViewport(browser, width, height) {
     results.push(await testViewport(browser,390,844));
     const aboutMotion = await testAboutEntrance(browser);
     fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,aboutMotion},null,2));
-    console.log("AIWA_FOUR_SECTION_VISUAL_PASS");
+    console.log("AIWA_SECTION4_SCROLL_POLISH_PASS");
     console.log(JSON.stringify(results.map(r=>({viewport:r.viewport,hero:r.initial.hero,film:r.inFilm.film,projection:r.inFilm.projection,third:r.third,about:r.fourth})),null,2));
   } finally {
     await browser.close();
   }
 })().catch(e=>{
-  console.error("AIWA_THREE_SECTION_VISUAL_FAIL",e);
+  console.error("AIWA_SECTION4_SCROLL_POLISH_FAIL",e);
   process.exitCode=1;
 });
