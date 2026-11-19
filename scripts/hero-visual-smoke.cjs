@@ -154,8 +154,14 @@ async function testHeroSpecialismsMotion(browser, width, height) {
   await page.waitForTimeout(180);
   const reset=await page.locator(".aiwa-specialisms__row").first().evaluate(el=>Number(el.style.getPropertyValue("--row-reveal")));
   assert(reset<.06,"Reverse scroll should refold specialisms");
-  const restored=await page.evaluate(()=>document.querySelector(".aiwa-reel").getBoundingClientRect().width);
-  assert(closeTo(restored,checkpoints[0].width,4),"Hero reel must return to inline tile on reverse scroll");
+  const restored=await page.evaluate(()=>{
+    const r=document.querySelector(".aiwa-reel").getBoundingClientRect();
+    const t=document.querySelector(".aiwa-hero__film-tile").getBoundingClientRect();
+    return {width:r.width, tileWidth:t.width,scrollY,projectionX:r.x,projectionY:r.y,tileX:t.x,tileY:t.y};
+  });
+  await page.screenshot({path:"test-artifacts/"+width+"x"+height+"-hero-return.png",fullPage:false});
+  console.log("HERO_REVERSE_DIAGNOSTIC",JSON.stringify({viewport:width,start:checkpoints[0],restored}));
+  assert(closeTo(restored.width,restored.tileWidth,4),"Hero reel must align to inline tile on reverse scroll, measured "+JSON.stringify(restored));
   assert.equal(errors.length,0,"Uncaught motion errors: "+errors.join("; "));
 
   await context.close();
