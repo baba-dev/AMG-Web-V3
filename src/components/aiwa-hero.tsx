@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
 import { AiwaAbout } from "@/components/aiwa-about";
+import { ModeToggle } from "@/components/mode-toggle";
 import "./aiwa-hero.css";
 
 const navigation = [
@@ -195,6 +196,7 @@ export function AiwaHero() {
                 OFFICES
               </button>
               <span className="aiwa-header__clock"><Globe2 size={14} strokeWidth={2} aria-hidden="true" /><MuscatTime /></span>
+              <ModeToggle />
               <button
                 className="aiwa-header__menu-toggle"
                 type="button"
