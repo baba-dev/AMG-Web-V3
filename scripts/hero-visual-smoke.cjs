@@ -1,7 +1,5 @@
-/* Real-browser smoke + layout test for Aiwa's exported Cloudflare Pages hero.
- * Run after a production static build using a local static server.
- * This intentionally doesn't test external YouTube video playback, which can
- * require human authentication and will be replaced by approved native media.
+/* Browser smoke test: three independent sections and reversible film projection.
+ * Uses a temporary static server and Chromium on GitHub Actions.
  */
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -10,116 +8,139 @@ const { chromium } = require("playwright");
 const URL = process.env.AIWA_TEST_URL || "http://127.0.0.1:4173/";
 fs.mkdirSync("test-artifacts", { recursive: true });
 
-async function runCase(browser, label, width, height) {
-  const context = await browser.newContext({
+const rect = (el) => {
+  const r = el.getBoundingClientRect();
+  return { x:r.x,y:r.y,width:r.width,height:r.height,top:r.top,bottom:r.bottom };
+};
+const closeTo = (a,b,tolerance=3) => Math.abs(a-b) <= tolerance;
+
+async function testViewport(browser, width, height) {
+  const id = width + "x" + height;
+  const ctx = await browser.newContext({
     viewport: { width, height },
     reducedMotion: "reduce",
   });
-  const page = await context.newPage();
-  const pageErrors = [];
-  page.on("pageerror", (error) => pageErrors.push(error.message));
-
+  const page = await ctx.newPage();
+  const errors = [];
+  page.on("pageerror", x => errors.push(x.message));
   await page.goto(URL, { waitUntil: "domcontentloaded", timeout: 30_000 });
-  await page.waitForSelector("#aiwa-hero-heading");
+  await page.waitForSelector(".aiwa-reel");
   await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(450);
+  await page.waitForTimeout(350);
 
-  const before = await page.evaluate(() => {
-    const h = document.getElementById("aiwa-hero-heading");
-    const stage = document.querySelector(".aiwa-hero-stage");
-    const tile = document.querySelector(".aiwa-hero__film-tile");
+  const initial = await page.evaluate(() => {
+    const r = el => {
+      const box = el.getBoundingClientRect();
+      return {x:box.x,y:box.y,width:box.width,height:box.height,top:box.top,bottom:box.bottom};
+    };
+    const hero = document.querySelector(".aiwa-hero");
+    const film = document.querySelector(".aiwa-film-section");
+    const specials = document.querySelector(".aiwa-specialisms");
+    const title = document.querySelector("#aiwa-hero-heading");
     return {
-      title: h?.textContent?.replace(/\s+/g, " ").trim(),
-      viewport: window.innerWidth,
-      overflow: document.documentElement.scrollWidth - window.innerWidth,
-      heading: h?.getBoundingClientRect().toJSON(),
-      tile: tile?.getBoundingClientRect().toJSON(),
-      stageHeight: stage?.getBoundingClientRect().height,
-      scrollY: window.scrollY,
+      brand: document.querySelector(".aiwa-header__identity")?.textContent?.trim(),
+      headline: title.textContent.replace(/\s+/g," ").trim(),
+      hero: r(hero), film: r(film), specialisms: r(specials),
+      tile: r(document.querySelector(".aiwa-hero__film-tile")),
+      projection: r(document.querySelector(".aiwa-reel")),
+      categories: Array.from(document.querySelectorAll(".aiwa-specialisms__name")).map(x=>x.textContent),
+      placeholderLinks: Array.from(document.querySelectorAll(".aiwa-specialisms__row")).every(x=>x.getAttribute("href")==="#"),
+      overflow: document.documentElement.scrollWidth - innerWidth,
     };
   });
 
-  assert(before.title?.includes("YOUR BRAND’S"), "Updated first line is missing");
-  assert(before.title?.includes("TOO QUIET."), "First-line ending is missing");
-  assert(before.title?.includes("DOMINATE"), "Updated second line is missing");
-  assert(before.title?.includes("WITH AIWA."), "Second-line ending is missing");
-  assert(before.tile.width > 40 && before.tile.height > 20, "Inline film is not visible");
-  assert(before.overflow <= 2, "Page horizontally overflows viewport by " + before.overflow);
+  assert.equal(initial.brand,"AIWA","Logo must be AIWA only");
+  assert(initial.headline.includes("YOUR BRAND’S") && initial.headline.includes("TOO QUIET."),"First line missing");
+  assert(initial.headline.includes("DOMINATE") && initial.headline.includes("WITH AIWA."),"Second line missing");
+  assert.equal(initial.categories.join("|"),"Global|Consumer|Corporate|Sports|Social|Studio|TECH");
+  assert(initial.placeholderLinks,"All category links must currently be #");
+  assert(closeTo(initial.hero.height,height,3),"Hero must be a single viewport");
+  assert(closeTo(initial.film.top,initial.hero.bottom,3),"Film must follow hero in document flow");
+  assert(closeTo(initial.specialisms.top,initial.film.bottom,3),"Specialisms must follow film");
+  assert(initial.overflow <= 2,"Horizontal overflow before scroll");
+  assert(closeTo(initial.projection.x,initial.tile.x,4) && closeTo(initial.projection.y,initial.tile.y,4),"Initial projected media must originate at inline tile");
+  assert(closeTo(initial.projection.width,initial.tile.width,4),"Projected media width must start inline");
 
-  await page.screenshot({ path: "test-artifacts/" + label + "-hero.png", fullPage: false });
+  await page.screenshot({path:"test-artifacts/"+id+"-hero.png",fullPage:false});
 
   if (width <= 950) {
-    const menu = page.getByRole("button", { name: "Open navigation" });
-    assert(await menu.isVisible(), "Mobile menu is not visible");
+    const menu = page.getByRole("button",{name:"Open navigation"});
+    assert(await menu.isVisible(),"Mobile nav trigger is hidden");
     await menu.click();
-    await page.waitForFunction(
-      () => getComputedStyle(document.querySelector("#aiwa-mobile-menu")).visibility === "visible",
-      null,
-      { timeout: 2_500 },
-    );
-    await page.getByRole("button", { name: "Close navigation" }).click();
-    await page.waitForFunction(
-      () => getComputedStyle(document.querySelector("#aiwa-mobile-menu")).visibility === "hidden",
-      null,
-      { timeout: 2_500 },
-    );
+    await page.waitForFunction(() => getComputedStyle(document.querySelector("#aiwa-mobile-menu")).visibility === "visible");
+    await page.getByRole("button",{name:"Close navigation"}).click();
   }
 
-  await page.getByRole("button", { name: "Scroll to Aiwa showreel" }).click();
-  await page.waitForTimeout(1_400);
-  const buttonScrollY = await page.evaluate(() => window.scrollY);
-  assert(buttonScrollY > 50, "Scroll arrow did not move the page");
-
-  // Independently position the stage deterministically after testing the
-  // user-facing scroll cue (smooth-scroll durations vary by browser).
-  await page.evaluate(() => {
-    const stage = document.querySelector(".aiwa-hero-stage");
-    const absoluteTop = stage.getBoundingClientRect().top + window.scrollY;
-    const available = stage.offsetHeight - window.innerHeight;
-    window.scrollTo({ top: absoluteTop + available * .88, behavior: "instant" });
+  await page.getByRole("button",{name:"Scroll to Aiwa showreel"}).click();
+  await page.waitForTimeout(400);
+  const inFilm = await page.evaluate(() => {
+    const r = el => {
+      const box=el.getBoundingClientRect();
+      return {x:box.x,y:box.y,width:box.width,height:box.height,top:box.top,bottom:box.bottom};
+    };
+    return {
+      scroll: scrollY,
+      film:r(document.querySelector(".aiwa-film-section")),
+      hero:r(document.querySelector(".aiwa-hero")),
+      projection:r(document.querySelector(".aiwa-reel")),
+      titleOpacity:Number(getComputedStyle(document.querySelector(".aiwa-hero__center")).opacity),
+      controlsOpacity:Number(getComputedStyle(document.querySelector(".aiwa-reel__caption")).opacity),
+      section3:r(document.querySelector(".aiwa-specialisms")),
+    };
   });
-  await page.waitForTimeout(650);
 
-  const after = await page.evaluate(() => ({
-    y: window.scrollY,
-    revealClip: getComputedStyle(document.querySelector(".aiwa-reel")).clipPath,
-    revealOpacity: getComputedStyle(document.querySelector(".aiwa-reel")).opacity,
-    headingOpacity: getComputedStyle(document.querySelector(".aiwa-hero__center")).opacity,
-    filmControlOpacity: getComputedStyle(document.querySelector(".aiwa-reel__caption")).opacity,
-    overflow: document.documentElement.scrollWidth - window.innerWidth,
+  assert(inFilm.scroll > height * .90,"Scroll cue failed to reach film");
+  assert(closeTo(inFilm.film.top,0,3),"Film section top must land on viewport top");
+  assert(closeTo(inFilm.hero.bottom,0,3),"Hero bottom must end at viewport top");
+  assert(closeTo(inFilm.projection.top,0,4),"Expanded media must start at viewport top");
+  assert(closeTo(inFilm.projection.width,width,4),"Expanded media must span viewport width");
+  assert(closeTo(inFilm.projection.height,height,4),"Expanded media must span viewport height");
+  assert(inFilm.titleOpacity < .05 && inFilm.controlsOpacity > .95,"Film controls and hero fade failed");
+  assert(closeTo(inFilm.section3.top,height,4),"Third section starts immediately after expanded film");
+  await page.screenshot({path:"test-artifacts/"+id+"-film.png",fullPage:false});
+
+  await page.evaluate(() => document.getElementById("specialisms").scrollIntoView({behavior:"instant"}));
+  await page.waitForTimeout(350);
+  const third = await page.evaluate(() => ({
+    top:document.getElementById("specialisms").getBoundingClientRect().top,
+    first:document.querySelector(".aiwa-specialisms__name").textContent,
+    visibleRows:[...document.querySelectorAll(".aiwa-specialisms__row")].filter(x=>x.dataset.visible==="true").length,
+    overflow:document.documentElement.scrollWidth - innerWidth,
   }));
+  assert(closeTo(third.top,0,4),"Specialisms must enter as section three");
+  assert(third.visibleRows > 0,"Specialisms fold entrance wasn't activated");
+  assert(third.overflow <= 2,"Horizontal overflow in specialisms");
+  await page.screenshot({path:"test-artifacts/"+id+"-specialisms.png",fullPage:false});
 
-  assert(after.y > 50, "Programmatic scroll did not advance the page");
-  assert(Number(after.revealOpacity) >= .9, "Reveal is not visible after scroll");
-  assert(Number(after.headingOpacity) < .1, "Heading has not faded beneath expanding film");
-  assert(Number(after.filmControlOpacity) > .85, "Full-screen reel control not shown");
-  assert(after.overflow <= 2, "Scrolling introduced horizontal overflow");
+  await page.evaluate(() => scrollTo({top:0,behavior:"instant"}));
+  await page.waitForTimeout(300);
+  const reversed = await page.evaluate(() => ({
+    tile:document.querySelector(".aiwa-hero__film-tile").getBoundingClientRect().toJSON(),
+    projection:document.querySelector(".aiwa-reel").getBoundingClientRect().toJSON(),
+    titleOpacity:Number(getComputedStyle(document.querySelector(".aiwa-hero__center")).opacity),
+  }));
+  assert(closeTo(reversed.tile.x,reversed.projection.x,4) && closeTo(reversed.tile.y,reversed.projection.y,4),"Reverse scroll didn't return the media to its inline tile");
+  assert(closeTo(reversed.tile.width,reversed.projection.width,4),"Reverse scroll width mismatch");
+  assert(reversed.titleOpacity > .95,"Hero headline wasn't restored");
+  assert.equal(errors.length,0,"Uncaught page errors: "+errors.join("; "));
 
-  await page.screenshot({ path: "test-artifacts/" + label + "-reel.png", fullPage: false });
-
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-  await page.waitForTimeout(250);
-  const reversed = await page.evaluate(() => Number(getComputedStyle(document.querySelector(".aiwa-hero__center")).opacity));
-  assert(reversed > .9, "Scroll reversal did not restore the hero title");
-  assert.equal(pageErrors.length, 0, "Browser page errors: " + pageErrors.join("\n"));
-
-  await context.close();
-  return { label, before, after, reversed };
+  await ctx.close();
+  return {viewport:id,initial,inFilm,third,reversed:{titleOpacity:reversed.titleOpacity}};
 }
 
 (async () => {
-  const browser = await chromium.launch({ headless: true });
+  const browser=await chromium.launch({headless:true});
   try {
-    const results = [];
-    results.push(await runCase(browser, "desktop-1440", 1440, 900));
-    results.push(await runCase(browser, "mobile-390", 390, 844));
-    fs.writeFileSync("test-artifacts/measurements.json", JSON.stringify(results, null, 2));
-    console.log("AIWA_HERO_VISUAL_SMOKE_PASS");
-    console.log(JSON.stringify(results.map(x => ({ viewport: x.label, before: { overflow: x.before.overflow, tile: x.before.tile }, after: x.after, reversed: x.reversed })), null, 2));
+    const results=[];
+    results.push(await testViewport(browser,1440,900));
+    results.push(await testViewport(browser,390,844));
+    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify(results,null,2));
+    console.log("AIWA_THREE_SECTION_VISUAL_PASS");
+    console.log(JSON.stringify(results.map(r=>({viewport:r.viewport,hero:r.initial.hero,film:r.inFilm.film,projection:r.inFilm.projection,third:r.third})),null,2));
   } finally {
     await browser.close();
   }
-})().catch((error) => {
-  console.error("AIWA_HERO_VISUAL_SMOKE_FAIL", error);
-  process.exitCode = 1;
+})().catch(e=>{
+  console.error("AIWA_THREE_SECTION_VISUAL_FAIL",e);
+  process.exitCode=1;
 });
