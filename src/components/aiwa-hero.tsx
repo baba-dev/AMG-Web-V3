@@ -10,7 +10,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import "./aiwa-hero.css";
 
 const navigation = [
-  { label: "WORK", href: "#specialisms" },
+  { label: "WORK", href: "#work" },
   { label: "ABOUT", href: "#about" },
   { label: "SPECIALISMS", href: "#specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },

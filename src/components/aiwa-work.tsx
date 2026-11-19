@@ -4,18 +4,39 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, MoveRight } from "lucide-react";
-import { workProjects, type FeaturedWorkProject } from "@/lib/work/projects";
+import { workProjects, type WorkProject } from "@/lib/work/projects";
 import "./aiwa-work.css";
 
-function WorkCard({ project, index }: { project: FeaturedWorkProject; index: number }) {
+function WorkCard({ project, index }: { project: WorkProject; index: number }) {
+  const previewRef = useRef<HTMLVideoElement>(null);
+  const playPreview = () => {
+    if (typeof window === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    void previewRef.current?.play().catch(() => {
+      // Muted video previews are optional; the static poster always remains.
+    });
+  };
+  const stopPreview = () => {
+    const video = previewRef.current;
+    if (video) { video.pause(); video.currentTime = 0; }
+  };
+
   return (
     <article className={"aiwa-work__slot aiwa-work__slot--" + project.slug}
       data-work-card={project.slug} data-work-index={index}>
       <a href={project.href} className="aiwa-work__card"
-        aria-label={project.client + " — " + project.title + "; view documented Aiwa work"}>
+        target="_blank" rel="noopener noreferrer"
+        onMouseEnter={playPreview} onMouseLeave={stopPreview}
+        onFocus={playPreview} onBlur={stopPreview}
+        aria-label={project.client + " — " + project.title + "; open documented Aiwa work in a new tab"}>
         <span className="aiwa-work__media">
           <Image src={project.artwork} width={960} height={740} alt={project.alt}
             unoptimized loading="lazy" draggable={false}/>
+          {project.video && (
+            <video ref={previewRef} className="aiwa-work__video" src={project.video.src}
+              poster={project.video.poster} muted playsInline loop preload="none"
+              aria-hidden="true" tabIndex={-1}/>
+          )}
           <span className="aiwa-work__media-marker" aria-hidden="true">
             {String(index + 1).padStart(2, "0")} / AIWA
           </span>
