@@ -1,0 +1,219 @@
+.aiwa-about {
+  --about-ink: #f5f3ee;
+  --about-muted: #a9a9a4;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100svh;
+  padding: clamp(32px, 4.2vw, 68px) var(--aiwa-gutter) clamp(72px, 8vw, 138px);
+  overflow: clip;
+  background: #101010;
+  color: var(--about-ink);
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.aiwa-about::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--aiwa-gutter);
+  right: var(--aiwa-gutter);
+  height: 1px;
+  background: rgba(255,255,255,.25);
+}
+
+.aiwa-about__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: clamp(11px, .86vw, 14px);
+  line-height: 1;
+  letter-spacing: -.015em;
+  font-weight: 800;
+}
+.aiwa-about__eyebrow { display: inline-flex; align-items: center; gap: 12px; white-space: nowrap; }
+.aiwa-about__index { color: var(--about-muted); text-align: right; }
+.aiwa-about__indicator {
+  display: block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--about-ink);
+}
+.aiwa-about__content {
+  max-width: 1680px;
+  margin: clamp(88px, 10.1vw, 165px) auto 0;
+}
+.aiwa-about__heading {
+  width: 100%;
+  margin: 0;
+  color: var(--about-ink);
+  font-family: "Arial Narrow", Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: clamp(68px, 8.55vw, 155px);
+  font-weight: 900;
+  font-stretch: condensed;
+  line-height: .90;
+  letter-spacing: -.085em;
+  text-transform: uppercase;
+}
+.aiwa-about__line {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: hidden;
+  padding: .045em 0 .065em;
+  margin: -.045em 0 -.065em;
+}
+.aiwa-about__line-text {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  transform: translateZ(0);
+}
+.aiwa-about__line-text em {
+  font-weight: inherit;
+  font-style: italic;
+  letter-spacing: -.092em;
+}
+.aiwa-about[data-motion="ready"] .aiwa-about__line-text {
+  transform: translate3d(0, 115%, 0) skewY(3deg);
+  opacity: .42;
+  filter: blur(5px);
+  transition:
+    transform 1.12s cubic-bezier(.16,1,.3,1),
+    opacity .75s ease,
+    filter .9s ease;
+}
+.aiwa-about[data-motion="ready"][data-visible="true"] .aiwa-about__line-text {
+  transform: translate3d(0, 0, 0) skewY(0);
+  opacity: 1;
+  filter: blur(0);
+}
+.aiwa-about__lower {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) minmax(300px, .58fr);
+  align-items: end;
+  gap: clamp(36px, 7vw, 122px);
+  margin-top: clamp(86px, 10.2vw, 164px);
+  padding-top: clamp(24px, 3vw, 48px);
+  border-top: 1px solid rgba(255,255,255,.25);
+}
+.aiwa-about__location {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(17px, 2vw, 32px);
+  color: var(--about-muted);
+  font-size: clamp(12px, .93vw, 15px);
+  font-weight: 800;
+  line-height: 1.28;
+  text-transform: uppercase;
+}
+.aiwa-about__plus {
+  color: var(--about-ink);
+  font-family: Arial, sans-serif;
+  font-size: clamp(42px, 6vw, 94px);
+  font-weight: 400;
+  line-height: .65;
+}
+.aiwa-about__aside {
+  max-width: 495px;
+  justify-self: end;
+}
+.aiwa-about__aside p {
+  max-width: 50ch;
+  margin: 0;
+  color: var(--about-ink);
+  font-size: clamp(17px, 1.48vw, 23px);
+  font-weight: 500;
+  line-height: 1.38;
+  letter-spacing: -.035em;
+}
+.aiwa-about__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(22px, 3.5vw, 60px);
+  min-height: 49px;
+  margin-top: clamp(38px, 5vw, 76px);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--about-ink);
+  color: var(--about-ink);
+  font-size: clamp(12px, .86vw, 14px);
+  font-weight: 800;
+  letter-spacing: .015em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.aiwa-about__cta-icon {
+  display: inline-flex;
+  align-items: center;
+  transition: transform .32s cubic-bezier(.22,1,.36,1);
+}
+.aiwa-about__cta:hover .aiwa-about__cta-icon,
+.aiwa-about__cta:focus-visible .aiwa-about__cta-icon {
+  transform: translate(6px,-6px);
+}
+.aiwa-about[data-motion="ready"] .aiwa-about__lower,
+.aiwa-about[data-motion="ready"] .aiwa-about__topline {
+  opacity: 0;
+  transform: translateY(27px);
+  transition: opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1);
+}
+.aiwa-about[data-motion="ready"] .aiwa-about__topline { transition-delay: .08s; }
+.aiwa-about[data-motion="ready"] .aiwa-about__lower { transition-delay: .33s; }
+.aiwa-about[data-motion="ready"][data-visible="true"] .aiwa-about__topline,
+.aiwa-about[data-motion="ready"][data-visible="true"] .aiwa-about__lower {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (min-width: 1700px) {
+  .aiwa-about__heading { font-size: clamp(155px, 8.4vw, 190px); }
+}
+
+@media (max-width: 1050px) {
+  .aiwa-about__heading { font-size: clamp(60px, 8.45vw, 92px); }
+  .aiwa-about__lower { grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr); }
+}
+
+@media (max-width: 700px) {
+  .aiwa-about {
+    padding-top: 34px;
+    padding-bottom: 82px;
+  }
+  .aiwa-about__topline { font-size: 10px; gap: 14px; }
+  .aiwa-about__eyebrow { gap: 8px; }
+  .aiwa-about__indicator { width: 6px; height: 6px; }
+  .aiwa-about__content { margin-top: clamp(92px, 21vw, 135px); }
+  .aiwa-about__heading {
+    font-size: clamp(38px, 10.1vw, 67px);
+    letter-spacing: -.08em;
+    line-height: .96;
+  }
+  .aiwa-about__lower {
+    grid-template-columns: 1fr;
+    gap: 56px;
+    margin-top: 80px;
+    padding-top: 22px;
+  }
+  .aiwa-about__location { font-size: 11px; }
+  .aiwa-about__plus { font-size: 56px; }
+  .aiwa-about__aside { max-width: 100%; justify-self: stretch; }
+  .aiwa-about__aside p { font-size: clamp(19px, 4.4vw, 25px); }
+  .aiwa-about__cta { margin-top: 44px; }
+}
+@media (max-width: 390px) {
+  .aiwa-about__heading { font-size: 9.85vw; }
+  .aiwa-about__index { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aiwa-about__line-text,
+  .aiwa-about__lower,
+  .aiwa-about__topline {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
