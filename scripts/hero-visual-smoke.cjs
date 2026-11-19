@@ -14,6 +14,39 @@ const rect = (el) => {
 };
 const closeTo = (a,b,tolerance=3) => Math.abs(a-b) <= tolerance;
 
+async function testAboutEntrance(browser) {
+  const ctx = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: "no-preference",
+  });
+  const page = await ctx.newPage();
+  await page.goto(URL, { waitUntil: "domcontentloaded", timeout: 30_000 });
+  await page.waitForFunction(() => document.getElementById("about")?.dataset.motion === "ready");
+
+  const initial = await page.locator(".aiwa-about__line-text").first().evaluate((el) => ({
+    opacity: Number(getComputedStyle(el).opacity),
+    visible: el.closest("#about")?.dataset.visible,
+  }));
+  assert(initial.visible !== "true", "About should not reveal before scrolling into view");
+  assert(initial.opacity < .8, "About intro should start visually concealed");
+
+  await page.evaluate(() => document.getElementById("about").scrollIntoView({ behavior: "instant" }));
+  await page.waitForFunction(() => document.getElementById("about")?.dataset.visible === "true");
+  await page.waitForTimeout(1_700);
+
+  const entered = await page.locator(".aiwa-about__line-text").last().evaluate((el) => ({
+    opacity: Number(getComputedStyle(el).opacity),
+    transform: getComputedStyle(el).transform,
+  }));
+  assert(entered.opacity > .98, "Final About text line must become fully visible");
+  await page.screenshot({path:"test-artifacts/1440x900-about-motion.png",fullPage:false});
+
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await page.waitForFunction(() => document.getElementById("about")?.dataset.visible === "false");
+  await ctx.close();
+  return { initial, entered, reversed:true };
+}
+
 async function testViewport(browser, width, height) {
   const id = width + "x" + height;
   const ctx = await browser.newContext({
@@ -162,8 +195,9 @@ async function testViewport(browser, width, height) {
     const results=[];
     results.push(await testViewport(browser,1440,900));
     results.push(await testViewport(browser,390,844));
-    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify(results,null,2));
-    console.log("AIWA_THREE_SECTION_VISUAL_PASS");
+    const aboutMotion = await testAboutEntrance(browser);
+    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,aboutMotion},null,2));
+    console.log("AIWA_FOUR_SECTION_VISUAL_PASS");
     console.log(JSON.stringify(results.map(r=>({viewport:r.viewport,hero:r.initial.hero,film:r.inFilm.film,projection:r.inFilm.projection,third:r.third,about:r.fourth})),null,2));
   } finally {
     await browser.close();
