@@ -244,3 +244,10 @@
     transition: none !important;
   }
 }
+
+/* Theme switcher from PR #9: light mode uses warm ivory, while
+   dark-mode Specialisms retains the contrasting white editorial canvas. */
+.light .aiwa-specialisms {
+  --spec-paper: var(--aiwa-surface);
+  --spec-ink: var(--aiwa-ink);
+}

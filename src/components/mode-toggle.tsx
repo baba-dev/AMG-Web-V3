@@ -1,42 +1,35 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import "./mode-toggle.css";
 
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
+/**
+ * A self-contained animated day/night switch. Appearance is driven by the
+ * theme class injected by next-themes, so the first paint needs no client
+ * mount state and the saved preference survives navigation and reloads.
+ */
 export function ModeToggle() {
-  const { setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button variant="outline" size="icon">
-            <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-            <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
-        }
-      />
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    <button
+      className="aiwa-theme-toggle"
+      type="button"
+      aria-label="Toggle colour theme"
+      aria-pressed={resolvedTheme === "light"}
+      title="Toggle light and dark theme"
+      onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
+    >
+      <span className="aiwa-theme-toggle__track" aria-hidden="true">
+        <span className="aiwa-theme-toggle__spark aiwa-theme-toggle__spark--one" />
+        <span className="aiwa-theme-toggle__spark aiwa-theme-toggle__spark--two" />
+        <span className="aiwa-theme-toggle__spark aiwa-theme-toggle__spark--three" />
+        <span className="aiwa-theme-toggle__orb">
+          <Moon className="aiwa-theme-toggle__moon" strokeWidth={2} />
+          <Sun className="aiwa-theme-toggle__sun" strokeWidth={2} />
+        </span>
+      </span>
+    </button>
+  );
 }
