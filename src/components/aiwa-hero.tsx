@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
@@ -153,6 +153,16 @@ export function AiwaHero() {
     dialogRef.current?.showModal();
   };
   const closeFilm = () => dialogRef.current?.close();
+  const navigateAbout = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const about = document.getElementById("about");
+    if (!about) return;
+    event.preventDefault();
+    window.history.pushState(null, "", "#about");
+    about.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    });
+  };
   const scrollToFilm = () => filmSectionRef.current?.scrollIntoView({
     behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
     block: "start",
@@ -169,7 +179,8 @@ export function AiwaHero() {
 
             <nav className="aiwa-header__navigation" aria-label="Primary navigation">
               {navigation.map((item) => (
-                <a className="aiwa-header__link" href={item.href} key={item.label}>{item.label}</a>
+                <a className="aiwa-header__link" href={item.href} key={item.label}
+                  onClick={item.href === "#about" ? navigateAbout : undefined}>{item.label}</a>
               ))}
             </nav>
 
@@ -208,7 +219,7 @@ export function AiwaHero() {
             >
               {navigation.map((item, index) => (
                 <a key={item.label} className="aiwa-mobile-nav__link" href={item.href}
-                  onClick={() => setMobileNavOpen(false)}>
+                  onClick={(event) => { setMobileNavOpen(false); if (item.href === "#about") navigateAbout(event); }}>
                   <span>0{index + 1}</span>{item.label}<ArrowUpRight size={20} aria-hidden="true" />
                 </a>
               ))}
