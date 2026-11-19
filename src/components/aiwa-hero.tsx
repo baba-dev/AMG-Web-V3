@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
+import { AiwaAbout } from "@/components/aiwa-about";
 import "./aiwa-hero.css";
 
 const navigation = [
   { label: "WORK", href: "#specialisms" },
-  { label: "ABOUT", href: "https://aiwamediagroup.com/about-us/" },
+  { label: "ABOUT", href: "#about" },
   { label: "SPECIALISMS", href: "#specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
   { label: "CONTACT US", href: "https://aiwamediagroup.com/contact-us/" },
@@ -274,6 +275,7 @@ export function AiwaHero() {
       </div>
 
       <AiwaSpecialisms />
+      <AiwaAbout />
 
       <dialog className="aiwa-film-dialog" ref={dialogRef} aria-label="Aiwa Media Group full film"
         onClose={() => setFullFilmOpen(false)}
