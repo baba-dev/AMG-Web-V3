@@ -56,6 +56,8 @@ export function AiwaHero() {
   const tileRef = useRef<HTMLButtonElement>(null);
   const projectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const posterRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
   const filmControlsRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -74,8 +76,10 @@ export function AiwaHero() {
     const projection = projectionRef.current;
     const title = titleRef.current;
     const footer = footerRef.current;
+    const header = headerRef.current;
+    const poster = posterRef.current;
     const controls = filmControlsRef.current;
-    if (!sequence || !hero || !target || !tile || !projection || !title || !footer || !controls) return;
+    if (!sequence || !hero || !target || !tile || !projection || !title || !footer || !controls || !header || !poster) return;
 
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
@@ -91,7 +95,10 @@ export function AiwaHero() {
       const tileBox = tile.getBoundingClientRect();
       const targetBox = target.getBoundingClientRect();
       const progress = clamp(-sequenceBox.top / Math.max(1, heroBox.height));
-      const expansion = motion.matches ? (progress >= 0.5 ? 1 : 0) : ease(progress);
+      // Reference measurements: substantial growth by ~0.43 viewport, almost
+      // fullscreen near ~0.87. A gentle power-out maps those checkpoints.
+      const expansion = motion.matches ? (progress >= 0.5 ? 1 : 0)
+        : 1 - Math.pow(1 - progress, 1.45);
 
       const fromX = tileBox.left - sequenceBox.left;
       const fromY = tileBox.top - sequenceBox.top;
@@ -109,9 +116,14 @@ export function AiwaHero() {
       projection.style.borderRadius = "0";
 
       tile.style.opacity = progress > 0.025 ? "0" : "1";
-      const textAlpha = 1 - ease((progress - 0.12) / 0.62);
+      // Keep typography visible behind the expanding film much longer,
+      // instead of fading it away before the media has covered the hero.
+      const textAlpha = 1 - ease((progress - 0.65) / 0.33);
       title.style.opacity = textAlpha.toFixed(3);
-      footer.style.opacity = (1 - ease((progress - 0.04) / 0.4)).toFixed(3);
+      footer.style.opacity = (1 - ease((progress - 0.67) / 0.27)).toFixed(3);
+      header.style.opacity = (1 - ease((progress - 0.45) / 0.42)).toFixed(3);
+      poster.style.transform = "scale(" + (1.34 + expansion * 0.08).toFixed(3) + ")";
+      sequence.style.setProperty("--aiwa-hero-scroll", progress.toFixed(4));
       const controlAlpha = ease((progress - 0.82) / 0.17);
       controls.style.opacity = controlAlpha.toFixed(3);
 
@@ -172,7 +184,7 @@ export function AiwaHero() {
     <main className="aiwa-site">
       <div className="aiwa-sequence" ref={sequenceRef}>
         <section ref={heroRef} className="aiwa-hero" aria-labelledby="aiwa-hero-heading">
-          <header className="aiwa-header">
+          <header ref={headerRef} className="aiwa-header">
             <Link className="aiwa-header__identity" href="/" aria-label="Aiwa home">
               AIWA
             </Link>
@@ -263,7 +275,7 @@ export function AiwaHero() {
         <section ref={filmSectionRef} className="aiwa-film-section" id="film" aria-label="Aiwa Media Group showreel" />
 
         <div className="aiwa-reel" ref={projectionRef} aria-hidden="true">
-          <div className="aiwa-reel__poster" style={{ backgroundImage: "url(" + poster + ")" }} />
+          <div ref={posterRef} className="aiwa-reel__poster" style={{ backgroundImage: "url(" + poster + ")" }} />
           {nativeVideo && playNativeReel && (
             <video className="aiwa-reel__video" src={nativeVideo} muted autoPlay loop playsInline
               preload="metadata" aria-label="Aiwa Media Group film" />
