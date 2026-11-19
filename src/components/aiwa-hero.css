@@ -461,4 +461,18 @@
 @media (prefers-reduced-motion: reduce) {
   .aiwa-hero__word, .aiwa-hero__film-tile { animation: none; }
   .aiwa-site *, .aiwa-site *::before, .aiwa-site *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .aiwa-site { transition: none !important; }
+}
+
+/* Colour choreography is separate from the scroll-driven transform animations. */
+.aiwa-header__identity, .aiwa-header__link, .aiwa-header__offices,
+.aiwa-header__menu-toggle, .aiwa-hero__headline {
+  transition: color .55s ease;
+}
+.aiwa-mobile-nav { transition: background-color .55s ease, color .55s ease; }
+.aiwa-mobile-nav__link { transition: color .55s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .aiwa-header__identity, .aiwa-header__link, .aiwa-header__offices,
+  .aiwa-header__menu-toggle, .aiwa-hero__headline,
+  .aiwa-mobile-nav, .aiwa-mobile-nav__link { transition: none !important; }
 }
