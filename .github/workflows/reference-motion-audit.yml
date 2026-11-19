@@ -28,6 +28,8 @@ jobs:
           npx playwright install chromium --only-shell
       - name: Capture public visible frames
         run: node scripts/reference-motion-audit.cjs
+      - name: Inventory Aiwa public site media for placeholders
+        run: node scripts/aiwa-media-inventory.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
