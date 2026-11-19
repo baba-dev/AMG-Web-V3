@@ -21,6 +21,13 @@ const videoId =
     ? candidateId
     : "d4wBqEmgFKA";
 const poster = "https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg";
+const configuredLocalReel = process.env.NEXT_PUBLIC_AIWA_REEL_MP4_PATH;
+const localReel =
+  configuredLocalReel &&
+  /^\/media\/[a-zA-Z0-9_.\/-]+\.mp4$/.test(configuredLocalReel) &&
+  !configuredLocalReel.includes("..")
+    ? configuredLocalReel
+    : null;
 const videoEmbedBase = "https://www.youtube-nocookie.com/embed/" + videoId;
 const clamp = (value: number) => Math.max(0, Math.min(1, value));
 const smooth = (value: number) => {
@@ -274,17 +281,30 @@ export function AiwaHero() {
 
           <div ref={revealRef} className="aiwa-reel" aria-label="Aiwa creative film transition">
             <div className="aiwa-reel__poster" style={{ backgroundImage: "url(" + poster + ")" }} />
-            {scrollPlayerReady && (
-              <iframe
-                className="aiwa-reel__video"
-                title="Aiwa creative work film (muted background playback)"
-                src={videoEmbedBase + "?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=" + videoId + "&playsinline=1"}
-                allow="autoplay; encrypted-media; picture-in-picture"
-                referrerPolicy="strict-origin-when-cross-origin"
-                loading="lazy"
-                tabIndex={-1}
-              />
-            )}
+            {scrollPlayerReady &&
+              (localReel ? (
+                <video
+                  className="aiwa-reel__video"
+                  src={localReel}
+                  poster={poster}
+                  muted
+                  autoPlay
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label="Aiwa Media Group showreel"
+                />
+              ) : (
+                <iframe
+                  className="aiwa-reel__video"
+                  title="Aiwa creative work film (muted background playback)"
+                  src={videoEmbedBase + "?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=" + videoId + "&playsinline=1"}
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  loading="lazy"
+                  tabIndex={-1}
+                />
+              ))}
             <span className="aiwa-reel__shade" aria-hidden="true" />
           </div>
 
@@ -329,16 +349,26 @@ export function AiwaHero() {
               <X size={23} aria-hidden="true" />
             </button>
           </div>
-          {filmOpen && (
-            <iframe
-              title="Aiwa Media Group creative work compilation"
-              src={videoEmbedBase + "?autoplay=1&rel=0"}
-              loading="eager"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-              allowFullScreen
-            />
-          )}
+          {filmOpen &&
+            (localReel ? (
+              <video
+                src={localReel}
+                poster={poster}
+                controls
+                autoPlay
+                playsInline
+                aria-label="Aiwa Media Group full showreel"
+              />
+            ) : (
+              <iframe
+                title="Aiwa Media Group creative work compilation"
+                src={videoEmbedBase + "?autoplay=1&rel=0"}
+                loading="eager"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allowFullScreen
+              />
+            ))}
         </div>
       </dialog>
     </main>
