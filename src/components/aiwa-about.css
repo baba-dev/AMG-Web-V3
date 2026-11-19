@@ -1,219 +1,309 @@
 .aiwa-about {
   --about-ink: #f5f3ee;
-  --about-muted: #a9a9a4;
+  --about-muted: #b2b1ac;
+  --about-hairline: rgba(245, 243, 238, .25);
+  --aiwa-about-progress: 1;
   position: relative;
   isolation: isolate;
   width: 100%;
   min-height: 100svh;
-  padding: clamp(32px, 4.2vw, 68px) var(--aiwa-gutter) clamp(72px, 8vw, 138px);
+  padding: clamp(30px, 3.6vw, 56px) var(--aiwa-gutter) clamp(40px, 5vw, 78px);
   overflow: clip;
   background: #101010;
   color: var(--about-ink);
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-.aiwa-about::before {
+.aiwa-about::before,
+.aiwa-about::after {
   content: "";
   position: absolute;
   top: 0;
   left: var(--aiwa-gutter);
   right: var(--aiwa-gutter);
   height: 1px;
-  background: rgba(255,255,255,.25);
+  pointer-events: none;
+}
+.aiwa-about::before { background: rgba(255,255,255,.15); }
+.aiwa-about::after {
+  background: var(--about-ink);
+  transform-origin: left;
+  transform: scaleX(var(--aiwa-about-progress));
 }
 
 .aiwa-about__topline {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  font-size: clamp(11px, .86vw, 14px);
-  line-height: 1;
-  letter-spacing: -.015em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(11px, .87vw, 14px);
   font-weight: 800;
+  letter-spacing: .015em;
+  line-height: 1;
+  text-transform: uppercase;
 }
-.aiwa-about__eyebrow { display: inline-flex; align-items: center; gap: 12px; white-space: nowrap; }
-.aiwa-about__index { color: var(--about-muted); text-align: right; }
+.aiwa-about__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 13px;
+  white-space: nowrap;
+}
 .aiwa-about__indicator {
-  display: block;
+  display: inline-block;
   flex: none;
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--about-ink);
+  animation: aiwa-about-pulse 3.4s ease-in-out infinite;
 }
+.aiwa-about__index {
+  text-align: right;
+  color: var(--about-muted);
+  white-space: nowrap;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(9px, .71vw, 12px);
+  font-weight: 600;
+  letter-spacing: -.03em;
+}
+
 .aiwa-about__content {
+  width: 100%;
   max-width: 1680px;
-  margin: clamp(88px, 10.1vw, 165px) auto 0;
+  margin: clamp(66px, 7.1vw, 112px) auto 0;
 }
 .aiwa-about__heading {
+  display: block;
   width: 100%;
   margin: 0;
   color: var(--about-ink);
-  font-family: "Arial Narrow", Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: clamp(68px, 8.55vw, 155px);
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: clamp(61px, 7.35vw, 145px);
   font-weight: 900;
   font-stretch: condensed;
-  line-height: .90;
-  letter-spacing: -.085em;
+  line-height: .91;
+  letter-spacing: -.083em;
   text-transform: uppercase;
 }
 .aiwa-about__line {
   display: block;
-  width: max-content;
   max-width: 100%;
+  width: max-content;
+  margin: -.025em 0;
+  padding: .05em 0 .065em;
   overflow: hidden;
-  padding: .045em 0 .065em;
-  margin: -.045em 0 -.065em;
 }
 .aiwa-about__line-text {
   display: block;
-  width: max-content;
   max-width: 100%;
-  transform: translateZ(0);
+  width: max-content;
+  will-change: auto;
+  backface-visibility: hidden;
+}
+.aiwa-about[data-motion="scrub"] .aiwa-about__line-text {
+  will-change: transform, opacity;
 }
 .aiwa-about__line-text em {
-  font-weight: inherit;
   font-style: italic;
-  letter-spacing: -.092em;
+  font-weight: inherit;
+  letter-spacing: -.087em;
 }
-.aiwa-about[data-motion="ready"] .aiwa-about__line-text {
-  transform: translate3d(0, 115%, 0) skewY(3deg);
-  opacity: .42;
-  filter: blur(5px);
-  transition:
-    transform 1.12s cubic-bezier(.16,1,.3,1),
-    opacity .75s ease,
-    filter .9s ease;
-}
-.aiwa-about[data-motion="ready"][data-visible="true"] .aiwa-about__line-text {
-  transform: translate3d(0, 0, 0) skewY(0);
-  opacity: 1;
-  filter: blur(0);
-}
+
+/* The lower rule, paragraph, location stamp and CTA appear in a second beat.
+   Copy now aligns with the headline's left gutter, not as a floating aside. */
 .aiwa-about__lower {
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) minmax(300px, .58fr);
-  align-items: end;
-  gap: clamp(36px, 7vw, 122px);
-  margin-top: clamp(86px, 10.2vw, 164px);
-  padding-top: clamp(24px, 3vw, 48px);
-  border-top: 1px solid rgba(255,255,255,.25);
+  grid-template-areas:
+    "rule rule"
+    "copy location";
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, .55fr);
+  column-gap: clamp(32px, 6vw, 108px);
+  row-gap: clamp(27px, 3vw, 47px);
+  margin-top: clamp(41px, 5.1vw, 80px);
+}
+.aiwa-about__rule {
+  grid-area: rule;
+  width: 100%;
+  height: 1px;
+  background: var(--about-hairline);
+  transform-origin: left center;
+}
+.aiwa-about__aside {
+  grid-area: copy;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.aiwa-about__description {
+  max-width: 670px;
+  margin: 0;
+  color: #deddd8;
+  font-size: clamp(17px, 1.40vw, 22px);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -.033em;
 }
 .aiwa-about__location {
+  grid-area: location;
   display: flex;
-  align-items: flex-end;
-  gap: clamp(17px, 2vw, 32px);
+  justify-self: end;
+  align-self: start;
+  align-items: center;
+  gap: clamp(13px, 1.85vw, 30px);
   color: var(--about-muted);
-  font-size: clamp(12px, .93vw, 15px);
+  font-size: clamp(11px, .82vw, 14px);
   font-weight: 800;
-  line-height: 1.28;
+  line-height: 1.35;
+  letter-spacing: -.015em;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 .aiwa-about__plus {
+  display: inline-block;
+  flex: none;
   color: var(--about-ink);
-  font-family: Arial, sans-serif;
-  font-size: clamp(42px, 6vw, 94px);
-  font-weight: 400;
-  line-height: .65;
+  font-size: clamp(43px, 5vw, 80px);
+  font-weight: 300;
+  line-height: .7;
+  transform-origin: 50% 50%;
 }
-.aiwa-about__aside {
-  max-width: 495px;
-  justify-self: end;
-}
-.aiwa-about__aside p {
-  max-width: 50ch;
-  margin: 0;
-  color: var(--about-ink);
-  font-size: clamp(17px, 1.48vw, 23px);
-  font-weight: 500;
-  line-height: 1.38;
-  letter-spacing: -.035em;
-}
+
 .aiwa-about__cta {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: clamp(22px, 3.5vw, 60px);
-  min-height: 49px;
-  margin-top: clamp(38px, 5vw, 76px);
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--about-ink);
+  justify-content: space-between;
+  gap: clamp(26px, 4vw, 70px);
+  min-height: 48px;
+  margin-top: clamp(20px, 2.7vw, 43px);
+  padding: 0 0 12px;
   color: var(--about-ink);
-  font-size: clamp(12px, .86vw, 14px);
-  font-weight: 800;
-  letter-spacing: .015em;
-  text-transform: uppercase;
   text-decoration: none;
+  font-size: clamp(12px, .88vw, 14px);
+  font-weight: 900;
+  letter-spacing: .025em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.aiwa-about__cta::before,
+.aiwa-about__cta::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+}
+.aiwa-about__cta::before { background: rgba(255,255,255,.45); }
+.aiwa-about__cta::after {
+  background: var(--about-ink);
+  transform-origin: right center;
+  transform: scaleX(0);
+  transition: transform .45s cubic-bezier(.22,1,.36,1);
 }
 .aiwa-about__cta-icon {
-  display: inline-flex;
-  align-items: center;
-  transition: transform .32s cubic-bezier(.22,1,.36,1);
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 50%;
+  transition: color .35s ease, background-color .35s ease,
+              border-color .35s ease, transform .35s cubic-bezier(.22,1,.36,1);
+}
+.aiwa-about__cta:hover::after,
+.aiwa-about__cta:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 .aiwa-about__cta:hover .aiwa-about__cta-icon,
 .aiwa-about__cta:focus-visible .aiwa-about__cta-icon {
-  transform: translate(6px,-6px);
-}
-.aiwa-about[data-motion="ready"] .aiwa-about__lower,
-.aiwa-about[data-motion="ready"] .aiwa-about__topline {
-  opacity: 0;
-  transform: translateY(27px);
-  transition: opacity .8s ease, transform .9s cubic-bezier(.16,1,.3,1);
-}
-.aiwa-about[data-motion="ready"] .aiwa-about__topline { transition-delay: .08s; }
-.aiwa-about[data-motion="ready"] .aiwa-about__lower { transition-delay: .33s; }
-.aiwa-about[data-motion="ready"][data-visible="true"] .aiwa-about__topline,
-.aiwa-about[data-motion="ready"][data-visible="true"] .aiwa-about__lower {
-  opacity: 1;
-  transform: translateY(0);
+  color: #101010;
+  background: var(--about-ink);
+  border-color: var(--about-ink);
+  transform: translate(4px,-4px) rotate(5deg);
 }
 
-@media (min-width: 1700px) {
-  .aiwa-about__heading { font-size: clamp(155px, 8.4vw, 190px); }
+.aiwa-about__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  max-width: 1680px;
+  margin: clamp(46px, 6.5vw, 93px) auto 0;
+  padding-top: 13px;
+  border-top: 1px solid rgba(255,255,255,.13);
+  color: rgba(245,243,238,.62);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(9px, .67vw, 11px);
+  font-weight: 600;
+  letter-spacing: .01em;
 }
-
-@media (max-width: 1050px) {
-  .aiwa-about__heading { font-size: clamp(60px, 8.45vw, 92px); }
-  .aiwa-about__lower { grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr); }
+@keyframes aiwa-about-pulse {
+  0%, 100% { opacity: .48; transform: scale(.82); }
+  52% { opacity: 1; transform: scale(1.08); }
 }
-
+@media (max-width: 1080px) {
+  .aiwa-about__heading { font-size: clamp(53px, 7.6vw, 88px); }
+  .aiwa-about__lower { grid-template-columns: minmax(0,1.2fr) minmax(210px,.7fr); }
+}
 @media (max-width: 700px) {
   .aiwa-about {
-    padding-top: 34px;
-    padding-bottom: 82px;
+    padding-top: 29px;
+    padding-bottom: 48px;
   }
-  .aiwa-about__topline { font-size: 10px; gap: 14px; }
-  .aiwa-about__eyebrow { gap: 8px; }
+  .aiwa-about__topline { gap: 10px; font-size: 11px; }
+  .aiwa-about__eyebrow { gap: 9px; }
   .aiwa-about__indicator { width: 6px; height: 6px; }
-  .aiwa-about__content { margin-top: clamp(92px, 21vw, 135px); }
+  .aiwa-about__index { font-size: 9px; }
+  .aiwa-about__content { margin-top: clamp(61px, 13vw, 88px); }
   .aiwa-about__heading {
-    font-size: clamp(38px, 10.1vw, 67px);
-    letter-spacing: -.08em;
+    font-size: clamp(37px, 10.05vw, 67px);
     line-height: .96;
+    letter-spacing: -.076em;
   }
+  .aiwa-about__line { padding: .045em 0 .058em; margin: -.02em 0; }
   .aiwa-about__lower {
-    grid-template-columns: 1fr;
-    gap: 56px;
-    margin-top: 80px;
-    padding-top: 22px;
+    grid-template-areas:
+      "rule"
+      "location"
+      "copy";
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 27px;
+    margin-top: clamp(45px, 10vw, 62px);
   }
-  .aiwa-about__location { font-size: 11px; }
-  .aiwa-about__plus { font-size: 56px; }
-  .aiwa-about__aside { max-width: 100%; justify-self: stretch; }
-  .aiwa-about__aside p { font-size: clamp(19px, 4.4vw, 25px); }
-  .aiwa-about__cta { margin-top: 44px; }
+  .aiwa-about__location { justify-self: start; font-size: 11px; }
+  .aiwa-about__plus { font-size: 53px; }
+  .aiwa-about__description { max-width: 39ch; font-size: 18px; line-height: 1.43; }
+  .aiwa-about__cta { margin-top: 31px; min-height: 49px; gap: 36px; }
+  .aiwa-about__footer { margin-top: 60px; padding-top: 12px; font-size: 9px; }
 }
 @media (max-width: 390px) {
-  .aiwa-about__heading { font-size: 9.85vw; }
-  .aiwa-about__index { font-size: 9px; }
+  .aiwa-about__heading { font-size: 9.78vw; }
+  .aiwa-about__description { font-size: 17px; }
+  .aiwa-about__footer { margin-top: 45px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .aiwa-about::after { transform: scaleX(1) !important; }
+  .aiwa-about__indicator { animation: none !important; opacity: 1; transform: none; }
   .aiwa-about__line-text,
-  .aiwa-about__lower,
-  .aiwa-about__topline {
+  .aiwa-about__eyebrow,
+  .aiwa-about__index,
+  .aiwa-about__location,
+  .aiwa-about__description,
+  .aiwa-about__cta,
+  .aiwa-about__rule,
+  .aiwa-about__plus {
     opacity: 1 !important;
-    filter: none !important;
     transform: none !important;
+    filter: none !important;
     transition: none !important;
+    will-change: auto !important;
   }
 }
