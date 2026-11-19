@@ -1,17 +1,51 @@
+/* Duotone editorial tokens: dark is intentionally the original default.
+   Film/photo layers are isolated from light-mode colour shifts. */
 .aiwa-site {
-  --aiwa-black: #070707;
-  --aiwa-white: #f8f8f5;
+  --aiwa-bg: #070707;
+  --aiwa-ink: #fff;
+  --aiwa-surface: #080808;
+  --aiwa-surface-raised: #101010;
+  --aiwa-about-ink: #f5f3ee;
+  --aiwa-about-copy: #deddd8;
+  --aiwa-muted: #b2b1ac;
+  --aiwa-rule: rgb(255 255 255 / 24%);
+  --aiwa-rule-subtle: rgb(255 255 255 / 13%);
+  --aiwa-rule-strong: rgb(255 255 255 / 70%);
+  --aiwa-inverse-bg: #f8f8f5;
+  --aiwa-inverse-ink: #0b0b0b;
+  --aiwa-hover: #e6e8d9;
+  --aiwa-toggle-track: #181a18;
+  --aiwa-film-canvas: #101010;
   --aiwa-gutter: clamp(20px, 3.65vw, 72px);
-  background: var(--aiwa-black);
-  color: var(--aiwa-white);
+  background: var(--aiwa-bg);
+  color: var(--aiwa-ink);
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  transition: background-color .55s ease, color .55s ease;
 }
+.light .aiwa-site {
+  --aiwa-bg: #f5f3ed;
+  --aiwa-ink: #151613;
+  --aiwa-surface: #e9e7df;
+  --aiwa-surface-raised: #f5f3ed;
+  --aiwa-about-ink: #151613;
+  --aiwa-about-copy: #41423d;
+  --aiwa-muted: #666760;
+  --aiwa-rule: rgb(21 22 19 / 24%);
+  --aiwa-rule-subtle: rgb(21 22 19 / 13%);
+  --aiwa-rule-strong: rgb(21 22 19 / 70%);
+  --aiwa-inverse-bg: #151613;
+  --aiwa-inverse-ink: #f5f3ed;
+  --aiwa-hover: #505148;
+  --aiwa-toggle-track: #e0ded5;
+}
+
 .aiwa-site *, .aiwa-site *::before, .aiwa-site *::after { box-sizing: border-box; }
 .aiwa-site a, .aiwa-site button { -webkit-tap-highlight-color: transparent; }
-.aiwa-site :is(a,button):focus-visible, .aiwa-film-dialog button:focus-visible {
-  outline: 2px solid white;
+.aiwa-site :is(a,button):focus-visible {
+  outline: 2px solid var(--aiwa-ink);
   outline-offset: 5px;
 }
+.aiwa-film-dialog button:focus-visible { outline: 2px solid white; outline-offset: 5px; }
 
 /* Two separate, contiguous full-height sections. No sticky replacement of
    the hero: the moving reel is absolutely projected into section two. */
@@ -23,7 +57,8 @@
   height: 100vh;
   height: 100svh;
   overflow: clip;
-  background: #070707;
+  background: var(--aiwa-bg);
+  transition: background-color .55s ease;
   isolation: isolate;
 }
 .aiwa-film-section {
@@ -32,7 +67,7 @@
   height: 100vh;
   height: 100svh;
   overflow: hidden;
-  background: #101010;
+  background: var(--aiwa-film-canvas);
 }
 
 /* Compact reference-style agency header, with Aiwa-only wordmark. */
@@ -48,12 +83,12 @@
   gap: clamp(15px, 2vw, 31px);
   min-height: 88px;
   padding: 17px var(--aiwa-gutter);
-  color: #fff;
+  color: var(--aiwa-ink);
 }
 .aiwa-header__identity {
   justify-self: start;
   display: inline-block;
-  color: #fff;
+  color: var(--aiwa-ink);
   text-decoration: none;
   font-family: Arial, "Helvetica Neue", sans-serif;
   font-size: clamp(31px, 2.65vw, 43px);
@@ -72,7 +107,7 @@
   padding: 8px 0;
   border: 0;
   background: transparent;
-  color: #fff;
+  color: var(--aiwa-ink);
   font-family: Arial, sans-serif;
   font-size: clamp(10px, .81vw, 13px);
   font-weight: 800;
@@ -119,14 +154,14 @@
   gap: 10px;
   min-width: 220px;
   padding: 24px;
-  background: #f8f8f5;
-  color: #0b0b0b;
+  background: var(--aiwa-inverse-bg);
+  color: var(--aiwa-inverse-ink);
   box-shadow: 0 15px 70px rgba(0,0,0,.4);
   visibility: hidden;
   opacity: 0;
   transform: translateY(-7px);
   pointer-events: none;
-  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease, background-color .55s ease, color .55s ease;
 }
 .aiwa-header__offices-panel.is-open {
   visibility: visible; opacity: 1;
@@ -145,7 +180,7 @@
   width: 43px;
   height: 43px;
   padding: 0;
-  color: white;
+  color: var(--aiwa-ink);
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -166,7 +201,7 @@
   display: block;
   width: 100%;
   margin: 0;
-  color: #fff;
+  color: var(--aiwa-ink);
   font-family: "Arial Narrow", Arial, Helvetica, sans-serif;
   font-size: clamp(49px, 6.82vw, 145px);
   font-weight: 900;
@@ -241,14 +276,14 @@
   place-items: center;
   width: 58px;
   height: 58px;
-  border: 1px solid rgba(255,255,255,.7);
+  border: 1px solid var(--aiwa-rule-strong);
   border-radius: 0;
   background: transparent;
-  color: #fff;
+  color: var(--aiwa-ink);
   cursor: pointer;
   transition: background .24s, color .24s;
 }
-.aiwa-hero__scroll:hover { background: white; color: black; }
+.aiwa-hero__scroll:hover { background: var(--aiwa-ink); color: var(--aiwa-bg); }
 
 /* Projection lives in the 200svh parent; at progress=1 it physically occupies
    the SECOND 100svh section. Scrolling up restores the inline tile. */
@@ -382,8 +417,8 @@
     top: 100%; left: 0; right: 0;
     display: flex; flex-direction: column;
     padding: 20px var(--aiwa-gutter) 36px;
-    border-bottom: 1px solid #444;
-    color: white; background: #0b0b0b;
+    border-bottom: 1px solid var(--aiwa-rule);
+    color: var(--aiwa-ink); background: var(--aiwa-surface-raised);
     visibility: hidden; opacity: 0; transform: translateY(-8px);
     pointer-events: none;
     transition: visibility .2s, opacity .2s, transform .2s;
@@ -391,8 +426,8 @@
   .aiwa-mobile-nav.is-open { visibility: visible; opacity: 1; transform: translateY(0); pointer-events: auto; }
   .aiwa-mobile-nav__link {
     display: flex; align-items: center; gap: 13px;
-    padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,.14);
-    color: white; font-size: clamp(24px, 5vw, 42px);
+    padding: 15px 0; border-bottom: 1px solid var(--aiwa-rule-subtle);
+    color: var(--aiwa-ink); font-size: clamp(24px, 5vw, 42px);
     font-weight: 900; letter-spacing: -.06em; text-decoration: none;
   }
   .aiwa-mobile-nav__link span { align-self: flex-start; margin-top: 6px; font-size: 10px; letter-spacing: 0; opacity: .6; }
@@ -425,5 +460,19 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .aiwa-hero__word, .aiwa-hero__film-tile { animation: none; }
-  .aiwa-site *, .aiwa-site *::before, .aiwa-site *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .aiwa-site *, .aiwa-site *::before, .aiwa-site *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .aiwa-site { transition: none !important; }
+}
+
+/* Colour choreography is separate from the scroll-driven transform animations. */
+.aiwa-header__identity, .aiwa-header__link, .aiwa-header__offices,
+.aiwa-header__menu-toggle, .aiwa-hero__headline {
+  transition: color .55s ease;
+}
+.aiwa-mobile-nav { transition: background-color .55s ease, color .55s ease; }
+.aiwa-mobile-nav__link { transition: color .55s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .aiwa-header__identity, .aiwa-header__link, .aiwa-header__offices,
+  .aiwa-header__menu-toggle, .aiwa-hero__headline,
+  .aiwa-mobile-nav, .aiwa-mobile-nav__link { transition: none !important; }
 }
