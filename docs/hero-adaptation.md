@@ -24,9 +24,9 @@ The reference agency's hero has sticky/clip-path styling and a separate click-to
 
 No reference agency assets are bundled or hotlinked. The default video is a [public video by Aiwa Media Group](https://www.youtube.com/watch?v=d4wBqEmgFKA), and its thumbnail URL is used before YouTube playback begins.
 
-Set `NEXT_PUBLIC_AIWA_SHOWREEL_YOUTUBE_ID` in Cloudflare Pages build variables to an 11-character ID for the final Aiwa reel. Once a locally hosted, approved optimized MP4 is provided, switch the full-bleed video to native `<video muted playsInline autoPlay loop>` for better quality, fewer third-party UI effects and predictable cover framing.
+Set `NEXT_PUBLIC_AIWA_SHOWREEL_YOUTUBE_ID` in Cloudflare Pages build variables to an 11-character ID for the final Aiwa reel. Prefer an approved local MP4: place it under `public/media/` and set the build variable `NEXT_PUBLIC_AIWA_REEL_MP4_PATH=/media/aiwa-showreel.mp4`. The expanded surface then automatically uses native `<video muted playsInline autoPlay loop>` and the full-film dialog uses native playback controls. The locally hosted file must be smaller than Cloudflare Pages' 25 MiB single-asset ceiling. No paid service is required.
 
-YouTube autoplay is muted and best-effort; user and browser settings may prevent playback. The poster remains visible in that case. No paid Cloudflare media products, server endpoints, Workers or dependencies are required.
+Without a native MP4, YouTube autoplay is muted and best-effort. Some browsers and automated tests display YouTube's bot-verification overlay instead of playback; the Aiwa poster stays available underneath. For a dependable production cinematic reel, publish the approved optimized MP4 locally. The preview tests cover layout/motion and do not certify external YouTube playback. No paid Cloudflare media products, server endpoints, Workers or dependencies are required.
 
 ## Verification targets
 
