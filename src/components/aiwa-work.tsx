@@ -62,12 +62,21 @@ export function AiwaWorkShowcase() {
     const slots = Array.from(scene.querySelectorAll<HTMLElement>(".aiwa-work__slot"));
     let frame = 0;
 
+    const revealObserver = new IntersectionObserver((entries) => {
+      if (desktop.matches || reduced.matches) return;
+      for (const entry of entries) {
+        (entry.target as HTMLElement).dataset.entered = String(entry.isIntersecting);
+      }
+    }, { threshold: .10, rootMargin: "0px 0px -6% 0px" });
+    slots.forEach((slot) => revealObserver.observe(slot));
+
     const reset = () => {
       delete section.dataset.motion;
       section.style.removeProperty("--work-progress");
       slots.forEach((slot) => {
         slot.inert = false;
         slot.removeAttribute("data-active");
+        slot.removeAttribute("data-entered");
         slot.style.removeProperty("transform");
         slot.style.removeProperty("opacity");
       });
@@ -75,10 +84,11 @@ export function AiwaWorkShowcase() {
 
     const paint = () => {
       frame = 0;
-      if (reduced.matches || !desktop.matches) {
+      if (reduced.matches) {
         reset();
         return;
       }
+      if (!desktop.matches) return;
 
       section.dataset.motion = "desktop";
       const sceneHeight = scene.clientHeight;
@@ -116,8 +126,22 @@ export function AiwaWorkShowcase() {
       if (!frame) frame = window.requestAnimationFrame(paint);
     };
     const configure = () => {
-      if (reduced.matches || !desktop.matches) reset();
-      else section.dataset.motion = "desktop";
+      if (reduced.matches) {
+        reset();
+      } else if (desktop.matches) {
+        section.dataset.motion = "desktop";
+        slots.forEach(slot => slot.removeAttribute("data-entered"));
+      } else {
+        section.dataset.motion = "mobile";
+        section.style.removeProperty("--work-progress");
+        slots.forEach((slot) => {
+          slot.inert = false;
+          slot.style.removeProperty("transform");
+          slot.style.removeProperty("opacity");
+          slot.removeAttribute("data-active");
+          // Do not erase data-entered here: the observer controls it.
+        });
+      }
       schedule();
     };
 
@@ -133,6 +157,7 @@ export function AiwaWorkShowcase() {
       desktop.removeEventListener("change", configure);
       reduced.removeEventListener("change", configure);
       if (frame) window.cancelAnimationFrame(frame);
+      revealObserver.disconnect();
       reset();
     };
   }, []);
