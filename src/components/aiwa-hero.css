@@ -567,3 +567,18 @@
   .aiwa-hero__center { inset: 43% 0 auto; }
   .aiwa-hero__bottom { inset: auto var(--aiwa-gutter) 28px; }
 }
+
+/* The open-source condensed face has different character widths from the
+   reference's licensed typeface; optically compensate rather than scaling
+   the entire headline (which would move the inline media anchor). */
+@media (min-width: 721px) {
+  .aiwa-hero__headline {
+    font-size: clamp(92px, 11.35vw, 175px);
+  }
+}
+@media (max-width: 720px) {
+  .aiwa-hero__headline { font-size: clamp(49px, 14.8vw, 88px); }
+}
+@media (max-width: 390px) {
+  .aiwa-hero__headline { font-size: 14.65vw; }
+}
