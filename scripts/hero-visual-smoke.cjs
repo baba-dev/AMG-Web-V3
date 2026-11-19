@@ -374,6 +374,10 @@ async function testDuotoneTheme(browser,width,height) {
   );
   assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor),
     "rgb(245, 243, 237)", "Saved theme failed after reload");
+  // A reload preserves scroll position; return to the hero before interacting
+  // with its scoped header rather than clicking a clipped offscreen control.
+  await page.evaluate(() => window.scrollTo({top: 0, behavior: "instant"}));
+  await page.waitForFunction(() => Math.abs(window.scrollY) < 2);
   await page.getByRole("button", { name: "Toggle colour theme" }).click();
   await page.waitForFunction(() => document.documentElement.classList.contains("dark"));
   assert.equal(await page.evaluate(() => localStorage.getItem("theme")), "dark",
