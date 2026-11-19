@@ -2,15 +2,15 @@
    Film/photo layers are isolated from light-mode colour shifts. */
 .aiwa-site {
   --aiwa-bg: #070707;
-  --aiwa-ink: #f8f8f5;
+  --aiwa-ink: #fff;
   --aiwa-surface: #080808;
   --aiwa-surface-raised: #101010;
   --aiwa-about-ink: #f5f3ee;
   --aiwa-about-copy: #deddd8;
   --aiwa-muted: #b2b1ac;
-  --aiwa-rule: rgb(248 248 245 / 24%);
-  --aiwa-rule-subtle: rgb(248 248 245 / 13%);
-  --aiwa-rule-strong: rgb(248 248 245 / 70%);
+  --aiwa-rule: rgb(255 255 255 / 24%);
+  --aiwa-rule-subtle: rgb(255 255 255 / 13%);
+  --aiwa-rule-strong: rgb(255 255 255 / 70%);
   --aiwa-inverse-bg: #f8f8f5;
   --aiwa-inverse-ink: #0b0b0b;
   --aiwa-hover: #e6e8d9;
