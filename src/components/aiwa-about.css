@@ -77,6 +77,7 @@
   margin: clamp(66px, 7.1vw, 112px) auto 0;
 }
 .aiwa-about__heading {
+  transition: color .55s ease;
   display: block;
   width: 100%;
   margin: 0;
@@ -140,6 +141,7 @@
   min-width: 0;
 }
 .aiwa-about__description {
+  transition: color .55s ease;
   max-width: 670px;
   margin: 0;
   color: var(--aiwa-about-copy);
