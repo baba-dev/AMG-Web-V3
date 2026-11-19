@@ -71,7 +71,7 @@ export function AiwaSpecialisms() {
           No ordinary ideas. No ordinary results. Everything we make is built
           to move culture, shape conversation and make brands impossible to ignore.
         </p>
-        <a href="#" className="aiwa-specialisms__why">
+        <a href="#about" className="aiwa-specialisms__why">
           THIS IS WHY <ArrowUpRight size={20} aria-hidden="true" />
         </a>
       </div>
