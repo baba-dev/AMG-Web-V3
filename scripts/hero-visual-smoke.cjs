@@ -247,9 +247,13 @@ async function testDuotoneTheme(browser,width,height) {
     "Theme control must fit inside header at " + width);
 
   await toggle.click();
-  await page.waitForFunction(() => document.documentElement.classList.contains("light"));
+  await page.waitForFunction(() =>
+    document.documentElement.classList.contains("light") &&
+    getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor === "rgb(245, 243, 237)"
+  );
   const light = await page.evaluate(() => ({
     hero: getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor,
+    token: getComputedStyle(document.querySelector(".aiwa-site")).getPropertyValue("--aiwa-bg").trim(),
     heading: getComputedStyle(document.querySelector(".aiwa-hero__headline")).color,
     specialisms: getComputedStyle(document.querySelector(".aiwa-specialisms")).backgroundColor,
     specialismsText: getComputedStyle(document.querySelector(".aiwa-specialisms__row")).color,
@@ -278,7 +282,10 @@ async function testDuotoneTheme(browser,width,height) {
   await page.screenshot({ path: "test-artifacts/" + width + "x" + height + "-light-about.png" });
 
   await page.reload({ waitUntil: "domcontentloaded" });
-  await page.waitForFunction(() => document.documentElement.classList.contains("light"));
+  await page.waitForFunction(() =>
+    document.documentElement.classList.contains("light") &&
+    getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor === "rgb(245, 243, 237)"
+  );
   assert.equal(await page.evaluate(() => getComputedStyle(document.querySelector(".aiwa-hero")).backgroundColor),
     "rgb(245, 243, 237)", "Saved theme failed after reload");
   await page.getByRole("button", { name: "Toggle colour theme" }).click();
