@@ -105,7 +105,11 @@ export function AiwaHero() {
       const toX = targetBox.left - sequenceBox.left;
       const toY = targetBox.top - sequenceBox.top;
       const x = mix(fromX, toX, expansion);
-      const y = mix(fromY, toY, expansion);
+      // Lift the film over the anchored hero during expansion, then let it
+      // land in its real in-flow second section. Zero overshoot at both ends.
+      const lift = motion.matches ? 0 :
+        Math.sin(Math.PI * progress) * window.innerHeight * 0.51;
+      const y = mix(fromY, toY, expansion) - lift;
       const w = mix(tileBox.width, targetBox.width, expansion);
       const h = mix(tileBox.height, targetBox.height, expansion);
 
@@ -125,6 +129,10 @@ export function AiwaHero() {
       title.style.opacity = textAlpha.toFixed(3);
       footer.style.opacity = (1 - ease((progress - 0.67) / 0.27)).toFixed(3);
       header.style.opacity = (1 - ease((progress - 0.45) / 0.42)).toFixed(3);
+      const hideHeroControls = progress > 0.94;
+      header.style.pointerEvents = hideHeroControls ? "none" : "auto";
+      title.style.pointerEvents = hideHeroControls ? "none" : "auto";
+      footer.style.pointerEvents = hideHeroControls ? "none" : "auto";
       poster.style.transform = "scale(" + (1.34 + expansion * 0.08).toFixed(3) + ")";
       sequence.style.setProperty("--aiwa-hero-scroll", progress.toFixed(4));
       const controlAlpha = ease((progress - 0.82) / 0.17);
