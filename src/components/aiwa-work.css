@@ -40,3 +40,66 @@
   .aiwa-work__caption { padding-top: 10px; }
   .aiwa-work__cta { min-width: 202px; margin-top: 58px; font-size: 15px; }
 }
+
+/* Desktop: the real, full-height section scrolls naturally while its inner
+   scene pins. Only transform/opacity change for the traversing cards. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .aiwa-work[data-motion="desktop"] .aiwa-work__stage { height: 330svh; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__scene {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__header {
+    position: absolute;
+    z-index: 2;
+    top: 45.5%;
+    left: 50%;
+    width: max-content;
+    max-width: 100%;
+    transform: translate(-50%, -50%);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__headline {
+    font-size: clamp(116px, 15.9vw, 242px);
+    line-height: .76;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__cards {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: block;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot {
+    position: absolute;
+    left: var(--slot-left);
+    top: var(--slot-top);
+    width: var(--slot-width);
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot[data-active="true"] { pointer-events: auto; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--mymo-express { --slot-left: 25%; --slot-top: 43%; --slot-width: min(34vw, 490px); z-index: 6; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--casabella-oman { --slot-left: 74%; --slot-top: 34%; --slot-width: min(30vw, 450px); z-index: 5; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--best-genetco { --slot-left: 28%; --slot-top: 55%; --slot-width: min(32vw, 455px); z-index: 7; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--aqua-petro { --slot-left: 74%; --slot-top: 49%; --slot-width: min(33vw, 475px); z-index: 6; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--razmazaan { --slot-left: 29%; --slot-top: 31%; --slot-width: min(31vw, 445px); z-index: 7; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--vitamin-phones { --slot-left: 75%; --slot-top: 62%; --slot-width: min(32vw, 463px); z-index: 6; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__cta {
+    position: absolute;
+    z-index: 15;
+    bottom: 3.2svh;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+  }
+}
