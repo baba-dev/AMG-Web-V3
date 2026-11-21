@@ -73,7 +73,10 @@ async function inspect(browser, viewport) {
   await page.keyboard.press("Escape");
 
   const browserErrors = errors.filter(message =>
-    !message.includes("youtube.com") && !message.includes("googlevideo.com") && !message.includes("ERR_BLOCKED_BY_CLIENT")
+    !message.includes("youtube.com") &&
+    !message.includes("googlevideo.com") &&
+    !message.includes("ERR_BLOCKED_BY_CLIENT") &&
+    !message.includes("compute-pressure is not allowed")
   );
   assert.deepEqual(browserErrors, [], viewport.name + ": browser errors: " + browserErrors.join(" | "));
   await context.close();
