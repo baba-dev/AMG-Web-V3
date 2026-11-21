@@ -325,3 +325,14 @@
 @media(max-width:390px){
  .aiwa-specialisms__row {font-size:10.6vw;}
 }
+
+/* P2-C: all seven animated homepage rows are real routes. */
+.aiwa-specialisms__all{
+ display:inline-flex;align-items:center;justify-content:center;gap:14px;
+ min-height:46px;padding:8px 3px;border-bottom:1px solid #0a0a0a;
+ color:#0a0a0a;text-decoration:none;
+ font:700 12px/1.25 var(--font-space-grotesk),Arial,sans-serif;
+}
+.aiwa-specialisms__all:focus-visible{outline:3px solid #0a0a0a;outline-offset:5px;}
+.aiwa-specialisms__footer p{font-family:var(--font-space-grotesk),Arial,sans-serif;}
+@media(max-width:700px){.aiwa-specialisms__all{min-height:46px;}}
