@@ -145,6 +145,13 @@ export function AiwaAbout() {
       </div>
 
       <div className="aiwa-about__content">
+        <figure className="aiwa-about__media">
+          <img src="https://i.ytimg.com/vi/d4wBqEmgFKA/hqdefault.jpg"
+            alt="A still from Aiwa Media Group's published showreel"
+            loading="lazy" decoding="async" referrerPolicy="no-referrer"
+            onError={event => { event.currentTarget.style.opacity = "0"; }} />
+          <figcaption>AIWA / BEHIND THE IDEAS</figcaption>
+        </figure>
         <h2 className="aiwa-about__heading" id="aiwa-about-heading">
           {headline.map(({ text, italic }, index) => (
             <span className="aiwa-about__line" key={text}>

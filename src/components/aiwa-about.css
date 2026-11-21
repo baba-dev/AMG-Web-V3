@@ -310,3 +310,143 @@
     will-change: auto !important;
   }
 }
+
+
+/* The reference About section uses a large media portrait with a much
+   smaller statement and editorial copy on a LIGHT canvas. This is Aiwa's
+   published film still, falling back to the first-party portfolio artwork. */
+.aiwa-about,.light .aiwa-about {
+  --about-ink:#090909;
+  --about-muted:#494a46;
+  --about-hairline:rgba(12,12,12,.19);
+  min-height:100svh;
+  padding:clamp(27px,3.5vw,52px) clamp(18px,3.3vw,56px) clamp(32px,5vw,70px);
+  background:#f5f5f3;
+  color:var(--about-ink);
+  transition:none;
+}
+.aiwa-about::before {background:var(--about-hairline);}
+.aiwa-about::after {background:#171717;}
+.aiwa-about__topline {
+  max-width:1720px;
+  margin:0 auto;
+  color:#0a0a0a;
+  font-family:var(--font-aiwa-poster),Impact,sans-serif;
+  font-size:clamp(12px,1.1vw,17px);
+  font-weight:400;
+}
+.aiwa-about__eyebrow {gap:9px;}
+.aiwa-about__index {color:#686861;}
+.aiwa-about__content {
+  display:grid;
+  grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);
+  grid-template-areas:"media heading" "media lower";
+  align-items:center;
+  column-gap:clamp(34px,5vw,98px);
+  row-gap:0;
+  max-width:1720px;
+  min-height:clamp(620px,82svh,880px);
+  margin:clamp(27px,4vw,52px) auto 0;
+}
+.aiwa-about__media {
+  position:relative;grid-area:media;min-width:0;
+  width:100%;height:100%;max-height:680px;
+  overflow:hidden;
+  margin:0;
+  background:#a72c31 url('/media/work/casabella-oman.svg') center/cover no-repeat;
+  isolation:isolate;
+}
+.aiwa-about__media img {
+  display:block;width:100%;height:100%;min-height:510px;
+  object-fit:cover;object-position:48% center;
+  filter:saturate(1.02) contrast(1.08);
+  transform:scale(1.04);
+}
+.aiwa-about__media figcaption {
+  position:absolute;bottom:21px;left:21px;z-index:2;
+  color:#fff;
+  font:400 clamp(13px,1.25vw,19px)/1 var(--font-aiwa-poster),Impact,sans-serif;
+  text-shadow:0 2px 16px #000b;
+}
+.aiwa-about__heading {
+  grid-area:heading;
+  align-self:end;
+  font-family:var(--font-aiwa-poster),Impact,sans-serif;
+  font-weight:400;
+  font-size:clamp(45px,4.65vw,83px);
+  line-height:.94;
+  letter-spacing:-.025em;
+  color:#090909;
+  padding-top:clamp(16px,2vw,32px);
+}
+.aiwa-about__line {width:max-content;padding:.035em 0 .065em;margin:-.025em 0;}
+.aiwa-about__line-text {font-weight:400;}
+.aiwa-about__line-text em {font-weight:400;letter-spacing:-.035em;font-style:oblique;}
+.aiwa-about__lower {
+  grid-area:lower;
+  align-self:start;
+  display:grid;
+  grid-template-areas:"rule" "copy" "location";
+  grid-template-columns:minmax(0,1fr);
+  row-gap:clamp(18px,2vw,28px);
+  margin:clamp(23px,3vw,47px) 0 0;
+}
+.aiwa-about__rule {background:#bdbdb7;}
+.aiwa-about__aside {align-items:flex-start;}
+.aiwa-about__description {
+  max-width:48ch;
+  color:#373731;
+  font-size:clamp(15px,1.25vw,20px);
+  line-height:1.42;
+  letter-spacing:-.025em;
+}
+.aiwa-about__location {
+  justify-self:start;
+  color:#5b5b55;
+  font:400 clamp(12px,.97vw,16px)/1.2 var(--font-aiwa-poster),Impact,sans-serif;
+}
+.aiwa-about__plus {font-size:34px;color:#111;}
+.aiwa-about__cta {
+  gap:clamp(31px,4vw,65px);
+  margin-top:25px;
+  padding:8px 10px 8px 19px;
+  min-height:52px;
+  color:#fff;
+  background:#080808;
+  font:400 clamp(17px,1.28vw,22px)/1 var(--font-aiwa-poster),Impact,sans-serif;
+}
+.aiwa-about__cta::before,.aiwa-about__cta::after {display:none;}
+.aiwa-about__cta-icon {border-color:#fff;color:#fff;width:34px;height:34px;}
+.aiwa-about__cta:hover .aiwa-about__cta-icon,
+.aiwa-about__cta:focus-visible .aiwa-about__cta-icon {background:#fff;color:#080808;border-color:#fff;}
+.aiwa-about__footer {max-width:1720px;border-color:#bdbdb7;color:#696962;margin:clamp(27px,3.5vw,60px) auto 0;}
+@media(max-width:1000px){
+ .aiwa-about__content {column-gap:26px;min-height:600px;}
+ .aiwa-about__heading {font-size:clamp(38px,4.65vw,62px);}
+ .aiwa-about__media {max-height:570px;}
+ .aiwa-about__media img {min-height:500px;}
+}
+@media(max-width:700px) {
+ .aiwa-about {padding:25px 16px 45px;min-height:0;}
+ .aiwa-about__content {
+  display:flex;flex-direction:column;align-items:stretch;
+  min-height:0;margin:25px auto 0;gap:0;
+ }
+ .aiwa-about__topline {font-size:12px;}
+ .aiwa-about__media {width:100%;height:auto;max-height:none;aspect-ratio:1.19/1;margin-bottom:25px;}
+ .aiwa-about__media img {height:100%;min-height:0;object-position:50% center;}
+ .aiwa-about__media figcaption {left:13px;bottom:14px;font-size:12px;}
+ .aiwa-about__heading {
+  padding-top:0;
+  font-size:clamp(38px,9.5vw,65px);
+  line-height:.98;
+ }
+ .aiwa-about__lower {display:flex;flex-direction:column;gap:18px;margin-top:26px;}
+ .aiwa-about__description {font-size:15px;line-height:1.48;}
+ .aiwa-about__cta {margin-top:23px;min-height:48px;font-size:17px;}
+ .aiwa-about__location {font-size:12px;}
+ .aiwa-about__footer {margin-top:38px;}
+}
+@media(max-width:390px){
+ .aiwa-about__heading {font-size:9.23vw;}
+}
