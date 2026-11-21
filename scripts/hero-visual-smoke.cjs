@@ -56,11 +56,14 @@ async function testAboutEntrance(browser) {
   const entering = await captureState("entering", .62);
   assert(entering.progress > .35 && entering.progress < .45, "Early scroll progress not linked to section entrance");
   assert(entering.lines[0].opacity > .5, "First line should reveal before last line");
-  assert(entering.lines[3].opacity < .1, "Final line should remain hidden at initial entrance");
+  assert.equal(entering.lines.length,2,"About should have the reference-style two-line title");
+  assert(entering.lines[1].opacity < entering.lines[0].opacity,
+    "Second About line should trail the first during the scroll reveal");
   assert(entering.bodyOpacity < .1, "Supporting copy should enter after the typography");
 
   const midway = await captureState("midway", .27);
-  assert(midway.lines[2].opacity > entering.lines[2].opacity, "Third line should advance with scroll");
+  assert(midway.lines[1].opacity > entering.lines[1].opacity,
+    "Second About line should continue unfolding with scroll");
   assert(midway.ctaOpacity > entering.ctaOpacity, "CTA should advance with scroll");
 
   const settled = await captureState("settled", 0);
