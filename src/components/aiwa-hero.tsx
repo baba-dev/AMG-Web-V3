@@ -12,6 +12,8 @@ import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ModeToggle } from "@/components/mode-toggle";
 import { AiwaFilmPlayer, type FilmOrigin } from "@/components/aiwa-film-player";
 import "./aiwa-hero.css";
+// Editorial typography, spacing and touch-target harmonization.
+import "./aiwa-polish.css";
 
 const navigation = [
   { label: "WORK", href: "#work" },
