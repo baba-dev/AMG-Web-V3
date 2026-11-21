@@ -850,3 +850,10 @@
   }
   .aiwa-film-section::after {z-index:1;opacity:var(--aiwa-film-peek,1);}
 }
+
+/* Final frame review: an exposed olive fallback looked like a second layer
+   while the reel crossed the section seam. Keep the target black; only the
+   transient first-fold mobile teaser has its own underlying photo tint. */
+@media(max-width:720px) {
+  .aiwa-film-section {background-color:#080808;}
+}
