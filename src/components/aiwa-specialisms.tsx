@@ -12,13 +12,13 @@ type Specialism = {
 };
 
 const categories: Specialism[] = [
-  { name: "Global", side: "right", tint: "global" },
-  { name: "Consumer", side: "left", tint: "consumer" },
-  { name: "Corporate", side: "right", tint: "corporate" },
-  { name: "Sports", side: "left", tint: "sports" },
-  { name: "Social", side: "right", tint: "social" },
-  { name: "Studio", side: "left", tint: "studio" },
-  { name: "TECH", side: "right", tint: "tech" },
+  { name: "Global", side: "right", tint: "global", image: "/media/finale/muscat-editorial.svg" },
+  { name: "Consumer", side: "left", tint: "consumer", image: "/media/work/casabella-oman.svg" },
+  { name: "Corporate", side: "right", tint: "corporate", image: "/media/work/aqua-petro.svg" },
+  { name: "Sports", side: "left", tint: "sports", image: "/media/work/mymo-express.svg" },
+  { name: "Social", side: "right", tint: "social", image: "/media/work/razmazaan.svg" },
+  { name: "Studio", side: "left", tint: "studio", image: "/media/finale/creative-process.svg" },
+  { name: "TECH", side: "right", tint: "tech", image: "/media/work/vitamin-phones.svg" },
 ];
 
 const clamp = (x: number) => Math.min(1, Math.max(0, x));
@@ -64,6 +64,7 @@ export function AiwaSpecialisms() {
     const rows = Array.from(section.querySelectorAll<HTMLAnchorElement>(".aiwa-specialisms__row"));
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
+    let nearViewport = true;
 
     const render = () => {
       frame = 0;
@@ -79,7 +80,10 @@ export function AiwaSpecialisms() {
 
       const viewport = window.innerHeight;
       // Read all row geometry before writing transforms, keeping one layout pass.
-      const rects = rows.map(row => row.getBoundingClientRect());
+      // The row itself rotates. Measure its untransformed LI parent to
+      // prevent feedback jitter between scroll position and transformed rect.
+      const rects = rows.map(row =>
+        (row.parentElement ?? row).getBoundingClientRect());
       rows.forEach((row, index) => {
         const b = rects[index];
         // A category unfolds as its top crosses 88% -> 48% viewport height.
@@ -91,14 +95,21 @@ export function AiwaSpecialisms() {
           "deg) translate3d(0," + (68 * closed).toFixed(2) +
           "px,0) skewX(" + (5 * closed).toFixed(2) + "deg)";
         row.style.opacity = Math.max(.04, p).toFixed(3);
-        row.style.filter = "blur(" + (Math.min(2.6, closed * 2.6)).toFixed(2) + "px)";
+        // Do not animate CSS blur: it forces a heavy paint on every tick.
+        row.style.filter = "none";
         row.dataset.visible = String(p > .87);
         row.style.setProperty("--row-reveal", p.toFixed(4));
       });
     };
     const schedule = () => {
-      if (!frame) frame = window.requestAnimationFrame(render);
+      if (!nearViewport || frame) return;
+      frame = window.requestAnimationFrame(render);
     };
+    const proximity = new IntersectionObserver(([entry]) => {
+      nearViewport = entry?.isIntersecting ?? true;
+      if (nearViewport) schedule();
+    }, { rootMargin: "90% 0px 90% 0px" });
+    proximity.observe(section);
     schedule();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
@@ -107,6 +118,7 @@ export function AiwaSpecialisms() {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       mediaQuery.removeEventListener("change", schedule);
+      proximity.disconnect();
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -126,7 +138,7 @@ export function AiwaSpecialisms() {
           <li className="aiwa-specialisms__item" key={category.name}>
             <a
               className={"aiwa-specialisms__row aiwa-specialisms__row--" + category.tint}
-              href="#"
+              href="#" onClick={event => event.preventDefault()}
               aria-label={category.name + " — coming soon"}
               data-visible="false"
             >
