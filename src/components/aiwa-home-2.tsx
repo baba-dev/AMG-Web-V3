@@ -14,7 +14,8 @@ import { AiwaFilmPlayer, type FilmOrigin } from "@/components/aiwa-film-player";
 import "./aiwa-home-2.css";
 
 const youtubeId = "d4wBqEmgFKA";
-const poster = "https://i.ytimg.com/vi/" + youtubeId + "/hqdefault.jpg";
+// Preserve the selected artwork throughout the film shared-element transition.
+const poster = "/media/home-2/muscat-futurecraft-film-still.webp";
 
 const navigation = [
   { label: "WORK", href: "#work" },
@@ -27,6 +28,8 @@ const navigation = [
 export function AiwaHome2() {
   const heroRef = useRef<HTMLElement>(null);
   const filmButtonRef = useRef<HTMLButtonElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileNavRef = useRef<HTMLElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filmOpen, setFilmOpen] = useState(false);
   const [filmOrigin, setFilmOrigin] = useState<FilmOrigin | null>(null);
@@ -36,6 +39,9 @@ export function AiwaHome2() {
     if (!hero) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
+    let pointerFrame = 0;
+    let pointerX = 0;
+    let pointerY = 0;
 
     const paint = () => {
       frame = 0;
@@ -50,25 +56,89 @@ export function AiwaHome2() {
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(paint);
     };
+    const paintPointer = () => {
+      pointerFrame = 0;
+      hero.style.setProperty("--h2-pointer-x", pointerX.toFixed(4));
+      hero.style.setProperty("--h2-pointer-y", pointerY.toFixed(4));
+    };
+    const schedulePointer = () => {
+      if (!pointerFrame) pointerFrame = window.requestAnimationFrame(paintPointer);
+    };
     const point = (event: PointerEvent) => {
-      if (reduced.matches) return;
-      hero.style.setProperty("--h2-pointer-x", ((event.clientX / window.innerWidth) - .5).toFixed(4));
-      hero.style.setProperty("--h2-pointer-y", ((event.clientY / window.innerHeight) - .5).toFixed(4));
+      if (reduced.matches || event.pointerType === "touch") return;
+      pointerX = event.clientX / Math.max(1, window.innerWidth) - .5;
+      pointerY = event.clientY / Math.max(1, window.innerHeight) - .5;
+      schedulePointer();
+    };
+    const resetPointer = () => {
+      pointerX = 0;
+      pointerY = 0;
+      schedulePointer();
+    };
+    const motionPreferenceChanged = () => {
+      if (reduced.matches) resetPointer();
+      schedule();
     };
 
     paint();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     hero.addEventListener("pointermove", point, { passive: true });
-    reduced.addEventListener("change", schedule);
+    hero.addEventListener("pointerleave", resetPointer);
+    reduced.addEventListener("change", motionPreferenceChanged);
     return () => {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       hero.removeEventListener("pointermove", point);
-      reduced.removeEventListener("change", schedule);
+      hero.removeEventListener("pointerleave", resetPointer);
+      reduced.removeEventListener("change", motionPreferenceChanged);
       if (frame) window.cancelAnimationFrame(frame);
+      if (pointerFrame) window.cancelAnimationFrame(pointerFrame);
     };
   }, []);
+
+  // Full-screen navigation behaves as a modal on touch and keyboard.
+  // It must not let focus or document scrolling escape behind the overlay.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const nav = mobileNavRef.current;
+    const trigger = menuButtonRef.current;
+    if (!nav || !trigger) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>("a"));
+    const focusables: HTMLElement[] = [trigger, ...links];
+    const focusFrame = window.requestAnimationFrame(() => links[0]?.focus({ preventScroll: true }));
+    const breakpoint = window.matchMedia("(min-width: 901px)");
+    const closeOnDesktop = () => { if (breakpoint.matches) setMenuOpen(false); };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMenuOpen(false);
+      } else if (event.key === "Tab") {
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    breakpoint.addEventListener("change", closeOnDesktop);
+    closeOnDesktop();
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+      breakpoint.removeEventListener("change", closeOnDesktop);
+      if (nav.contains(document.activeElement)) trigger.focus({ preventScroll: true });
+    };
+  }, [menuOpen]);
 
   const followAnchor = (event: MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -76,6 +146,10 @@ export function AiwaHome2() {
     const target = document.getElementById(id);
     if (!target) return;
     event.preventDefault();
+    if (menuOpen) {
+      if (!target.hasAttribute("tabindex")) target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    }
     setMenuOpen(false);
     target.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
@@ -96,7 +170,7 @@ export function AiwaHome2() {
     <main className="aiwa-home2-shell">
       <section ref={heroRef} className="aiwa-home2" aria-labelledby="home2-heading">
         <header className="aiwa-home2__header">
-          <Link className="aiwa-home2__logo" href="/" aria-label="Aiwa homepage">AIWA.</Link>
+          <Link className="aiwa-home2__logo" href="/home-2" aria-label="Aiwa Home V2">AIWA.</Link>
           <nav className="aiwa-home2__nav" aria-label="Home 2 navigation">
             {navigation.map((item) => (
               <a key={item.label} href={item.href}
@@ -107,14 +181,14 @@ export function AiwaHome2() {
               </a>
             ))}
           </nav>
-          <button className="aiwa-home2__menu" type="button"
+          <button ref={menuButtonRef} className="aiwa-home2__menu" type="button"
             aria-expanded={menuOpen} aria-controls="home2-mobile-nav"
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
             onClick={() => setMenuOpen(value => !value)}>
             {menuOpen ? <X aria-hidden="true" /> : <><Plus className="aiwa-home2__plus" aria-hidden="true"/><Menu className="aiwa-home2__hamburger" aria-hidden="true"/></>}
           </button>
-          <nav id="home2-mobile-nav" className="aiwa-home2__mobile-nav"
-            data-open={menuOpen} inert={!menuOpen} aria-label="Mobile navigation">
+          <nav ref={mobileNavRef} id="home2-mobile-nav" className="aiwa-home2__mobile-nav"
+            data-open={menuOpen} inert={!menuOpen} aria-hidden={!menuOpen} aria-label="Mobile navigation">
             {navigation.map((item, index) => (
               <a key={item.label} href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
@@ -150,7 +224,9 @@ export function AiwaHome2() {
           <p><span />23.5880° N / 58.3829° E</p>
           <a href="#work" onClick={followAnchor}>ENTER THE WORK <ArrowRight aria-hidden="true" /></a>
           <button type="button" aria-label="Scroll to specialisms"
-            onClick={() => document.getElementById("specialisms")?.scrollIntoView({ behavior: "smooth" })}>
+            onClick={() => document.getElementById("specialisms")?.scrollIntoView({
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+            })}>
             <ArrowDown aria-hidden="true" />
           </button>
         </div>
