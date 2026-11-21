@@ -71,8 +71,16 @@ const testSelectors = [
           width+"px: light-section colors diverge: "+JSON.stringify(initial.paper));
         assert(initial.heroWords.every(r=>r.x>=-12 && r.right<=width+12),
           width+"px: clipped hero words: "+JSON.stringify(initial.heroWords));
-        assert(initial.bodyFont.toLowerCase().includes("geist"),
-          width+"px: expected Geist body font, got "+initial.bodyFont);
+        const usesPrivateRoc = await page.evaluate(() =>
+          document.documentElement.dataset.aiwaRoc === "true");
+        const bodyExpected = usesPrivateRoc ? /aiwa roc grotesk web/i : /space[_ ]?grotesk/i;
+        assert(bodyExpected.test(initial.bodyFont),
+          width+"px: unexpected body family: "+initial.bodyFont);
+        if (usesPrivateRoc) {
+          assert(await page.evaluate(() =>
+            document.fonts.check('16px "Aiwa Roc Grotesk Web"')),
+            width+"px: private Roc font failed to load");
+        }
         const poster = initial.fonts.filter(x=>["hero","specialisms","work","contact"].includes(x.key));
         assert(poster.every(x=>x.font.toLowerCase().includes("anton")),
           width+"px: poster headings should share an Anton stack: "+JSON.stringify(poster));
