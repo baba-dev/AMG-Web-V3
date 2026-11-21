@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { WorkGallery } from "@/components/work-gallery";
+import { WorkProcess } from "@/components/work-process";
 import { WorkHero } from "@/components/work-hero";
 import "@/components/aiwa-polish.css";
 import "./work-directory.css";
@@ -35,6 +36,7 @@ export default function WorkDirectory() {
           <WorkGallery />
           <p className="work-page__disclosure work-page__gutter">Illustrations shown are original conceptual editorial artwork, not documentary campaign photography.</p>
         </section>
+        <WorkProcess />
         <section className="work-page__outro work-page__gutter" aria-labelledby="work-outro-title">
           <span className="work-page__eyebrow">HAVE SOMETHING IN MIND?</span>
           <h2 id="work-outro-title">LET’S MAKE<br/><em>SOME NOISE.</em></h2>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { workProjects } from "@/lib/work/projects";
 import { directoryCategory, workVisuals, directoryCategories, isDirectoryCategory, type DirectoryCategory } from "@/lib/work/directory";
@@ -59,8 +60,8 @@ export function WorkGallery() {
    {filtered.map((project,index)=>(
     <li key={project.slug} className={"work-gallery__item work-gallery__item--"+project.slug}
       data-work-project={project.slug} data-category={directoryCategory(project)}>
-      <a className="work-gallery__link" href={project.href} target="_blank" rel="noopener noreferrer"
-        aria-label={"Explore "+project.client+" on Aiwa's published portfolio (opens a new tab)"}>
+      <Link className="work-gallery__link" href={"/work/"+project.slug}
+        aria-label={"Explore "+project.client+" project overview"}>
        <div className="work-gallery__art" style={{backgroundColor:workVisuals[project.slug].accent}}>
         <Image src={project.artwork} alt={project.alt} width={960} height={740} unoptimized loading="lazy"
           sizes="(max-width: 767px) 100vw, (max-width: 1100px) 48vw, 90vw"/>
@@ -73,7 +74,7 @@ export function WorkGallery() {
         <span className="work-gallery__title">{project.title}</span>
         <span className="work-gallery__discipline">{project.discipline}</span>
        </div>
-      </a>
+      </Link>
     </li>
    ))}
   </ol>
