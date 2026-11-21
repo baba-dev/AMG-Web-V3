@@ -141,6 +141,8 @@ fs.mkdirSync(dir,{recursive:true});
   requireIt(score.track==="contact-wall-scroll" && score.duration==="51s" && score.delay==="1.4s",
     "ambient marquee starts after the first entrance");
   await page.mouse.move(0,0);
+  await page.waitForTimeout(1750);
+  await page.screenshot({path:dir+"/1440-settled-motion-hero.png"});
 
   await page.locator("#enquiries").scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector(".contact-intro")?.dataset.entered==="true");
@@ -167,7 +169,10 @@ fs.mkdirSync(dir,{recursive:true});
   requireIt(parked==="paused","offscreen marquee must pause");
   await page.locator(".contact-outro").scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector(".contact-outro")?.dataset.entered==="true");
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(1050);
+  const outroCTA=await page.locator(".contact-outro > a")
+    .evaluate(el=>Number(getComputedStyle(el).opacity));
+  requireIt(outroCTA>.95,"closing CTA should have appeared after the final beat");
   await page.screenshot({path:dir+"/1440-choreographed-outro.png"});
   console.log("CONTACT_CHOREOGRAPHY_PASS",JSON.stringify(score),driftA,driftB);
 

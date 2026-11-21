@@ -370,15 +370,15 @@ html.dark .contact-page{
   animation-play-state:paused;
 }
 .contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__row {
-  animation:contact-wall-beat 1.02s cubic-bezier(.19,1,.22,1) both;
+  animation:contact-wall-beat .8s cubic-bezier(.19,1,.22,1) both;
   animation-delay:calc(.07s + var(--contact-row) * .13s);
 }
 .contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__picture {
-  animation:contact-image-cut .95s cubic-bezier(.22,1,.36,1) both;
-  animation-delay:calc(.24s + var(--contact-row) * .13s);
+  animation:contact-image-cut .65s cubic-bezier(.22,1,.36,1) both;
+  animation-delay:calc(.22s + var(--contact-row) * .13s);
 }
 @keyframes contact-wall-beat {
-  from {opacity:.12;transform:translate3d(0,36%,0);filter:blur(6px);}
+  from {opacity:.28;transform:translate3d(0,22%,0);filter:blur(2px);}
   65% {filter:blur(0);}
   to {opacity:1;transform:translate3d(0,0,0);filter:blur(0);}
 }
@@ -439,7 +439,7 @@ html.dark .contact-page{
   animation:contact-chapter-meta .8s cubic-bezier(.22,1,.36,1) both;
 }
 .contact-page[data-contact-motion="ready"] .contact-outro[data-entered="true"] > a {
-  animation:contact-chapter-rise .9s .4s cubic-bezier(.22,1,.36,1) both;
+  animation:contact-chapter-rise .68s .23s cubic-bezier(.22,1,.36,1) both;
 }
 @keyframes contact-chapter-meta {
   from {opacity:0;transform:translate3d(0,13px,0);}
@@ -483,11 +483,11 @@ html.dark .contact-page{
     animation-duration:61s;
   }
   .contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__row {
-    animation-duration:.77s;
+    animation-duration:.7s;
     animation-delay:calc(.05s + var(--contact-row) * .1s);
   }
   .contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__picture {
-    animation-duration:.75s;
+    animation-duration:.6s;
     animation-delay:calc(.17s + var(--contact-row) * .1s);
   }
   .contact-page[data-contact-motion="ready"] .contact-office__image img {
