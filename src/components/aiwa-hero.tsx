@@ -8,6 +8,7 @@ import { AiwaAbout } from "@/components/aiwa-about";
 import { AiwaWorkShowcase } from "@/components/aiwa-work";
 import { AiwaContact } from "@/components/aiwa-contact";
 import { AiwaOffice } from "@/components/aiwa-office";
+import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ModeToggle } from "@/components/mode-toggle";
 import "./aiwa-hero.css";
 
@@ -17,7 +18,7 @@ const navigation = [
   { label: "SPECIALISMS", href: "#specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
   { label: "CONTACT US", href: "https://aiwamediagroup.com/contact-us/" },
-  { label: "LATEST", href: "#" },
+  { label: "LATEST", href: "https://www.linkedin.com/company/aiwamediagroup/" },
 ] as const;
 
 const candidateId = process.env.NEXT_PUBLIC_AIWA_SHOWREEL_YOUTUBE_ID;
@@ -318,6 +319,7 @@ export function AiwaHero() {
       <AiwaWorkShowcase />
       <AiwaContact />
       <AiwaOffice />
+      <AiwaGlobalFooter />
 
       <dialog className="aiwa-film-dialog" ref={dialogRef} aria-label="Aiwa Media Group full film"
         onClose={() => setFullFilmOpen(false)}
