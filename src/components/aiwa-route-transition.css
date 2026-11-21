@@ -110,7 +110,7 @@
 /* Project portal: the image clone starts precisely on the clicked card. */
 .aiwa-route-stage__portal {
   position:absolute;inset:0;overflow:hidden;
-  z-index:1;background:var(--signal-ink);
+  z-index:1;background:transparent; /* retain the outgoing page until art actually covers it */
 }
 .aiwa-route-stage__portal img {
   display:block;position:absolute;inset:0;
