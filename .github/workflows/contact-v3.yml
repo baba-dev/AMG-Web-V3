@@ -1,0 +1,37 @@
+name: Contact V3 visual reference and QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - src/app/contact/**
+      - src/components/aiwa-inner-header.*
+      - src/components/aiwa-footer.*
+      - src/components/aiwa-contact.*
+      - src/lib/site-navigation.ts
+      - scripts/contact-reference-qa.cjs
+      - scripts/contact-page-qa.cjs
+      - .github/workflows/contact-v3.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contact-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm install --no-save --package-lock=false playwright
+      - run: npx playwright install chromium --only-shell
+      - name: Capture reference page at desktop and mobile
+        run: node scripts/contact-reference-qa.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contact-reference-captures
+          path: test-artifacts/contact-reference/
+          retention-days: 4
