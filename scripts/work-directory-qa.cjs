@@ -65,7 +65,19 @@ async function geometry(page){return page.evaluate(()=>{
       });
       check(mobileType.disciplineTop>=mobileType.subtitleBottom-1,
         width+": mobile list metadata overlaps subtitle "+JSON.stringify(mobileType));
-      check(mobileType.clientSize>=18,width+": mobile list client typography too small");
+      check(mobileType.clientSize>=19,width+": mobile list client typography too small");
+      const filters=await page.locator(".work-gallery__filters button").evaluateAll(nodes=>
+        nodes.map(node=>{
+          const r=node.getBoundingClientRect();
+          return {left:r.left,right:r.right,top:r.top,height:r.height};
+        })
+      );
+      check(filters.length===4 && filters.every(r=>r.left>=0 && r.right<=width+1),
+        width+": filter category clipped "+JSON.stringify(filters));
+      check(Math.abs(filters[0].top-filters[1].top)<=1 &&
+            Math.abs(filters[2].top-filters[3].top)<=1 &&
+            filters[2].top>filters[0].top,
+        width+": expected a stable two-row filter layout");
     }
     await page.locator('[data-filter-button="brand"]').click();
     assert.equal(await page.locator("[data-work-project]").count(),3,width+": list filter works");
@@ -166,6 +178,14 @@ async function geometry(page){return page.evaluate(()=>{
   assert.equal(await themePage.locator(".work-gallery").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
   assert.equal(await themePage.locator(".work-process").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(232, 229, 223)");
   assert.equal(await themePage.locator(".aiwa-footer").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
+  await themePage.locator('[data-view-button="list"]').click();
+  await themePage.locator("#work-index").scrollIntoViewIfNeeded();
+  await themePage.screenshot({path:folder+"/1440x900-light-list.png"});
+  await themePage.setViewportSize({width:390,height:844});
+  await themePage.locator("#work-index").scrollIntoViewIfNeeded();
+  await themePage.screenshot({path:folder+"/390x844-light-list.png"});
+  const lightOverflow=await themePage.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+  check(lightOverflow<=2,"light mobile list horizontal overflow "+lightOverflow);
   await themeContext.close();
   fs.writeFileSync(folder+"/measurements.json",JSON.stringify(report,null,2));
   console.log("AIWA_WORK_DIRECTORY_AUDIT_PASS",JSON.stringify({viewports:viewports.length,projects:slugs.length,filters:Object.keys(expected).length,views:["grid","list"],themes:["dark","light"]}));
