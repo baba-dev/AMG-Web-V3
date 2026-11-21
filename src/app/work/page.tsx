@@ -28,10 +28,10 @@ export default function WorkDirectory() {
         <section className="work-page__paper" aria-labelledby="work-index-title" id="work-index">
           <div className="work-page__index-header work-page__gutter">
             <div>
-              <span className="work-page__eyebrow">01 / THE PORTFOLIO</span>
-              <h2 id="work-index-title">THE WORK<span>.</span></h2>
+              <span className="work-page__eyebrow">01 / PORTFOLIO</span>
+              <h2 id="work-index-title">Selected work<span>.</span></h2>
             </div>
-            <p>Brand worlds, digital experiences and campaigns built around the ambitions of the people behind them.</p>
+            <p>The brands, ideas and digital experiences we have helped bring into focus.</p>
           </div>
           <WorkGallery />
           <p className="work-page__disclosure work-page__gutter">Illustrations shown are original conceptual editorial artwork, not documentary campaign photography.</p>
