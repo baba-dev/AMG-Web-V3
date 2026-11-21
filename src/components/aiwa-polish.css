@@ -5,7 +5,8 @@
  * One deliberate type hierarchy:
  *  - Anton: oversized poster titles and campaign labels
  *  - Barlow Condensed italic: real editorial emphasis
- *  - Geist: readable body copy and utility details
+ *  - Space Grotesk (Google Fonts): readable UI and fallback body copy
+ *  - Licensed Roc Grotesk Regular: optional private-build body face
  *  - Geist Mono: numbered indices and timings
  *
  * One neutral palette across light editorial sections, and one shared gutter.
@@ -14,7 +15,8 @@
  */
 .aiwa-site {
   --aiwa-gutter: clamp(18px, 2.5vw, 48px);
-  --aiwa-font-body: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --aiwa-font-interface: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  --aiwa-font-body: var(--aiwa-font-interface);
   --aiwa-font-display: var(--font-aiwa-poster), Impact, "Arial Narrow", sans-serif;
   --aiwa-font-italic: var(--font-aiwa-display), "Arial Narrow", sans-serif;
   --aiwa-paper: #f5f5f3;
@@ -191,3 +193,48 @@
 .aiwa-footer__contact address { margin-bottom: 12px; }
 .aiwa-footer__contact > a { margin-top: 6px; }
 .aiwa-footer__contact .aiwa-footer__directions { margin-top: 8px; }
+
+/* The regular-weight licensed font is supplied only by a protected build
+ * variable. This URL is never requested when that variable is absent.
+ * Font files must not be committed to the public source repository. */
+@font-face {
+  font-family: "Aiwa Roc Grotesk Web";
+  src: url("/fonts/roc-grotesk-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+html[data-aiwa-roc="true"] .aiwa-site {
+  --aiwa-font-body: "Aiwa Roc Grotesk Web", var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+}
+html[data-aiwa-roc="true"] .aiwa-site :where(
+  .aiwa-specialisms__footer p,
+  .aiwa-about__description,
+  .aiwa-work__caption span,
+  .aiwa-contact__message p,
+  .aiwa-office__current-story p,
+  .aiwa-office__contact address,
+  .aiwa-footer__contact address
+) {
+  font-weight: 400;
+}
+
+/* Small interface labels use Space Grotesk's real 300–700 weight range.
+ * Keep Anton for the huge condensed letterforms and Barlow for true italics. */
+.aiwa-header__link,
+.aiwa-header__offices,
+.aiwa-mobile-nav__link,
+.aiwa-mobile-nav__location,
+.aiwa-specialisms__top h2,
+.aiwa-about__topline,
+.aiwa-work__eyebrow,
+.aiwa-contact__topline,
+.aiwa-office__top,
+.aiwa-footer__eyebrow {
+  font-family: var(--aiwa-font-interface);
+  font-weight: 700;
+  letter-spacing: -.027em;
+}
+.aiwa-header__link,
+.aiwa-header__offices { font-size: clamp(12px, .92vw, 15px); }
+.aiwa-mobile-nav__link { font-size: clamp(25px, 6.3vw, 43px); }
