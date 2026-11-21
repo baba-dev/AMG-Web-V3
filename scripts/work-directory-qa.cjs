@@ -37,9 +37,82 @@ async function geometry(page){return page.evaluate(()=>{
     check(initial.overflow<=2,width+": initial overflow "+initial.overflow);
     check(/space[_ ]?grotesk|aiwa roc grotesk/i.test(initial.font),
       width+": Work font stack differs "+initial.font);
-    assert.equal(initial.paper,"rgb(245, 245, 243)",width+": paper colour mismatch");
+    assert.equal(initial.paper,"rgb(18, 20, 23)",width+": dark Work surface mismatch");
+    const surfaces=await page.evaluate(()=>Object.fromEntries(
+      [".work-gallery",".work-process",".aiwa-footer"].map(selector=>[
+        selector,getComputedStyle(document.querySelector(selector)).backgroundColor
+      ])
+    ));
+    assert.equal(surfaces[".work-gallery"],"rgb(18, 20, 23)",width+": dark gallery");
+    assert.equal(surfaces[".work-process"],"rgb(27, 29, 32)",width+": dark process");
+    assert.equal(surfaces[".aiwa-footer"],"rgb(18, 20, 23)",width+": dark footer");
     const hrefs=await page.locator(".work-gallery__link").evaluateAll(nodes=>nodes.map(n=>new URL(n.href).pathname));
     assert.deepEqual(hrefs,slugs.map(slug=>"/work/"+slug),width+": local project routes missing");
+    const listSwitch=page.locator('[data-view-button="list"]');
+    const gridSwitch=page.locator('[data-view-button="grid"]');
+    await listSwitch.click();
+    assert.equal(await listSwitch.getAttribute("aria-pressed"),"true",width+": list toggle state");
+    assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"),"list",width+": list view");
+    assert.equal(new URL(page.url()).searchParams.get("view"),"list",width+": list deep link");
+    assert.equal(await page.locator(".work-gallery__link").count(),6,width+": list retains all routes");
+    if(width<=767){
+      const mobileType=await page.locator("[data-work-project]").first().evaluate(card=>{
+        const title=card.querySelector(".work-gallery__title").getBoundingClientRect();
+        const discipline=card.querySelector(".work-gallery__discipline").getBoundingClientRect();
+        const client=card.querySelector(".work-gallery__client");
+        return {subtitleBottom:title.bottom,disciplineTop:discipline.top,
+          clientSize:parseFloat(getComputedStyle(client).fontSize)};
+      });
+      check(mobileType.disciplineTop>=mobileType.subtitleBottom-1,
+        width+": mobile list metadata overlaps subtitle "+JSON.stringify(mobileType));
+      check(mobileType.clientSize>=19,width+": mobile list client typography too small");
+      const filters=await page.locator(".work-gallery__filters button").evaluateAll(nodes=>
+        nodes.map(node=>{
+          const r=node.getBoundingClientRect();
+          return {left:r.left,right:r.right,top:r.top,height:r.height};
+        })
+      );
+      check(filters.length===4 && filters.every(r=>r.left>=0 && r.right<=width+1),
+        width+": filter category clipped "+JSON.stringify(filters));
+      check(Math.abs(filters[0].top-filters[1].top)<=1 &&
+            Math.abs(filters[2].top-filters[3].top)<=1 &&
+            filters[2].top>filters[0].top,
+        width+": expected a stable two-row filter layout");
+    }
+    await page.locator('[data-filter-button="brand"]').click();
+    assert.equal(await page.locator("[data-work-project]").count(),3,width+": list filter works");
+    assert.equal(new URL(page.url()).searchParams.get("view"),"list",width+": filter keeps view");
+    await page.locator('[data-filter-button="all"]').click();
+    check((await geometry(page)).overflow<=2,width+": list causes horizontal overflow");
+    // Stable screenshot composition: start at controls below the sticky header.
+    await page.evaluate(()=>{
+      const controls=document.querySelector(".work-gallery__filterbar");
+      const header=document.querySelector(".aiwa-inner-header");
+      const top=window.scrollY+controls.getBoundingClientRect().top-
+        (header?.getBoundingClientRect().height||0);
+      window.scrollTo({top:Math.max(0,top),behavior:"instant"});
+    });
+    await page.screenshot({path:folder+"/"+width+"x"+height+"-list.png"});
+    if(width>=950){
+      const firstLink=page.locator(".work-gallery__link").first();
+      await firstLink.hover();
+      const artRevealed=await firstLink.locator(".work-gallery__art").evaluate(el=>{
+        const css=getComputedStyle(el);
+        return css.visibility==="visible" && Number(css.opacity)>.85;
+      });
+      check(artRevealed,width+": mouse-hover image preview should reveal");
+      const disciplineOpacity=await firstLink.locator(".work-gallery__discipline")
+        .evaluate(el=>Number(getComputedStyle(el).opacity));
+      check(disciplineOpacity<=.1,width+": image preview must not obscure the discipline label");
+      await page.screenshot({path:folder+"/"+width+"x"+height+"-list-hover.png"});
+    }
+    await page.goto(base+"/work",{waitUntil:"domcontentloaded"});
+    await settle(page);
+    assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"),"list",
+      width+": list preference should restore from storage");
+    await gridSwitch.click();
+    assert.equal(await gridSwitch.getAttribute("aria-pressed"),"true",width+": grid state");
+    assert.equal(new URL(page.url()).searchParams.get("view"),null,width+": grid canonical URL");
     for(const [name,count] of Object.entries(expected)){
      await page.locator('[data-filter-button="'+name+'"]').click();
      await page.waitForTimeout(80);
@@ -65,7 +138,7 @@ async function geometry(page){return page.evaluate(()=>{
       await page.keyboard.press("Escape");
       assert.equal(await menu.getAttribute("aria-expanded"),"false");
       const taps=await page.evaluate(()=>[...document.querySelectorAll(
-        ".aiwa-inner-header__menu,.aiwa-theme-toggle,.work-gallery__filters button"
+        ".aiwa-inner-header__menu,.aiwa-theme-toggle,.work-gallery__filters button,.work-gallery__view-controls button"
        )].map(x=>({title:x.textContent.trim(),height:x.getBoundingClientRect().height})));
       check(taps.every(t=>t.height>=43.5),
         width+": essential touch targets too short "+JSON.stringify(taps));
@@ -121,9 +194,26 @@ async function geometry(page){return page.evaluate(()=>{
   check(afterThemeBg!==initialThemeBg,"light theme must change the Work hero surface");
   check(await themePage.locator(".aiwa-inner-header").evaluate(el=>getComputedStyle(el).color)==="rgb(10, 10, 10)",
     "light theme header must have readable dark text");
-  assert.equal(await themePage.locator(".work-page__paper").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 245, 243)");
+  assert.equal(await themePage.locator(".work-page__paper").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
+  assert.equal(await themePage.locator(".work-gallery").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
+  assert.equal(await themePage.locator(".work-process").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(232, 229, 223)");
+  assert.equal(await themePage.locator(".aiwa-footer").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
+  await themePage.locator('[data-view-button="list"]').click();
+  const frameLightList=()=>themePage.evaluate(()=>{
+    const controls=document.querySelector(".work-gallery__filterbar");
+    const header=document.querySelector(".aiwa-inner-header");
+    window.scrollTo({top:Math.max(0,window.scrollY+controls.getBoundingClientRect().top-
+      (header?.getBoundingClientRect().height||0)),behavior:"instant"});
+  });
+  await frameLightList();
+  await themePage.screenshot({path:folder+"/1440x900-light-list.png"});
+  await themePage.setViewportSize({width:390,height:844});
+  await frameLightList();
+  await themePage.screenshot({path:folder+"/390x844-light-list.png"});
+  const lightOverflow=await themePage.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
+  check(lightOverflow<=2,"light mobile list horizontal overflow "+lightOverflow);
   await themeContext.close();
   fs.writeFileSync(folder+"/measurements.json",JSON.stringify(report,null,2));
-  console.log("AIWA_WORK_DIRECTORY_AUDIT_PASS",JSON.stringify({viewports:viewports.length,projects:slugs.length,filters:Object.keys(expected).length}));
+  console.log("AIWA_WORK_DIRECTORY_AUDIT_PASS",JSON.stringify({viewports:viewports.length,projects:slugs.length,filters:Object.keys(expected).length,views:["grid","list"],themes:["dark","light"]}));
  }finally{await browser.close();}
 })().catch(error=>{console.error("AIWA_WORK_DIRECTORY_AUDIT_FAIL",error);process.exitCode=1;});
