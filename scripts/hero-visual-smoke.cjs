@@ -213,7 +213,7 @@ async function testViewport(browser, width, height) {
   assert(initial.headline.includes("DOMINATE") && initial.headline.includes("WITH AIWA."),"Second line missing");
   assert.equal(initial.categories.join("|"),"Global|Consumer|Corporate|Sports|Social|Studio|TECH");
   assert(initial.placeholderLinks,"All category links must currently be #");
-  const expectedHeroHeight = width <= 720 ? height*.73 : height;
+  const expectedHeroHeight = width <= 720 ? height*.75 : height;
   assert(closeTo(initial.hero.height,expectedHeroHeight,3),
     "Hero must match desktop full-screen or reference mobile film fold");
   assert(closeTo(initial.film.top,initial.hero.bottom,3),"Film must follow hero in document flow");

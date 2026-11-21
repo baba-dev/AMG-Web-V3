@@ -808,3 +808,22 @@
     pointer-events:none;
   }
 }
+
+
+/* Precisely align mobile fold with the captured 390x844 reference:
+   headline ≈ 22% down, cue ≈ 66% down, footage starts at 75%.
+   The official YouTube still has baked-in letterbox bars. Cropping the
+   background optically exposes the footage at the intended section seam. */
+@media(max-width:720px) {
+ .aiwa-sequence {height:175svh;}
+ .aiwa-hero {height:75svh;}
+ .aiwa-hero__center {inset:clamp(157px,22svh,200px) 0 auto;}
+ .aiwa-hero__bottom {top:clamp(450px,66svh,590px);bottom:auto;}
+ .aiwa-film-section {
+   background-size:auto 138%;
+   background-position:50% 50%;
+ }
+}
+@media(max-width:390px) {
+ .aiwa-hero__center {inset:clamp(157px,22svh,200px) 0 auto;}
+}
