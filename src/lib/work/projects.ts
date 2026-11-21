@@ -23,6 +23,9 @@ export type WorkProject = Readonly<{
   shortDescription: string;
   alt: string;
   artwork: `/media/work/${string}.svg`;
+  /** Optional artwork published on Aiwa's former public website. */
+  archiveArtwork?: `/media/archive/${string}.webp`;
+  archiveLabel?: string;
   href: `https://aiwamediagroup.com/${string}`;
   visualLabel: string;
   /** Set true only for the original editorial art shipped with this site. */
@@ -43,6 +46,8 @@ export const workProjects = [
     shortDescription: "Brand guidelines and a consistent visual identity for MYMO.",
     alt: "Original conceptual artwork of a mobile banking network, with a stylized SIM chip and connected nodes",
     artwork: "/media/work/mymo-network.svg",
+    archiveArtwork: "/media/archive/mymo-coffee.webp",
+    archiveLabel: "PUBLISHED AIWA ARCHIVE",
     href: "https://aiwamediagroup.com/branding/",
     visualLabel: "CONNECTION / IDENTITY",
     conceptualArt: true,
@@ -55,6 +60,8 @@ export const workProjects = [
     shortDescription: "Retail brand identity and design systems for Casabella Oman.",
     alt: "Original editorial art showing a sculptural chair-like object against vermilion and pink forms",
     artwork: "/media/work/casabella-oman.svg",
+    archiveArtwork: "/media/archive/casabella-discount.webp",
+    archiveLabel: "PUBLISHED AIWA ARCHIVE",
     href: "https://aiwamediagroup.com/branding/",
     visualLabel: "DESIGN / RETAIL",
     conceptualArt: true,

@@ -516,3 +516,138 @@
   font-weight:400;
 }
 .aiwa-about__indicator {display:none;}
+
+/* Authentic Aiwa archive wall. The four frames are recovered from Aiwa's
+   former public website and are presented as an editorial contact sheet,
+   rather than being misrepresented as a single campaign photograph. */
+.aiwa-about__archive {
+  --archive-gap: clamp(3px, .34vw, 6px);
+  background: #111;
+}
+.aiwa-about__archive-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--archive-gap);
+  background: #f5f5f3;
+}
+.aiwa-about__archive-frame {
+  position: relative;
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #171717;
+}
+.aiwa-about__archive-frame--lead { grid-area: 1 / 1 / 3 / 3; }
+.aiwa-about__archive-frame--casabella { grid-area: 1 / 3 / 2 / 5; }
+.aiwa-about__archive-frame--mymo { grid-area: 2 / 3 / 3 / 4; }
+.aiwa-about__archive-frame--production { grid-area: 2 / 4 / 3 / 5; }
+.aiwa-about__archive .aiwa-about__archive-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.78) contrast(1.08);
+  transform: scale(1.015);
+  transition: filter .7s cubic-bezier(.22,1,.36,1),
+              transform 1.2s cubic-bezier(.22,1,.36,1);
+}
+.aiwa-about__archive-frame--lead .aiwa-about__archive-image { object-position: center 42%; }
+.aiwa-about__archive-frame--production .aiwa-about__archive-image { object-position: center 38%; }
+.aiwa-about__archive:hover .aiwa-about__archive-image {
+  filter: saturate(1.05) contrast(1.04);
+  transform: scale(1.055);
+}
+.aiwa-about__archive-frame:nth-child(2) .aiwa-about__archive-image { transition-delay: 45ms; }
+.aiwa-about__archive-frame:nth-child(3) .aiwa-about__archive-image { transition-delay: 90ms; }
+.aiwa-about__archive-frame:nth-child(4) .aiwa-about__archive-image { transition-delay: 135ms; }
+.aiwa-about__archive::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 62%, rgba(0,0,0,.5)),
+    linear-gradient(90deg, rgba(255,72,29,.18), transparent 34%, transparent 72%, rgba(0,161,255,.12));
+  mix-blend-mode: multiply;
+}
+.aiwa-about__archive-signal {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(82px, 9vw, 142px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.82);
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(7,7,7,.66);
+  box-shadow: 0 0 0 8px rgba(7,7,7,.18), 0 15px 38px rgba(0,0,0,.28);
+  transform: translate(-50%,-50%);
+  backdrop-filter: blur(5px);
+  font: 600 clamp(6px, .48vw, 8px)/1 var(--font-geist-mono), ui-monospace, monospace;
+  letter-spacing: .04em;
+  text-align: center;
+}
+.aiwa-about__archive-signal::before,
+.aiwa-about__archive-signal::after {
+  content: "";
+  position: absolute;
+  inset: 13%;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 50%;
+}
+.aiwa-about__archive-signal::after { inset: 28%; }
+.aiwa-about__archive-signal span:first-child {
+  position: relative;
+  z-index: 1;
+  margin-top: 10%;
+  font: 400 clamp(21px, 2.4vw, 39px)/.8 var(--font-aiwa-poster), Impact, sans-serif;
+  letter-spacing: -.035em;
+}
+.aiwa-about__archive-signal span:not(:first-child) { position: relative; z-index: 1; opacity: .72; }
+.aiwa-about__archive figcaption {
+  left: clamp(12px,1.5vw,24px);
+  right: clamp(12px,1.5vw,24px);
+  bottom: clamp(12px,1.5vw,24px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: clamp(11px, .95vw, 15px);
+}
+.aiwa-about__archive figcaption span:last-child {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(8px, .62vw, 10px);
+  letter-spacing: .02em;
+  text-align: right;
+}
+@media(max-width:700px) {
+  .aiwa-about__archive { aspect-ratio: 1 / 1.08; }
+  .aiwa-about__archive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 1.45fr 1fr 1fr;
+  }
+  .aiwa-about__archive-frame--lead { grid-area: 1 / 1 / 2 / 3; }
+  .aiwa-about__archive-frame--casabella { grid-area: 2 / 1 / 3 / 2; }
+  .aiwa-about__archive-frame--mymo { grid-area: 2 / 2 / 3 / 3; }
+  .aiwa-about__archive-frame--production { grid-area: 3 / 1 / 4 / 3; }
+  .aiwa-about__archive-frame--production .aiwa-about__archive-image { object-position: center 32%; }
+  .aiwa-about__archive-signal { width: 88px; top: 46%; }
+  .aiwa-about__archive-signal span:first-child { font-size: 24px; }
+  .aiwa-about__archive figcaption { font-size: 10px; }
+  .aiwa-about__archive figcaption span:last-child { display: none; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .aiwa-about__archive .aiwa-about__archive-image { transition: none; transform: none; }
+}

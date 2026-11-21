@@ -43,7 +43,7 @@ async function visit(browser,w,h,reduce=false) {
   assert(close(values.officeBottom,values.footerTop,4),"Footer must immediately follow Office");
   assert.equal(values.action,"https://aiwamediagroup.com/contact-us/","Contact CTA must work");
   assert(values.contactTitle.includes("LET'S MAKE") && values.contactTitle.includes("SOME NOISE."),"Contact heading missing");
-  assert.deepEqual(values.panels,["muscat","studio","motion"],"Expected three editorial chapters");
+  assert.deepEqual(values.panels,["muscat","futurecraft","production"],"Expected three Aiwa editorial chapters");
   assert.equal(values.numberButtons,3);
   assert(values.address.includes("HGRW+VMV") && values.address.includes("Muscat"),"Location facts missing");
   assert.equal(values.tel,"tel:+96896138461");
@@ -114,21 +114,21 @@ async function verifyGallery(page,w,h) {
   assert.equal(await active(),"muscat");
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-office-01.png"});
   await page.getByRole("button",{name:"Next image"}).click();
-  assert.equal(await active(),"studio");
+  assert.equal(await active(),"futurecraft");
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-office-02.png"});
-  await page.getByRole("button",{name:"Show image 3: 03 / THE ENERGY"}).click();
-  assert.equal(await active(),"motion");
+  await page.getByRole("button",{name:"Show image 3: 03 / THE FRAME"}).click();
+  assert.equal(await active(),"production");
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-office-03.png"});
   await gallery.focus();
   await page.keyboard.press("ArrowLeft");
-  assert.equal(await active(),"studio","ArrowLeft should reverse gallery selection");
+  assert.equal(await active(),"futurecraft","ArrowLeft should reverse gallery selection");
   await page.getByRole("button",{name:"Previous image"}).click();
   assert.equal(await active(),"muscat");
   const selected=await page.locator(".aiwa-office__selectors [aria-pressed='true']").count();
   assert.equal(selected,1,"Exactly one selected scene button");
   const link=await page.locator(".aiwa-office__contact a[href^='https://www.google.com/maps/search/']").count();
   assert.equal(link,1,"Verified address must have a directions action");
-  return {initial:"muscat",next:"studio",selected:"motion",keyboard:"studio",reset:"muscat"};
+  return {initial:"muscat",next:"futurecraft",selected:"production",keyboard:"futurecraft",reset:"muscat"};
 }
 
 async function testBackTop(page) {
