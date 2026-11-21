@@ -109,7 +109,7 @@ export function AiwaRouteTransition() {
       setScene({ phase: "covering", label, kind: portal ? "portal" : "signal", portal });
 
       // Next's own prefetch keeps local pages responsive on static Cloudflare export.
-      router.prefetch(target.href);
+      try { router.prefetch(target.href); } catch { /* navigation proceeds without prefetch */ }
       schedule(() => {
         if (pending.current !== target) return;
         try {
@@ -121,7 +121,7 @@ export function AiwaRouteTransition() {
         schedule(() => {
           if (pending.current === target) window.location.assign(target.href);
         }, 4300);
-      }, portal ? 510 : 380);
+      }, portal ? 510 : 490);
     };
     document.addEventListener("click", handleClick, true);
     return () => {
@@ -142,7 +142,7 @@ export function AiwaRouteTransition() {
 
   return (
     <>
-      <span className="sr-only" role="status" aria-live="polite">
+      <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {scene.phase === "covering" ? "Opening " + scene.label : ""}
       </span>
       <div className="aiwa-route-stage" data-phase={scene.phase} data-kind={scene.kind}

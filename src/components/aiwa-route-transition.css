@@ -164,7 +164,7 @@
 @keyframes portal-dim {from {opacity:0;} to {opacity:1;}}
 
 /* Post-navigation choreography: the stage uncovers content already in place. */
-html[data-aiwa-route-phase="revealing"] :is(
+html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) :is(
   .work-hero h1 > span,
   .case-hero h1,
   .case-hero__display > span,
@@ -174,9 +174,9 @@ html[data-aiwa-route-phase="revealing"] :is(
 ) {
   animation:signal-arrive .62s cubic-bezier(.2,.7,.25,1) both;
 }
-html[data-aiwa-route-phase="revealing"] .case-hero__display > span:nth-child(2),
-html[data-aiwa-route-phase="revealing"] .work-hero h1 > span:nth-child(2) {animation-delay:.08s;}
-html[data-aiwa-route-phase="revealing"] .work-hero h1 > span:nth-child(3) {animation-delay:.13s;}
+html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) .case-hero__display > span:nth-child(2),
+html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) .work-hero h1 > span:nth-child(2) {animation-delay:.08s;}
+html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) .work-hero h1 > span:nth-child(3) {animation-delay:.13s;}
 @keyframes signal-arrive {
   0% {opacity:.25;transform:translate3d(0,30px,0);}
   100% {opacity:1;transform:translate3d(0,0,0);}
