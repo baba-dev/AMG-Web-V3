@@ -10,19 +10,13 @@ import { AiwaContact } from "@/components/aiwa-contact";
 import { AiwaOffice } from "@/components/aiwa-office";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ModeToggle } from "@/components/mode-toggle";
+import { siteNavigation } from "@/lib/site-navigation";
 import { AiwaFilmPlayer, type FilmOrigin } from "@/components/aiwa-film-player";
 import "./aiwa-hero.css";
 // Editorial typography, spacing and touch-target harmonization.
 import "./aiwa-polish.css";
 
-const navigation = [
-  { label: "WORK", href: "#work" },
-  { label: "ABOUT", href: "#about" },
-  { label: "SPECIALISMS", href: "#specialisms" },
-  { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
-  { label: "CONTACT US", href: "#contact" },
-  { label: "LATEST", href: "https://www.linkedin.com/company/aiwamediagroup/" },
-] as const;
+const navigation = siteNavigation;
 
 const candidateId = process.env.NEXT_PUBLIC_AIWA_SHOWREEL_YOUTUBE_ID;
 const youtubeId = candidateId && /^[a-zA-Z0-9_-]{11}$/.test(candidateId)

@@ -1,60 +1,49 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { workProjects } from "@/lib/work/projects";
+import { ArrowUpRight } from "lucide-react";
+import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
+import { AiwaGlobalFooter } from "@/components/aiwa-footer";
+import { WorkGallery } from "@/components/work-gallery";
+import { WorkProcess } from "@/components/work-process";
+import { WorkHero } from "@/components/work-hero";
+import "@/components/aiwa-polish.css";
 import "./work-directory.css";
 
 export const metadata: Metadata = {
   title: "Selected Work | Aiwa Media Group",
-  description:
-    "A selection of Aiwa Media Group's documented branding, marketing, production and digital experience projects.",
+  description: "Explore selected Aiwa Media Group identity, digital marketing, content production and commerce projects.",
+  alternates: { canonical: "/work/" },
+  openGraph: {
+    title: "Selected Work — Aiwa Media Group",
+    description: "Ideas that make noise. Explore the people, brands and creative projects behind Aiwa's work.",
+    type: "website",
+  },
 };
 
 export default function WorkDirectory() {
   return (
-    <main className="aiwa-directory">
-      <a className="aiwa-directory__skip" href="#aiwa-work-projects">SKIP TO PROJECTS</a>
-      <header className="aiwa-directory__nav">
-        <Link className="aiwa-directory__brand" href="/">AIWA</Link>
-        <Link className="aiwa-directory__back" href="/#work">
-          <ArrowLeft size={18} aria-hidden="true"/> BACK TO CAMPAIGNS
-        </Link>
-      </header>
-      <div className="aiwa-directory__intro">
-        <span className="aiwa-directory__eyebrow">AIWA / SELECTED WORK</span>
-        <h1>THE WORK<span> SPEAKS.</span></h1>
-        <p>
-          A selection of the brands, businesses and ideas Aiwa has worked with.
-          Explore the documented projects and services behind each story.
-        </p>
-      </div>
-      <ol className="aiwa-directory__grid" id="aiwa-work-projects">
-        {workProjects.map((project, index) => (
-          <li key={project.slug} className="aiwa-directory__project">
-            <a href={project.href} target="_blank" rel="noopener noreferrer"
-              aria-label={"View Aiwa's " + project.client + " project in a new tab"}>
-              <div className="aiwa-directory__visual">
-                <Image src={project.artwork} width={960} height={740} alt={project.alt}
-                  unoptimized loading="lazy"/>
-                <span>0{index+1} / 0{workProjects.length}</span>
-                <ArrowUpRight size={30} aria-hidden="true"/>
-              </div>
-              <div className="aiwa-directory__meta">
-                <div><strong>{project.client}</strong><small>{project.discipline}</small></div>
-                <p>{project.shortDescription}</p>
-              </div>
-            </a>
-          </li>
-        ))}
-      </ol>
-      <p className="aiwa-directory__disclosure">The compositions above are original editorial interpretations, not photographs of the referenced client campaigns. Project summaries link to Aiwa's published work.</p>
-      <footer className="aiwa-directory__footer">
-        <p>GOOD WORK BEGINS WITH A CONVERSATION.</p>
-        <a href="https://aiwamediagroup.com/contact-us/">
-          GET IN TOUCH <ArrowUpRight size={19} aria-hidden="true"/>
-        </a>
-      </footer>
-    </main>
+    <div className="aiwa-site work-page">
+      <AiwaInnerHeader />
+      <main id="main-content">
+        <WorkHero />
+        <section className="work-page__paper" aria-labelledby="work-index-title" id="work-index">
+          <div className="work-page__index-header work-page__gutter">
+            <div>
+              <span className="work-page__eyebrow">01 / THE PORTFOLIO</span>
+              <h2 id="work-index-title">THE WORK<span>.</span></h2>
+            </div>
+            <p>Brand worlds, digital experiences and campaigns built around the ambitions of the people behind them.</p>
+          </div>
+          <WorkGallery />
+          <p className="work-page__disclosure work-page__gutter">Illustrations shown are original conceptual editorial artwork, not documentary campaign photography.</p>
+        </section>
+        <WorkProcess />
+        <section className="work-page__outro work-page__gutter" aria-labelledby="work-outro-title">
+          <span className="work-page__eyebrow">HAVE SOMETHING IN MIND?</span>
+          <h2 id="work-outro-title">LET’S MAKE<br/><em>SOME NOISE.</em></h2>
+          <a href="/#contact" className="work-page__contact-link">START A CONVERSATION <ArrowUpRight size={25} aria-hidden="true"/></a>
+        </section>
+      </main>
+      <AiwaGlobalFooter />
+    </div>
   );
 }

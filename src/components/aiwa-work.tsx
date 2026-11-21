@@ -24,11 +24,8 @@ function WorkCard({ project, index }: { project: WorkProject; index: number }) {
   return (
     <article className={"aiwa-work__slot aiwa-work__slot--" + project.slug}
       data-work-card={project.slug} data-work-index={index}>
-      <a href={project.href} className="aiwa-work__card"
-        target="_blank" rel="noopener noreferrer"
-        onMouseEnter={playPreview} onMouseLeave={stopPreview}
-        onFocus={playPreview} onBlur={stopPreview}
-        aria-label={project.client + " — " + project.title + "; open documented Aiwa work in a new tab"}>
+      <Link href={"/work/"+project.slug} className="aiwa-work__card"
+        aria-label={project.client + " — " + project.title + "; explore project overview"}>
         <span className="aiwa-work__media">
           <Image src={project.artwork} width={960} height={740} alt={project.alt}
             unoptimized loading="lazy" draggable={false}/>
@@ -46,7 +43,7 @@ function WorkCard({ project, index }: { project: WorkProject; index: number }) {
           <strong>{project.client}</strong>
           <span>{project.title}</span>
         </span>
-      </a>
+      </Link>
     </article>
   );
 }
