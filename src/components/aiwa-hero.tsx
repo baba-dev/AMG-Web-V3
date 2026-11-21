@@ -5,11 +5,12 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
 import { AiwaAbout } from "@/components/aiwa-about";
+import { AiwaWorkShowcase } from "@/components/aiwa-work";
 import { ModeToggle } from "@/components/mode-toggle";
 import "./aiwa-hero.css";
 
 const navigation = [
-  { label: "WORK", href: "#specialisms" },
+  { label: "WORK", href: "#work" },
   { label: "ABOUT", href: "#about" },
   { label: "SPECIALISMS", href: "#specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
@@ -312,6 +313,7 @@ export function AiwaHero() {
 
       <AiwaSpecialisms />
       <AiwaAbout />
+      <AiwaWorkShowcase />
 
       <dialog className="aiwa-film-dialog" ref={dialogRef} aria-label="Aiwa Media Group full film"
         onClose={() => setFullFilmOpen(false)}

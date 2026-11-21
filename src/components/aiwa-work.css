@@ -1,0 +1,196 @@
+.aiwa-work {
+  --work-paper: #0a0a0a;
+  --work-ink: #f7f7f4;
+  --work-muted: #b8b8b5;
+  --work-gutter: clamp(18px, 3vw, 58px);
+  position: relative;
+  isolation: isolate;
+  background: var(--work-paper);
+  color: var(--work-ink);
+  overflow: clip;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.aiwa-work *, .aiwa-work *::before, .aiwa-work *::after { box-sizing: border-box; }
+.aiwa-work__stage { position: relative; width: 100%; }
+.aiwa-work__scene { position: relative; width: 100%; min-height: 100svh; padding: clamp(96px, 13vh, 156px) var(--work-gutter) 92px; }
+.aiwa-work__header { position: relative; z-index: 1; display: flex; align-items: center; flex-direction: column; gap: 30px; text-align: center; pointer-events: none; }
+.aiwa-work__eyebrow { display: inline-grid; place-items: center; padding: 10px 17px; border: 1px solid rgba(255,255,255,.28); font: 800 18px/1 var(--font-aiwa-display), Impact, sans-serif; letter-spacing: .02em; }
+.aiwa-work__headline { margin: 0; color: inherit; font: 900 clamp(100px, 16.2vw, 245px)/.76 var(--font-aiwa-display), Impact, "Arial Narrow", sans-serif; letter-spacing: -.048em; text-transform: uppercase; }
+.aiwa-work__headline span { display: block; }
+.aiwa-work__cards { position: relative; z-index: 3; width: min(1280px,100%); margin: 96px auto 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: clamp(34px, 6vw, 100px); }
+.aiwa-work__slot { min-width: 0; }
+.aiwa-work__card { display: block; width: 100%; color: inherit; text-decoration: none; }
+.aiwa-work__media { position: relative; display: block; overflow: hidden; width: 100%; aspect-ratio: 1.297 / 1; background: #333; }
+.aiwa-work__media > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.aiwa-work__media-marker { position: absolute; left: 17px; top: 16px; color: #fff; font: 800 11px/1 monospace; letter-spacing: .08em; text-shadow: 0 1px 10px #0006; }
+.aiwa-work__media-open { position: absolute; right: 17px; bottom: 17px; display: grid; place-items: center; width: 46px; height: 46px; color: #101010; background: white; border-radius: 50%; }
+.aiwa-work__caption { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-top: 13px; font-size: clamp(12px, .9vw, 15px); }
+.aiwa-work__caption strong { font: 900 clamp(17px, 1.6vw, 24px)/1 var(--font-aiwa-display), Impact, sans-serif; text-transform: uppercase; }
+.aiwa-work__caption span { max-width: 55%; color: var(--work-muted); text-align: right; line-height: 1.25; }
+.aiwa-work__cta { position: relative; z-index: 15; display: flex; align-items: center; justify-content: space-between; gap: 46px; width: fit-content; min-width: 234px; min-height: 59px; margin: 72px auto 0; padding: 0 19px; background: #f7f7f4; color: #090909; text-decoration: none; font: 900 17px/1 var(--font-aiwa-display), Impact, sans-serif; }
+.aiwa-work__cta svg { flex: none; }
+.aiwa-work :is(a):focus-visible { outline: 3px solid currentColor; outline-offset: 6px; }
+.light .aiwa-work { --work-paper: #171713; --work-ink: #f7f7f4; --work-muted: #b8b8b5; }
+@media (max-width: 767px) {
+  .aiwa-work__scene { padding: 78px 16px 80px; }
+  .aiwa-work__header { gap: 23px; }
+  .aiwa-work__eyebrow { font-size: 14px; padding: 8px 14px; }
+  .aiwa-work__headline { font-size: clamp(59px, 14.7vw, 115px); line-height: .82; }
+  .aiwa-work__cards { grid-template-columns: 1fr; margin-top: 52px; gap: 60px; }
+  .aiwa-work__caption { padding-top: 10px; }
+  .aiwa-work__cta { min-width: 202px; margin-top: 58px; font-size: 15px; }
+}
+
+/* Desktop: the real, full-height section scrolls naturally while its inner
+   scene pins. Only transform/opacity change for the traversing cards. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .aiwa-work[data-motion="desktop"] .aiwa-work__stage { height: 330svh; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__scene {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__header {
+    position: absolute;
+    z-index: 2;
+    top: 45.5%;
+    left: 50%;
+    width: max-content;
+    max-width: 100%;
+    transform: translate(-50%, -50%);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__headline {
+    font-size: clamp(116px, 15.9vw, 242px);
+    line-height: .76;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__cards {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: block;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot {
+    position: absolute;
+    left: var(--slot-left);
+    top: var(--slot-top);
+    width: var(--slot-width);
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot[data-active="true"] { pointer-events: auto; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--mymo-express { --slot-left: 25%; --slot-top: 43%; --slot-width: min(34vw, 490px); z-index: 6; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--casabella-oman { --slot-left: 74%; --slot-top: 34%; --slot-width: min(30vw, 450px); z-index: 5; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--best-genetco { --slot-left: 28%; --slot-top: 55%; --slot-width: min(32vw, 455px); z-index: 7; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--aqua-petro { --slot-left: 74%; --slot-top: 49%; --slot-width: min(33vw, 475px); z-index: 6; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--razmazaan { --slot-left: 29%; --slot-top: 31%; --slot-width: min(31vw, 445px); z-index: 7; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--vitamin-phones { --slot-left: 75%; --slot-top: 62%; --slot-width: min(32vw, 463px); z-index: 6; }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__cta {
+    position: absolute;
+    z-index: 15;
+    bottom: 3.2svh;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+  }
+}
+
+/* Mobile is a distinct, non-pinned visual narrative. Cards enter from
+   alternating gutters and remain fully keyboard reachable. */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .aiwa-work[data-motion="mobile"] .aiwa-work__stage,
+  .aiwa-work[data-motion="mobile"] .aiwa-work__scene { height: auto; min-height: 0; }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__scene { padding-top: 78px; padding-bottom: 55px; }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__header {
+    position: sticky;
+    top: 22svh;
+    z-index: 1;
+    padding-bottom: 15px;
+    margin-bottom: 0;
+  }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__cards {
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 5vw, 43px);
+    margin-top: 80px;
+  }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__slot {
+    width: min(83%, 410px);
+    opacity: 0;
+    transform: translate3d(0,78px,0) rotate(-5deg) scale(.91);
+    transform-origin: center;
+    transition:
+      opacity .68s cubic-bezier(.16,1,.3,1),
+      transform 1.03s cubic-bezier(.16,1,.3,1);
+  }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__slot:nth-child(odd) {
+    align-self: flex-start;
+    transform: translate3d(-15px,88px,0) rotate(-4deg) scale(.92);
+  }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__slot:nth-child(even) {
+    align-self: flex-end;
+    transform: translate3d(15px,80px,0) rotate(4deg) scale(.91);
+  }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__slot[data-entered="true"] {
+    opacity: 1;
+    transform: translate3d(0,0,0) rotate(0) scale(1);
+  }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__media { aspect-ratio: 1.13 / 1; }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__caption { display: block; padding: 9px 0 0; }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__caption strong { display: block; font-size: 20px; line-height: .98; }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__caption span { display: block; max-width: 100%; margin-top: 6px; font-size: 11px; text-align: left; }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__cta {
+    position: sticky;
+    bottom: 24px;
+    z-index: 20;
+    width: fit-content;
+    min-width: 205px;
+    box-shadow: 0 8px 25px #0007;
+  }
+}
+@media (max-width: 390px) {
+  .aiwa-work__headline { font-size: 14.1vw; }
+}
+
+/* Hover is a flourish, not a prerequisite for information or navigation. */
+.aiwa-work__media > img { transition:transform .9s cubic-bezier(.16,1,.3,1),filter .6s ease; }
+.aiwa-work__card:hover .aiwa-work__media > img,
+.aiwa-work__card:focus-visible .aiwa-work__media > img { transform:scale(1.095); filter:saturate(1.12); }
+.aiwa-work__video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; }
+.aiwa-work__media-open { transition:transform .42s cubic-bezier(.16,1,.3,1),background .32s ease; }
+.aiwa-work__card:hover .aiwa-work__media-open,
+.aiwa-work__card:focus-visible .aiwa-work__media-open { transform:translate(5px,-5px) rotate(8deg); background:#fff6d9; }
+.aiwa-work__cta { transition:background-color .25s,color .25s,box-shadow .35s; }
+.aiwa-work__cta svg { transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.aiwa-work__cta:hover,.aiwa-work__cta:focus-visible { background:#fae8c4; box-shadow:0 10px 38px #0008; }
+.aiwa-work__cta:hover svg,.aiwa-work__cta:focus-visible svg { transform:translateX(7px); }
+
+.aiwa-work__art-disclosure {
+  position: relative; z-index: 3;
+  max-width: 100%; margin: 18px auto 0;
+  color: var(--work-muted); text-align: center;
+  font: 700 10px/1.4 monospace; letter-spacing: .035em;
+}
+@media (min-width:768px) and (prefers-reduced-motion:no-preference) {
+  .aiwa-work[data-motion="desktop"] .aiwa-work__art-disclosure {
+    position: absolute; z-index: 15; left: var(--work-gutter);
+    bottom: 18px; margin: 0; text-align: left; font-size: 9px;
+  }
+}
+.aiwa-work__slot:focus-within { z-index: 18!important; }
+@media (prefers-reduced-motion:reduce) {
+  .aiwa-work__media > img, .aiwa-work__media-open,
+  .aiwa-work__cta, .aiwa-work__cta svg {
+    transition: none!important; animation: none!important; filter: none!important;
+  }
+}
