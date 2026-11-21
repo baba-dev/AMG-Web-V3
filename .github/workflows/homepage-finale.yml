@@ -1,0 +1,56 @@
+name: Homepage finale — Contact, Muscat and footer
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - src/components/aiwa-contact.*
+      - src/components/aiwa-office.*
+      - src/components/aiwa-footer.*
+      - src/components/aiwa-hero.tsx
+      - src/app/privacy/**
+      - src/app/terms/**
+      - src/app/legal.css
+      - public/media/finale/**
+      - scripts/homepage-finale-smoke.cjs
+      - .github/workflows/homepage-finale.yml
+  push:
+    branches:
+      - feat/homepage-finale-contact-muscat-footer
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  finale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Build Next.js static export
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          test -f out/index.html
+          test -f out/privacy.html
+          test -f out/terms.html
+          test -f out/work.html -o -f out/work/index.html
+      - name: Install headless Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Test contact scroll, office gallery, footer and no JS
+        run: |
+          python3 -m http.server 4173 --directory out >/tmp/aiwa-finale-http.log 2>&1 &
+          node scripts/homepage-finale-smoke.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aiwa-homepage-finale-qa
+          path: test-artifacts/finale/
+          retention-days: 7
