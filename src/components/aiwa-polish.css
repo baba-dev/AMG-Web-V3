@@ -171,3 +171,17 @@
 @media (prefers-reduced-motion: reduce) {
   .aiwa-hero__film-tile { animation: none !important; }
 }
+
+/* Screenshot QA: inline-flex unintentionally made the footer's contact
+ * anchors share a line. Keep them as full, vertically stacked flex rows. */
+.aiwa-footer__contact > a {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+}
+@media (max-width: 950px) {
+  /* The earlier component stylesheet deliberately hides the Offices
+     navigation on phones/tablets. Do not undo that when sizing desktop taps. */
+  .aiwa-header__offices { display: none; }
+}
