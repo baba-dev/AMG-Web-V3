@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 950" width="1600" height="950" role="img" aria-label="Original conceptual creative-production studio artwork">
+<defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#22211e"/><stop offset=".5" stop-color="#5c4939"/><stop offset="1" stop-color="#141b24"/></linearGradient><radialGradient id="beam"><stop stop-color="#ffdb9d" stop-opacity=".85"/><stop offset="1" stop-color="#f6bd84" stop-opacity="0"/></radialGradient><linearGradient id="camera" x1="0" x2="1"><stop stop-color="#1b2430"/><stop offset=".6" stop-color="#4a5963"/><stop offset="1" stop-color="#171e25"/></linearGradient></defs>
+<rect width="1600" height="950" fill="url(#bg)"/>
+<path d="M325 0 1200 0 1600 950H0Z" fill="#ffd59d" opacity=".05"/>
+<ellipse cx="1200" cy="345" rx="500" ry="430" fill="url(#beam)"/>
+<g opacity=".48" stroke="#d3c7b2" stroke-width="2" fill="none"><path d="M0 150h1600M0 330h1600M0 510h1600M0 690h1600M0 870h1600"/><path d="M200 0v950M400 0v950M600 0v950M800 0v950M1000 0v950M1200 0v950M1400 0v950"/></g>
+<path d="M1050 66 1590 235l-152 393-505-226Z" fill="#f1be84" opacity=".22"/>
+<g transform="translate(590 215)"><rect x="60" y="118" width="516" height="300" rx="35" fill="url(#camera)" stroke="#a5a6a2" stroke-width="10"/><rect x="151" y="76" width="180" height="83" rx="22" fill="#303943"/><circle cx="324" cy="267" r="126" fill="#171f29" stroke="#a5a6a2" stroke-width="16"/><circle cx="324" cy="267" r="94" fill="#0f1c25" stroke="#607a7b" stroke-width="9"/><circle cx="324" cy="267" r="66" fill="#465c65" stroke="#b3ccd0" stroke-width="6"/><circle cx="301" cy="240" r="31" fill="#f9c98c" opacity=".56"/><path d="M578 187 755 128v268L578 342Z" fill="#242e34" stroke="#8a9694" stroke-width="7"/><path d="M265 421 229 650h57l67-217m20 0 81 217h62l-101-235" stroke="#b1b6b3" stroke-width="20" fill="none"/><rect x="240" y="650" width="290" height="24" rx="12" fill="#c1b2a1"/></g>
+<g fill="#f6dfbc" font-family="Arial" font-weight="900"><text x="77" y="172" font-size="40" letter-spacing="11">AIWA / THE MAKING</text><text x="72" y="331" font-size="145" letter-spacing="-10">IDEAS</text><text x="78" y="458" font-size="145" letter-spacing="-10">IN FOCUS.</text></g>
+<circle cx="1350" cy="753" r="63" fill="none" stroke="#f8d3a5" stroke-width="8"/>
+<path d="M1324 753h52m-26-26v52" stroke="#f8d3a5" stroke-width="8"/>
+<text x="80" y="903" font-family="Arial" font-size="22" fill="#f3dfc6" letter-spacing="9">CONCEPTUAL ARTWORK / NOT AN OFFICE PHOTO</text>
+</svg>

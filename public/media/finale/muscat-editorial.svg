@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 950" width="1600" height="950" role="img" aria-label="Original imagined Muscat shoreline artwork">
+<defs><linearGradient id="sky" x1="0" x2=".2" y1="0" y2="1"><stop stop-color="#242b4c"/><stop offset=".48" stop-color="#c26c60"/><stop offset="1" stop-color="#e0b18c"/></linearGradient>
+<linearGradient id="sea" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#5c8196"/><stop offset="1" stop-color="#172f4a"/></linearGradient>
+<linearGradient id="sun" x1="0" x2=".9" y1="0" y2="1"><stop stop-color="#fff3ca"/><stop offset="1" stop-color="#f5a96a"/></linearGradient></defs>
+<rect width="1600" height="950" fill="url(#sky)"/>
+<circle cx="1130" cy="250" r="152" fill="url(#sun)" opacity=".96"/>
+<circle cx="1130" cy="250" r="193" fill="none" stroke="#ffd8ae" stroke-opacity=".27" stroke-width="2"/>
+<path d="M0 520 140 438 255 464 398 354 506 428 675 327 849 402 973 314 1124 380 1260 275 1390 390 1600 316v420H0Z" fill="#754d58"/>
+<path d="M0 580 151 499 271 536 460 431 586 500 772 419 952 471 1072 413 1310 490 1488 423 1600 481v278H0Z" fill="#a66e69"/>
+<path d="M0 629c200-24 312-98 455-96s279 96 435 47 389-80 710-2v222H0Z" fill="#c99579"/>
+<rect y="679" width="1600" height="271" fill="url(#sea)"/>
+<path d="M0 710c270-22 474 33 812 0s570-20 788 8" fill="none" stroke="#f5b78a" stroke-width="5" stroke-opacity=".52"/>
+<path d="M0 795q400-51 800-10t800-9M0 853q408-31 750-6t850-5" fill="none" stroke="#bcd4d3" stroke-width="2" stroke-opacity=".25"/>
+<g fill="#f0dac7"><path d="M211 594h175v87H211Z"/><path d="M252 549h94v46h-94Z"/><path d="M249 549q50-74 97 0Z"/><path d="M406 592h164v90H406Z"/><path d="M439 567h100v25H439Z"/><path d="M676 601h227v79H676Z"/><path d="M721 557h137v44H721Z"/><path d="M1128 581h220v97h-220Z"/><path d="M1175 548h124v33h-124Z"/></g>
+<g fill="#f7ead8"><path d="M187 520h21v162h-21Z"/><path d="M182 509h31v15h-31Z"/><path d="M195 473q24 31 0 42-20-18 0-42"/><path d="M581 504h21v178h-21Z"/><path d="M576 493h31v14h-31Z"/><path d="M592 457q22 31 0 40-21-13 0-40"/><path d="M1372 493h23v188h-23Z"/><path d="M1367 480h33v16h-33Z"/><path d="M1384 445q25 35 0 42-20-18 0-42"/></g>
+<g fill="#b58079"><rect x="239" y="626" width="18" height="25"/><rect x="281" y="626" width="18" height="25"/><rect x="456" y="617" width="18" height="30"/><rect x="502" y="617" width="18" height="30"/><rect x="757" y="624" width="23" height="29"/><rect x="804" y="624" width="23" height="29"/></g>
+<text x="76" y="169" font-family="Arial" font-weight="900" font-size="42" fill="#fff0df" letter-spacing="13">AIWA / OUR HOME</text>
+<text x="75" y="307" font-family="Arial" font-weight="900" font-size="135" fill="#fff0df" letter-spacing="-8">MUSCAT.</text>
+<path d="M81 355h320" stroke="#fff0df" stroke-width="4"/>
+<text x="79" y="906" font-family="Arial" font-size="23" fill="#f4ddc8" letter-spacing="9">AN ORIGINAL EDITORIAL ILLUSTRATION</text>
+</svg>
