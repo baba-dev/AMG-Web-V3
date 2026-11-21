@@ -394,13 +394,18 @@ html.dark .contact-page{
   :is(.contact-office__eyebrows,.contact-office h2,.contact-office__details),
 .contact-page[data-contact-motion="ready"] .contact-enquiries:not([data-entered="true"])
   :is(.contact-enquiries__tabs,.contact-enquiries__panel),
-.contact-page[data-contact-motion="ready"] .contact-outro:not([data-entered="true"])
-  :is(>span,h2,>a) {
+.contact-page[data-contact-motion="ready"] .contact-outro:not([data-entered="true"]) > span,
+.contact-page[data-contact-motion="ready"] .contact-outro:not([data-entered="true"]) > h2,
+.contact-page[data-contact-motion="ready"] .contact-outro:not([data-entered="true"]) > a {
   opacity:0;
   transform:translate3d(0,36px,0);
 }
 .contact-page[data-contact-motion="ready"] .contact-office:not([data-entered="true"]) .contact-office__image {
   clip-path:inset(0 0 100% 0);
+}
+/* Prevent the tab panel's own animation from making an offscreen chapter visible early. */
+.contact-page[data-contact-motion="ready"] .contact-enquiries:not([data-entered="true"]) .contact-enquiries__panel {
+  animation:none;
 }
 .contact-page[data-contact-motion="ready"] .contact-intro[data-entered="true"] .contact-intro__top,
 .contact-page[data-contact-motion="ready"] .contact-office[data-entered="true"] .contact-office__eyebrows {
