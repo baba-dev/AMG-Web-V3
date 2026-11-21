@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
@@ -151,6 +151,8 @@ export function AiwaHero() {
       footer.style.pointerEvents = hideHeroControls ? "none" : "auto";
       poster.style.transform = "scale(" + (1.34 + expansion * 0.08).toFixed(3) + ")";
       sequence.style.setProperty("--aiwa-hero-scroll", progress.toFixed(4));
+      // Fade out only the mobile first-fold teaser as the actual reel arrives.
+      sequence.style.setProperty("--aiwa-film-peek", (1 - ease(progress * 5)).toFixed(4));
       const controlAlpha = ease((progress - 0.82) / 0.17);
       controls.style.opacity = controlAlpha.toFixed(3);
 
@@ -329,7 +331,7 @@ export function AiwaHero() {
 
         <section ref={filmSectionRef} className="aiwa-film-section" id="film"
           aria-label="Aiwa Media Group showreel"
-          style={{ backgroundImage: "url(" + poster + ")" }} />
+          style={{ "--aiwa-film-poster": "url(" + poster + ")" } as CSSProperties} />
 
         <div className="aiwa-reel" ref={projectionRef} aria-hidden="true">
           <div ref={posterRef} className="aiwa-reel__poster" style={{ backgroundImage: "url(" + poster + ")" }} />

@@ -827,3 +827,26 @@
 @media(max-width:390px) {
  .aiwa-hero__center {inset:clamp(157px,22svh,200px) 0 auto;}
 }
+
+/* One film image, never two overlapping posters.
+   The lower mobile first-fold teaser is a temporary pseudo-element:
+   it fades away as the projected reel begins growing, and is absent
+   entirely at desktop widths. When JS is off the teaser stays visible. */
+.aiwa-film-section { background-image:none!important; }
+@media(max-width:720px) {
+  .aiwa-film-section::before {
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    display:block;
+    background-color:#28322f;
+    background-image:var(--aiwa-film-poster,none);
+    background-repeat:no-repeat;
+    background-size:auto 138%;
+    background-position:center center;
+    opacity:var(--aiwa-film-peek,1);
+    pointer-events:none;
+  }
+  .aiwa-film-section::after {z-index:1;opacity:var(--aiwa-film-peek,1);}
+}

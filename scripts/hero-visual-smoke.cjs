@@ -110,7 +110,26 @@ async function testHeroSpecialismsMotion(browser, width, height) {
         lineRight:last?.right,
       };
     });
-    checkpoints.push({...values,ratio});
+    const posterLayers=await page.evaluate(() => {
+      const film=document.querySelector(".aiwa-film-section");
+      const bg=getComputedStyle(film).backgroundImage;
+      const teaser=getComputedStyle(film,"::before");
+      return {background:bg,peek:Number(teaser.opacity),content:teaser.content};
+    });
+    if (width>720) {
+      assert.equal(posterLayers.background,"none",
+        "Desktop film target must not duplicate the moving poster");
+      assert.equal(posterLayers.content,"none",
+        "Desktop must not render an underlying poster teaser");
+    } else {
+      assert.equal(posterLayers.background,"none",
+        "Mobile poster belongs only in a fading pseudo-element");
+      if (ratio===0) assert(posterLayers.peek>.98,
+        "First-fold mobile teaser must be visible at hero start");
+      if (ratio>=.25) assert(posterLayers.peek<.05,
+        "Teaser must disappear before the expanding reel overlaps it");
+    }
+    checkpoints.push({...values,ratio,posterLayers});
     await page.screenshot({path:"test-artifacts/"+width+"x"+height+"-hero-motion-"+Math.round(ratio*100)+".png",fullPage:false});
   }
   assert(checkpoints[1].width>checkpoints[0].width*1.6,"Inline tile should grow substantially in first quarter");
