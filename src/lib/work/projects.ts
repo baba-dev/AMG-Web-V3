@@ -67,7 +67,7 @@ export const workProjects = [
     shortDescription: "Aiwa features BEST by Genetco, a home-appliance brand, in its portfolio; specific project deliverables require confirmation.",
     alt: "Original blue editorial composition with a simplified home-appliance silhouette and light",
     artwork: "/media/work/best-genetco.svg",
-    href: "https://aiwamediagroup.com/case-study/",
+    href: "https://aiwamediagroup.com/",
     visualLabel: "CULTURE / HOME",
     conceptualArt: true,
   },
@@ -120,7 +120,7 @@ export function isApprovedPortfolioDestination(href: string): boolean {
     return (
       url.protocol === "https:" &&
       url.hostname === "aiwamediagroup.com" &&
-      (url.pathname === "/case-study/" || url.pathname === "/branding/")
+      (url.pathname === "/case-study/" || url.pathname === "/branding/" || url.pathname === "/")
     );
   } catch {
     return false;
