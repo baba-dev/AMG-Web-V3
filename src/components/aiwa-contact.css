@@ -126,3 +126,29 @@
 @media(max-width:1100px) {
  .aiwa-contact__headline,.aiwa-contact__echo {font-size:clamp(70px,11.8vw,140px);}
 }
+
+/* A real, tall section is scrolled while a 100svh visual scene remains pinned.
+   Motion uses native scroll, not a third-party smooth-scroll controller. */
+@media (min-width:768px) and (prefers-reduced-motion:no-preference) {
+  .aiwa-contact[data-motion="desktop"] .aiwa-contact__stage {
+    height: 185svh;
+  }
+  .aiwa-contact[data-motion="desktop"] .aiwa-contact__scene {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 0;
+  }
+  .aiwa-contact[data-motion="desktop"] .aiwa-contact__headline {
+    will-change:transform;
+  }
+  .aiwa-contact[data-motion="desktop"] .aiwa-contact__line > span,
+  .aiwa-contact[data-motion="desktop"] .aiwa-contact__echo {
+    will-change:transform,opacity;
+  }
+  .aiwa-contact[data-motion="desktop"] .aiwa-contact__scene::before {
+    background: linear-gradient(to right, var(--contact-ink) 0 25%, var(--contact-rule) 25% 100%);
+    transform: scaleX(calc(.25 + .75 * var(--contact-progress,0)));
+    transform-origin: left;
+  }
+}

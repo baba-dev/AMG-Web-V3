@@ -16,16 +16,113 @@ export function AiwaContact() {
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
 
-  // Refs for the scroll choreography are installed in the next commit.
-  void useEffect;
-  void sectionRef;
-  void stageRef;
-  void sceneRef;
-  void headingRef;
-  void echoRef;
-  void eyebrowRef;
-  void descriptionRef;
-  void ctaRef;
+  useEffect(() => {
+    const section = sectionRef.current;
+    const stage = stageRef.current;
+    const scene = sceneRef.current;
+    const heading = headingRef.current;
+    const echo = echoRef.current;
+    const eyebrow = eyebrowRef.current;
+    const description = descriptionRef.current;
+    const action = ctaRef.current;
+    if (!section || !stage || !scene || !heading || !echo || !eyebrow ||
+      !description || !action) return;
+
+    const wide = window.matchMedia("(min-width: 768px)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const lines = Array.from(heading.querySelectorAll<HTMLElement>(".aiwa-contact__line > span"));
+    const clamp = (n: number) => Math.min(1, Math.max(0, n));
+    const ease = (n: number) => {
+      const t = clamp(n);
+      return t * t * (3 - 2 * t);
+    };
+    let frame = 0;
+    let nearby = true;
+
+    const restore = () => {
+      section.style.removeProperty("--contact-progress");
+      [heading, echo, eyebrow, description, action, ...lines].forEach((node) => {
+        node.style.removeProperty("transform");
+        node.style.removeProperty("opacity");
+        node.style.removeProperty("clip-path");
+      });
+    };
+
+    const paint = () => {
+      frame = 0;
+      if (reduced.matches || !wide.matches) return;
+
+      const travel = Math.max(1, stage.offsetHeight - scene.clientHeight);
+      const p = clamp(-stage.getBoundingClientRect().top / travel);
+      section.style.setProperty("--contact-progress", p.toFixed(4));
+
+      const first = ease((p - .025) / .32);
+      const second = ease((p - .12) / .37);
+      lines.forEach((line, index) => {
+        const reveal = index === 0 ? first : second;
+        line.style.opacity = (.18 + .82 * reveal).toFixed(3);
+        line.style.transform = "translate3d(0," +
+          ((1 - reveal) * 112).toFixed(2) + "%,0) skewY(" +
+          ((1 - reveal) * (index ? -3.9 : 4.2)).toFixed(2) + "deg)";
+      });
+      const echoReveal = ease((p - .13) / .38);
+      const exit = ease((p - .85) / .15);
+      echo.style.opacity = (.07 + .23 * echoReveal * (1 - exit)).toFixed(3);
+      echo.style.transform = "translate3d(" +
+        (25 - echoReveal * 50 + exit * 65).toFixed(2) +
+        "px," + (52 - echoReveal * 66).toFixed(2) +
+        "px,0) scale(" + (1.07 - echoReveal * .055).toFixed(3) + ")";
+      echo.style.clipPath = "inset(" +
+        ((1 - echoReveal) * 100).toFixed(2) + "% 0 0 0)";
+      heading.style.transform = "translate3d(0," +
+        ((1 - first) * 26 - exit * 36).toFixed(2) +
+        "px,0) scale(" + (1 + .035 * ease((p - .42) / .4)).toFixed(4) + ")";
+      eyebrow.style.opacity = (.55 + .45 * ease(p / .19)).toFixed(3);
+      eyebrow.style.transform = "translate3d(0," + ((1 - first) * 20).toFixed(2) + "px,0)";
+      const details = ease((p - .42) / .33);
+      description.style.opacity = (.25 + .75 * details).toFixed(3);
+      description.style.transform = "translate3d(0," + (26 * (1 - details)).toFixed(2) + "px,0)";
+      const button = ease((p - .48) / .26);
+      action.style.opacity = (.38 + .62 * button).toFixed(3);
+      action.style.transform = "translate3d(0," + (37 * (1 - button)).toFixed(2) + "px,0)";
+    };
+
+    const schedule = () => {
+      if (!nearby || frame || !wide.matches || reduced.matches) return;
+      frame = window.requestAnimationFrame(paint);
+    };
+
+    const configure = () => {
+      if (!wide.matches || reduced.matches) {
+        delete section.dataset.motion;
+        restore();
+      } else {
+        section.dataset.motion = "desktop";
+        schedule();
+      }
+    };
+
+    const proximity = new IntersectionObserver(([entry]) => {
+      nearby = entry?.isIntersecting ?? true;
+      if (nearby) schedule();
+    }, { rootMargin: "120% 0px 120% 0px" });
+    proximity.observe(section);
+
+    configure();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", configure);
+    wide.addEventListener("change", configure);
+    reduced.addEventListener("change", configure);
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", configure);
+      wide.removeEventListener("change", configure);
+      reduced.removeEventListener("change", configure);
+      proximity.disconnect();
+      if (frame) window.cancelAnimationFrame(frame);
+      restore();
+    };
+  }, []);
 
   return (
     <section ref={sectionRef} className="aiwa-contact" id="contact" aria-labelledby="aiwa-contact-title">
