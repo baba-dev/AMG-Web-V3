@@ -50,7 +50,7 @@ export function ContactMotion() {
           for (const entry of entries) {
             if (!entry.isIntersecting) continue;
             (entry.target as HTMLElement).dataset.entered = "true";
-            chapterObserver.unobserve(entry.target);
+            chapterObserver?.unobserve(entry.target);
           }
         }, { threshold: 0.08, rootMargin: "0px 0px -5% 0px" })
       : null;
