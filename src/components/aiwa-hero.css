@@ -774,3 +774,15 @@
 @media(prefers-reduced-motion:reduce){
   .aiwa-reel,.aiwa-reel__poster {will-change:auto;}
 }
+
+/* Mobile hero follows the reference's high poster lockup, with the scroll
+   cue beside the content rather than stranded at the bottom of a tall phone. */
+@media(max-width:720px){
+ .aiwa-hero__center {inset:clamp(88px,12svh,130px) 0 auto;}
+ .aiwa-hero__bottom {top:clamp(420px,56svh,535px);bottom:auto;justify-content:flex-end;}
+ .aiwa-hero__location {display:none;}
+ .aiwa-hero__film-tile {width:clamp(84px,23vw,138px);}
+}
+@media(max-width:390px){
+ .aiwa-hero__center {inset:clamp(85px,11.8svh,125px) 0 auto;}
+}

@@ -120,8 +120,15 @@ async function checkMobile(browser,width,height){
   assert(grid.rows[0].x<grid.rows[1].x,"Mobile card gutters should alternate");
 
   const first=page.locator(".aiwa-work__slot").first();
-  await first.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(450);
+  // The card is intentionally in a long eased entrance. Playwright's
+  // stability-based scrollIntoViewIfNeeded can wait forever on transformed
+  // geometry; use a direct native-scroll target and inspect its final state.
+  await page.evaluate(() => {
+    const card=document.querySelector(".aiwa-work__slot");
+    const top=card.getBoundingClientRect().top+scrollY;
+    window.scrollTo({top:top-innerHeight*.31,behavior:"instant"});
+  });
+  await page.waitForTimeout(1200);
   const entered=await first.getAttribute("data-entered");
   assert.equal(entered,"true","First card reveal must activate on viewport entry");
   await page.screenshot({path:OUT+"/"+width+"x"+height+"-mobile-work.png",fullPage:false});

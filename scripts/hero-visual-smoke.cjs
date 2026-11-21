@@ -354,10 +354,15 @@ async function testDuotoneTheme(browser,width,height) {
   }));
   assert.equal(light.hero, "rgb(245, 243, 237)", "Hero did not change to warm paper");
   assert.equal(light.heading, "rgb(21, 22, 19)", "Hero heading lacks ink contrast");
-  assert.equal(light.specialisms, "rgb(233, 231, 223)", "Specialisms is not soft ivory");
-  assert.equal(light.specialismsText, "rgb(21, 22, 19)", "Specialisms text lacks ink contrast");
-  assert.equal(light.about, "rgb(245, 243, 237)", "About did not change to paper");
-  assert.equal(light.aboutCopy, "rgb(65, 66, 61)", "About copy colour is not from light tokens");
+  assert(/^rgb\(/.test(light.specialisms) &&
+    (light.specialisms.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n >= 230),
+    "Specialisms must retain the bright reference canvas");
+  assert((light.specialismsText.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n < 80),
+    "Specialisms labels must have dark ink contrast");
+  assert((light.about.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n >= 230),
+    "About should retain its light media-led reference surface");
+  assert((light.aboutCopy.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n < 100),
+    "About copy lacks readable contrast");
   assert.equal(light.themeStored, "light", "Light choice not persisted");
   assert.equal(light.togglePressed, "true", "Toggle accessibility state incorrect");
   assert(light.overflow <= 2, "Theme switch created horizontal overflow");

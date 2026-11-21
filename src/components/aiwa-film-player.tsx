@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowUpRight, Play, X } from "lucide-react";
 import "./aiwa-film-player.css";
 
@@ -38,7 +38,7 @@ export function AiwaFilmPlayer({
   const [playerReady, setPlayerReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const dialog = dialogRef.current;
     const panel = panelRef.current;
     if (!dialog || !panel) return;
