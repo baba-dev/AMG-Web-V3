@@ -456,3 +456,63 @@
    the otherwise full-bleed reference-style About image. */
 .aiwa-about__media img {transform:scale(1.33);}
 @media(max-width:700px){.aiwa-about__media img {transform:scale(1.28);}}
+
+
+/* 2026 final reference comparison: the original observed About panel has
+   headline/copy on the LEFT and full-height image on the RIGHT. The previous
+   Aiwa split reversed that hierarchy and made the text four lines tall. */
+@media(min-width:701px) {
+  .aiwa-about__content {
+    grid-template-areas:"heading media" "lower media";
+    grid-template-columns:minmax(0,1.03fr) minmax(0,1fr);
+    grid-template-rows:minmax(0,1.05fr) minmax(0,.95fr);
+    column-gap:clamp(23px,2.6vw,42px);
+    min-height:clamp(665px,84svh,790px);
+    margin-top:clamp(20px,3vw,44px);
+  }
+  .aiwa-about__media {
+    max-height:775px;
+    height:100%;
+    margin:0;
+  }
+  .aiwa-about__media img {min-height:100%;}
+  .aiwa-about__heading {
+    align-self:end;
+    font-size:clamp(46px,4.8vw,78px);
+    line-height:.95;
+    padding-top:clamp(18px,3vw,42px);
+    margin-bottom:12px;
+    letter-spacing:-.029em;
+  }
+  .aiwa-about__line {white-space:nowrap;}
+  .aiwa-about__lower {
+    align-self:stretch;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-start;
+    gap:clamp(20px,2.5vw,34px);
+  }
+  .aiwa-about__aside {display:flex;flex-direction:column;align-items:flex-start;}
+  .aiwa-about__description {
+    font-size:clamp(15px,1.3vw,20px);
+    max-width:51ch;
+  }
+  .aiwa-about__cta {margin-top:clamp(32px,7vh,80px);}
+  .aiwa-about__location {display:none;}
+  .aiwa-about__footer {display:none;}
+}
+@media(max-width:700px){
+  /* Mobile remains image-first, avoiding long blank scroll gaps. */
+  .aiwa-about__heading {font-size:clamp(41px,9.3vw,63px);line-height:1.02;}
+  .aiwa-about__line {white-space:normal;}
+}
+.aiwa-about__eyebrow {
+  gap:0;
+  padding:8px 14px;
+  border:1px solid rgba(0,0,0,.17);
+  font-family:var(--font-aiwa-poster),Impact,sans-serif;
+  font-weight:400;
+}
+.aiwa-about__indicator {display:none;}

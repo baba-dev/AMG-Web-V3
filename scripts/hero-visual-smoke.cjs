@@ -311,7 +311,7 @@ async function testViewport(browser, width, height) {
   }));
   assert(closeTo(fourth.top, 0, 4),"Section 4 must start at the top of the viewport");
   assert(fourth.label.includes("ABOUT US"),"Section 4 lacks About Us eyebrow");
-  assert(fourth.heading.includes("CREATIVE MEDIA") && fourth.heading.includes("TO BLEND IN."),"About headline is missing");
+  assert(fourth.heading.includes("CREATIVE MEDIA FOR") && fourth.heading.includes("BRAVE BRANDS."),"About headline is missing");
   assert(fourth.body.includes("Aiwa Media Group") && fourth.body.includes("production"),"About description must mention Aiwa and its real work");
   assert(fourth.headlineBoxes.every(b => b.left >= -2 && b.right <= width + 2),"At least one About headline line is clipped horizontally");
   assert.equal(fourth.link,"https://aiwamediagroup.com/about-us/","About CTA must use the real About page");

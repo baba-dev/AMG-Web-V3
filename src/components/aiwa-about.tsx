@@ -5,10 +5,8 @@ import { ArrowUpRight } from "lucide-react";
 import "./aiwa-about.css";
 
 const headline = [
-  { text: "CREATIVE MEDIA", italic: false },
-  { text: "FOR BRANDS", italic: true },
-  { text: "THAT REFUSE", italic: false },
-  { text: "TO BLEND IN.", italic: true },
+  { text: "CREATIVE MEDIA FOR", italic: false },
+  { text: "BRAVE BRANDS.", italic: true },
 ] as const;
 
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));

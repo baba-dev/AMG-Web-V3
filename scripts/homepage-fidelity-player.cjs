@@ -54,6 +54,18 @@ async function run(browser,width,height){
  assert(specParts.slice(0,3).every(x=>x>=229),"Specialisms must use reference-light surface");
  assert(aboutParts.slice(0,3).every(x=>x>=229),"About must use a reference-light surface");
  assert(geometry.aboutImage.w>width*.28,"About must be media-led");
+ if(width>700) {
+   const split=await page.evaluate(()=>({
+     imageLeft:document.querySelector(".aiwa-about__media").getBoundingClientRect().left,
+     statementRight:document.querySelector(".aiwa-about__heading").getBoundingClientRect().right,
+     statement:document.querySelector("#aiwa-about-heading").textContent.replace(/\s+/g," ").trim(),
+   }));
+   assert(split.statementRight < split.imageLeft + 8,
+     "Reference composition requires About type LEFT of its image");
+   assert(split.statement.includes("BRAVE BRANDS."),
+     "Two-line Aiwa headline should fit reference-like About composition");
+ }
+
 
  await page.screenshot({path:OUT+"/"+width+"x"+height+"-hero.png"});
  const source=page.getByRole("button",{name:"Play Aiwa Media Group film"});
