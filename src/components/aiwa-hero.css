@@ -850,3 +850,10 @@
   }
   .aiwa-film-section::after {z-index:1;opacity:var(--aiwa-film-peek,1);}
 }
+
+/* Match the black hero during film expansion. The temporary mobile first-
+   fold poster lives on ::before and fades out as the projected reel grows;
+   the section underneath must not show an olive-colored second surface. */
+@media(max-width:720px) {
+  .aiwa-film-section {background-color:#080808;}
+}

@@ -117,7 +117,8 @@ async function testHeroSpecialismsMotion(browser, width, height) {
       const film=document.querySelector(".aiwa-film-section");
       const bg=getComputedStyle(film).backgroundImage;
       const teaser=getComputedStyle(film,"::before");
-      return {background:bg,peek:Number(teaser.opacity),content:teaser.content};
+      return {background:bg,peek:Number(teaser.opacity),content:teaser.content,
+        color:getComputedStyle(film).backgroundColor};
     });
     if (width>720) {
       assert.equal(posterLayers.background,"none",
@@ -131,6 +132,11 @@ async function testHeroSpecialismsMotion(browser, width, height) {
         "First-fold mobile teaser must be visible at hero start");
       if (ratio>=.25) assert(posterLayers.peek<.05,
         "Teaser must disappear before the expanding reel overlaps it");
+      if (ratio>=.25) {
+        const rgb=posterLayers.color.match(/\d+/g)?.map(Number) || [];
+        assert(rgb.length>=3 && rgb.slice(0,3).every(channel=>channel<=16),
+          "Behind the expanding reel the film landing canvas must remain black");
+      }
     }
     checkpoints.push({...values,ratio,posterLayers});
     await page.screenshot({path:"test-artifacts/"+width+"x"+height+"-hero-motion-"+Math.round(ratio*100)+".png",fullPage:false});
