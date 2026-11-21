@@ -1,0 +1,128 @@
+.aiwa-contact {
+  --contact-bg: #080808;
+  --contact-ink: #f8f7f2;
+  --contact-muted: #a5a5a0;
+  --contact-rule: rgba(255,255,255,.26);
+  --contact-button: #f8f7f2;
+  --contact-button-ink: #080808;
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  width: 100%;
+  background: var(--contact-bg);
+  color: var(--contact-ink);
+  overflow: clip;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.light .aiwa-contact {
+  --contact-bg: #f5f3ed;
+  --contact-ink: #151613;
+  --contact-muted: #696a62;
+  --contact-rule: rgba(21,22,19,.28);
+  --contact-button: #151613;
+  --contact-button-ink: #f5f3ed;
+}
+.aiwa-contact__stage { width:100%; position:relative; }
+.aiwa-contact__scene {
+  position:relative;
+  isolation:isolate;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  width:100%;
+  min-height:100svh;
+  padding:clamp(28px,3.65vw,58px) var(--aiwa-gutter,clamp(20px,3.65vw,72px));
+  overflow:clip;
+}
+.aiwa-contact__scene::before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:var(--aiwa-gutter, 3.65vw);
+  right:var(--aiwa-gutter, 3.65vw);
+  height:1px;
+  background:var(--contact-rule);
+}
+.aiwa-contact__topline {
+  position:relative;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  color:var(--contact-ink);
+  font:900 clamp(12px,1vw,15px)/1 var(--font-aiwa-display), Impact, sans-serif;
+  letter-spacing:.02em;
+}
+.aiwa-contact__eyebrow { display:inline-flex;align-items:center;gap:13px;white-space:nowrap; }
+.aiwa-contact__dot { width:8px;height:8px;border-radius:50%;background:currentColor;flex:none; }
+.aiwa-contact__index { color:var(--contact-muted);font:600 clamp(9px,.72vw,12px)/1 var(--font-geist-mono),monospace; }
+.aiwa-contact__main { flex:1;display:flex;align-items:center;flex-direction:column;justify-content:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vh,70px) 0; }
+.aiwa-contact__lockup { position:relative;width:100%;max-width:1710px;isolation:isolate; }
+.aiwa-contact__headline,
+.aiwa-contact__echo {
+  margin:0;
+  width:100%;
+  font-family:var(--font-aiwa-display),Impact,"Arial Narrow",sans-serif;
+  font-size:clamp(86px,12.35vw,225px);
+  font-weight:900;
+  line-height:.79;
+  letter-spacing:-.047em;
+  text-transform:uppercase;
+  text-align:center;
+  white-space:nowrap;
+}
+.aiwa-contact__headline { position:relative;z-index:2; }
+.aiwa-contact__headline em { font-style:italic;font-weight:900;letter-spacing:-.059em; }
+.aiwa-contact__line,
+.aiwa-contact__echo > span { display:block;padding:.055em 0 .09em;margin:-.055em 0 -.09em; }
+.aiwa-contact__line { overflow:hidden; }
+.aiwa-contact__line > span { display:block; }
+.aiwa-contact__echo {
+  position:absolute;inset:0;z-index:1;
+  opacity:.16;
+  color:var(--contact-muted);
+  pointer-events:none;
+  user-select:none;
+  transform:translate3d(0,15px,0) scale(1.013);
+}
+.aiwa-contact__message {
+  position:relative;z-index:5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:clamp(23px,3vw,42px);
+  text-align:center;
+}
+.aiwa-contact__message p {
+  max-width:570px;margin:0;
+  color:var(--contact-ink);
+  font-size:clamp(17px,1.45vw,23px);
+  font-weight:500;line-height:1.32;letter-spacing:-.025em;
+}
+.aiwa-contact__action {
+  display:inline-flex;align-items:center;justify-content:space-between;
+  min-width:clamp(238px,22vw,332px);min-height:64px;gap:36px;padding:12px 17px 12px 22px;
+  color:var(--contact-button-ink);
+  background:var(--contact-button);
+  font:900 clamp(18px,1.6vw,25px)/1 var(--font-aiwa-display),Impact,sans-serif;
+  text-decoration:none;
+  transition:background-color .3s ease,color .3s ease,transform .35s cubic-bezier(.22,1,.36,1);
+}
+.aiwa-contact__action-arrow { display:grid;place-items:center;transition:transform .35s cubic-bezier(.22,1,.36,1); }
+.aiwa-contact__action:hover,
+.aiwa-contact__action:focus-visible { transform:translate3d(0,-4px,0); }
+.aiwa-contact__action:hover .aiwa-contact__action-arrow,
+.aiwa-contact__action:focus-visible .aiwa-contact__action-arrow { transform:translate(5px,-5px) rotate(9deg); }
+.aiwa-contact__baseline {
+  position:relative;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  padding-top:15px;border-top:1px solid var(--contact-rule);
+  font:600 clamp(9px,.73vw,12px)/1 var(--font-geist-mono),monospace;
+  color:var(--contact-muted);
+}
+.aiwa-contact__baseline svg { color:var(--contact-ink); }
+@media(max-width:1100px) {
+ .aiwa-contact__headline,.aiwa-contact__echo {font-size:clamp(70px,11.8vw,140px);}
+}

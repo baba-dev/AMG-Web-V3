@@ -6,6 +6,7 @@ import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
 import { AiwaAbout } from "@/components/aiwa-about";
 import { AiwaWorkShowcase } from "@/components/aiwa-work";
+import { AiwaContact } from "@/components/aiwa-contact";
 import { ModeToggle } from "@/components/mode-toggle";
 import "./aiwa-hero.css";
 
@@ -314,6 +315,7 @@ export function AiwaHero() {
       <AiwaSpecialisms />
       <AiwaAbout />
       <AiwaWorkShowcase />
+      <AiwaContact />
 
       <dialog className="aiwa-film-dialog" ref={dialogRef} aria-label="Aiwa Media Group full film"
         onClose={() => setFullFilmOpen(false)}
