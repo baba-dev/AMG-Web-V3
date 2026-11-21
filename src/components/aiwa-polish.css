@@ -1,0 +1,240 @@
+/*
+ * Aiwa V3 editorial design system — 2026-11-21 fidelity and mobile pass.
+ * The Romans is a visual reference, not a font/media license.
+ *
+ * One deliberate type hierarchy:
+ *  - Anton: oversized poster titles and campaign labels
+ *  - Barlow Condensed italic: real editorial emphasis
+ *  - Space Grotesk (Google Fonts): readable UI and fallback body copy
+ *  - Licensed Roc Grotesk Regular: optional private-build body face
+ *  - Geist Mono: numbered indices and timings
+ *
+ * One neutral palette across light editorial sections, and one shared gutter.
+ * These overrides are loaded AFTER the original component styles so the
+ * approved scroll/projection geometry and motion rules remain untouched.
+ */
+.aiwa-site {
+  --aiwa-gutter: clamp(18px, 2.5vw, 48px);
+  --aiwa-font-interface: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  --aiwa-font-body: var(--aiwa-font-interface);
+  --aiwa-font-display: var(--font-aiwa-poster), Impact, "Arial Narrow", sans-serif;
+  --aiwa-font-italic: var(--font-aiwa-display), "Arial Narrow", sans-serif;
+  --aiwa-paper: #f5f5f3;
+  --aiwa-paper-ink: #0a0a0a;
+  --aiwa-paper-muted: #4f514a;
+  --aiwa-paper-rule: rgba(10, 10, 10, .2);
+  font-family: var(--aiwa-font-body);
+  font-synthesis: weight;
+  text-rendering: optimizeLegibility;
+}
+.aiwa-site :where(p, address, figcaption) {
+  overflow-wrap: anywhere;
+}
+
+/* Keep the column edge deliberate from the hero to the final footer. */
+.aiwa-header { padding-inline: var(--aiwa-gutter); }
+.aiwa-hero__center { padding-inline: var(--aiwa-gutter); }
+.aiwa-hero__bottom { left: var(--aiwa-gutter); right: var(--aiwa-gutter); }
+.aiwa-specialisms { padding-inline: var(--aiwa-gutter); }
+.aiwa-about, .light .aiwa-about { padding-inline: var(--aiwa-gutter); }
+.aiwa-work { --work-gutter: var(--aiwa-gutter); }
+.aiwa-contact__scene { padding-inline: var(--aiwa-gutter); }
+.aiwa-office, .light .aiwa-office { padding-inline: var(--aiwa-gutter); }
+.aiwa-footer, .light .aiwa-footer { padding-inline: var(--aiwa-gutter); }
+
+/* Consistent accessible body face instead of a mixture of Arial and Geist. */
+.aiwa-specialisms__footer p,
+.aiwa-about__description,
+.aiwa-work__caption span,
+.aiwa-contact__message p,
+.aiwa-office__current-story p,
+.aiwa-office__contact address,
+.aiwa-office__contact a:not(.aiwa-office__map-link),
+.aiwa-footer__contact address,
+.aiwa-footer__contact > a:not(.aiwa-footer__directions) {
+  font-family: var(--aiwa-font-body);
+  font-weight: 450;
+  letter-spacing: -.02em;
+}
+.aiwa-about__description,
+.aiwa-office__current-story p,
+.aiwa-contact__message p { line-height: 1.48; }
+.aiwa-specialisms__footer p { line-height: 1.5; }
+
+/* Genuine italic from Barlow instead of browser-sheared Anton. */
+.aiwa-hero__word:is(em),
+.aiwa-about__line-text em,
+.aiwa-contact__headline em,
+.aiwa-office__details h2 em {
+  font-family: var(--aiwa-font-italic);
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -.045em;
+}
+.aiwa-header__link,
+.aiwa-header__offices {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.aiwa-hero__film-tile {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* Use the same neutral ink and paper, not near-identical warm grays.
+ * Keep the independent theme switcher and the dark cinematic sections. */
+.aiwa-specialisms, .light .aiwa-specialisms,
+.aiwa-about, .light .aiwa-about,
+.aiwa-office, .light .aiwa-office,
+.aiwa-footer, .light .aiwa-footer {
+  background-color: var(--aiwa-paper);
+  color: var(--aiwa-paper-ink);
+}
+.aiwa-specialisms__footer p,
+.aiwa-about__description,
+.aiwa-office__current-story p,
+.aiwa-footer__city { color: var(--aiwa-paper-muted); }
+.aiwa-footer, .light .aiwa-footer {
+  --footer-bg: var(--aiwa-paper);
+  --footer-ink: var(--aiwa-paper-ink);
+  --footer-muted: var(--aiwa-paper-muted);
+  --footer-border: var(--aiwa-paper-rule);
+}
+
+/* Links must not be tiny hit targets on a touch screen. */
+.aiwa-footer__navigation a,
+.aiwa-footer__social a,
+.aiwa-footer__contact > a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.aiwa-footer__navigation,
+.aiwa-footer__social { gap: 4px; }
+.aiwa-office__contact a { min-height: 44px; }
+.aiwa-header__identity { display: inline-flex; align-items: center; min-height: 44px; }
+.aiwa-footer__contact a,
+.aiwa-office__contact a { overflow-wrap: anywhere; }
+.aiwa-site :where(a, button):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* Tablet needs a narrower poster lockup before the mobile fold starts.
+ * Do not modify scroll geometry, the reel's transform, or section heights. */
+@media (min-width: 721px) and (max-width: 950px) {
+  .aiwa-hero__headline { font-size: clamp(63px, 8.5vw, 82px); }
+  .aiwa-hero__film-tile { width: clamp(95px, 12.5vw, 123px); }
+  .aiwa-about__heading { font-size: clamp(38px, 4.55vw, 58px); }
+}
+@media (max-width: 767px) {
+  .aiwa-site { --aiwa-gutter: 17px; }
+  .aiwa-header { padding-inline: var(--aiwa-gutter); }
+  .aiwa-hero__center { padding-inline: var(--aiwa-gutter); }
+  .aiwa-hero__bottom { left: var(--aiwa-gutter); right: var(--aiwa-gutter); }
+  .aiwa-specialisms { padding-inline: 12px; } /* montage can approach the edges */
+  .aiwa-about, .light .aiwa-about { padding-inline: var(--aiwa-gutter); }
+  .aiwa-work__scene { padding-inline: var(--aiwa-gutter); }
+  .aiwa-contact__scene { padding-inline: var(--aiwa-gutter); }
+  .aiwa-office, .light .aiwa-office { padding-inline: var(--aiwa-gutter); }
+  .aiwa-footer, .light .aiwa-footer { padding-inline: var(--aiwa-gutter); }
+
+  .aiwa-hero__headline { letter-spacing: -.022em; }
+  .aiwa-hero__word:is(em) { letter-spacing: -.042em; }
+  .aiwa-hero__film-tile { min-height: 44px; }
+  .aiwa-about__media { margin-bottom: clamp(20px, 5vw, 27px); }
+  .aiwa-about__heading { max-width: 100%; }
+  .aiwa-about__description { font-size: clamp(15px, 4vw, 17px); line-height: 1.5; }
+  .aiwa-specialisms__footer p { font-size: 13px; line-height: 1.5; }
+  .aiwa-contact__message p { line-height: 1.46; }
+  .aiwa-footer__intro p { max-width: 12ch; }
+  .aiwa-footer__upper { column-gap: clamp(17px, 5vw, 27px); }
+  .aiwa-footer__navigation,
+  .aiwa-footer__social { gap: 0; }
+  .aiwa-footer__bottom > div { column-gap: 14px; row-gap: 3px; }
+  .aiwa-footer__bottom a { display: inline-flex; align-items: center; min-height: 44px; }
+  .aiwa-office__hello { margin-left: calc(-1 * var(--aiwa-gutter)); margin-right: calc(-1 * var(--aiwa-gutter)); width: calc(100% + 2 * var(--aiwa-gutter)); }
+}
+@media (max-width: 390px) {
+  .aiwa-hero__headline { font-size: 12.2vw; }
+  .aiwa-hero__film-tile { width: clamp(78px, 21.5vw, 92px); }
+  .aiwa-specialisms__row { font-size: 10.35vw; }
+  .aiwa-about__heading { font-size: 9.05vw; }
+  .aiwa-footer__intro p { font-size: clamp(43px, 12vw, 52px); }
+  .aiwa-footer__wordmark { font-size: clamp(55px, 18vw, 65px); }
+}
+@media (max-width: 350px) {
+  .aiwa-hero__headline { font-size: 12vw; }
+  .aiwa-hero__center { padding-inline: 12px; }
+  .aiwa-footer__upper { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .aiwa-footer__navigation a, .aiwa-footer__social a { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aiwa-hero__film-tile { animation: none !important; }
+}
+
+/* Screenshot QA: inline-flex unintentionally made the footer's contact
+ * anchors share a line. Keep them as full, vertically stacked flex rows. */
+.aiwa-footer__contact > a {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+}
+@media (max-width: 950px) {
+  /* The earlier component stylesheet deliberately hides the Offices
+     navigation on phones/tablets. Do not undo that when sizing desktop taps. */
+  .aiwa-header__offices { display: none; }
+}
+
+/* Footer contact rhythm: avoid the excessive double margins between
+ * address, phone and Directions after enlarging touch targets. */
+.aiwa-footer__contact address { margin-bottom: 12px; }
+.aiwa-footer__contact > a { margin-top: 6px; }
+.aiwa-footer__contact .aiwa-footer__directions { margin-top: 8px; }
+
+/* The regular-weight licensed font is supplied only by a protected build
+ * variable. This URL is never requested when that variable is absent.
+ * Font files must not be committed to the public source repository. */
+@font-face {
+  font-family: "Aiwa Roc Grotesk Web";
+  src: url("/fonts/roc-grotesk-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+html[data-aiwa-roc="true"] .aiwa-site {
+  --aiwa-font-body: "Aiwa Roc Grotesk Web", var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+}
+html[data-aiwa-roc="true"] .aiwa-site :where(
+  .aiwa-specialisms__footer p,
+  .aiwa-about__description,
+  .aiwa-work__caption span,
+  .aiwa-contact__message p,
+  .aiwa-office__current-story p,
+  .aiwa-office__contact address,
+  .aiwa-footer__contact address
+) {
+  font-weight: 400;
+}
+
+/* Small interface labels use Space Grotesk's real 300–700 weight range.
+ * Keep Anton for the huge condensed letterforms and Barlow for true italics. */
+.aiwa-header__link,
+.aiwa-header__offices,
+.aiwa-mobile-nav__link,
+.aiwa-mobile-nav__location,
+.aiwa-specialisms__top h2,
+.aiwa-about__topline,
+.aiwa-work__eyebrow,
+.aiwa-contact__topline,
+.aiwa-office__top,
+.aiwa-footer__eyebrow {
+  font-family: var(--aiwa-font-interface);
+  font-weight: 700;
+  letter-spacing: -.027em;
+}
+.aiwa-header__link,
+.aiwa-header__offices { font-size: clamp(12px, .92vw, 15px); }
+.aiwa-mobile-nav__link { font-size: clamp(25px, 6.3vw, 43px); }

@@ -39,3 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+\n# Commercially licensed webfont: injected only from protected build secret\n/public/fonts/roc-grotesk-regular.woff2\n
