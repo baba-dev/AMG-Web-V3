@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Barlow_Condensed, Anton } from "next/font/google";
+import { Geist, Geist_Mono, Barlow_Condensed, Anton, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const aiwaText = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -48,7 +54,8 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${aiwaDisplay.variable} ${aiwaPoster.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${aiwaText.variable} ${aiwaDisplay.variable} ${aiwaPoster.variable} h-full antialiased`}
+      data-aiwa-roc={process.env.AIWA_ROC_GROTESK_WOFF2_BASE64 ? "true" : undefined}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider
