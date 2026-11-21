@@ -1,0 +1,95 @@
+name: P2-B editorial case studies and stacked regression
+
+on:
+  push:
+    branches:
+      - feat/work-case-studies-editorial-v3
+  pull_request:
+    branches:
+      - main
+      - feat/work-editorial-directory-v3
+    paths:
+      - src/app/work/**
+      - src/components/work-case-study-article.tsx
+      - src/lib/work/**
+      - src/components/work-hero.tsx
+      - public/media/work/**
+      - scripts/work-case-study-qa.cjs
+      - .github/workflows/work-case-studies-p2b.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  case-study-experience:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Compile and export seven work routes
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          test -f out/index.html
+          test -f out/work.html -o -f out/work/index.html
+          for slug in mymo-express casabella-oman best-genetco aqua-petro razmazaan vitamin-phones; do
+            test -f "out/work/$slug.html" || test -f "out/work/$slug/index.html"
+          done
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Inspect all case studies, visual systems and sources
+        run: |
+          node scripts/work-static-preview.cjs >/tmp/aiwa-p2b-http.log 2>&1 &
+          for i in 1 2 3 4 5 6 7 8; do
+            curl -fsS -o /dev/null http://127.0.0.1:4173/work && break || sleep 1
+          done
+          node scripts/work-case-study-qa.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aiwa-p2b-case-studies
+          path: test-artifacts/work-case-studies/
+          retention-days: 7
+
+  inherited-homepage-and-directory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Build unchanged homepage and directory
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+      - name: Install Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Verify existing motion, design and project navigation
+        run: |
+          node scripts/work-static-preview.cjs >/tmp/aiwa-p2b-regress-http.log 2>&1 &
+          for i in 1 2 3 4 5 6 7 8; do
+            curl -fsS -o /dev/null http://127.0.0.1:4173/ && break || sleep 1
+          done
+          node scripts/work-directory-qa.cjs
+          node scripts/work-section-smoke.cjs
+          node scripts/homepage-design-audit.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aiwa-p2b-inherited-regressions
+          path: |
+            test-artifacts/work-directory/
+            test-artifacts/work/
+            test-artifacts/design-audit/
+          retention-days: 7

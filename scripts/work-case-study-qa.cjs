@@ -76,14 +76,24 @@ const measure=async page=>page.evaluate(()=>{
         project.slug+" "+width+": headline clipping "+JSON.stringify(values.headings));
       check(values.art?.height>280,project.slug+" "+width+": visual artwork collapsed");
       assert.equal(values.paper,"rgb(245, 245, 243)",project.slug+" paper token mismatch");
+      const headerBg=await page.locator(".aiwa-inner-header")
+        .evaluate(el=>getComputedStyle(el).backgroundColor);
+      assert.equal(headerBg,"rgb(10, 10, 10)",project.slug+" "+width+": translucent header obscures reading");
       check(/space[_ ]?grotesk|aiwa roc grotesk/i.test(values.bodyFont),
         project.slug+" "+width+": wrong body font "+values.bodyFont);
       const touch=await page.evaluate(()=>[...document.querySelectorAll(
         '.case-hero__navigation a,.case-hero__bottom a,.case-sources__links a,.work-project__next a,.aiwa-theme-toggle'
         )].map(x=>({text:(x.textContent||"").trim().slice(0,30),height:x.getBoundingClientRect().height})));
       check(touch.every(t=>t.height>=43.5),project.slug+" "+width+": undersized touch target "+JSON.stringify(touch));
-      await page.locator("#case-brief").scrollIntoViewIfNeeded();
+      await page.evaluate(()=>document.getElementById("case-brief").scrollIntoView({behavior:"instant",block:"start"}));
       check((await measure(page)).overflow<=2,project.slug+" "+width+": scroll overflow");
+      const anchor=await page.evaluate(()=>({
+        headerBottom:document.querySelector(".aiwa-inner-header").getBoundingClientRect().bottom,
+        briefTop:document.querySelector("#case-brief").getBoundingClientRect().top,
+        labelTop:document.querySelector(".case-context__rail").getBoundingClientRect().top,
+      }));
+      check(anchor.labelTop>=anchor.headerBottom-2,
+        project.slug+" "+width+": sticky header covers brief label "+JSON.stringify(anchor));
       const animation=await page.locator(".case-hero__display>span").first().evaluate(x=>getComputedStyle(x).animationName);
       assert.equal(animation,"none",project.slug+": reduced motion not respected");
       assert.equal(await page.locator("meta[property='og:title']").count(),1);
@@ -100,9 +110,9 @@ const measure=async page=>page.evaluate(()=>{
         await page.screenshot({path:out+"/"+width+"x"+height+"-"+project.slug+"-hero.png"});
       }
       if(width===390||width===1440){
-        await page.locator("#case-brief").scrollIntoViewIfNeeded();
+        await page.evaluate(()=>document.getElementById("case-brief").scrollIntoView({behavior:"instant",block:"start"}));
         await page.screenshot({path:out+"/"+width+"x"+height+"-"+project.slug+"-brief.png"});
-        await page.locator(".case-visual-study__grid").scrollIntoViewIfNeeded();
+        await page.evaluate(()=>document.querySelector(".case-visual-study__grid").scrollIntoView({behavior:"instant",block:"start"}));
         await page.screenshot({path:out+"/"+width+"x"+height+"-"+project.slug+"-visual.png"});
       }
       summary.push({width,height,slug:project.slug,...values});
@@ -122,6 +132,9 @@ const measure=async page=>page.evaluate(()=>{
   check(after.topBackground!==before.topBackground,"Light mode did not change the case-study hero");
   assert.equal(after.topBackground,"rgb(245, 245, 243)");
   assert.equal(after.paper,"rgb(245, 245, 243)");
+  const lightHeaderBg=await theme.locator(".aiwa-inner-header")
+    .evaluate(el=>getComputedStyle(el).backgroundColor);
+  assert.equal(lightHeaderBg,"rgb(245, 245, 243)","Light header should also be opaque");
   await theme.screenshot({path:out+"/390x844-mymo-light.png"});
   await themeCtx.close();
   // Pages remain fully readable with no hydration.

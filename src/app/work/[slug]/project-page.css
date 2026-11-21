@@ -413,10 +413,10 @@
  .case-hero__eyebrow{font-size:10px;padding-bottom:15px;gap:10px;}
  .case-hero__eyebrow span:last-child{text-align:right;}
  .work-project__hero.case-hero h1{
-  margin:26px 0 26px;font-size:clamp(26px,7.3vw,48px);
+  margin:26px 0 26px;font-size:clamp(32px,8.8vw,55px);
  }
  .case-hero__display{
-  font-size:clamp(52px,12vw,91px);line-height:.88;
+  font-size:clamp(51px,13.6vw,100px);line-height:.88;
   margin:0 0 clamp(63px,15vw,105px);
  }
  .case-hero__display em{font-size:1em;}
@@ -462,8 +462,8 @@
  .case-visual-study__header>span{font-size:11px;}
  .case-visual-study__header h2{margin:35px 0 0;text-align:left;font-size:clamp(62px,10.5vw,91px);}
  .case-visual-study__grid{display:block;}
- .case-visual-study__image{height:clamp(390px,100vw,680px);}
- .case-visual-study__image img{transform:scale(1.22);}
+ .case-visual-study__image{height:clamp(340px,82vw,520px);}
+ .case-visual-study__image img{transform:scale(1.035);object-position:center;}
  .case-visual-study__type{min-height:420px;padding:35px 24px;}
  .case-visual-study__type strong{font-size:clamp(57px,11vw,98px);}
  .case-visual-study__type p{font-size:15px;}
@@ -478,10 +478,9 @@
  .case-next a{min-height:110px;font-size:10px;gap:10px;padding:20px 0;}
  .case-next a>span{font-size:clamp(26px,5.9vw,45px);}
  .case-cta.work-page__outro{padding-block:100px 120px;}
- #case-brief{scroll-margin-top:74px;}
+ #case-brief,.case-visual-study__grid{scroll-margin-top:74px;}
 }
 @media(max-width:390px){
- .case-hero__display{font-size:11.5vw;}
  .case-hero__eyebrow{font-size:9px;}
  .case-hero__bottom p{max-width:35%;}
  .case-context__rail .work-page__eyebrow{min-width:135px;}
@@ -495,7 +494,6 @@
  .case-next a>span{font-size:6vw;}
 }
 @media(max-width:320px){
- .case-hero__display{font-size:11vw;}
  .case-hero__bottom>a{gap:6px;}
  .case-hero__bottom>a svg{width:18px;}
  .case-context__rail{display:block;}
@@ -513,3 +511,8 @@
  .case-hero,.case-idea,.case-media{print-color-adjust:exact;}
  .case-context__rail{position:static;}
 }
+
+/* Actual anchor targets must clear the persistent site header on desktop too. */
+#case-brief,.case-visual-study__grid{scroll-margin-top:95px;}
+@media(max-width:1080px){#case-brief,.case-visual-study__grid{scroll-margin-top:83px;}}
+@media(max-width:767px){#case-brief,.case-visual-study__grid{scroll-margin-top:74px;}}
