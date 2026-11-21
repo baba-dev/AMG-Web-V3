@@ -17,6 +17,7 @@ fs.mkdirSync(dir,{recursive:true});
    const response=await page.goto(base+"/contact",{waitUntil:"domcontentloaded",timeout:45000});
    requireIt(response?.ok(),width+": contact route should load");
    await page.evaluate(()=>document.fonts.ready);
+   await page.waitForFunction(()=>document.querySelector("[data-contact-page]")?.dataset.contactMotion==="reduced");
    await page.waitForTimeout(120);
    const structure=await page.evaluate(()=>{
     const wall=document.querySelector(".contact-wall");
@@ -50,6 +51,10 @@ fs.mkdirSync(dir,{recursive:true});
    requireIt(structure.realOfficeCount===1,width+": do not imply unverified offices");
    requireIt(structure.phone&&structure.mail&&structure.directions,width+": official live contact links");
    requireIt(structure.hiddenDecorative,width+": duplicate marquees must be removed from tab order");
+   requireIt(await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationName)==="none",
+      width+": reduced motion must stop the marquee");
+   requireIt(await page.locator(".contact-intro").getAttribute("data-entered")==="true",
+      width+": reduced motion must not hide any sections");
    const header=await page.locator(".aiwa-inner-header").evaluate(el=>el.getBoundingClientRect().height);
    requireIt(width>=1081?header>=75:header>=53,width+": readable sticky nav");
    const tabs=page.locator("[data-enquiry-tab]");
@@ -119,6 +124,53 @@ fs.mkdirSync(dir,{recursive:true});
   const paused=await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationPlayState);
   requireIt(paused==="paused","hover should pause the moving typography");
   await page.screenshot({path:dir+"/1440-motion-hover.png"});
+
+  await page.waitForFunction(()=>document.querySelector("[data-contact-page]")?.dataset.contactMotion==="ready");
+  const score=await page.evaluate(()=>{
+    const style=selector=>getComputedStyle(document.querySelector(selector));
+    return {
+      row:style(".contact-wall__sequence:first-child .contact-wall__row").animationName,
+      picture:style(".contact-wall__sequence:first-child .contact-wall__picture").animationName,
+      track:style(".contact-wall__track").animationName,
+      duration:style(".contact-wall__track").animationDuration,
+      delay:style(".contact-wall__track").animationDelay,
+    };
+  });
+  requireIt(score.row==="contact-wall-beat","staggered typographic entrance");
+  requireIt(score.picture==="contact-image-cut","separate image cut");
+  requireIt(score.track==="contact-wall-scroll" && score.duration==="51s" && score.delay==="1.4s",
+    "ambient marquee starts after the first entrance");
+  await page.mouse.move(0,0);
+
+  await page.locator("#enquiries").scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>document.querySelector(".contact-intro")?.dataset.entered==="true");
+  await page.locator(".contact-enquiries").scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>document.querySelector(".contact-enquiries")?.dataset.entered==="true");
+  await page.locator('[data-enquiry-tab="collaboration"]').click();
+  const panelMotion=await page.locator('[data-active-enquiry="collaboration"] h3')
+    .evaluate(el=>getComputedStyle(el).animationName);
+  requireIt(panelMotion==="contact-panel-in","enquiry panel has a choreographed entrance");
+
+  await page.locator(".contact-office__image").scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>document.querySelector(".contact-office")?.dataset.entered==="true");
+  await page.waitForFunction(()=>document.querySelector(".contact-wall")?.dataset.sceneActive==="false");
+  await page.waitForTimeout(150);
+  const driftA=await page.locator(".contact-office__image").evaluate(el=>
+    parseFloat(el.style.getPropertyValue("--contact-photo-drift")));
+  await page.evaluate(()=>window.scrollBy({top:120,behavior:"instant"}));
+  await page.waitForTimeout(150);
+  const driftB=await page.locator(".contact-office__image").evaluate(el=>
+    parseFloat(el.style.getPropertyValue("--contact-photo-drift")));
+  requireIt(Number.isFinite(driftA)&&Number.isFinite(driftB)&&Math.abs(driftA-driftB)>1,
+    "Muscat artwork must move subtly and reversibly with scroll");
+  const parked=await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationPlayState);
+  requireIt(parked==="paused","offscreen marquee must pause");
+  await page.locator(".contact-outro").scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>document.querySelector(".contact-outro")?.dataset.entered==="true");
+  await page.waitForTimeout(400);
+  await page.screenshot({path:dir+"/1440-choreographed-outro.png"});
+  console.log("CONTACT_CHOREOGRAPHY_PASS",JSON.stringify(score),driftA,driftB);
+
   await page.evaluate(()=>{document.documentElement.classList.remove("dark");document.documentElement.classList.add("light");});
   await page.evaluate(()=>{
     const target=document.getElementById("enquiries"),header=document.querySelector(".aiwa-inner-header");
@@ -134,5 +186,27 @@ fs.mkdirSync(dir,{recursive:true});
     "light mobile overflow");
   console.log("CONTACT_THEME_MOTION_QA_PASS");
   await page.close();
+
+  const mobile=await browser.newPage({viewport:{width:390,height:844},reducedMotion:"no-preference"});
+  await mobile.goto(base+"/contact",{waitUntil:"domcontentloaded"});
+  await mobile.waitForFunction(()=>document.querySelector("[data-contact-page]")?.dataset.contactMotion==="ready");
+  const mobileBeat=await mobile.locator(".contact-wall__sequence:first-child .contact-wall__row")
+    .first().evaluate(el=>getComputedStyle(el).animationName);
+  requireIt(mobileBeat==="contact-wall-beat","mobile type cut must remain choreographed");
+  await mobile.waitForTimeout(1200);
+  await mobile.screenshot({path:dir+"/390-mobile-motion-hero.png"});
+  requireIt(await mobile.evaluate(()=>document.documentElement.scrollWidth-innerWidth)<=2,
+    "mobile motion must not introduce horizontal overflow");
+  await mobile.close();
+
+  const noJs=await browser.newContext({viewport:{width:390,height:844},javaScriptEnabled:false});
+  const fallback=await noJs.newPage();
+  await fallback.goto(base+"/contact",{waitUntil:"domcontentloaded"});
+  const visible=await fallback.locator(".contact-intro__grid h2")
+    .evaluate(el=>getComputedStyle(el).opacity);
+  requireIt(Number(visible)===1,"no-JS typography must remain visible");
+  await fallback.screenshot({path:dir+"/390-no-js.png"});
+  await noJs.close();
+
  }finally{await browser.close();}
 })().catch(e=>{console.error(e.stack||e);process.exit(1)});
