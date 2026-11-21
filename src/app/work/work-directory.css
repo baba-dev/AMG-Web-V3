@@ -131,7 +131,7 @@ html.light .aiwa-site.work-page {
   .aiwa-site.work-page .aiwa-footer__intro p { font-size:clamp(41px,10vw,63px); }
 }
 @media(max-width:360px) {
-  .work-page__index-header h2 { font-size:10.5vw; }
+  .work-page__index-header h2 { font-size:clamp(41px,11.2vw,46px); }
 }
 @media(prefers-reduced-motion:reduce) {
   .work-page__contact-link svg { transition:none!important; }

@@ -54,5 +54,5 @@
   .work-process__bottom li span { grid-column:1; grid-row:1; }
 }
 @media(max-width:360px) {
-  .work-process h2 { font-size:9vw; }
+  .work-process h2 { font-size:clamp(39px,9.3vw,43px); }
 }
