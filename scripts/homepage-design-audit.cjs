@@ -107,6 +107,9 @@ const testSelectors = [
         assert(mobileDetails.footerContacts.every((item,i,list) =>
           i===0 || item.top >= list[i-1].bottom - 1),
           width+"px: footer phone/directions overlap: "+JSON.stringify(mobileDetails.footerContacts));
+        assert(mobileDetails.footerContacts.every((item,i,list) =>
+          i===0 || item.top - list[i-1].bottom <= 28),
+          width+"px: footer contact spacing too loose: "+JSON.stringify(mobileDetails.footerContacts));
 
         // Walk the page; some overflows only appear while sticky sections animate.
         const sections=["#specialisms","#about","#work","#contact","#office","#site-footer"];
