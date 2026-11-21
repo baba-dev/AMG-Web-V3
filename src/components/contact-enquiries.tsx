@@ -60,7 +60,7 @@ export function ContactEnquiries() {
     tabs[next]?.focus();
   };
   return (
-    <div className="contact-enquiries" data-contact-enquiries>
+    <div className="contact-enquiries" data-contact-enquiries data-contact-reveal>
       <div className="contact-enquiries__tabs" role="tablist"
         aria-label="Choose a type of enquiry" onKeyDown={onKeyDown}>
         {enquiries.map((item, index) => (

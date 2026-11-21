@@ -5,6 +5,7 @@ import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ContactEnquiries } from "@/components/contact-enquiries";
+import { ContactMotion } from "@/components/contact-motion";
 import "@/components/aiwa-polish.css";
 import "./contact-page.css";
 
@@ -31,6 +32,7 @@ export default function AiwaContactPage() {
   return (
     <div className="aiwa-site contact-page" data-contact-page>
       <AiwaInnerHeader />
+      <ContactMotion />
       <main id="main-content">
         <section className="contact-wall" aria-labelledby="contact-wall-title">
           <h1 id="contact-wall-title" className="contact-wall__sr-only">Contact Aiwa Media Group — Say hello from Muscat</h1>
@@ -42,6 +44,7 @@ export default function AiwaContactPage() {
                   {phrases.map((phrase, index) => (
                     <a key={phrase.text}
                       className={"contact-wall__row" + (phrase.imageFirst ? " contact-wall__row--reverse" : "")}
+                      style={{ "--contact-row": index } as React.CSSProperties}
                       href={phrase.action}
                       tabIndex={repeat === 0 ? undefined : -1}
                       aria-label={repeat === 0 ? phrase.text + " — " + phrase.note : undefined}
@@ -68,7 +71,7 @@ export default function AiwaContactPage() {
           </div>
         </section>
 
-        <section className="contact-intro contact-pad" id="enquiries" aria-labelledby="contact-intro-title">
+        <section className="contact-intro contact-pad" id="enquiries" data-contact-reveal aria-labelledby="contact-intro-title">
           <div className="contact-intro__top"><span>01 / START HERE</span><span>GOOD CONVERSATIONS LEAD TO GREAT THINGS</span></div>
           <div className="contact-intro__grid">
             <h2 id="contact-intro-title">GOT AN<br /><em>IDEA?</em></h2>
@@ -81,7 +84,7 @@ export default function AiwaContactPage() {
           <ContactEnquiries />
         </section>
 
-        <section className="contact-office contact-pad" id="office" aria-labelledby="contact-office-title">
+        <section className="contact-office contact-pad" id="office" data-contact-reveal aria-labelledby="contact-office-title">
           <div className="contact-office__eyebrows">
             <span>02 / FIND US</span><span>ONE OFFICE / MUSCAT, OMAN</span>
           </div>
@@ -116,7 +119,7 @@ export default function AiwaContactPage() {
           </div>
         </section>
 
-        <section className="contact-outro contact-pad" aria-labelledby="contact-outro-title">
+        <section className="contact-outro contact-pad" data-contact-reveal aria-labelledby="contact-outro-title">
           <span>STILL HERE? WE LIKE YOUR ENERGY.</span>
           <h2 id="contact-outro-title">MAKE<br /><em>IT HAPPEN.</em></h2>
           <a href="mailto:info@aiwamediagroup.com?subject=Hello%20Aiwa">
