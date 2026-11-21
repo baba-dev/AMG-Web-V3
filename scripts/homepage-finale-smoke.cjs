@@ -41,7 +41,7 @@ async function visit(browser,w,h,reduce=false) {
   assert(close(values.workBottom,values.contactTop,4),"Contact must immediately follow Work");
   assert(close(values.contactBottom,values.officeTop,4),"Office must immediately follow Contact");
   assert(close(values.officeBottom,values.footerTop,4),"Footer must immediately follow Office");
-  assert.equal(values.action,"https://aiwamediagroup.com/contact-us/","Contact CTA must work");
+  assert.equal(values.action,BASE+"/contact","Contact CTA must link to the new Aiwa page");
   assert(values.contactTitle.includes("LET'S MAKE") && values.contactTitle.includes("SOME NOISE."),"Contact heading missing");
   assert.deepEqual(values.panels,["muscat","studio","motion"],"Expected three editorial chapters");
   assert.equal(values.numberButtons,3);
