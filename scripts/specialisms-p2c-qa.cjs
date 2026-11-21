@@ -89,6 +89,16 @@ const sample=async page=>page.evaluate(()=>{
       const state=await sample(page);
       check(state.overflow<=2,width+"/"+slug+": horizontal overflow "+state.overflow);
       check(state.hero.height>=200,width+"/"+slug+": hero collapsed");
+      if(width>=1280){
+        check(state.hero.height<=height-83+20,
+          width+"/"+slug+": first hero extends below the viewport "+state.hero.height);
+      }
+      const heroImage=page.locator(".spec-detail__art img");
+      const imageDecoded=await heroImage.evaluate(async img=>{
+        try{await img.decode();return img.naturalWidth>0 && img.naturalHeight>0;}
+        catch{return false;}
+      });
+      check(imageDecoded,width+"/"+slug+": original service SVG did not decode");
       check(state.headline.left>=-12 && state.headline.right<=width+12,
         width+"/"+slug+": headline content outside viewport "+JSON.stringify(state.headline));
       const minHeights=await page.evaluate(()=>[...document.querySelectorAll(
@@ -109,6 +119,8 @@ const sample=async page=>page.evaluate(()=>{
       if(width===390 || width===1440){
         await page.evaluate(()=>scrollTo(0,0));
         await page.screenshot({path:output+"/"+width+"x"+height+"-"+slug+"-hero.png"});
+        await page.evaluate(()=>document.querySelector(".spec-detail__art").scrollIntoView({behavior:"instant",block:"start"}));
+        await page.screenshot({path:output+"/"+width+"x"+height+"-"+slug+"-art.png"});
         await page.evaluate(()=>document.getElementById("service-thinking").scrollIntoView({behavior:"instant",block:"start"}));
         await page.screenshot({path:output+"/"+width+"x"+height+"-"+slug+"-thinking.png"});
         await page.evaluate(()=>document.querySelector(".spec-detail__related").scrollIntoView({behavior:"instant",block:"start"}));
