@@ -9,5 +9,8 @@ export const siteNavigation = [
 ] as const;
 
 export function resolveSiteHref(href: string, path: string): string {
+  // Inner pages have a complete specialisms directory; homepage retains its
+  // cinematic #specialisms section and its existing in-page nav.
+  if (href === "#specialisms" && path !== "/") return "/specialisms";
   return href.startsWith("#") && path !== "/" ? "/" + href : href;
 }
