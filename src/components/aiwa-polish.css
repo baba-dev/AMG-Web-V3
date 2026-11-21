@@ -185,3 +185,9 @@
      navigation on phones/tablets. Do not undo that when sizing desktop taps. */
   .aiwa-header__offices { display: none; }
 }
+
+/* Footer contact rhythm: avoid the excessive double margins between
+ * address, phone and Directions after enlarging touch targets. */
+.aiwa-footer__contact address { margin-bottom: 12px; }
+.aiwa-footer__contact > a { margin-top: 6px; }
+.aiwa-footer__contact .aiwa-footer__directions { margin-top: 8px; }
