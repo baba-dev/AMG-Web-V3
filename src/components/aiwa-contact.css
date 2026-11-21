@@ -152,3 +152,69 @@
     transform-origin: left;
   }
 }
+
+@media (max-width: 767px) {
+  .aiwa-contact__scene {
+    min-height: min(920px,100svh);
+    padding: 28px 17px 29px;
+  }
+  .aiwa-contact__topline { font-size: 12px; }
+  .aiwa-contact__index { font-size: 9px; }
+  .aiwa-contact__main { gap: 42px; padding: 100px 0 116px; }
+  .aiwa-contact__headline,
+  .aiwa-contact__echo {
+    font-size: clamp(51px, 13.4vw, 104px);
+    line-height: .89;
+    letter-spacing: -.055em;
+  }
+  .aiwa-contact__headline em { letter-spacing: -.065em; }
+  .aiwa-contact__echo { transform:translate3d(4px,8px,0) scale(1.005); }
+  .aiwa-contact__message { gap: 28px; }
+  .aiwa-contact__message p { max-width: 330px; font-size:clamp(17px,4.5vw,21px);line-height:1.43; }
+  .aiwa-contact__action { min-height: 57px;min-width: 250px;font-size:19px; }
+  .aiwa-contact__baseline { font-size: 9px; }
+  .aiwa-contact__baseline svg { display:none; }
+}
+@media (max-width: 390px) {
+  .aiwa-contact__headline,.aiwa-contact__echo { font-size: 13.25vw; }
+  .aiwa-contact__main { padding: 92px 0 104px; }
+}
+@media (max-width:767px) and (prefers-reduced-motion:no-preference) {
+  .aiwa-contact[data-motion="mobile"] .aiwa-contact__line > span {
+    transform:translate3d(0,35%,0) skewY(3deg);
+    opacity:.42;
+    transition:transform .95s cubic-bezier(.16,1,.3,1), opacity .9s ease;
+  }
+  .aiwa-contact[data-motion="mobile"] .aiwa-contact__line:nth-child(2)>span {
+    transition-delay:.11s;
+  }
+  .aiwa-contact[data-motion="mobile"] .aiwa-contact__message {
+    transform:translateY(25px);opacity:.50;
+    transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .8s ease;
+    transition-delay:.16s;
+  }
+  .aiwa-contact[data-motion="mobile"][data-entered="true"] .aiwa-contact__line > span,
+  .aiwa-contact[data-motion="mobile"]:focus-within .aiwa-contact__line > span {
+    transform:translate3d(0,0,0) skewY(0);
+    opacity:1;
+  }
+  .aiwa-contact[data-motion="mobile"][data-entered="true"] .aiwa-contact__message,
+  .aiwa-contact[data-motion="mobile"]:focus-within .aiwa-contact__message {
+    transform:translateY(0);opacity:1;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .aiwa-contact, .aiwa-contact * {
+    animation:none!important;
+    transition:none!important;
+  }
+  .aiwa-contact__headline,
+  .aiwa-contact__echo,
+  .aiwa-contact__line > span,
+  .aiwa-contact__message,
+  .aiwa-contact__eyebrow,
+  .aiwa-contact__action {
+    transform:none!important;filter:none!important;opacity:1!important;
+    clip-path:none!important;
+  }
+}

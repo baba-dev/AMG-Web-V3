@@ -92,13 +92,25 @@ export function AiwaContact() {
       frame = window.requestAnimationFrame(paint);
     };
 
+    const mobileVisibility = new IntersectionObserver(([entry]) => {
+      if (wide.matches || reduced.matches) return;
+      section.dataset.entered = String(entry?.isIntersecting ?? false);
+    }, { threshold: .10, rootMargin: "0px 0px -6% 0px" });
+    mobileVisibility.observe(section);
+
     const configure = () => {
-      if (!wide.matches || reduced.matches) {
+      restore();
+      if (reduced.matches) {
         delete section.dataset.motion;
-        restore();
-      } else {
+        delete section.dataset.entered;
+      } else if (wide.matches) {
         section.dataset.motion = "desktop";
+        delete section.dataset.entered;
         schedule();
+      } else {
+        section.dataset.motion = "mobile";
+        // Observer sets this on entry; keep copy readable during hydration.
+        if (!section.dataset.entered) section.dataset.entered = "true";
       }
     };
 
@@ -119,6 +131,7 @@ export function AiwaContact() {
       wide.removeEventListener("change", configure);
       reduced.removeEventListener("change", configure);
       proximity.disconnect();
+      mobileVisibility.disconnect();
       if (frame) window.cancelAnimationFrame(frame);
       restore();
     };
