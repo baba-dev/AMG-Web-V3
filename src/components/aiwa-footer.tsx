@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, ArrowUpRight, Instagram, Linkedin, MapPin } from "lucide-react";
+import { ArrowUp, ArrowUpRight, Camera, Briefcase, MapPin } from "lucide-react";
 import Link from "next/link";
 import "./aiwa-footer.css";
 
@@ -61,12 +61,12 @@ export function AiwaGlobalFooter() {
           <a href="https://www.instagram.com/aiwamediagroup.om/"
             target="_blank" rel="noopener noreferrer"
             aria-label="Aiwa Media Group on Instagram">
-            <Instagram size={19} aria-hidden="true"/> INSTAGRAM <ArrowUpRight size={14} aria-hidden="true"/>
+            <Camera size={19} aria-hidden="true"/> INSTAGRAM <ArrowUpRight size={14} aria-hidden="true"/>
           </a>
           <a href="https://www.linkedin.com/company/aiwamediagroup/"
             target="_blank" rel="noopener noreferrer"
             aria-label="Aiwa Media Group on LinkedIn">
-            <Linkedin size={19} aria-hidden="true"/> LINKEDIN <ArrowUpRight size={14} aria-hidden="true"/>
+            <Briefcase size={19} aria-hidden="true"/> LINKEDIN <ArrowUpRight size={14} aria-hidden="true"/>
           </a>
           <span className="aiwa-footer__city"><MapPin size={15} aria-hidden="true"/> MUSCAT, OMAN</span>
         </div>
