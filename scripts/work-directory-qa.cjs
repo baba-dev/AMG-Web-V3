@@ -84,8 +84,25 @@ async function geometry(page){return page.evaluate(()=>{
     assert.equal(new URL(page.url()).searchParams.get("view"),"list",width+": filter keeps view");
     await page.locator('[data-filter-button="all"]').click();
     check((await geometry(page)).overflow<=2,width+": list causes horizontal overflow");
-    await page.locator("[data-work-project]").first().scrollIntoViewIfNeeded();
+    // Stable screenshot composition: start at controls below the sticky header.
+    await page.evaluate(()=>{
+      const controls=document.querySelector(".work-gallery__filterbar");
+      const header=document.querySelector(".aiwa-inner-header");
+      const top=window.scrollY+controls.getBoundingClientRect().top-
+        (header?.getBoundingClientRect().height||0);
+      window.scrollTo({top:Math.max(0,top),behavior:"instant"});
+    });
     await page.screenshot({path:folder+"/"+width+"x"+height+"-list.png"});
+    if(width>=950){
+      const firstLink=page.locator(".work-gallery__link").first();
+      await firstLink.hover();
+      const artRevealed=await firstLink.locator(".work-gallery__art").evaluate(el=>{
+        const css=getComputedStyle(el);
+        return css.visibility==="visible" && Number(css.opacity)>.85;
+      });
+      check(artRevealed,width+": mouse-hover image preview should reveal");
+      await page.screenshot({path:folder+"/"+width+"x"+height+"-list-hover.png"});
+    }
     await page.goto(base+"/work",{waitUntil:"domcontentloaded"});
     await settle(page);
     assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"),"list",
@@ -179,10 +196,16 @@ async function geometry(page){return page.evaluate(()=>{
   assert.equal(await themePage.locator(".work-process").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(232, 229, 223)");
   assert.equal(await themePage.locator(".aiwa-footer").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
   await themePage.locator('[data-view-button="list"]').click();
-  await themePage.locator("#work-index").scrollIntoViewIfNeeded();
+  const frameLightList=()=>themePage.evaluate(()=>{
+    const controls=document.querySelector(".work-gallery__filterbar");
+    const header=document.querySelector(".aiwa-inner-header");
+    window.scrollTo({top:Math.max(0,window.scrollY+controls.getBoundingClientRect().top-
+      (header?.getBoundingClientRect().height||0)),behavior:"instant"});
+  });
+  await frameLightList();
   await themePage.screenshot({path:folder+"/1440x900-light-list.png"});
   await themePage.setViewportSize({width:390,height:844});
-  await themePage.locator("#work-index").scrollIntoViewIfNeeded();
+  await frameLightList();
   await themePage.screenshot({path:folder+"/390x844-light-list.png"});
   const lightOverflow=await themePage.evaluate(()=>document.documentElement.scrollWidth-innerWidth);
   check(lightOverflow<=2,"light mobile list horizontal overflow "+lightOverflow);
