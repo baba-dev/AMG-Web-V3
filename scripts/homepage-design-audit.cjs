@@ -91,6 +91,23 @@ const testSelectors = [
         });
         assert(tap.every(x=>x.height>=43.5&&x.width>=24),
           width+"px: undersized essential touch target: "+JSON.stringify(tap.filter(x=>x.height<43.5||x.width<24)));
+        // Screenshot regression: mobile must not show desktop-only Offices.
+        // Footer phone and Directions must never collide on the same line.
+        const mobileDetails = await page.evaluate(() => ({
+          offices: getComputedStyle(document.querySelector(".aiwa-header__offices")).display,
+          footerContacts: [...document.querySelectorAll(".aiwa-footer__contact > a")].map(el => {
+            const r = el.getBoundingClientRect();
+            return {text:el.textContent.trim(),top:r.top,bottom:r.bottom};
+          }),
+        }));
+        if (width <= 950) {
+          assert.equal(mobileDetails.offices,"none",
+            width+"px: desktop Offices control leaked into mobile header");
+        }
+        assert(mobileDetails.footerContacts.every((item,i,list) =>
+          i===0 || item.top >= list[i-1].bottom - 1),
+          width+"px: footer phone/directions overlap: "+JSON.stringify(mobileDetails.footerContacts));
+
         // Walk the page; some overflows only appear while sticky sections animate.
         const sections=["#specialisms","#about","#work","#contact","#office","#site-footer"];
         const sectionResults=[];
