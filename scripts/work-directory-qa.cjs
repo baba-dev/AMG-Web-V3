@@ -101,6 +101,9 @@ async function geometry(page){return page.evaluate(()=>{
         return css.visibility==="visible" && Number(css.opacity)>.85;
       });
       check(artRevealed,width+": mouse-hover image preview should reveal");
+      const disciplineOpacity=await firstLink.locator(".work-gallery__discipline")
+        .evaluate(el=>Number(getComputedStyle(el).opacity));
+      check(disciplineOpacity<=.1,width+": image preview must not obscure the discipline label");
       await page.screenshot({path:folder+"/"+width+"x"+height+"-list-hover.png"});
     }
     await page.goto(base+"/work",{waitUntil:"domcontentloaded"});

@@ -193,6 +193,17 @@
     color:var(--work-accent); transform:translateX(6px);
   }
 }
+/* In a wide pointer layout, the picture replaces the discipline caption
+   rather than sitting over live text. Keyboard focus gets the same treatment. */
+@media(min-width:901px) and (hover:hover) and (pointer:fine) {
+  .work-gallery[data-view="list"] .work-gallery__discipline {
+    transition:opacity .23s,transform .35s cubic-bezier(.22,1,.36,1);
+  }
+  .work-gallery[data-view="list"] .work-gallery__link:is(:hover,:focus-visible) .work-gallery__discipline {
+    opacity:0;
+    transform:translateX(-8px);
+  }
+}
 .work-gallery__closing { margin-top:clamp(95px,12vw,195px); border-top:1px solid var(--work-line); border-bottom:0; }
 
 @media(max-width:1100px) {
