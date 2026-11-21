@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Barlow_Condensed } from "next/font/google";
+import { Geist, Geist_Mono, Barlow_Condensed, Anton } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -18,6 +18,13 @@ const aiwaDisplay = Barlow_Condensed({
   subsets: ["latin"],
   weight: ["700", "800", "900"],
   style: ["normal", "italic"],
+  display: "swap",
+});
+
+const aiwaPoster = Anton({
+  variable: "--font-aiwa-poster",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -41,7 +48,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${aiwaDisplay.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${aiwaDisplay.variable} ${aiwaPoster.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider
