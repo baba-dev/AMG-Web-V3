@@ -7,31 +7,50 @@ on:
       - src/components/aiwa-inner-header.*
       - src/components/aiwa-footer.*
       - src/components/aiwa-contact.*
+      - src/components/contact-enquiries.tsx
+      - src/app/work/page.tsx
+      - src/app/specialisms/**
       - src/lib/site-navigation.ts
       - scripts/contact-reference-qa.cjs
       - scripts/contact-page-qa.cjs
+      - scripts/work-static-preview.cjs
       - .github/workflows/contact-v3.yml
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  contact-reference:
+  contact:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: npm
-      - run: npm ci --no-audit --no-fund
-      - run: npm install --no-save --package-lock=false playwright
-      - run: npx playwright install chromium --only-shell
-      - name: Capture reference page at desktop and mobile
+      - name: Build Cloudflare Pages static export
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          test -f out/contact.html || test -f out/contact/index.html
+          test -f out/work.html || test -f out/work/index.html
+          test -f out/specialisms.html || test -f out/specialisms/index.html
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Responsive, theme, contact navigation and keyboard QA
+        run: |
+          node scripts/work-static-preview.cjs > /tmp/aiwa-contact-preview.log 2>&1 &
+          node scripts/contact-page-qa.cjs
+      - name: Capture public reference desktop and mobile (non-production evidence)
+        if: always()
         run: node scripts/contact-reference-qa.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: contact-reference-captures
-          path: test-artifacts/contact-reference/
-          retention-days: 4
+          name: aiwa-contact-v3-visual-qa
+          path: |
+            test-artifacts/contact-page/
+            test-artifacts/contact-reference/
+          retention-days: 7
