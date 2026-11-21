@@ -1,9 +1,8 @@
-import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
-import { workProjects } from "@/lib/work/projects";
+import { WorkGallery } from "@/components/work-gallery";
 import { WorkHero } from "@/components/work-hero";
 import "@/components/aiwa-polish.css";
 import "./work-directory.css";
@@ -33,20 +32,7 @@ export default function WorkDirectory() {
             </div>
             <p>Brand worlds, digital experiences and campaigns built around the ambitions of the people behind them.</p>
           </div>
-          <ol className="work-page__initial-list work-page__gutter">
-            {workProjects.map((project, index) => (
-              <li key={project.slug}>
-                <a href={project.href} target="_blank" rel="noopener noreferrer">
-                  <span className="work-page__initial-media">
-                    <Image src={project.artwork} width={960} height={740} alt={project.alt} unoptimized loading={index === 0 ? "eager" : "lazy"}/>
-                  </span>
-                  <span className="work-page__initial-meta">
-                    <strong>{project.client}</strong><span>{project.discipline}</span><ArrowUpRight size={24}/>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ol>
+          <WorkGallery />
           <p className="work-page__disclosure work-page__gutter">Illustrations shown are original conceptual editorial artwork, not documentary campaign photography.</p>
         </section>
         <section className="work-page__outro work-page__gutter" aria-labelledby="work-outro-title">
