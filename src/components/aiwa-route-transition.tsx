@@ -42,13 +42,28 @@ function captureProjectArtwork(anchor: HTMLAnchorElement): Portal | null {
 export function AiwaRouteTransition() {
   const router = useRouter();
   const routerRef = useRef(router);
-  routerRef.current = router;
   const pathname = usePathname();
   const [scene, setScene] = useState<MotionScene | null>(null);
   const busy = useRef(false);
   const pending = useRef<PendingRoute | null>(null);
   const previousPath = useRef(pathname);
   const timers = useRef<Set<number>>(new Set());
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { routerRef.current = router; }, [router]);
+
+  // A fixed visual layer must also stop trackpad and touch scrolling beneath it.
+  useEffect(() => {
+    const overlay = overlayRef.current;
+    if (!overlay) return;
+    const stop = (event: Event) => event.preventDefault();
+    overlay.addEventListener("wheel", stop, { passive: false });
+    overlay.addEventListener("touchmove", stop, { passive: false });
+    return () => {
+      overlay.removeEventListener("wheel", stop);
+      overlay.removeEventListener("touchmove", stop);
+    };
+  }, [scene]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -151,7 +166,7 @@ export function AiwaRouteTransition() {
       <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {scene.phase === "covering" ? "Opening " + scene.label : ""}
       </span>
-      <div className="aiwa-route-stage" data-phase={scene.phase} data-kind={scene.kind}
+      <div ref={overlayRef} className="aiwa-route-stage" data-phase={scene.phase} data-kind={scene.kind}
         style={vars} aria-hidden="true">
         {scene.portal && <div className="aiwa-route-stage__portal">
           {/* A clone ensures the clicked artwork stays continuous across route swaps. */}
