@@ -31,7 +31,7 @@ export function WorkHero() {
           </div>
           <div className="work-hero__frame-meta">
             <div><span>FEATURED / 01—06</span><strong>{featured.client}</strong></div>
-            <span>BRAND + MOVEMENT</span>
+            <span>BRAND + CONNECTION</span>
           </div>
         </div>
       </div>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="740" viewBox="0 0 960 740" role="img" aria-label="Original conceptual mobile banking network artwork for MYMO">
+<defs>
+  <linearGradient id="back" x1=".05" y1=".9" x2=".9" y2=".1"><stop stop-color="#D83D35"/><stop offset=".55" stop-color="#F36A35"/><stop offset="1" stop-color="#FFB74F"/></linearGradient>
+  <linearGradient id="screen" x1="0" y1="0" x2=".9" y2="1"><stop stop-color="#2E174A"/><stop offset="1" stop-color="#10182E"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFD7B0"/><stop offset="1" stop-color="#FF8B54"/></linearGradient>
+  <linearGradient id="chip" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFF0B5"/><stop offset=".5" stop-color="#FFB65F"/><stop offset="1" stop-color="#E57C42"/></linearGradient>
+  <filter id="shadow" x="-45%" y="-45%" width="190%" height="190%"><feDropShadow dx="-23" dy="28" stdDeviation="31" flood-color="#521F37" flood-opacity=".48"/></filter>
+  <pattern id="grid" width="65" height="65" patternUnits="userSpaceOnUse"><path d="M65 0H0V65" fill="none" stroke="#FFE6C7" stroke-width="1" stroke-opacity=".24"/></pattern>
+</defs>
+<rect width="960" height="740" fill="url(#back)"/>
+<rect width="960" height="740" fill="url(#grid)"/>
+<circle cx="730" cy="174" r="332" fill="#FFE2AE" opacity=".22"/>
+<circle cx="738" cy="185" r="248" fill="none" stroke="#FFEDCE" stroke-width="2" opacity=".7"/>
+<circle cx="738" cy="185" r="310" fill="none" stroke="#FFEDCE" stroke-width="2" stroke-dasharray="7 22" opacity=".46"/>
+<path d="M-80 620C180 450 320 465 505 280S825 145 1050 35M-40 720C190 590 340 615 570 390S840 250 1050 208" stroke="#FFF2D9" stroke-width="5" stroke-opacity=".38" fill="none"/>
+<g transform="translate(490 94) rotate(10 175 275)" filter="url(#shadow)">
+  <rect x="16" y="9" width="329" height="560" rx="55" fill="#251531"/>
+  <rect x="32" y="24" width="297" height="528" rx="42" fill="url(#screen)" stroke="#FBD9B4" stroke-opacity=".46" stroke-width="2"/>
+  <rect x="131" y="39" width="98" height="16" rx="8" fill="#130D25"/>
+  <circle cx="182" cy="475" r="137" fill="#E87B52" opacity=".13"/>
+  <path d="M80 369C155 250 230 245 278 132" stroke="#FFBD77" stroke-opacity=".45" stroke-width="2" fill="none"/>
+  <circle cx="83" cy="370" r="16" fill="#FFBD77"/><circle cx="276" cy="132" r="16" fill="#FFBD77"/>
+  <g transform="translate(94 183)">
+    <rect width="172" height="159" rx="19" fill="url(#chip)"/>
+    <rect x="39" y="37" width="94" height="83" rx="13" fill="none" stroke="#9D552F" stroke-width="5"/>
+    <path d="M39 74h94M85 37v83M0 72h38m95 0h39" stroke="#9D552F" stroke-width="5" fill="none"/>
+  </g>
+  <text x="182" y="409" fill="#FFDFC0" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" text-anchor="middle" letter-spacing="8">CONNECTED</text>
+  <path d="M99 454h167" stroke="#FBD7B8" stroke-opacity=".52" stroke-width="2"/>
+</g>
+<g fill="#FFF6DE" font-family="Impact,Arial Narrow,Arial,sans-serif" font-weight="900">
+  <text x="40" y="176" font-size="171" letter-spacing="-5">MYMO</text>
+  <text x="40" y="282" font-size="56" letter-spacing="1">CONNECTED</text>
+  <text x="40" y="335" font-size="56" letter-spacing="1">BY DESIGN.</text>
+</g>
+<g stroke="#FFE3BE" stroke-width="3" fill="none" opacity=".8">
+  <path d="M78 425H290"/><path d="M78 453H239"/><path d="M78 481H271"/>
+</g>
+<g fill="#FFE7C8">
+  <circle cx="90" cy="551" r="8"/><circle cx="190" cy="601" r="8"/><circle cx="277" cy="550" r="8"/>
+</g>
+<g stroke="#FFE7C8" stroke-width="3" fill="none"><path d="M90 551L190 601L277 550"/></g>
+<text x="39" y="704" fill="#FFE2C9" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" letter-spacing="7">MOBILE NETWORK / EDITORIAL STUDY</text>
+<rect x="14" y="14" width="932" height="712" fill="none" stroke="#FFF6DF" stroke-opacity=".45" stroke-width="2"/>
+</svg>
