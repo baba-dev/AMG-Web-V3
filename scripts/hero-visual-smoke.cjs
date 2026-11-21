@@ -229,7 +229,7 @@ async function testViewport(browser, width, height) {
       tile: r(document.querySelector(".aiwa-hero__film-tile")),
       projection: r(document.querySelector(".aiwa-reel")),
       categories: Array.from(document.querySelectorAll(".aiwa-specialisms__name")).map(x=>x.textContent),
-      placeholderLinks: Array.from(document.querySelectorAll(".aiwa-specialisms__row")).every(x=>x.getAttribute("href")==="#"),
+      serviceHrefs: Array.from(document.querySelectorAll(".aiwa-specialisms__row")).map(x=>x.getAttribute("href")),
       aboutNavigation: document.querySelector(".aiwa-header__link[href='#about']") !== null,
       specialismsToAbout: document.querySelector(".aiwa-specialisms__why[href='#about']") !== null,
       overflow: document.documentElement.scrollWidth - innerWidth,
@@ -240,7 +240,9 @@ async function testViewport(browser, width, height) {
   assert(initial.headline.includes("YOUR BRAND’S") && initial.headline.includes("TOO QUIET."),"First line missing");
   assert(initial.headline.includes("DOMINATE") && initial.headline.includes("WITH AIWA."),"Second line missing");
   assert.equal(initial.categories.join("|"),"Global|Consumer|Corporate|Sports|Social|Studio|TECH");
-  assert(initial.placeholderLinks,"All category links must currently be #");
+  assert.deepEqual(initial.serviceHrefs,
+    ["global","consumer","corporate","sports","social","studio","tech"].map(slug=>"/specialisms/"+slug),
+    "Homepage category links must reach seven real specialism pages");
   const expectedHeroHeight = width <= 720 ? height*.75 : height;
   assert(closeTo(initial.hero.height,expectedHeroHeight,3),
     "Hero must match desktop full-screen or reference mobile film fold");
