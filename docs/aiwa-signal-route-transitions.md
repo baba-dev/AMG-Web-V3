@@ -45,6 +45,7 @@ source, assets or proprietary motion implementation.
 - 320px+ mobile width, portrait and landscape; long client names wrap rather
   than overflow. Overlay colors remain legible regardless of stored theme.
 - Buttons/links still meet the existing focus and touch-target rules.
+- Existing Work and case-study entrance animations are never overridden in ways that cause them to restart when the overlay clears.
 - No runtime layout measurements in a scroll loop; one source rectangle is
   captured at navigation and animated once.
 

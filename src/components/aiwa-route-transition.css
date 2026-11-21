@@ -164,17 +164,17 @@
 @keyframes portal-dim {from {opacity:0;} to {opacity:1;}}
 
 /* Post-navigation choreography: the stage uncovers content already in place. */
+/* Only animate shells without an existing entrance animation. Case-study
+   display lines and Work images already animate on mount; overriding those
+   briefly would restart their native keyframes and cause a visible fade flash. */
 html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) :is(
   .work-hero h1 > span,
   .case-hero h1,
-  .case-hero__display > span,
   .work-project__top,
-  .work-hero__frame,
   .specialisms-directory h1
 ) {
   animation:signal-arrive .62s cubic-bezier(.2,.7,.25,1) both;
 }
-html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) .case-hero__display > span:nth-child(2),
 html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) .work-hero h1 > span:nth-child(2) {animation-delay:.08s;}
 html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) .work-hero h1 > span:nth-child(3) {animation-delay:.13s;}
 @keyframes signal-arrive {
@@ -201,7 +201,7 @@ html:is([data-aiwa-route-phase="revealing"],[data-aiwa-route-phase="history"]) .
 @media (prefers-reduced-motion:reduce) {
   .aiwa-route-stage {display:none!important;}
   html[data-aiwa-route-phase] :is(
-    .work-hero h1 > span,.case-hero h1,.case-hero__display > span,
-    .work-project__top,.work-hero__frame,.specialisms-directory h1
+    .work-hero h1 > span,.case-hero h1,
+    .work-project__top,.specialisms-directory h1
   ) {animation:none!important;}
 }

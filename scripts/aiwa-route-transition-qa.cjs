@@ -56,10 +56,14 @@ async function overflow(page, context) {
       assert.equal(await stage.getAttribute("data-phase"), "covering", "Expected exit phase");
       if (expectPortal) assert.equal(await stage.getAttribute("data-kind"), "portal",
         "Project art should expand into its own portal");
+      await page.waitForTimeout(270); // capture actual mid-flight choreography, not an empty first frame
       await page.screenshot({ path:out+"/portal-"+width+".png" });
       await page.waitForURL(pathIs("/work/mymo-express"), { timeout:12000 });
       await page.locator(".case-hero h1").waitFor({ state:"visible" });
       await settle(page);
+      await page.waitForTimeout(480); // allow destination-native typography to reach its final frame
+      const lineOpacity = Number(await page.locator(".case-hero__display > span").first().evaluate((el) => getComputedStyle(el).opacity));
+      assert.ok(lineOpacity >= .92, width + ": project display headline faded after transition " + lineOpacity);
       await overflow(page, width + " project");
       const projectName = await page.locator(".case-hero h1").innerText();
       assert.match(projectName, /MYMO/i);
@@ -86,6 +90,8 @@ async function overflow(page, context) {
       await nav.click();
       await stage.waitFor({ state:"visible", timeout:2500 });
       assert.equal(await stage.getAttribute("data-kind"), "signal");
+      await page.waitForTimeout(270);
+      await page.screenshot({ path:out+"/signal-"+width+".png" });
       await page.waitForURL(pathIs("/specialisms"), { timeout:12000 });
       await settle(page);
       await overflow(page, width + " specialisms");
