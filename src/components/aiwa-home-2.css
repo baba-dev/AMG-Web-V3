@@ -3,6 +3,13 @@
   overflow: clip;
 }
 
+.aiwa-home2,
+.aiwa-home2 *,
+.aiwa-home2 *::before,
+.aiwa-home2 *::after {
+  box-sizing: border-box;
+}
+
 .aiwa-home2 {
   --h2-ink: #181814;
   --h2-paper: #f1eadc;
@@ -294,7 +301,7 @@
   .aiwa-home2__headline { font-size: clamp(4rem, 19.7vw, 6.7rem); line-height: .82; }
   .aiwa-home2__line { white-space: normal; }
   .aiwa-home2__line--one { max-width: 88%; }
-  .aiwa-home2__line--two { max-width: 100%; margin-top: clamp(245px, 77vw, 335px); }
+  .aiwa-home2__line--two { max-width: 100%; margin-top: clamp(205px, 60vw, 255px); }
   .aiwa-home2__landscape {
     top: 194px;
     right: -31vw;
