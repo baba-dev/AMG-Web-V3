@@ -115,9 +115,11 @@ async function verifyGallery(page,w,h) {
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-office-01.png"});
   await page.getByRole("button",{name:"Next image"}).click();
   assert.equal(await active(),"futurecraft");
+  await page.waitForTimeout(650);
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-office-02.png"});
   await page.getByRole("button",{name:"Show image 3: 03 / THE FRAME"}).click();
   assert.equal(await active(),"production");
+  await page.waitForTimeout(650);
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-office-03.png"});
   await gallery.focus();
   await page.keyboard.press("ArrowLeft");
