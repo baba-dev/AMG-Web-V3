@@ -38,13 +38,13 @@ export const workProjects = [
   {
     slug: "mymo-express",
     client: "MYMO EXPRESS",
-    title: "Identity in motion",
+    title: "Connected by design",
     discipline: "BRAND IDENTITY",
     shortDescription: "Brand guidelines and a consistent visual identity for MYMO.",
-    alt: "Original editorial artwork suggesting express delivery, with orange routes and a moving parcel",
-    artwork: "/media/work/mymo-express.svg",
+    alt: "Original conceptual artwork of a mobile banking network, with a stylized SIM chip and connected nodes",
+    artwork: "/media/work/mymo-network.svg",
     href: "https://aiwamediagroup.com/branding/",
-    visualLabel: "MOVEMENT / IDENTITY",
+    visualLabel: "CONNECTION / IDENTITY",
     conceptualArt: true,
   },
   {
@@ -64,10 +64,10 @@ export const workProjects = [
     client: "BEST BY GENETCO",
     title: "Making the everyday visible",
     discipline: "DIGITAL MARKETING",
-    shortDescription: "Digital marketing and creator-focused content for the home-appliance brand.",
+    shortDescription: "Aiwa features BEST by Genetco, a home-appliance brand, in its portfolio; specific project deliverables require confirmation.",
     alt: "Original blue editorial composition with a simplified home-appliance silhouette and light",
     artwork: "/media/work/best-genetco.svg",
-    href: "https://aiwamediagroup.com/case-study/",
+    href: "https://aiwamediagroup.com/",
     visualLabel: "CULTURE / HOME",
     conceptualArt: true,
   },
@@ -120,7 +120,7 @@ export function isApprovedPortfolioDestination(href: string): boolean {
     return (
       url.protocol === "https:" &&
       url.hostname === "aiwamediagroup.com" &&
-      (url.pathname === "/case-study/" || url.pathname === "/branding/")
+      (url.pathname === "/case-study/" || url.pathname === "/branding/" || url.pathname === "/")
     );
   } catch {
     return false;

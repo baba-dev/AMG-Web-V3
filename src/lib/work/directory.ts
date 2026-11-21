@@ -17,7 +17,7 @@ export function isDirectoryCategory(value:string|null):value is DirectoryCategor
  return value==="all"||value==="brand"||value==="digital"||value==="production";
 }
 export const workVisuals={
- "mymo-express":{chapter:"MOVEMENT / 01",accent:"#ee8533"},
+ "mymo-express":{chapter:"CONNECTION / 01",accent:"#ee6433"},
  "casabella-oman":{chapter:"DESIGN / 02",accent:"#e85c74"},
  "best-genetco":{chapter:"CULTURE / 03",accent:"#527eac"},
  "aqua-petro":{chapter:"INDUSTRY / 04",accent:"#53bbcd"},

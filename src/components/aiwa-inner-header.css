@@ -94,3 +94,7 @@
 .light .aiwa-inner-header__drawer-label,.light .aiwa-inner-header__drawer p,
 .light .aiwa-inner-header__drawer a span{color:#4f514a;}
 .light .aiwa-inner-header__skip{background:#0a0a0a;color:#f5f5f3!important;}
+
+/* Keep scrolling text from showing faintly behind the sticky navigation. */
+.aiwa-inner-header{background:#0a0a0a;}
+.light .aiwa-inner-header{background:#f5f5f3;}
