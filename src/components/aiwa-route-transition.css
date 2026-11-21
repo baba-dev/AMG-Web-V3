@@ -1,0 +1,207 @@
+/*
+ * AIWA / THE SIGNAL
+ * One recognisable motion language: three angled editorial panels, monumental
+ * typography, and the project portal's continuous artwork expansion.
+ * Animations are intentionally compositor-first (opacity/transform).
+ */
+.aiwa-route-stage {
+  --signal-ember:#e94b35;
+  --signal-paper:#f4efe5;
+  --signal-ink:#17110f;
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  width:100%;
+  height:100dvh;
+  overflow:hidden;
+  isolation:isolate;
+  background:transparent;
+  color:var(--signal-paper);
+  pointer-events:auto;
+  touch-action:none;
+  contain:layout paint style;
+}
+.aiwa-route-stage *,
+.aiwa-route-stage *::before,
+.aiwa-route-stage *::after { box-sizing:border-box; }
+.aiwa-route-stage__panel {
+  position:absolute;
+  left:-22%;
+  width:144%;
+  height:36%;
+  transform:translate3d(110%,0,0) skewX(-11deg);
+  will-change:transform;
+  backface-visibility:hidden;
+}
+.aiwa-route-stage__panel--first {
+  top:-2%;background:var(--signal-ink);
+  animation:signal-cover .35s cubic-bezier(.76,0,.24,1) 0s both;
+}
+.aiwa-route-stage__panel--second {
+  top:32%;background:var(--signal-ember);
+  animation:signal-cover .35s cubic-bezier(.76,0,.24,1) .055s both;
+}
+.aiwa-route-stage__panel--third {
+  top:66%;background:var(--signal-ink);
+  animation:signal-cover .35s cubic-bezier(.76,0,.24,1) .095s both;
+}
+.aiwa-route-stage__frame {
+  position:absolute;
+  inset:0;
+  z-index:4;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:clamp(22px,2.6vw,46px);
+  opacity:0;
+  transform:translate3d(0,18px,0);
+  animation:signal-letterpress .24s cubic-bezier(.2,.8,.2,1) .24s both;
+}
+.aiwa-route-stage__top,
+.aiwa-route-stage__bottom {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font:700 clamp(10px,.9vw,14px)/1.3 var(--font-space-grotesk),Arial,sans-serif;
+  letter-spacing:.075em;
+}
+.aiwa-route-stage__top span:last-child,
+.aiwa-route-stage__bottom span:last-child { opacity:.63; }
+.aiwa-route-stage__headline {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:clamp(18px,4vh,50px);
+  min-height:0;
+  overflow:hidden;
+}
+.aiwa-route-stage__wordmark {
+  display:block;
+  font:400 clamp(116px,28vw,480px)/.66 var(--font-aiwa-poster),Impact,sans-serif;
+  letter-spacing:-.075em;
+  transform:translate3d(-3vw,0,0);
+  white-space:nowrap;
+  text-transform:uppercase;
+}
+.aiwa-route-stage__wordmark span { color:var(--signal-ember); }
+.aiwa-route-stage__line {display:block;width:100%;height:1px;background:currentColor;opacity:.45;}
+.aiwa-route-stage__destination {
+  display:block;
+  max-width:100%;
+  font:italic 900 clamp(44px,9vw,152px)/.84 var(--font-aiwa-display),"Arial Narrow",sans-serif;
+  letter-spacing:-.055em;
+  text-transform:uppercase;
+  text-wrap:balance;
+  overflow-wrap:anywhere;
+}
+.aiwa-route-stage[data-phase="revealing"] {
+  animation:signal-uncover .65s cubic-bezier(.76,0,.2,1) both;
+}
+.aiwa-route-stage[data-phase="revealing"] .aiwa-route-stage__panel {
+  animation:none;transform:translate3d(0,0,0) skewX(-11deg);
+}
+.aiwa-route-stage[data-phase="revealing"] .aiwa-route-stage__frame {
+  animation:none;opacity:1;transform:none;
+}
+.aiwa-route-stage[data-phase="history"] {display:none;}
+
+/* Project portal: the image clone starts precisely on the clicked card. */
+.aiwa-route-stage__portal {
+  position:absolute;inset:0;overflow:hidden;
+  z-index:1;background:var(--signal-ink);
+}
+.aiwa-route-stage__portal img {
+  display:block;position:absolute;inset:0;
+  width:100%;height:100%;max-width:none;
+  object-fit:cover;
+  transform-origin:top left;
+  animation:portal-expand .51s cubic-bezier(.18,.75,.23,1) both;
+  will-change:transform;
+}
+.aiwa-route-stage__portal-shade {
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(8,7,7,.7),rgba(8,7,7,.12) 70%),
+    linear-gradient(0deg,rgba(8,7,7,.5),transparent 36%);
+  opacity:0;animation:portal-dim .4s ease .12s both;
+}
+.aiwa-route-stage[data-kind="portal"] .aiwa-route-stage__panel--first {
+  top:-2%;height:13%;background:var(--signal-ember);
+}
+.aiwa-route-stage[data-kind="portal"] .aiwa-route-stage__panel--second {
+  top:auto;bottom:-2%;height:17%;background:var(--signal-ember);
+  animation-delay:.07s;
+}
+.aiwa-route-stage[data-kind="portal"] .aiwa-route-stage__panel--third {display:none;}
+.aiwa-route-stage[data-kind="portal"] .aiwa-route-stage__wordmark {
+  font-size:clamp(100px,20vw,320px);
+  text-shadow:0 4px 30px rgba(0,0,0,.12);
+}
+.aiwa-route-stage[data-kind="portal"] .aiwa-route-stage__wordmark span {color:var(--signal-paper);}
+.aiwa-route-stage[data-kind="portal"] .aiwa-route-stage__destination {max-width:min(94vw,1100px);}
+.aiwa-route-stage[data-kind="portal"][data-phase="revealing"] img {
+  animation:none;transform:none;
+}
+
+@keyframes signal-cover {
+  from {transform:translate3d(110%,0,0) skewX(-11deg);}
+  to {transform:translate3d(0,0,0) skewX(-11deg);}
+}
+@keyframes signal-letterpress {
+  from {opacity:0;transform:translate3d(0,18px,0);}
+  to {opacity:1;transform:translate3d(0,0,0);}
+}
+@keyframes signal-uncover {
+  0% {transform:translate3d(0,0,0);}
+  100% {transform:translate3d(0,-105%,0);}
+}
+@keyframes portal-expand {
+  0% {transform:translate3d(var(--portal-x),var(--portal-y),0)
+    scale(var(--portal-scale-x),var(--portal-scale-y));}
+  100% {transform:translate3d(0,0,0) scale(1);}
+}
+@keyframes portal-dim {from {opacity:0;} to {opacity:1;}}
+
+/* Post-navigation choreography: the stage uncovers content already in place. */
+html[data-aiwa-route-phase="revealing"] :is(
+  .work-hero h1 > span,
+  .case-hero h1,
+  .case-hero__display > span,
+  .work-project__top,
+  .work-hero__frame,
+  .specialisms-directory h1
+) {
+  animation:signal-arrive .62s cubic-bezier(.2,.7,.25,1) both;
+}
+html[data-aiwa-route-phase="revealing"] .case-hero__display > span:nth-child(2),
+html[data-aiwa-route-phase="revealing"] .work-hero h1 > span:nth-child(2) {animation-delay:.08s;}
+html[data-aiwa-route-phase="revealing"] .work-hero h1 > span:nth-child(3) {animation-delay:.13s;}
+@keyframes signal-arrive {
+  0% {opacity:.25;transform:translate3d(0,30px,0);}
+  100% {opacity:1;transform:translate3d(0,0,0);}
+}
+
+/* Never interfere with the film's hero-to-viewport scroll projection. */
+@media (max-width:767px) {
+  .aiwa-route-stage__frame {padding:22px 18px 30px;}
+  .aiwa-route-stage__top,.aiwa-route-stage__bottom {
+    font-size:10px;letter-spacing:.035em;
+  }
+  .aiwa-route-stage__top span:last-child {display:none;}
+  .aiwa-route-stage__headline {gap:30px;}
+  .aiwa-route-stage__wordmark {font-size:clamp(112px,32vw,220px);letter-spacing:-.072em;}
+  .aiwa-route-stage__destination {font-size:clamp(45px,13vw,86px);letter-spacing:-.045em;}
+  .aiwa-route-stage[data-kind="portal"] .aiwa-route-stage__wordmark {font-size:clamp(98px,27vw,190px);}
+  .aiwa-route-stage__panel--first {animation-duration:.29s;}
+  .aiwa-route-stage__panel--second,.aiwa-route-stage__panel--third {animation-duration:.29s;}
+  .aiwa-route-stage[data-phase="revealing"] {animation-duration:.46s;}
+  .aiwa-route-stage__portal img {animation-duration:.43s;}
+}
+@media (prefers-reduced-motion:reduce) {
+  .aiwa-route-stage {display:none!important;}
+  html[data-aiwa-route-phase] :is(
+    .work-hero h1 > span,.case-hero h1,.case-hero__display > span,
+    .work-project__top,.work-hero__frame,.specialisms-directory h1
+  ) {animation:none!important;}
+}
