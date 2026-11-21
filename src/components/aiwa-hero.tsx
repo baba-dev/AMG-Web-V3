@@ -327,7 +327,9 @@ export function AiwaHero() {
           </div>
         </section>
 
-        <section ref={filmSectionRef} className="aiwa-film-section" id="film" aria-label="Aiwa Media Group showreel" />
+        <section ref={filmSectionRef} className="aiwa-film-section" id="film"
+          aria-label="Aiwa Media Group showreel"
+          style={{ backgroundImage: "url(" + poster + ")" }} />
 
         <div className="aiwa-reel" ref={projectionRef} aria-hidden="true">
           <div ref={posterRef} className="aiwa-reel__poster" style={{ backgroundImage: "url(" + poster + ")" }} />

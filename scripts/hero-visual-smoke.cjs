@@ -213,7 +213,9 @@ async function testViewport(browser, width, height) {
   assert(initial.headline.includes("DOMINATE") && initial.headline.includes("WITH AIWA."),"Second line missing");
   assert.equal(initial.categories.join("|"),"Global|Consumer|Corporate|Sports|Social|Studio|TECH");
   assert(initial.placeholderLinks,"All category links must currently be #");
-  assert(closeTo(initial.hero.height,height,3),"Hero must be a single viewport");
+  const expectedHeroHeight = width <= 720 ? height*.73 : height;
+  assert(closeTo(initial.hero.height,expectedHeroHeight,3),
+    "Hero must match desktop full-screen or reference mobile film fold");
   assert(closeTo(initial.film.top,initial.hero.bottom,3),"Film must follow hero in document flow");
   assert(closeTo(initial.specialisms.top,initial.film.bottom,3),"Specialisms must follow film");
   assert(closeTo(initial.about.top, initial.specialisms.bottom, 3),"About must follow Specialisms with no gap or overlap");
@@ -250,7 +252,8 @@ async function testViewport(browser, width, height) {
     };
   });
 
-  assert(inFilm.scroll > height * .90,"Scroll cue failed to reach film");
+  assert(inFilm.scroll > initial.hero.height * .90,
+    "Scroll cue failed to reach film");
   assert(closeTo(inFilm.film.top,0,3),"Film section top must land on viewport top");
   assert(closeTo(inFilm.hero.bottom,0,3),"Hero bottom must end at viewport top");
   assert(closeTo(inFilm.projection.top,0,4),"Expanded media must start at viewport top");

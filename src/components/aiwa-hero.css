@@ -786,3 +786,25 @@
 @media(max-width:390px){
  .aiwa-hero__center {inset:clamp(85px,11.8svh,125px) 0 auto;}
 }
+
+/* MOBILE FILM FOLD: Romans exposes showreel footage in the lower quarter of
+   the initial mobile viewport, rather than a 100svh empty black hero.
+   Keep both sections in normal flow, and always land the expanding projection
+   in a distinct 100svh section when the first, shorter hero scrolls away. */
+@media(max-width:720px) {
+  .aiwa-sequence { height:173svh; }
+  .aiwa-hero {height:73svh;}
+  .aiwa-film-section {
+    height:100svh;
+    background-size:cover;
+    background-position:center;
+    background-color:#28322f;
+  }
+  .aiwa-film-section::after {
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom,rgba(0,0,0,.13),transparent 48%,rgba(0,0,0,.18));
+    pointer-events:none;
+  }
+}
