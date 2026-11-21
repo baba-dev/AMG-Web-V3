@@ -194,3 +194,60 @@
     transition: none!important; animation: none!important; filter: none!important;
   }
 }
+
+
+/* Reference-density campaign collage: smaller travelling media cards around
+   a condensed stationary editorial title instead of oversized grid panels. */
+.aiwa-work__eyebrow {
+  font:400 clamp(13px,1vw,17px)/1 var(--font-aiwa-poster),Impact,sans-serif;
+  padding:7px 12px;
+}
+.aiwa-work__headline {
+  font-family:var(--font-aiwa-poster),Impact,sans-serif;
+  font-weight:400;
+  font-size:clamp(98px,11.6vw,177px);
+  letter-spacing:-.033em;
+  line-height:.87;
+}
+.aiwa-work__caption strong {font-family:var(--font-aiwa-poster),Impact,sans-serif;font-weight:400;letter-spacing:-.015em;}
+.aiwa-work__cta {
+  min-width:195px;min-height:46px;
+  padding:0 14px;
+  font:400 clamp(15px,1.1vw,18px)/1 var(--font-aiwa-poster),Impact,sans-serif;
+}
+@media(min-width:768px) and (prefers-reduced-motion:no-preference){
+  .aiwa-work[data-motion="desktop"] .aiwa-work__header {top:47%;gap:21px;}
+  .aiwa-work[data-motion="desktop"] .aiwa-work__headline {
+    font-size:clamp(100px,11.8vw,182px);
+    line-height:.89;
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--mymo-express {
+    --slot-left:24%;--slot-top:42%;--slot-width:min(24vw,340px);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--casabella-oman {
+    --slot-left:76%;--slot-top:35%;--slot-width:min(22vw,313px);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--best-genetco {
+    --slot-left:24%;--slot-top:57%;--slot-width:min(24vw,345px);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--aqua-petro {
+    --slot-left:76%;--slot-top:49%;--slot-width:min(24vw,345px);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--razmazaan {
+    --slot-left:24%;--slot-top:36%;--slot-width:min(23vw,331px);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__slot--vitamin-phones {
+    --slot-left:75%;--slot-top:60%;--slot-width:min(23vw,331px);
+  }
+  .aiwa-work[data-motion="desktop"] .aiwa-work__cta {bottom:clamp(16px,3svh,31px);}
+}
+@media(max-width:767px){
+  .aiwa-work__headline {font-size:clamp(60px,13vw,98px);line-height:.92;}
+  .aiwa-work__eyebrow {font-size:13px;}
+  .aiwa-work__scene {padding-inline:14px;}
+  .aiwa-work[data-motion="mobile"] .aiwa-work__slot {
+    width:min(64%,295px);
+  }
+  .aiwa-work[data-motion="mobile"] .aiwa-work__cards {gap:clamp(22px,5vw,38px);}
+  .aiwa-work__caption strong {font-size:21px;}
+}
