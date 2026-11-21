@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, ArrowUpRight, MapPin, Phone } from "lucide-react";
 import "./aiwa-office.css";
@@ -36,6 +36,7 @@ const count = scenes.length;
 
 export function AiwaOffice() {
   const [active, setActive] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
   const next = () => setActive((index) => (index + 1) % count);
   const previous = () => setActive((index) => (index - 1 + count) % count);
@@ -59,8 +60,34 @@ export function AiwaOffice() {
   };
   const current = scenes[active];
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const observer = new IntersectionObserver(([entry]) => {
+      if (reduced.matches) return;
+      section.dataset.entered = String(entry?.isIntersecting ?? false);
+    }, { threshold: .08, rootMargin: "0px 0px -8% 0px" });
+    const onPreference = () => {
+      if (reduced.matches) {
+        delete section.dataset.motion;
+        delete section.dataset.entered;
+      } else {
+        section.dataset.motion = "revealing";
+        section.dataset.entered = "true";
+      }
+    };
+    onPreference();
+    observer.observe(section);
+    reduced.addEventListener("change", onPreference);
+    return () => {
+      reduced.removeEventListener("change", onPreference);
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <section className="aiwa-office" id="office" aria-labelledby="aiwa-office-title">
+    <section ref={sectionRef} className="aiwa-office" id="office" aria-labelledby="aiwa-office-title">
       <div className="aiwa-office__top">
         <span className="aiwa-office__eyebrow"><span aria-hidden="true">+</span> THE WORLD OF AIWA</span>
         <span className="aiwa-office__index">07 / OUR HOME</span>

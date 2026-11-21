@@ -17,7 +17,7 @@ const navigation = [
   { label: "ABOUT", href: "#about" },
   { label: "SPECIALISMS", href: "#specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
-  { label: "CONTACT US", href: "https://aiwamediagroup.com/contact-us/" },
+  { label: "CONTACT US", href: "#contact" },
   { label: "LATEST", href: "https://www.linkedin.com/company/aiwamediagroup/" },
 ] as const;
 
@@ -191,6 +191,23 @@ export function AiwaHero() {
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
     });
   };
+  const navigateContact = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+      event.button !== 0) return;
+    const section = document.getElementById("contact");
+    const stage = section?.querySelector<HTMLElement>(".aiwa-contact__stage");
+    if (!section || !stage) return;
+    event.preventDefault();
+    window.history.pushState(null, "", "#contact");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const wide = window.matchMedia("(min-width: 768px)").matches;
+    const extra = wide && !reduced
+      ? Math.max(0, stage.offsetHeight - window.innerHeight) * .58 : 0;
+    window.scrollTo({
+      top: section.getBoundingClientRect().top + window.scrollY + extra,
+      behavior: reduced ? "instant" : "smooth",
+    });
+  };
   const scrollToFilm = () => filmSectionRef.current?.scrollIntoView({
     behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
     block: "start",
@@ -208,7 +225,7 @@ export function AiwaHero() {
             <nav className="aiwa-header__navigation" aria-label="Primary navigation">
               {navigation.map((item) => (
                 <a className="aiwa-header__link" href={item.href} key={item.label}
-                  onClick={item.href === "#about" ? navigateAbout : undefined}>{item.label}</a>
+                  onClick={item.href === "#about" ? navigateAbout : item.href === "#contact" ? navigateContact : undefined}>{item.label}</a>
               ))}
             </nav>
 
@@ -248,7 +265,8 @@ export function AiwaHero() {
             >
               {navigation.map((item, index) => (
                 <a key={item.label} className="aiwa-mobile-nav__link" href={item.href}
-                  onClick={(event) => { setMobileNavOpen(false); if (item.href === "#about") navigateAbout(event); }}>
+                  onClick={(event) => { setMobileNavOpen(false); if (item.href === "#about") navigateAbout(event);
+                    if (item.href === "#contact") navigateContact(event); }}>
                   <span>0{index + 1}</span>{item.label}<ArrowUpRight size={20} aria-hidden="true" />
                 </a>
               ))}

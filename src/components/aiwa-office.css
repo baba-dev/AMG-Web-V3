@@ -170,3 +170,31 @@
     transition:none!important;transform:none!important;
   }
 }
+
+/* The entrance is a lightweight reversible reveal; the carousel is entirely
+   manual and always works without animations or motion preferences. */
+@media(prefers-reduced-motion:no-preference) {
+  .aiwa-office[data-motion="revealing"] .aiwa-office__gallery,
+  .aiwa-office[data-motion="revealing"] .aiwa-office__details {
+    opacity:.68;
+    transform:translate3d(0,33px,0);
+    transition:opacity .9s cubic-bezier(.16,1,.3,1),
+      transform 1.1s cubic-bezier(.16,1,.3,1);
+  }
+  .aiwa-office[data-motion="revealing"] .aiwa-office__details {
+    transition-delay:.13s;
+  }
+  .aiwa-office[data-motion="revealing"][data-entered="true"] .aiwa-office__gallery,
+  .aiwa-office[data-motion="revealing"][data-entered="true"] .aiwa-office__details,
+  .aiwa-office[data-motion="revealing"]:focus-within .aiwa-office__gallery,
+  .aiwa-office[data-motion="revealing"]:focus-within .aiwa-office__details {
+    opacity:1;transform:translate3d(0,0,0);
+  }
+}
+.aiwa-office__gallery:focus-visible,
+.aiwa-office__arrows button:focus-visible,
+.aiwa-office__selectors button:focus-visible {
+  outline:3px solid var(--office-ink);
+  outline-offset:5px;
+}
+.aiwa-office__contact a:focus-visible {outline:3px solid var(--office-ink);outline-offset:5px;}

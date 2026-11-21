@@ -131,3 +131,15 @@
 @media(prefers-reduced-motion:reduce) {
   .aiwa-footer *, .aiwa-footer *::after {transition:none!important;animation:none!important;}
 }
+
+.aiwa-footer__start:focus-visible,
+.aiwa-footer__navigation a:focus-visible,
+.aiwa-footer__social a:focus-visible,
+.aiwa-footer__bottom a:focus-visible,
+.aiwa-footer__bottom button:focus-visible {
+  outline:2px solid var(--footer-ink);outline-offset:6px;
+}
+.aiwa-footer__wordmark { contain:paint; }
+@supports (font-variation-settings:normal) {
+ .aiwa-footer__intro p {font-synthesis:none;}
+}
