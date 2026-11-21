@@ -43,7 +43,7 @@ async function checkDesktop(browser, width, height) {
   assert(base.heading.includes("SELECTED") && base.heading.includes("CAMPAIGNS"),"Heading missing");
   assert.equal(base.cta,"/work","View All Work must point to real /work route");
   assert(base.assets.every(src=>src.startsWith("/media/work/")),"All art must use owned local media");
-  assert(base.links.every(a=>a.href.startsWith("https://aiwamediagroup.com/")&&a.target==="_blank"&&a.rel.includes("noopener")),"Project links must be Aiwa-owned and safe");
+  assert(base.links.every(a=>{const url=new URL(a.href);return url.origin===new URL(ORIGIN).origin && /^\/work\/[a-z0-9-]+$/.test(url.pathname) && a.target==="";}),"Project links must stay on Aiwa V3 and use local static project routes");
   assert(base.noOverflow,"Section 5 caused horizontal overflow");
   assert(base.stageHeight>height*3.2,"Desktop montage needs a multi-viewport scroll stage");
 
@@ -167,10 +167,10 @@ async function checkA11yAndArchive(browser){
 
   const archivePath=fs.existsSync("out/work/index.html")?"/work/":"/work.html";
   await page.goto(ORIGIN+archivePath,{waitUntil:"domcontentloaded",timeout:30_000});
-  await page.waitForSelector(".aiwa-directory");
-  const n=await page.locator(".aiwa-directory__project").count();
+  await page.waitForSelector("[data-work-gallery]");
+  const n=await page.locator("[data-work-project]").count();
   assert.equal(n,6,"Static selected work directory missing projects");
-  assert.equal(await page.locator(".aiwa-directory__skip").getAttribute("href"),"#aiwa-work-projects");
+  assert.equal(await page.locator(".aiwa-inner-header__skip").getAttribute("href"),"#main-content");
   await page.screenshot({path:OUT+"/archive.png",fullPage:false});
   await context.close();
 

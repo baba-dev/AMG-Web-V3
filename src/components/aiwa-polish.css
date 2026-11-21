@@ -13,7 +13,7 @@
  * These overrides are loaded AFTER the original component styles so the
  * approved scroll/projection geometry and motion rules remain untouched.
  */
-.aiwa-site {
+.aiwa-site.aiwa-site {
   --aiwa-gutter: clamp(18px, 2.5vw, 48px);
   --aiwa-font-interface: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
   --aiwa-font-body: var(--aiwa-font-interface);
@@ -129,7 +129,7 @@
   .aiwa-about__heading { font-size: clamp(38px, 4.55vw, 58px); }
 }
 @media (max-width: 767px) {
-  .aiwa-site { --aiwa-gutter: 17px; }
+  .aiwa-site.aiwa-site { --aiwa-gutter: 17px; }
   .aiwa-header { padding-inline: var(--aiwa-gutter); }
   .aiwa-hero__center { padding-inline: var(--aiwa-gutter); }
   .aiwa-hero__bottom { left: var(--aiwa-gutter); right: var(--aiwa-gutter); }
@@ -238,3 +238,6 @@ html[data-aiwa-roc="true"] .aiwa-site :where(
 .aiwa-header__link,
 .aiwa-header__offices { font-size: clamp(12px, .92vw, 15px); }
 .aiwa-mobile-nav__link { font-size: clamp(25px, 6.3vw, 43px); }
+
+/* Real touch geometry: keep the film tile over 44 CSS px despite font metric changes. */
+.aiwa-site .aiwa-hero__film-tile { min-height: 45px; }

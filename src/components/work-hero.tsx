@@ -27,7 +27,6 @@ export function WorkHero() {
             <Image src={featured.artwork} width={960} height={740}
               alt={featured.alt} unoptimized priority sizes="(max-width: 767px) 90vw, 49vw" />
             <span className="work-hero__frame-scan" aria-hidden="true"/>
-            <span className="work-hero__frame-stamp">AIWA<br/>STUDIO</span>
             <span className="work-hero__frame-corner" aria-hidden="true"><ArrowUpRight size={24}/></span>
           </div>
           <div className="work-hero__frame-meta">

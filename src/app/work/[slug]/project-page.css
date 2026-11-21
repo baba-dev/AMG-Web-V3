@@ -38,3 +38,11 @@
  .work-project__next a span{font-size:clamp(21px,6vw,31px);}
 }
 @media(max-width:390px){.work-project__hero h1{font-size:12vw;}.work-project__story h2{font-size:11vw;}.work-project__copy dl{grid-template-columns:1fr;}}
+
+
+/* Work overviews maintain contrast and readable metadata in light mode. */
+.light .aiwa-site.work-page.work-project-page{background:#f5f5f3;color:#0a0a0a;}
+.light .work-project__top span,.light .work-project__eyebrow,
+.light .work-project__copy dt,.light .work-project__note{color:#4f514a;}
+.light .work-project__meta,.light .work-project__next a{border-color:#9b9c95;}
+.light .work-project__art-index{color:#fff;}

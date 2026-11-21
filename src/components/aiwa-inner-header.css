@@ -72,3 +72,25 @@
  .aiwa-inner-header__drawer a{min-height:61px;font-size:31px;}
 }
 @media(prefers-reduced-motion:reduce){.aiwa-inner-header *, .aiwa-inner-header *::before{transition:none!important;}}
+
+
+/* Inner pages honor the same persistent day/night setting as the homepage. */
+.light .aiwa-inner-header{
+  background:rgba(245,245,243,.97);color:#0a0a0a;
+  border-bottom-color:rgba(10,10,10,.16);
+  --aiwa-ink:#0a0a0a;--aiwa-bg:#f5f5f3;
+  --aiwa-rule-strong:rgba(10,10,10,.65);--aiwa-toggle-track:#e1e1d9;
+}
+.light .aiwa-inner-header .aiwa-theme-toggle{
+  --aiwa-ink:#0a0a0a;--aiwa-bg:#f5f5f3;
+  --aiwa-rule-strong:rgba(10,10,10,.65);--aiwa-toggle-track:#e1e1d9;
+}
+.light .aiwa-inner-header a:focus-visible,.light .aiwa-inner-header button:focus-visible{
+  outline-color:#0a0a0a;
+}
+.light .aiwa-inner-header__links a::after{background:#0a0a0a;}
+.light .aiwa-inner-header__drawer{background:#f5f5f3;color:#0a0a0a;border-color:#b7b8b0;}
+.light .aiwa-inner-header__drawer a{border-color:#b7b8b0;}
+.light .aiwa-inner-header__drawer-label,.light .aiwa-inner-header__drawer p,
+.light .aiwa-inner-header__drawer a span{color:#4f514a;}
+.light .aiwa-inner-header__skip{background:#0a0a0a;color:#f5f5f3!important;}

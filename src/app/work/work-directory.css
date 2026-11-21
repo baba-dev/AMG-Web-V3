@@ -87,3 +87,7 @@
 @media(prefers-reduced-motion:reduce){
  .work-page__initial-media img,.work-page__contact-link svg{transition:none!important;}
 }
+
+/* Deep links and the reveal CTA land below the sticky inner-page header. */
+.work-page__paper{scroll-margin-top:83px;}
+@media(max-width:1080px){.work-page__paper{scroll-margin-top:74px;}}
