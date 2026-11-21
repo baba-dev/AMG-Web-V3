@@ -1,0 +1,333 @@
+.aiwa-home2-shell {
+  width: 100%;
+  overflow: clip;
+}
+
+.aiwa-home2 {
+  --h2-ink: #181814;
+  --h2-paper: #f1eadc;
+  --h2-scroll: 0;
+  --h2-pointer-x: 0;
+  --h2-pointer-y: 0;
+  position: relative;
+  min-height: 100svh;
+  overflow: clip;
+  color: var(--h2-ink);
+  background: var(--h2-paper);
+  isolation: isolate;
+  font-family: var(--font-space-grotesk), sans-serif;
+}
+
+.aiwa-home2__header {
+  position: relative;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  padding: clamp(22px, 2.1vw, 34px) clamp(22px, 3.5vw, 56px);
+}
+
+.aiwa-home2__logo {
+  width: max-content;
+  color: inherit;
+  font-family: var(--font-aiwa-poster), sans-serif;
+  font-size: clamp(2rem, 2.7vw, 3rem);
+  line-height: .85;
+  letter-spacing: -.04em;
+  text-decoration: none;
+}
+
+.aiwa-home2__nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 2.8vw, 48px);
+}
+
+.aiwa-home2__nav a {
+  position: relative;
+  color: inherit;
+  font-family: var(--font-aiwa-display), sans-serif;
+  font-size: clamp(.8rem, .9vw, 1rem);
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.aiwa-home2__nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: -6px;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  content: "";
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 260ms cubic-bezier(.2,.8,.2,1);
+}
+
+.aiwa-home2__nav a:hover::after,
+.aiwa-home2__nav a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.aiwa-home2__menu {
+  justify-self: end;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.aiwa-home2__menu svg { width: 34px; height: 34px; stroke-width: 1.35; }
+.aiwa-home2__hamburger { display: none; }
+
+.aiwa-home2__mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: none;
+  padding: 102px 24px 32px;
+  background: var(--h2-paper);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.aiwa-home2__stage {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100svh - 150px);
+  padding: clamp(66px, 8vh, 116px) clamp(22px, 3.5vw, 56px) 128px;
+}
+
+.aiwa-home2__headline {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: var(--font-aiwa-poster), var(--font-aiwa-display), sans-serif;
+  font-weight: 400;
+  font-size: clamp(4.6rem, 11.2vw, 11.8rem);
+  line-height: .79;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  transform: translate3d(0, calc(var(--h2-scroll) * -56px), 0);
+  will-change: transform;
+}
+
+.aiwa-home2__line { display: block; white-space: nowrap; }
+.aiwa-home2__line--one { align-self: flex-start; }
+.aiwa-home2__line--one em { font-family: var(--font-aiwa-display), sans-serif; font-weight: 900; }
+.aiwa-home2__line--two { align-self: flex-start; margin-top: clamp(205px, 25vw, 355px); }
+
+.aiwa-home2__landscape {
+  position: absolute;
+  z-index: 2;
+  top: clamp(185px, 25vh, 280px);
+  right: 10vw;
+  left: 0;
+  height: clamp(360px, 48vw, 690px);
+  overflow: hidden;
+  pointer-events: none;
+  transform: translate3d(
+    calc(var(--h2-pointer-x) * 16px),
+    calc((var(--h2-scroll) * -34px) + (var(--h2-pointer-y) * 12px)), 0);
+  will-change: transform;
+}
+
+.aiwa-home2__landscape img {
+  object-fit: cover;
+  object-position: 48% 52%;
+  filter: saturate(.84) contrast(1.02);
+}
+
+.aiwa-home2__film {
+  position: absolute;
+  z-index: 8;
+  top: clamp(230px, 24vh, 320px);
+  right: clamp(22px, 3.5vw, 56px);
+  width: clamp(160px, 17.2vw, 276px);
+  aspect-ratio: .76;
+  overflow: hidden;
+  padding: 0;
+  color: #f5efe3;
+  background: #25251f;
+  border: 0;
+  box-shadow: 0 24px 70px rgb(24 24 20 / 22%);
+  cursor: pointer;
+  transform: translate3d(
+    calc(var(--h2-pointer-x) * -22px),
+    calc((var(--h2-scroll) * 42px) + (var(--h2-pointer-y) * -16px)), 0);
+  transition: box-shadow 260ms ease;
+  will-change: transform;
+}
+
+.aiwa-home2__film:hover,
+.aiwa-home2__film:focus-visible { box-shadow: 0 28px 90px rgb(24 24 20 / 34%); }
+.aiwa-home2__film img { object-fit: cover; transition: transform 620ms cubic-bezier(.16,1,.3,1); }
+.aiwa-home2__film:hover img { transform: scale(1.035); }
+
+.aiwa-home2__film-frame {
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgb(245 239 227 / 72%);
+  pointer-events: none;
+}
+
+.aiwa-home2__film-action {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 12px;
+  color: #f5efe3;
+  background: #181814;
+  font-family: var(--font-aiwa-display), sans-serif;
+  font-weight: 900;
+  font-size: .76rem;
+  letter-spacing: .04em;
+}
+
+.aiwa-home2__film-action svg { width: 15px; }
+
+.aiwa-home2__footer {
+  position: absolute;
+  right: clamp(22px, 3.5vw, 56px);
+  bottom: 26px;
+  left: clamp(22px, 3.5vw, 56px);
+  z-index: 12;
+  display: grid;
+  grid-template-columns: 1fr auto 48px;
+  align-items: center;
+  gap: 24px;
+}
+
+.aiwa-home2__footer p {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0;
+  font-family: var(--font-aiwa-display), sans-serif;
+  font-size: clamp(.72rem, .95vw, .95rem);
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.aiwa-home2__footer p span { display: block; width: 48px; height: 1px; background: currentColor; }
+
+.aiwa-home2__footer a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  min-width: clamp(220px, 23vw, 330px);
+  min-height: 54px;
+  padding: 0 20px;
+  color: #f5efe3;
+  background: var(--h2-ink);
+  font-family: var(--font-aiwa-display), sans-serif;
+  font-size: .9rem;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-decoration: none;
+  transition: color 200ms ease, background 200ms ease;
+}
+
+.aiwa-home2__footer a:hover,
+.aiwa-home2__footer a:focus-visible { color: var(--h2-ink); background: #e69b27; }
+.aiwa-home2__footer a svg { width: 20px; }
+
+.aiwa-home2__footer > button {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 54px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.aiwa-home2__footer > button svg { width: 31px; height: 31px; stroke-width: 1.5; }
+
+@media (max-width: 900px) {
+  .aiwa-home2__header { grid-template-columns: 1fr auto; }
+  .aiwa-home2__nav { display: none; }
+  .aiwa-home2__plus { display: none; }
+  .aiwa-home2__hamburger { display: block; }
+  .aiwa-home2__mobile-nav { display: flex; flex-direction: column; }
+  .aiwa-home2__mobile-nav[data-open="true"] { z-index: 18; opacity: 1; pointer-events: auto; }
+  .aiwa-home2__mobile-nav a {
+    display: grid;
+    grid-template-columns: 42px 1fr 32px;
+    align-items: center;
+    min-height: 62px;
+    color: inherit;
+    border-bottom: 1px solid rgb(24 24 20 / 25%);
+    font-family: var(--font-aiwa-poster), sans-serif;
+    font-size: clamp(1.65rem, 6vw, 2.8rem);
+    line-height: 1;
+    text-decoration: none;
+  }
+  .aiwa-home2__mobile-nav span { font-family: var(--font-space-grotesk), sans-serif; font-size: .68rem; }
+  .aiwa-home2__mobile-nav svg { justify-self: end; width: 22px; }
+}
+
+@media (max-width: 720px) {
+  .aiwa-home2 { min-height: 100svh; }
+  .aiwa-home2__header { padding: 20px 18px; }
+  .aiwa-home2__stage { min-height: calc(100svh - 92px); padding: 58px 18px 116px; }
+  .aiwa-home2__headline { font-size: clamp(4rem, 19.7vw, 6.7rem); line-height: .82; }
+  .aiwa-home2__line { white-space: normal; }
+  .aiwa-home2__line--one { max-width: 88%; }
+  .aiwa-home2__line--two { max-width: 100%; margin-top: clamp(245px, 77vw, 335px); }
+  .aiwa-home2__landscape {
+    top: 194px;
+    right: -31vw;
+    left: -18vw;
+    height: clamp(330px, 98vw, 430px);
+  }
+  .aiwa-home2__film {
+    top: clamp(266px, 35vh, 330px);
+    right: 18px;
+    width: clamp(135px, 39vw, 180px);
+  }
+  .aiwa-home2__film-action { right: 10px; bottom: 10px; left: 10px; min-height: 40px; font-size: .64rem; }
+  .aiwa-home2__film-frame { inset: 8px; }
+  .aiwa-home2__footer {
+    right: 18px;
+    bottom: 16px;
+    left: 18px;
+    grid-template-columns: 1fr 44px;
+    gap: 8px;
+  }
+  .aiwa-home2__footer p { grid-column: 1 / -1; gap: 10px; }
+  .aiwa-home2__footer p span { width: 28px; }
+  .aiwa-home2__footer a { min-width: 0; min-height: 48px; gap: 16px; padding: 0 15px; font-size: .76rem; }
+  .aiwa-home2__footer > button { width: 44px; height: 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aiwa-home2 *,
+  .aiwa-home2 *::before,
+  .aiwa-home2 *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+  .aiwa-home2__headline,
+  .aiwa-home2__landscape,
+  .aiwa-home2__film { transform: none !important; }
+}
