@@ -88,15 +88,23 @@ export function AiwaRouteTransition() {
     };
 
     if (incoming) {
-      // Route arrived: never reveal behind a potentially unrendered destination.
+      // The new route has committed; schedule the reveal after React paints it.
       pending.current = null;
-      setScene((current) => current ? { ...current, phase: "revealing" } : null);
-      clear(reduced ? 0 : 650);
+      const id = window.setTimeout(() => {
+        timers.current.delete(id);
+        setScene((current) => current ? { ...current, phase: "revealing" } : null);
+        clear(reduced ? 0 : 650);
+      }, 0);
+      timers.current.add(id);
     } else if (!reduced) {
-      // Back/Forward navigation cannot be delayed; make arrival graceful.
+      // Browser Back/Forward is immediate; animate only the new page entrance.
       busy.current = false;
-      setScene({ phase: "history", label: motionDestinationLabel(pathname, workProjects), kind: "signal", portal: null });
-      clear(470);
+      const id = window.setTimeout(() => {
+        timers.current.delete(id);
+        setScene({ phase: "history", label: motionDestinationLabel(pathname, workProjects), kind: "signal", portal: null });
+        clear(470);
+      }, 0);
+      timers.current.add(id);
     }
   }, [pathname]);
 

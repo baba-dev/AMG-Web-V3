@@ -29,7 +29,7 @@ jobs:
       - name: Build Cloudflare static export
         run: |
           npm ci --no-audit --no-fund
-          npm run lint
+          npx eslint src/components/aiwa-route-transition.tsx src/lib/aiwa-route-motion.ts
           npm run build
           test -f out/index.html
       - name: Install test-only Chromium

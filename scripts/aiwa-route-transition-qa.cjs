@@ -17,6 +17,7 @@ async function load(page, pathname) {
 }
 async function settle(page) {
   await page.waitForFunction(() => !document.querySelector(".aiwa-route-stage"), { timeout:7000 });
+  await page.waitForFunction(() => !document.documentElement.hasAttribute("data-aiwa-route-phase"));
   assert.equal(await page.evaluate(() => document.documentElement.hasAttribute("data-aiwa-route-phase")), false,
     "Transition phase must clean up");
 }
