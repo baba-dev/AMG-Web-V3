@@ -31,6 +31,7 @@ jobs:
         run: |
           python3 -m http.server 4173 --directory out > /tmp/aiwa-preview-http.log 2>&1 &
           node scripts/hero-visual-smoke.cjs
+          node scripts/home-2-visual-smoke.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
