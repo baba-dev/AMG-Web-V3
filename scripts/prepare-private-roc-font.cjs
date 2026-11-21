@@ -4,7 +4,16 @@
  */
 const fs = require("node:fs");
 const path = require("node:path");
-const secret = process.env.AIWA_ROC_GROTESK_WOFF2_BASE64;
+const wholeSecret = process.env.AIWA_ROC_GROTESK_WOFF2_BASE64;
+const chunks = Array.from({length:16}, (_,i) =>
+  process.env["AIWA_ROC_GROTESK_B64_" + String(i+1).padStart(2,"0")] || "");
+const lastIndex = chunks.findLastIndex(Boolean);
+const hasChunks = lastIndex !== -1;
+if (wholeSecret && hasChunks) throw new Error("AIWA_ROC_FONT_AMBIGUOUS_INPUT");
+if (hasChunks && chunks.slice(0,lastIndex+1).some(x => !x)) {
+  throw new Error("AIWA_ROC_FONT_MISSING_SECRET_CHUNK");
+}
+const secret = wholeSecret || (hasChunks ? chunks.slice(0,lastIndex+1).join("") : "");
 const destination = path.join(__dirname, "..", "public", "fonts", "roc-grotesk-regular.woff2");
 
 if (!secret) {
