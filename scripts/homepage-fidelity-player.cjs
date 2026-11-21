@@ -158,7 +158,9 @@ async function reduced(browser) {
  try {
    const result={
      desktop:await run(browser,1440,900),
+     desktopCompact:await run(browser,1280,800),
      mobile:await run(browser,390,844),
+     mobileCompact:await run(browser,360,800),
      reduced:await reduced(browser),
    };
    fs.writeFileSync(OUT+"/measurements.json",JSON.stringify(result,null,2));
