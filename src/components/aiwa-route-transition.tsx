@@ -24,6 +24,8 @@ function captureProjectArtwork(anchor: HTMLAnchorElement): Portal | null {
   const frame = card?.querySelector<HTMLElement>(".work-gallery__art, .aiwa-work__media");
   const image = frame?.querySelector<HTMLImageElement>("img");
   if (!frame || !image || !image.complete || !image.naturalWidth) return null;
+  const style = window.getComputedStyle(frame);
+  if (style.visibility === "hidden" || style.display === "none" || Number(style.opacity) < .15) return null;
   const rect = frame.getBoundingClientRect();
   if (rect.width < 24 || rect.height < 24 || rect.bottom < 0 || rect.top > window.innerHeight) return null;
   const src = image.currentSrc || image.src;
@@ -39,6 +41,8 @@ function captureProjectArtwork(anchor: HTMLAnchorElement): Portal | null {
  */
 export function AiwaRouteTransition() {
   const router = useRouter();
+  const routerRef = useRef(router);
+  routerRef.current = router;
   const pathname = usePathname();
   const [scene, setScene] = useState<MotionScene | null>(null);
   const busy = useRef(false);
@@ -102,6 +106,8 @@ export function AiwaRouteTransition() {
       if (reduceMotion()) return;
       event.preventDefault();
       if (busy.current) return;
+      for (const id of timers.current) window.clearTimeout(id);
+      timers.current.clear();
       busy.current = true;
       pending.current = target;
       const portal = captureProjectArtwork(anchor);
@@ -109,11 +115,11 @@ export function AiwaRouteTransition() {
       setScene({ phase: "covering", label, kind: portal ? "portal" : "signal", portal });
 
       // Next's own prefetch keeps local pages responsive on static Cloudflare export.
-      try { router.prefetch(target.href); } catch { /* navigation proceeds without prefetch */ }
+      try { routerRef.current.prefetch(target.href); } catch { /* navigation proceeds without prefetch */ }
       schedule(() => {
         if (pending.current !== target) return;
         try {
-          router.push(target.href, { scroll: true });
+          routerRef.current.push(target.href, { scroll: true });
         } catch {
           window.location.assign(target.href);
         }
@@ -130,7 +136,7 @@ export function AiwaRouteTransition() {
       timers.current.clear();
       delete document.documentElement.dataset.aiwaRoutePhase;
     };
-  }, [router]);
+  }, []);
 
   if (!scene) return null;
   const vars: CSSProperties | undefined = scene.portal ? {

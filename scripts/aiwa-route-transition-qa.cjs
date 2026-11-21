@@ -70,7 +70,8 @@ async function overflow(page, context) {
       assert.equal(await stage.count(), 0);
 
       // Browser history: no stuck overlay, no route reload required.
-      await page.goBack({ waitUntil:"domcontentloaded" });
+      await page.goBack({ waitUntil:"domcontentloaded" }); // remove #case-brief
+      await page.goBack({ waitUntil:"domcontentloaded" }); // return to Work
       await page.waitForURL(pathIs("/work"), { timeout:12000 });
       await settle(page);
       assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"), "list");
