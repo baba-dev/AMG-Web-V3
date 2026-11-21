@@ -37,6 +37,7 @@ html.dark .contact-page{
 .contact-wall__track{
   display:flex;flex-direction:column;
   width:100%;will-change:transform;
+  transform:translateY(var(--contact-wall-start));
   animation:contact-wall-scroll 39s linear infinite;
 }
 .contact-wall:hover .contact-wall__track,
