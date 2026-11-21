@@ -11,7 +11,7 @@ const navigation = [
   { label: "ABOUT", href: "#about" },
   { label: "SPECIALISMS", href: "#specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
-  { label: "CONTACT", href: "https://aiwamediagroup.com/contact-us/" },
+  { label: "CONTACT", href: "/contact" },
   { label: "LATEST", href: "https://www.linkedin.com/company/aiwamediagroup/" },
 ] as const;
 
@@ -32,7 +32,7 @@ export function AiwaGlobalFooter() {
         <div className="aiwa-footer__intro">
           <span className="aiwa-footer__eyebrow">READY TO MAKE SOME NOISE?</span>
           <p>Good ideas don&apos;t need to whisper.</p>
-          <a className="aiwa-footer__start" href="https://aiwamediagroup.com/contact-us/">
+          <a className="aiwa-footer__start" href="/contact">
             WORK WITH AIWA <ArrowUpRight size={23} strokeWidth={1.6} aria-hidden="true"/>
           </a>
         </div>
@@ -49,7 +49,7 @@ export function AiwaGlobalFooter() {
         <nav className="aiwa-footer__navigation" aria-label="Footer navigation">
           <span className="aiwa-footer__eyebrow">EXPLORE</span>
           {navigation.map((item) => {
-            const local = item.href.startsWith("#");
+            const local = item.href.startsWith("#") || item.href.startsWith("/");
             return (
               <a href={resolveSiteHref(item.href, pathname)} key={item.label}
                 target={local ? undefined : "_blank"}

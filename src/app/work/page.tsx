@@ -40,7 +40,7 @@ export default function WorkDirectory() {
         <section className="work-page__outro work-page__gutter" aria-labelledby="work-outro-title">
           <span className="work-page__eyebrow">HAVE SOMETHING IN MIND?</span>
           <h2 id="work-outro-title">LET’S MAKE<br/><em>SOME NOISE.</em></h2>
-          <a href="/#contact" className="work-page__contact-link">START A CONVERSATION <ArrowUpRight size={25} aria-hidden="true"/></a>
+          <a href="/contact" className="work-page__contact-link">START A CONVERSATION <ArrowUpRight size={25} aria-hidden="true"/></a>
         </section>
       </main>
       <AiwaGlobalFooter />
