@@ -198,3 +198,63 @@
   outline-offset:5px;
 }
 .aiwa-office__contact a:focus-visible {outline:3px solid var(--office-ink);outline-offset:5px;}
+
+
+/* Final-page white 'SAY HELLO' signature echoes the reference footer's
+   monumental type without claiming the reference's five office locations. */
+.aiwa-office,.light .aiwa-office {
+  --office-bg:#f5f5f3;
+  --office-ink:#0a0a0a;
+  --office-muted:#4e504a;
+  background:var(--office-bg);
+  color:var(--office-ink);
+}
+.aiwa-office__hello {
+  margin:calc(-1 * clamp(40px,5vw,84px)) calc(-1 * var(--aiwa-gutter,clamp(20px,3.65vw,72px))) clamp(36px,6vw,88px);
+  width:calc(100% + 2 * var(--aiwa-gutter,clamp(20px,3.65vw,72px)));
+  overflow:hidden;
+  white-space:nowrap;
+  border-bottom:1px solid rgba(10,10,10,.17);
+}
+.aiwa-office__hello-track {
+  display:flex;
+  align-items:center;
+  gap:.12em;
+  width:max-content;
+  padding:clamp(14px,1.7vw,28px) 0 clamp(10px,1.5vw,24px);
+  font:400 clamp(130px,16vw,248px)/.88 var(--font-aiwa-poster),Impact,sans-serif;
+  letter-spacing:-.025em;
+  color:#090909;
+  animation:aiwa-hello-marquee 26s linear infinite alternate;
+}
+.aiwa-office__hello-track span {flex:none;}
+@keyframes aiwa-hello-marquee {
+  from{transform:translate3d(-1%,0,0);}
+  to{transform:translate3d(-24%,0,0);}
+}
+.aiwa-office__details h2 {
+  font-family:var(--font-aiwa-poster),Impact,sans-serif;
+  font-weight:400;
+  letter-spacing:-.025em;
+}
+.aiwa-office__details h2 em {font-weight:400;}
+.aiwa-office__current-story h3,
+.aiwa-office__contact-heading,
+.aiwa-office__map-link {font-family:var(--font-aiwa-poster),Impact,sans-serif;font-weight:400;}
+@media(max-width:767px){
+  .aiwa-office__hello {
+    margin:-40px -17px 43px;
+    width:calc(100% + 34px);
+  }
+  .aiwa-office__hello-track {
+    font-size:clamp(84px,22vw,145px);
+    padding:17px 0 13px;
+    animation-duration:30s;
+  }
+  .aiwa-office__layout {margin-top:40px;}
+  .aiwa-office__details h2 {font-size:clamp(65px,15vw,100px);}
+  .aiwa-office__pictures {aspect-ratio:1.22/1;}
+}
+@media(prefers-reduced-motion:reduce){
+  .aiwa-office__hello-track {animation:none!important;transform:none!important;}
+}
