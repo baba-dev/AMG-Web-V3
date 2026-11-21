@@ -19,6 +19,7 @@ html.dark .contact-page{
 .contact-pad{padding-inline:var(--aiwa-gutter);}
 .contact-wall{
   --contact-wall-row-size:clamp(150px,14.6vw,210px);
+  --contact-wall-start:calc(var(--contact-wall-row-size) * -.58);
   position:relative; height:calc(100svh - 83px);min-height:480px;
   background:#080808;color:#f7f7f7;overflow:hidden;isolation:isolate;
 }
@@ -68,7 +69,7 @@ html.dark .contact-page{
 }
 .contact-wall__row-index{display:none;}
 .contact-wall__row:is(:hover,:focus-visible) .contact-wall__picture{
-  filter:grayscale(.15) contrast(1.09);transform:rotate(-2deg);
+  filter:grayscale(1) contrast(1.12);transform:rotate(-2deg);
 }
 .contact-wall__row:is(:hover,:focus-visible) .contact-wall__picture img{transform:scale(1.01);}
 .contact-wall__row:is(:hover,:focus-visible) .contact-wall__word{transform:scaleX(.94) translateY(-3px);}
@@ -83,7 +84,10 @@ html.dark .contact-page{
 .contact-wall__edge a{display:inline-flex;align-items:center;gap:18px;min-height:45px;color:#f7f7f7;text-decoration:none;}
 .contact-wall__edge a svg{transition:transform .3s;}
 .contact-wall__edge a:hover svg{transform:translateY(4px);}
-@keyframes contact-wall-scroll{from{transform:translateY(0);}to{transform:translateY(-25%);}}
+@keyframes contact-wall-scroll{
+  from{transform:translateY(var(--contact-wall-start));}
+  to{transform:translateY(calc(var(--contact-wall-start) - 25%));}
+}
 
 .contact-intro{
   padding-top:clamp(82px,10vw,150px);
@@ -281,6 +285,7 @@ html.dark .contact-page{
   .contact-page .aiwa-inner-header__drawer{max-height:calc(100svh - 56px);}
   .contact-wall{
     --contact-wall-row-size:clamp(53px,14.7vw,72px);
+    --contact-wall-start:0px;
     height:calc(100svh - 56px);min-height:510px;
   }
   .contact-wall__topnote{display:none;}

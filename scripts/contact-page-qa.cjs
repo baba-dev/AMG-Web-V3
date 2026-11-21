@@ -77,11 +77,21 @@ fs.mkdirSync(dir,{recursive:true});
     requireIt(await page.locator(".aiwa-inner-header__drawer").getAttribute("aria-hidden")==="true",
       width+": Escape closes drawer");
    }
-   await page.evaluate(()=>window.scrollTo(0,0));
+   await page.evaluate(()=>{if(document.activeElement instanceof HTMLElement)document.activeElement.blur();window.scrollTo({top:0,behavior:"instant"});});
+   await page.mouse.move(5,5);
    await page.screenshot({path:dir+"/"+width+"x"+height+"-hero.png"});
-   await page.locator("#enquiries").scrollIntoViewIfNeeded();
+   const frame=async(id)=>{
+     await page.evaluate(id=>{
+       const element=document.getElementById(id);
+       const header=document.querySelector(".aiwa-inner-header");
+       const offset=header?.getBoundingClientRect().height||0;
+       if(element)window.scrollTo({top:window.scrollY+element.getBoundingClientRect().top-offset,
+          behavior:"instant"});
+     },id);
+   };
+   await frame("enquiries");
    await page.screenshot({path:dir+"/"+width+"x"+height+"-enquiries.png"});
-   await page.locator("#office").scrollIntoViewIfNeeded();
+   await frame("office");
    await page.screenshot({path:dir+"/"+width+"x"+height+"-office.png"});
    const vertical=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
    requireIt(vertical<=2,width+": scrolled horizontal overflow "+vertical);
@@ -95,12 +105,26 @@ fs.mkdirSync(dir,{recursive:true});
   await page.waitForTimeout(180);
   const moving=await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationName);
   requireIt(moving==="contact-wall-scroll","full-motion marquee must animate on desktop");
-  await page.locator(".contact-wall__row").first().hover();
+  const firstVisible=await page.locator(".contact-wall__row").evaluateAll(nodes=>{
+    const row=nodes.find(el=>{
+      const r=el.getBoundingClientRect();
+      return r.bottom>160 && r.top<innerHeight-150;
+    });
+    if(!row)return null;
+    const r=row.getBoundingClientRect();
+    return {x:r.left+r.width/2,y:Math.max(120,Math.min(innerHeight-180,r.top+r.height/2))};
+  });
+  requireIt(firstVisible!==null,"there must be a visible marquee row");
+  await page.mouse.move(firstVisible.x,firstVisible.y);
   const paused=await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationPlayState);
   requireIt(paused==="paused","hover should pause the moving typography");
   await page.screenshot({path:dir+"/1440-motion-hover.png"});
   await page.evaluate(()=>{document.documentElement.classList.remove("dark");document.documentElement.classList.add("light");});
-  await page.locator("#enquiries").scrollIntoViewIfNeeded();
+  await page.evaluate(()=>{
+    const target=document.getElementById("enquiries"),header=document.querySelector(".aiwa-inner-header");
+    if(target)window.scrollTo({top:window.scrollY+target.getBoundingClientRect().top-
+      (header?.getBoundingClientRect().height||0),behavior:"instant"});
+  });
   await page.screenshot({path:dir+"/1440-light-enquiries.png"});
   const color=await page.locator(".contact-intro").evaluate(el=>getComputedStyle(el).color);
   requireIt(color==="rgb(10, 10, 11)","light theme text remains readable");

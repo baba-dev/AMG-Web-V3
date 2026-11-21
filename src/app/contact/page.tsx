@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowDown, ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ContactEnquiries } from "@/components/contact-enquiries";
@@ -34,10 +34,6 @@ export default function AiwaContactPage() {
       <main id="main-content">
         <section className="contact-wall" aria-labelledby="contact-wall-title">
           <h1 id="contact-wall-title" className="contact-wall__sr-only">Contact Aiwa Media Group — Say hello from Muscat</h1>
-          <div className="contact-wall__topnote" aria-hidden="true">
-            <span>AIWA / THE CONVERSATION STARTS HERE</span>
-            <span>01 / CONTACT</span>
-          </div>
           <div className="contact-wall__viewport" data-contact-marquee>
             <div className="contact-wall__track">
               {Array.from({ length: 4 }, (_, repeat) => (
@@ -69,10 +65,6 @@ export default function AiwaContactPage() {
                 </div>
               ))}
             </div>
-          </div>
-          <div className="contact-wall__edge">
-            <span>ONE HOME. A WORLD OF IDEAS.</span>
-            <a href="#enquiries">FIND YOUR CONNECTION <ArrowDown size={20} strokeWidth={1.6} aria-hidden="true" /></a>
           </div>
         </section>
 
