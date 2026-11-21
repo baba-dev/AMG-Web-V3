@@ -37,7 +37,6 @@ export function AiwaContact() {
       return t * t * (3 - 2 * t);
     };
     let frame = 0;
-    let nearby = true;
 
     const restore = () => {
       section.style.removeProperty("--contact-progress");
@@ -88,7 +87,10 @@ export function AiwaContact() {
     };
 
     const schedule = () => {
-      if (!nearby || frame || !wide.matches || reduced.matches) return;
+      // Direct anchor navigation can jump multiple viewports in one frame.
+      // Always schedule one scroll-scrub tick so the target never gets stuck
+      // behind a delayed proximity observer (the animation is only 7 nodes).
+      if (frame || !wide.matches || reduced.matches) return;
       frame = window.requestAnimationFrame(paint);
     };
 
@@ -115,8 +117,7 @@ export function AiwaContact() {
     };
 
     const proximity = new IntersectionObserver(([entry]) => {
-      nearby = entry?.isIntersecting ?? true;
-      if (nearby) schedule();
+      if (entry?.isIntersecting) schedule();
     }, { rootMargin: "120% 0px 120% 0px" });
     proximity.observe(section);
 

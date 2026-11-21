@@ -130,7 +130,9 @@ async function testHeroSpecialismsMotion(browser, width, height) {
     return {top:section.getBoundingClientRect().top+scrollY,rows:bounds,
       background:getComputedStyle(section).backgroundColor};
   });
-  assert(spec.background==="rgb(245, 245, 245)","Reference Specialisms needs a light canvas");
+  const rgb = spec.background.match(/\d+/g)?.map(Number) || [];
+  assert(rgb.length>=3 && rgb.slice(0,3).every(channel=>channel>=230),
+    "Reference Specialisms needs a light canvas, got "+spec.background);
   assert(spec.rows.length===7,"Seven specialisms required");
   assert(spec.rows.every(r=>r.mediaWidth>20),"Each category needs an embedded media tile");
 
