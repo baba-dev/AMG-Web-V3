@@ -1,9 +1,10 @@
 import Image from "next/image";
 import type { Metadata } from "next";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { workProjects } from "@/lib/work/projects";
+import { WorkHero } from "@/components/work-hero";
 import "@/components/aiwa-polish.css";
 import "./work-directory.css";
 
@@ -23,20 +24,7 @@ export default function WorkDirectory() {
     <div className="aiwa-site work-page">
       <AiwaInnerHeader />
       <main id="main-content">
-        <section className="work-page__opening" aria-labelledby="work-opening-title">
-          <div className="work-page__opening-top work-page__gutter">
-            <span className="work-page__eyebrow">AIWA / SELECTED WORK</span>
-            <span className="work-page__eyebrow">MUSCAT / EVERYWHERE</span>
-          </div>
-          <div className="work-page__opening-copy work-page__gutter">
-            <h1 id="work-opening-title">IDEAS THAT<br/>MAKE <em>NOISE.</em></h1>
-            <p>Different challenges. Different stories. One belief: the work should never go unnoticed.</p>
-          </div>
-          <div className="work-page__opening-bottom work-page__gutter">
-            <span>SCROLL TO EXPLORE</span>
-            <a href="#work-index" aria-label="Skip to selected projects"><ArrowDown size={26}/></a>
-          </div>
-        </section>
+        <WorkHero />
         <section className="work-page__paper" aria-labelledby="work-index-title" id="work-index">
           <div className="work-page__index-header work-page__gutter">
             <div>
