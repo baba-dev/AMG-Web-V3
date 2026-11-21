@@ -2,6 +2,8 @@
 
 import { ArrowUp, ArrowUpRight, Camera, Briefcase, MapPin } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { resolveSiteHref } from "@/lib/site-navigation";
 import "./aiwa-footer.css";
 
 const navigation = [
@@ -14,6 +16,7 @@ const navigation = [
 ] as const;
 
 export function AiwaGlobalFooter() {
+  const pathname = usePathname();
   const backToTop = () => {
     window.history.replaceState(null, "", window.location.pathname + window.location.search);
     window.scrollTo({
@@ -48,7 +51,7 @@ export function AiwaGlobalFooter() {
           {navigation.map((item) => {
             const local = item.href.startsWith("#");
             return (
-              <a href={item.href} key={item.label}
+              <a href={resolveSiteHref(item.href, pathname)} key={item.label}
                 target={local ? undefined : "_blank"}
                 rel={local ? undefined : "noopener noreferrer"}>
                 {item.label} {!local && <ArrowUpRight size={14} aria-hidden="true" />}
