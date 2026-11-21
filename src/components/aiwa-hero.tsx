@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
@@ -10,6 +10,7 @@ import { AiwaContact } from "@/components/aiwa-contact";
 import { AiwaOffice } from "@/components/aiwa-office";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ModeToggle } from "@/components/mode-toggle";
+import { AiwaFilmPlayer, type FilmOrigin } from "@/components/aiwa-film-player";
 import "./aiwa-hero.css";
 
 const navigation = [
@@ -24,7 +25,6 @@ const navigation = [
 const candidateId = process.env.NEXT_PUBLIC_AIWA_SHOWREEL_YOUTUBE_ID;
 const youtubeId = candidateId && /^[a-zA-Z0-9_-]{11}$/.test(candidateId)
   ? candidateId : "d4wBqEmgFKA";
-const youtubeBase = "https://www.youtube-nocookie.com/embed/" + youtubeId;
 const poster = "https://i.ytimg.com/vi/" + youtubeId + "/hqdefault.jpg";
 const candidateVideo = process.env.NEXT_PUBLIC_AIWA_REEL_MP4_PATH;
 const nativeVideo = candidateVideo &&
@@ -65,11 +65,11 @@ export function AiwaHero() {
   const posterRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
   const filmControlsRef = useRef<HTMLDivElement>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [officesOpen, setOfficesOpen] = useState(false);
-  const [fullFilmOpen, setFullFilmOpen] = useState(false);
+  const [filmOpen, setFilmOpen] = useState(false);
+  const [filmOrigin, setFilmOrigin] = useState<FilmOrigin | null>(null);
   const [filmControlsActive, setFilmControlsActive] = useState(false);
   const [playNativeReel, setPlayNativeReel] = useState(false);
 
@@ -118,9 +118,20 @@ export function AiwaHero() {
       const w = mix(tileBox.width, targetBox.width, expansion);
       const h = mix(tileBox.height, targetBox.height, expansion);
 
-      projection.style.transform = "translate3d(" + x.toFixed(2) + "px," + y.toFixed(2) + "px,0)";
-      projection.style.width = w.toFixed(2) + "px";
-      projection.style.height = h.toFixed(2) + "px";
+      // Transform-only FLIP: width and height are set to the destination's
+      // stable box. Per-frame expansion changes a GPU-friendly scale, not
+      // layout width/height (the old implementation forced reflow on scroll).
+      const destinationWidth = targetBox.width;
+      const destinationHeight = targetBox.height;
+      const width = destinationWidth.toFixed(2) + "px";
+      const height = destinationHeight.toFixed(2) + "px";
+      if (projection.style.width !== width) projection.style.width = width;
+      if (projection.style.height !== height) projection.style.height = height;
+      const sx = w / Math.max(1, destinationWidth);
+      const sy = h / Math.max(1, destinationHeight);
+      projection.style.transform = "translate3d(" + x.toFixed(2) +
+        "px," + y.toFixed(2) + "px,0) scale(" +
+        sx.toFixed(5) + "," + sy.toFixed(5) + ")";
       projection.style.opacity = "1";
       projection.style.borderRadius = "0";
       // Morph the slanted inline video aperture into the square-edged reel.
@@ -140,6 +151,8 @@ export function AiwaHero() {
       footer.style.pointerEvents = hideHeroControls ? "none" : "auto";
       poster.style.transform = "scale(" + (1.34 + expansion * 0.08).toFixed(3) + ")";
       sequence.style.setProperty("--aiwa-hero-scroll", progress.toFixed(4));
+      // Fade out only the mobile first-fold teaser as the actual reel arrives.
+      sequence.style.setProperty("--aiwa-film-peek", (1 - ease(progress * 5)).toFixed(4));
       const controlAlpha = ease((progress - 0.82) / 0.17);
       controls.style.opacity = controlAlpha.toFixed(3);
 
@@ -176,11 +189,20 @@ export function AiwaHero() {
   }, []);
 
   const openFilm = () => {
-    setFullFilmOpen(true);
+    // Match the actual on-screen source rectangle rather than a hardcoded
+    // center. The cinema then expands smoothly from either the small inline
+    // media tile or the full-viewport showreel.
+    const tile = tileRef.current;
+    const reel = projectionRef.current;
+    const useTile = tile && Number(getComputedStyle(tile).opacity) > .08;
+    const from = (useTile ? tile : reel)?.getBoundingClientRect();
+    if (from) setFilmOrigin({
+      left: from.left, top: from.top,
+      width: from.width, height: from.height,
+    });
+    setFilmOpen(true);
     setMobileNavOpen(false);
-    dialogRef.current?.showModal();
   };
-  const closeFilm = () => dialogRef.current?.close();
   const navigateAbout = (event: MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const about = document.getElementById("about");
@@ -307,7 +329,9 @@ export function AiwaHero() {
           </div>
         </section>
 
-        <section ref={filmSectionRef} className="aiwa-film-section" id="film" aria-label="Aiwa Media Group showreel" />
+        <section ref={filmSectionRef} className="aiwa-film-section" id="film"
+          aria-label="Aiwa Media Group showreel"
+          style={{ "--aiwa-film-poster": "url(" + poster + ")" } as CSSProperties} />
 
         <div className="aiwa-reel" ref={projectionRef} aria-hidden="true">
           <div ref={posterRef} className="aiwa-reel__poster" style={{ backgroundImage: "url(" + poster + ")" }} />
@@ -339,24 +363,15 @@ export function AiwaHero() {
       <AiwaOffice />
       <AiwaGlobalFooter />
 
-      <dialog className="aiwa-film-dialog" ref={dialogRef} aria-label="Aiwa Media Group full film"
-        onClose={() => setFullFilmOpen(false)}
-        onClick={(event) => { if (event.target === event.currentTarget) closeFilm(); }}>
-        <div className="aiwa-film-dialog__panel">
-          <div className="aiwa-film-dialog__top"><span>AIWA / THE FULL FILM</span>
-            <button type="button" aria-label="Close film" onClick={closeFilm}><X size={23} aria-hidden="true" /></button>
-          </div>
-          {fullFilmOpen && (nativeVideo ? (
-            <video src={nativeVideo} controls autoPlay playsInline poster={poster}
-              aria-label="Aiwa Media Group full showreel" />
-          ) : (
-            <iframe src={youtubeBase + "?autoplay=1&rel=0"}
-              title="Aiwa Media Group full film" loading="eager"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
-          ))}
-        </div>
-      </dialog>
+      <AiwaFilmPlayer
+        open={filmOpen}
+        origin={filmOrigin}
+        poster={poster}
+        youtubeId={youtubeId}
+        nativeVideo={nativeVideo}
+        onRequestClose={() => setFilmOpen(false)}
+      />
+
     </main>
   );
 }

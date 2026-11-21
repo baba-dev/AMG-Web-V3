@@ -88,6 +88,12 @@ export function AiwaOffice() {
 
   return (
     <section ref={sectionRef} className="aiwa-office" id="office" aria-labelledby="aiwa-office-title">
+      <div className="aiwa-office__hello" aria-hidden="true">
+        <div className="aiwa-office__hello-track">
+          <span>SAY HELLO</span><span>SAY HELLO</span>
+          <span>SAY HELLO</span><span>SAY HELLO</span>
+        </div>
+      </div>
       <div className="aiwa-office__top">
         <span className="aiwa-office__eyebrow"><span aria-hidden="true">+</span> THE WORLD OF AIWA</span>
         <span className="aiwa-office__index">07 / OUR HOME</span>

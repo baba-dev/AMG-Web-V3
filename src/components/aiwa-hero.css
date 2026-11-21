@@ -632,3 +632,221 @@
 @media (max-width: 390px) {
   .aiwa-hero__headline { font-size: 14.65vw; }
 }
+
+
+/* ------------------------------------------------------------------
+   2026 homepage fidelity pass. The public reference uses an ultra-narrow,
+   tall poster face; the open-source Anton family is an optical substitute.
+   Keep original Aiwa wording rather than importing third-party copy/fonts.
+   ------------------------------------------------------------------ */
+.aiwa-site {
+  --aiwa-poster-font: var(--font-aiwa-poster), var(--font-aiwa-display), Impact, sans-serif;
+}
+.aiwa-header {
+  min-height:70px;
+  padding:12px clamp(16px,1.75vw,33px);
+  grid-template-columns:minmax(112px,1fr) auto minmax(180px,1fr);
+  gap:clamp(9px,1.35vw,24px);
+}
+.aiwa-header__identity {
+  font-family:var(--aiwa-poster-font);
+  font-weight:400;
+  font-size:clamp(37px,3.0vw,51px);
+  letter-spacing:-.017em;
+  line-height:1;
+}
+.aiwa-header__navigation { gap:clamp(15px,1.3vw,24px); }
+.aiwa-header__link,.aiwa-header__offices {
+  font-family:var(--aiwa-poster-font);
+  font-size:clamp(14px,1.25vw,19px);
+  font-weight:400;
+  letter-spacing:.005em;
+  line-height:1.1;
+}
+.aiwa-header__utility { gap:clamp(10px,1vw,17px); }
+.aiwa-header__clock {
+  font-family:var(--aiwa-poster-font);
+  font-size:clamp(13px,1.25vw,19px);
+  font-weight:400;
+  border-color:var(--aiwa-rule-strong);
+  min-height:38px;
+}
+.aiwa-hero__center {
+  top:50%;
+  inset:50% 0 auto;
+  padding:0 clamp(24px,2.9vw,52px);
+  transform:translateY(-50%);
+}
+.aiwa-hero__headline {
+  font-family:var(--aiwa-poster-font);
+  font-size:clamp(81px,9.7vw,148px);
+  font-weight:400;
+  line-height:.99;
+  letter-spacing:-.026em;
+}
+.aiwa-hero__word { font-weight:400; }
+.aiwa-hero__word:is(em) {
+  font-style:oblique;
+  letter-spacing:-.035em;
+}
+.aiwa-hero__line {gap:.092em;align-items:center;}
+.aiwa-hero__line--second {
+  gap:.072em;
+  padding-left:clamp(0px,2.9vw,50px);
+  margin-top:-.035em;
+}
+.aiwa-hero__mask {line-height:1.01;}
+.aiwa-hero__film-tile {
+  width:clamp(105px,13.1vw,192px);
+  height:.82em;
+  margin:0 .045em .015em .015em;
+}
+.aiwa-hero__location {
+  font-size:clamp(13px,1.02vw,17px);
+  line-height:1.3;
+}
+.aiwa-hero__bottom {bottom:24px;left:clamp(18px,1.75vw,33px);right:clamp(18px,1.75vw,33px);}
+.aiwa-hero__scroll {width:49px;height:49px;}
+.aiwa-reel { will-change:transform,clip-path; transform-origin:0 0; contain:layout style paint; }
+.aiwa-reel__poster {backface-visibility:hidden;transform-origin:center;}
+.aiwa-reel__caption {bottom:21px;}
+/* Do not overlay an invisible fixed hero header over interactive content. */
+.aiwa-header[style*="opacity: 0"], .aiwa-hero__center[style*="opacity: 0"] {pointer-events:none;}
+@media(min-width:951px) and (max-width:1230px) {
+  .aiwa-header {grid-template-columns:minmax(95px,1fr) auto minmax(142px,1fr);}
+  .aiwa-header__navigation {gap:11px;}
+  .aiwa-header__link {font-size:14px;}
+  .aiwa-header__clock {padding:0 6px;}
+}
+@media(max-width:950px) {
+  .aiwa-header {grid-template-columns:1fr auto;}
+  .aiwa-header__navigation,.aiwa-header__offices {display:none;}
+  .aiwa-header__menu-toggle {display:inline-flex;}
+  .aiwa-mobile-nav {max-height:calc(100dvh - 65px);overflow-y:auto;overscroll-behavior:contain;}
+  .aiwa-mobile-nav__link {font-family:var(--aiwa-poster-font);font-size:clamp(28px,7vw,49px);font-weight:400;letter-spacing:-.015em;}
+}
+@media(max-width:720px){
+  .aiwa-header {min-height:60px;padding:10px 15px;}
+  .aiwa-header__identity {font-size:33px;}
+  .aiwa-header__clock {display:none;}
+  .aiwa-header__utility {gap:10px;}
+  .aiwa-header__menu-toggle {width:44px;height:44px;}
+  .aiwa-hero__center {
+    inset:clamp(120px,19svh,180px) 0 auto;
+    padding:0 14px;
+    transform:none;
+  }
+  .aiwa-hero__headline {
+    font-size:clamp(46px,12.8vw,80px);
+    line-height:.95;
+    letter-spacing:-.025em;
+    text-align:center;
+  }
+  .aiwa-hero__line,.aiwa-hero__line--second {
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    width:100%;
+    gap:0 .12em;
+    padding:0;
+    margin:0;
+  }
+  .aiwa-hero__line--second {margin-top:.04em;}
+  .aiwa-hero__line--second .aiwa-hero__mask:last-child {width:auto;}
+  .aiwa-hero__mask {line-height:1.04;}
+  .aiwa-hero__word:is(em) {letter-spacing:-.032em;}
+  .aiwa-hero__film-tile {width:clamp(77px,22vw,131px);height:.79em;margin:0 .035em;min-height:39px;}
+  .aiwa-hero__bottom {bottom:24px;left:15px;right:15px;justify-content:space-between;}
+  .aiwa-hero__location {display:block;font-size:12px;line-height:1.3;}
+  .aiwa-hero__location span {display:block;}
+  .aiwa-hero__scroll {width:45px;height:45px;}
+  .aiwa-reel__caption {left:15px;right:15px;bottom:calc(14px + env(safe-area-inset-bottom));gap:9px;}
+  .aiwa-reel__caption>span {font-size:11px;}
+  .aiwa-reel__actions {gap:7px;}
+  .aiwa-reel__open-film {min-height:44px;padding:0 9px;font-family:var(--aiwa-poster-font);font-size:14px;font-weight:400;}
+  .aiwa-reel__next {min-height:44px;width:44px;}
+}
+@media(max-width:390px) {
+  .aiwa-hero__headline {font-size:12.7vw;}
+  .aiwa-hero__location {font-size:11px;}
+  .aiwa-hero__center {inset:clamp(115px,18svh,150px) 0 auto;}
+}
+@media(prefers-reduced-motion:reduce){
+  .aiwa-reel,.aiwa-reel__poster {will-change:auto;}
+}
+
+/* Mobile hero follows the reference's high poster lockup, with the scroll
+   cue beside the content rather than stranded at the bottom of a tall phone. */
+@media(max-width:720px){
+ .aiwa-hero__center {inset:clamp(88px,12svh,130px) 0 auto;}
+ .aiwa-hero__bottom {top:clamp(420px,56svh,535px);bottom:auto;justify-content:flex-end;}
+ .aiwa-hero__location {display:none;}
+ .aiwa-hero__film-tile {width:clamp(84px,23vw,138px);}
+}
+@media(max-width:390px){
+ .aiwa-hero__center {inset:clamp(85px,11.8svh,125px) 0 auto;}
+}
+
+/* MOBILE FILM FOLD: Romans exposes showreel footage in the lower quarter of
+   the initial mobile viewport, rather than a 100svh empty black hero.
+   Keep both sections in normal flow, and always land the expanding projection
+   in a distinct 100svh section when the first, shorter hero scrolls away. */
+@media(max-width:720px) {
+  .aiwa-sequence { height:173svh; }
+  .aiwa-hero {height:73svh;}
+  .aiwa-film-section {
+    height:100svh;
+    background-size:cover;
+    background-position:center;
+    background-color:#28322f;
+  }
+  .aiwa-film-section::after {
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom,rgba(0,0,0,.13),transparent 48%,rgba(0,0,0,.18));
+    pointer-events:none;
+  }
+}
+
+
+/* Precisely align mobile fold with the captured 390x844 reference:
+   headline ≈ 22% down, cue ≈ 66% down, footage starts at 75%.
+   The official YouTube still has baked-in letterbox bars. Cropping the
+   background optically exposes the footage at the intended section seam. */
+@media(max-width:720px) {
+ .aiwa-sequence {height:175svh;}
+ .aiwa-hero {height:75svh;}
+ .aiwa-hero__center {inset:clamp(157px,22svh,200px) 0 auto;}
+ .aiwa-hero__bottom {top:clamp(450px,66svh,590px);bottom:auto;}
+ .aiwa-film-section {
+   background-size:auto 138%;
+   background-position:50% 50%;
+ }
+}
+@media(max-width:390px) {
+ .aiwa-hero__center {inset:clamp(157px,22svh,200px) 0 auto;}
+}
+
+/* One film image, never two overlapping posters.
+   The lower mobile first-fold teaser is a temporary pseudo-element:
+   it fades away as the projected reel begins growing, and is absent
+   entirely at desktop widths. When JS is off the teaser stays visible. */
+.aiwa-film-section { background-image:none!important; }
+@media(max-width:720px) {
+  .aiwa-film-section::before {
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    display:block;
+    background-color:#28322f;
+    background-image:var(--aiwa-film-poster,none);
+    background-repeat:no-repeat;
+    background-size:auto 138%;
+    background-position:center center;
+    opacity:var(--aiwa-film-peek,1);
+    pointer-events:none;
+  }
+  .aiwa-film-section::after {z-index:1;opacity:var(--aiwa-film-peek,1);}
+}

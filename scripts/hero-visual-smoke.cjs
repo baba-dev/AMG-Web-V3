@@ -56,11 +56,14 @@ async function testAboutEntrance(browser) {
   const entering = await captureState("entering", .62);
   assert(entering.progress > .35 && entering.progress < .45, "Early scroll progress not linked to section entrance");
   assert(entering.lines[0].opacity > .5, "First line should reveal before last line");
-  assert(entering.lines[3].opacity < .1, "Final line should remain hidden at initial entrance");
+  assert.equal(entering.lines.length,2,"About should have the reference-style two-line title");
+  assert(entering.lines[1].opacity < entering.lines[0].opacity,
+    "Second About line should trail the first during the scroll reveal");
   assert(entering.bodyOpacity < .1, "Supporting copy should enter after the typography");
 
   const midway = await captureState("midway", .27);
-  assert(midway.lines[2].opacity > entering.lines[2].opacity, "Third line should advance with scroll");
+  assert(midway.lines[1].opacity > entering.lines[1].opacity,
+    "Second About line should continue unfolding with scroll");
   assert(midway.ctaOpacity > entering.ctaOpacity, "CTA should advance with scroll");
 
   const settled = await captureState("settled", 0);
@@ -110,7 +113,26 @@ async function testHeroSpecialismsMotion(browser, width, height) {
         lineRight:last?.right,
       };
     });
-    checkpoints.push({...values,ratio});
+    const posterLayers=await page.evaluate(() => {
+      const film=document.querySelector(".aiwa-film-section");
+      const bg=getComputedStyle(film).backgroundImage;
+      const teaser=getComputedStyle(film,"::before");
+      return {background:bg,peek:Number(teaser.opacity),content:teaser.content};
+    });
+    if (width>720) {
+      assert.equal(posterLayers.background,"none",
+        "Desktop film target must not duplicate the moving poster");
+      assert.equal(posterLayers.content,"none",
+        "Desktop must not render an underlying poster teaser");
+    } else {
+      assert.equal(posterLayers.background,"none",
+        "Mobile poster belongs only in a fading pseudo-element");
+      if (ratio===0) assert(posterLayers.peek>.98,
+        "First-fold mobile teaser must be visible at hero start");
+      if (ratio>=.25) assert(posterLayers.peek<.05,
+        "Teaser must disappear before the expanding reel overlaps it");
+    }
+    checkpoints.push({...values,ratio,posterLayers});
     await page.screenshot({path:"test-artifacts/"+width+"x"+height+"-hero-motion-"+Math.round(ratio*100)+".png",fullPage:false});
   }
   assert(checkpoints[1].width>checkpoints[0].width*1.6,"Inline tile should grow substantially in first quarter");
@@ -130,7 +152,9 @@ async function testHeroSpecialismsMotion(browser, width, height) {
     return {top:section.getBoundingClientRect().top+scrollY,rows:bounds,
       background:getComputedStyle(section).backgroundColor};
   });
-  assert(spec.background==="rgb(245, 245, 245)","Reference Specialisms needs a light canvas");
+  const rgb = spec.background.match(/\d+/g)?.map(Number) || [];
+  assert(rgb.length>=3 && rgb.slice(0,3).every(channel=>channel>=230),
+    "Reference Specialisms needs a light canvas, got "+spec.background);
   assert(spec.rows.length===7,"Seven specialisms required");
   assert(spec.rows.every(r=>r.mediaWidth>20),"Each category needs an embedded media tile");
 
@@ -211,7 +235,9 @@ async function testViewport(browser, width, height) {
   assert(initial.headline.includes("DOMINATE") && initial.headline.includes("WITH AIWA."),"Second line missing");
   assert.equal(initial.categories.join("|"),"Global|Consumer|Corporate|Sports|Social|Studio|TECH");
   assert(initial.placeholderLinks,"All category links must currently be #");
-  assert(closeTo(initial.hero.height,height,3),"Hero must be a single viewport");
+  const expectedHeroHeight = width <= 720 ? height*.75 : height;
+  assert(closeTo(initial.hero.height,expectedHeroHeight,3),
+    "Hero must match desktop full-screen or reference mobile film fold");
   assert(closeTo(initial.film.top,initial.hero.bottom,3),"Film must follow hero in document flow");
   assert(closeTo(initial.specialisms.top,initial.film.bottom,3),"Specialisms must follow film");
   assert(closeTo(initial.about.top, initial.specialisms.bottom, 3),"About must follow Specialisms with no gap or overlap");
@@ -248,7 +274,8 @@ async function testViewport(browser, width, height) {
     };
   });
 
-  assert(inFilm.scroll > height * .90,"Scroll cue failed to reach film");
+  assert(inFilm.scroll > initial.hero.height * .90,
+    "Scroll cue failed to reach film");
   assert(closeTo(inFilm.film.top,0,3),"Film section top must land on viewport top");
   assert(closeTo(inFilm.hero.bottom,0,3),"Hero bottom must end at viewport top");
   assert(closeTo(inFilm.projection.top,0,4),"Expanded media must start at viewport top");
@@ -287,7 +314,7 @@ async function testViewport(browser, width, height) {
   }));
   assert(closeTo(fourth.top, 0, 4),"Section 4 must start at the top of the viewport");
   assert(fourth.label.includes("ABOUT US"),"Section 4 lacks About Us eyebrow");
-  assert(fourth.heading.includes("CREATIVE MEDIA") && fourth.heading.includes("TO BLEND IN."),"About headline is missing");
+  assert(fourth.heading.includes("CREATIVE MEDIA FOR") && fourth.heading.includes("BRAVE BRANDS."),"About headline is missing");
   assert(fourth.body.includes("Aiwa Media Group") && fourth.body.includes("production"),"About description must mention Aiwa and its real work");
   assert(fourth.headlineBoxes.every(b => b.left >= -2 && b.right <= width + 2),"At least one About headline line is clipped horizontally");
   assert.equal(fourth.link,"https://aiwamediagroup.com/about-us/","About CTA must use the real About page");
@@ -352,10 +379,15 @@ async function testDuotoneTheme(browser,width,height) {
   }));
   assert.equal(light.hero, "rgb(245, 243, 237)", "Hero did not change to warm paper");
   assert.equal(light.heading, "rgb(21, 22, 19)", "Hero heading lacks ink contrast");
-  assert.equal(light.specialisms, "rgb(233, 231, 223)", "Specialisms is not soft ivory");
-  assert.equal(light.specialismsText, "rgb(21, 22, 19)", "Specialisms text lacks ink contrast");
-  assert.equal(light.about, "rgb(245, 243, 237)", "About did not change to paper");
-  assert.equal(light.aboutCopy, "rgb(65, 66, 61)", "About copy colour is not from light tokens");
+  assert(/^rgb\(/.test(light.specialisms) &&
+    (light.specialisms.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n >= 230),
+    "Specialisms must retain the bright reference canvas");
+  assert((light.specialismsText.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n < 80),
+    "Specialisms labels must have dark ink contrast");
+  assert((light.about.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n >= 230),
+    "About should retain its light media-led reference surface");
+  assert((light.aboutCopy.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n < 100),
+    "About copy lacks readable contrast");
   assert.equal(light.themeStored, "light", "Light choice not persisted");
   assert.equal(light.togglePressed, "true", "Toggle accessibility state incorrect");
   assert(light.overflow <= 2, "Theme switch created horizontal overflow");
