@@ -55,6 +55,18 @@ async function geometry(page){return page.evaluate(()=>{
     assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"),"list",width+": list view");
     assert.equal(new URL(page.url()).searchParams.get("view"),"list",width+": list deep link");
     assert.equal(await page.locator(".work-gallery__link").count(),6,width+": list retains all routes");
+    if(width<=767){
+      const mobileType=await page.locator("[data-work-project]").first().evaluate(card=>{
+        const title=card.querySelector(".work-gallery__title").getBoundingClientRect();
+        const discipline=card.querySelector(".work-gallery__discipline").getBoundingClientRect();
+        const client=card.querySelector(".work-gallery__client");
+        return {subtitleBottom:title.bottom,disciplineTop:discipline.top,
+          clientSize:parseFloat(getComputedStyle(client).fontSize)};
+      });
+      check(mobileType.disciplineTop>=mobileType.subtitleBottom-1,
+        width+": mobile list metadata overlaps subtitle "+JSON.stringify(mobileType));
+      check(mobileType.clientSize>=18,width+": mobile list client typography too small");
+    }
     await page.locator('[data-filter-button="brand"]').click();
     assert.equal(await page.locator("[data-work-project]").count(),3,width+": list filter works");
     assert.equal(new URL(page.url()).searchParams.get("view"),"list",width+": filter keeps view");

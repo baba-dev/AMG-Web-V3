@@ -243,8 +243,13 @@
   .work-gallery[data-view="list"] .work-gallery__client {
     font-size:clamp(18px,5vw,31px); letter-spacing:-.052em;
   }
-  .work-gallery[data-view="list"] .work-gallery__title { font-size:12px; }
-  .work-gallery[data-view="list"] .work-gallery__discipline { font-size:9px; }
+  .work-gallery[data-view="list"] .work-gallery__client { grid-column:1; grid-row:auto; }
+  .work-gallery[data-view="list"] .work-gallery__title {
+    grid-column:1; grid-row:auto; font-size:12px;
+  }
+  .work-gallery[data-view="list"] .work-gallery__discipline {
+    grid-column:1; grid-row:auto; text-align:left; font-size:9px;
+  }
   .work-gallery[data-view="list"] .work-gallery__row-arrow { width:19px; }
   .work-gallery__closing { margin-top:46px; font-size:10px; }
 }
