@@ -74,6 +74,8 @@
 }
 
 .aiwa-home2__menu {
+  position: relative;
+  z-index: 21;
   justify-self: end;
   display: grid;
   place-items: center;
