@@ -23,24 +23,27 @@ Google Fonts **Space Grotesk** is open licensed (OFL) and ships in the normal bu
 
 ## Production-only licensed font delivery
 
-The site’s public source must **not** include raw proprietary font bytes. It only includes the font loader and reference URL. A production build may supply the user's legally licensed file through an encrypted Cloudflare Pages **build environment secret**:
+The site's public source must **not** include raw proprietary font bytes. It includes only a loader and the font's on-site URL. The owner supplies the licensed binary to the production build through **encrypted build environment variables**.
 
-- Secret name: `AIWA_ROC_GROTESK_WOFF2_BASE64`
-- Value: base64-encoded binary of the licensed `.woff2` file (no `data:` prefix)
-- Scope: production build environment for the licensed web domain; avoid publishing from unrelated preview/custom domains without checking the license.
-- Build command: `npm run build` (the `prebuild` hook automatically prepares the font).
+**Preferred Cloudflare Pages setup: chunked variables, max 4,096 characters each.** Cloudflare's Workers Builds environment-variable documentation specifies a 5 KB per-variable ceiling. A 24,040-byte WOFF2 expands to 32,056 base64 characters, so it requires eight small protected variables. Chunking works even when large single-variable values are rejected.
 
-On Windows PowerShell, generate the local value **without putting it in Git or chat**:
+On a Windows computer, in PowerShell from the repository folder:
 
 ```powershell
-[Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\\path\\to\\RocGrotesk-Regular.woff2")) | Set-Clipboard
+./scripts/copy-roc-secret-chunks.ps1 -FontPath "C:\\path\\to\\RocGrotesk-Regular.woff2"
 ```
 
-Paste from your clipboard into the Cloudflare Pages environment secret field. Do not paste it in GitHub issues, logs or source files. With the secret present, `prebuild` verifies the WOFF2 header, length and base64 encoding, then writes the binary to `public/fonts/roc-grotesk-regular.woff2` during the build only. This file is gitignored. The static export carries the font and an HTML activation marker; CSS then uses it for regular body copy. No secret value appears in the HTML or JavaScript.
+For each prompt, create an **encrypted production build variable** in the Aiwa Cloudflare Pages project. Paste the clipboard into the named entry: `AIWA_ROC_GROTESK_B64_01`, `_02`, ... `_08`. The helper does not print or write the secret data and clears the clipboard at the end.
 
-Without the secret, the build removes any stale local copy at the managed path, prints `AIWA_FONT_SPACE_GROTESK_FALLBACK`, and uses Space Grotesk. No missing font URL is requested by visitors in fallback mode.
+**Alternative for build systems accepting larger secrets:** a single `AIWA_ROC_GROTESK_WOFF2_BASE64` containing the complete file. Never configure both the single variable and the chunk variables.
 
-**Webfont reality:** While the binary is excluded from the public Git history and never returned in a chat answer, end-user browsers must still download it when the licensed webfont is enabled. This must be permitted by the webfont license. Using a protected build secret is not DRM and cannot conceal a font that is displayed in a web browser.
+Use the normal `npm run build` command. The `prebuild` hook combines contiguous chunks and validates base64, WOFF2 signature and declared binary length. It copies the binary to `public/fonts/roc-grotesk-regular.woff2` only in the ephemeral build tree. The path is gitignored and the exported HTML contains only a boolean activation marker, never the encoded secret.
+
+Without a licensed input, the build deletes any stale copy at the managed path and uses Space Grotesk. No browser request is made for the unavailable Roc font in fallback mode. Invalid or incomplete input fails the build rather than deploying an incorrectly activated font.
+
+**License:** Only enable this asset on a hostname for which you have webfont embedding rights. Avoid deploying to unlicensed public previews, and check the license's pageview/domain allowances before enabling.
+
+**Webfont reality:** Keeping font binaries out of Git does not make a used webfont confidential: visitors' browsers must download the licensed font, as is normal with self-hosted webfonts. Make sure your license permits this.
 
 ## QA and regression acceptance
 
