@@ -55,7 +55,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${aiwaText.variable} ${aiwaDisplay.variable} ${aiwaPoster.variable} h-full antialiased`}
-      data-aiwa-roc={process.env.AIWA_ROC_GROTESK_WOFF2_BASE64 ? "true" : undefined}
+      data-aiwa-roc={process.env.AIWA_ROC_GROTESK_WOFF2_BASE64 || process.env.AIWA_ROC_GROTESK_B64_01 ? "true" : undefined}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider
