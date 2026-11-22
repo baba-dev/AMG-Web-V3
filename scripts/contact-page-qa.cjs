@@ -30,7 +30,7 @@ fs.mkdirSync(dir,{recursive:true});
      wallHeight:wall?.getBoundingClientRect().height,
      wallBackground:wall?getComputedStyle(wall).backgroundColor:"",
      intro:!!document.querySelector("#enquiries"),
-     office:!!document.querySelector("#office"),
+     office:!!document.querySelector("#contact-office"),
      panel:!!panel,
      realOfficeCount:document.querySelectorAll(".contact-office__details").length,
      wallCount:links.length,

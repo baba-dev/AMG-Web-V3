@@ -38,7 +38,7 @@ async function run(browser,width,height){
      aboutRGB:getComputedStyle(about).backgroundColor,
      aboutImage:rect(aboutImage),
      overflow:document.documentElement.scrollWidth-innerWidth,
-     rects:[...[".aiwa-hero",".aiwa-film-section",".aiwa-specialisms",".aiwa-about","#work","#contact","#office","#site-footer"]].map(s=>{
+     rects:[...[".aiwa-hero",".aiwa-film-section",".aiwa-specialisms",".aiwa-about","#work","#office","#site-footer"]].map(s=>{
        const e=document.querySelector(s),r=e.getBoundingClientRect();
        return {name:s,top:r.top+scrollY,bottom:r.bottom+scrollY};
      }),
