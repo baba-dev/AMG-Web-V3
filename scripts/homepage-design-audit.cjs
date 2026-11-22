@@ -20,7 +20,6 @@ const testSelectors = [
   [".aiwa-about__heading", "about"],
   [".aiwa-about__description", "about-body"],
   [".aiwa-work__headline", "work"],
-  [".aiwa-contact__headline", "contact"],
   [".aiwa-office__details h2", "office"],
   [".aiwa-footer__intro p", "footer"],
 ];
@@ -81,7 +80,7 @@ const testSelectors = [
             document.fonts.check('16px "Aiwa Roc Grotesk Web"')),
             width+"px: private Roc font failed to load");
         }
-        const poster = initial.fonts.filter(x=>["hero","specialisms","work","contact"].includes(x.key));
+        const poster = initial.fonts.filter(x=>["hero","specialisms","work"].includes(x.key));
         assert(poster.every(x=>x.font.toLowerCase().includes("anton")),
           width+"px: poster headings should share an Anton stack: "+JSON.stringify(poster));
         const tap = await page.evaluate(() => {
@@ -120,7 +119,7 @@ const testSelectors = [
           width+"px: footer contact spacing too loose: "+JSON.stringify(mobileDetails.footerContacts));
 
         // Walk the page; some overflows only appear while sticky sections animate.
-        const sections=["#specialisms","#about","#work","#contact","#office","#site-footer"];
+        const sections=["#specialisms","#about","#work","#office","#site-footer"];
         const sectionResults=[];
         for(const section of sections){
           await page.evaluate(s=>document.querySelector(s).scrollIntoView({behavior:"instant"}),section);

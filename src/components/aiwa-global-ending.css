@@ -1,0 +1,60 @@
+/* Root-layout closing section. No per-route footer styles or duplicate IDs. */
+.aiwa-site.aiwa-global-ending {
+  --aiwa-gutter: clamp(18px, 2.5vw, 48px);
+  --aiwa-font-interface: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  --aiwa-font-body: var(--aiwa-font-interface);
+  --aiwa-paper: #0f0f0f;
+  --aiwa-paper-ink: #f5f5f3;
+  --aiwa-paper-muted: #aaa9a2;
+  --aiwa-paper-rule: rgb(255 255 255 / 20%);
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  background: #0f0f0f;
+  color: #f5f5f3;
+  font-family: var(--aiwa-font-body);
+  isolation: isolate;
+}
+.light .aiwa-site.aiwa-global-ending {
+  --aiwa-paper: #f5f5f3;
+  --aiwa-paper-ink: #0a0a0a;
+  --aiwa-paper-muted: #4f514a;
+  --aiwa-paper-rule: rgb(10 10 10 / 20%);
+  background: #f5f5f3;
+  color: #0a0a0a;
+}
+.aiwa-global-ending *,
+.aiwa-global-ending *::before,
+.aiwa-global-ending *::after {
+  box-sizing: border-box;
+}
+/* Pin the same ending palette on every route. Page-specific editorial
+   overrides must not recolor the universal footer or Muscat gallery. */
+.aiwa-site.aiwa-global-ending .aiwa-office,
+.aiwa-site.aiwa-global-ending .aiwa-footer {
+  width: 100%;
+  padding-inline: var(--aiwa-gutter);
+  background-color: var(--aiwa-paper);
+  color: var(--aiwa-paper-ink);
+}
+.aiwa-site.aiwa-global-ending .aiwa-office {
+  --office-bg: var(--aiwa-paper);
+  --office-ink: var(--aiwa-paper-ink);
+  --office-muted: var(--aiwa-paper-muted);
+  --office-border: var(--aiwa-paper-rule);
+}
+.aiwa-site.aiwa-global-ending .aiwa-footer {
+  --footer-bg: var(--aiwa-paper);
+  --footer-ink: var(--aiwa-paper-ink);
+  --footer-muted: var(--aiwa-paper-muted);
+  --footer-border: var(--aiwa-paper-rule);
+}
+@media (max-width: 767px) {
+  .aiwa-site.aiwa-global-ending { --aiwa-gutter: 17px; }
+}
+/* Keep the marquee flush to the viewport and avoid unrelated page skin
+   affecting the universal footer, especially Work and Contact overrides. */
+.aiwa-global-ending .aiwa-office__hello {
+  margin-inline: calc(-1 * var(--aiwa-gutter));
+  width: calc(100% + 2 * var(--aiwa-gutter));
+}

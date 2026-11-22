@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { WorkGallery } from "@/components/work-gallery";
 import { WorkProcess } from "@/components/work-process";
 import { WorkHero } from "@/components/work-hero";
@@ -43,7 +42,6 @@ export default function WorkDirectory() {
           <a href="/contact" className="work-page__contact-link">START A CONVERSATION <ArrowUpRight size={25} aria-hidden="true"/></a>
         </section>
       </main>
-      <AiwaGlobalFooter />
     </div>
   );
 }

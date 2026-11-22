@@ -45,7 +45,7 @@ async function geometry(page){return page.evaluate(()=>{
     ));
     assert.equal(surfaces[".work-gallery"],"rgb(18, 20, 23)",width+": dark gallery");
     assert.equal(surfaces[".work-process"],"rgb(27, 29, 32)",width+": dark process");
-    assert.equal(surfaces[".aiwa-footer"],"rgb(18, 20, 23)",width+": dark footer");
+    assert.equal(surfaces[".aiwa-footer"],"rgb(15, 15, 15)",width+": global dark footer");
     const hrefs=await page.locator(".work-gallery__link").evaluateAll(nodes=>nodes.map(n=>new URL(n.href).pathname));
     assert.deepEqual(hrefs,slugs.map(slug=>"/work/"+slug),width+": local project routes missing");
     const listSwitch=page.locator('[data-view-button="list"]');
@@ -197,7 +197,7 @@ async function geometry(page){return page.evaluate(()=>{
   assert.equal(await themePage.locator(".work-page__paper").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
   assert.equal(await themePage.locator(".work-gallery").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
   assert.equal(await themePage.locator(".work-process").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(232, 229, 223)");
-  assert.equal(await themePage.locator(".aiwa-footer").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
+  assert.equal(await themePage.locator(".aiwa-footer").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 245, 243)");
   await themePage.locator('[data-view-button="list"]').click();
   const frameLightList=()=>themePage.evaluate(()=>{
     const controls=document.querySelector(".work-gallery__filterbar");

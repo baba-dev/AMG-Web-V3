@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { specialisms, getRelatedProjects } from "@/lib/specialisms";
 import "@/components/aiwa-polish.css";
 import "./specialisms-directory.css";
@@ -76,6 +75,5 @@ export default function SpecialismsDirectory(){
     <a href="/contact">START A CONVERSATION <ArrowUpRight size={25}/></a>
    </section>
   </main>
-  <AiwaGlobalFooter/>
  </div>;
 }

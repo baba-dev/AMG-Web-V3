@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import "@/components/aiwa-polish.css";
 import "../legal.css";
 
@@ -43,7 +42,6 @@ export default function PrivacyNotes() {
           applicable terms with Aiwa directly.</p>
       </article>
       </main>
-      <AiwaGlobalFooter />
     </div>
   );
 }

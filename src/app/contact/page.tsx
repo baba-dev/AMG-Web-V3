@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ContactEnquiries } from "@/components/contact-enquiries";
 import { ContactMotion } from "@/components/contact-motion";
 import "@/components/aiwa-polish.css";
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 const phrases = [
-  { text: "MUSCAT", image: "/media/finale/muscat-editorial.svg", action: "#office", imageFirst: false, note: "Our home" },
+  { text: "MUSCAT", image: "/media/finale/muscat-editorial.svg", action: "#contact-office", imageFirst: false, note: "Our home" },
   { text: "SAY HELLO", image: "/media/specialisms/studio.svg", action: "#enquiries", imageFirst: true, note: "Start talking" },
   { text: "CREATIVE", image: "/media/finale/creative-process.svg", action: "#enquiries", imageFirst: false, note: "Build with us" },
   { text: "DIGITAL", image: "/media/specialisms/tech.svg", action: "#enquiries", imageFirst: true, note: "Make things work" },
@@ -84,7 +83,7 @@ export default function AiwaContactPage() {
           <ContactEnquiries />
         </section>
 
-        <section className="contact-office contact-pad" id="office" data-contact-reveal aria-labelledby="contact-office-title">
+        <section className="contact-office contact-pad" id="contact-office" data-contact-reveal aria-labelledby="contact-office-title">
           <div className="contact-office__eyebrows">
             <span>02 / FIND US</span><span>ONE OFFICE / MUSCAT, OMAN</span>
           </div>
@@ -127,7 +126,6 @@ export default function AiwaContactPage() {
           </a>
         </section>
       </main>
-      <AiwaGlobalFooter />
     </div>
   );
 }

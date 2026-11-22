@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { WorkCaseStudyArticle } from "@/components/work-case-study-article";
 import { workProjects, getWorkProject } from "@/lib/work/projects";
 import { workVisuals } from "@/lib/work/directory";
@@ -55,6 +54,5 @@ export default async function WorkProjectCaseStudy({params}:ProjectProps){
     <main id="main-content">
       <WorkCaseStudyArticle project={project} story={story} index={index}/>
     </main>
-    <AiwaGlobalFooter/>
   </div>;
 }
