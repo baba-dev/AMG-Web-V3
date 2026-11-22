@@ -273,12 +273,12 @@
     min-height:170px;
     margin:40px 0 16px;
     padding:35px 0;
-    font-size:clamp(26px,7.6vw,54px);
+    font-size:clamp(26px,8vw,56px);
   }
   .aiwa-footer__echo::before {left:55%;width:min(80vw,320px)}
   .aiwa-footer__echo::after {left:55%;width:min(62vw,245px)}
-  .aiwa-footer__echo-layer--coral {transform:translate(-5px,5px)}
-  .aiwa-footer__echo-layer--cyan {transform:translate(6px,-5px)}
+  .aiwa-footer__echo-layer--coral {transform:translate(-3px,3px)}
+  .aiwa-footer__echo-layer--cyan {transform:translate(3px,-3px)}
   .aiwa-footer__echo[data-in-view="true"] .aiwa-footer__echo-layer--coral,
   .aiwa-footer__echo[data-in-view="true"] .aiwa-footer__echo-layer--cyan {
     animation:none;
