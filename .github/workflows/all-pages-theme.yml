@@ -1,0 +1,56 @@
+name: All pages dual-theme visual audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/app/**'
+      - 'src/components/**'
+      - 'scripts/all-pages-theme-qa.cjs'
+      - 'package.json'
+      - '.github/workflows/all-pages-theme.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dual-theme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Build all static routes
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          test -f out/index.html
+          test -f out/contact.html
+          test -f out/privacy.html
+          test -f out/terms.html
+          test -f out/_not-found.html
+          test -f out/work.html
+          test -f out/work/mymo-express.html
+          test -f out/specialisms.html
+          test -f out/specialisms/tech.html
+      - name: Install headless Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Audit every route template in both modes and viewports
+        run: |
+          python3 -m http.server 4173 --directory out >/tmp/aiwa-theme-http.log 2>&1 &
+          for i in 1 2 3 4 5 6 7 8; do
+            curl -fsS -o /dev/null http://127.0.0.1:4173/ && break || sleep 1
+          done
+          npm run test:themes
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aiwa-all-pages-dual-theme
+          path: test-artifacts/all-pages-theme/
+          retention-days: 7

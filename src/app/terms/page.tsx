@@ -1,5 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
+import { AiwaGlobalFooter } from "@/components/aiwa-footer";
+import "@/components/aiwa-polish.css";
 import "../legal.css";
 
 export const metadata: Metadata = {
@@ -9,12 +12,11 @@ export const metadata: Metadata = {
 
 export default function SiteTerms() {
   return (
-    <main className="aiwa-legal">
-      <nav className="aiwa-legal__nav">
-        <Link href="/" className="aiwa-legal__brand">AIWA</Link>
-        <Link href="/#site-footer">BACK TO THE SITE</Link>
-      </nav>
+    <div className="aiwa-site aiwa-legal-page">
+      <AiwaInnerHeader />
+      <main className="aiwa-legal" id="main-content">
       <article className="aiwa-legal__main">
+        <Link href="/" className="aiwa-legal__back">← BACK TO THE SITE</Link>
         <span className="aiwa-legal__date">WEBSITE INFORMATION / 21 NOV 2026</span>
         <h1>SITE TERMS.</h1>
         <p>This website presents Aiwa Media Group, a business of
@@ -36,6 +38,8 @@ export default function SiteTerms() {
           {" "}<a href="https://aiwamediagroup.com/contact-us/">Aiwa&apos;s official contact page</a>.
         </p>
       </article>
-    </main>
+      </main>
+      <AiwaGlobalFooter />
+    </div>
   );
 }

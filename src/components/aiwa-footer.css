@@ -145,16 +145,19 @@
 }
 
 
-/* The original reference finishes in an ivory masthead/footer rather than
-   another black panel. Preserve Aiwa's truthful single-location information. */
-.aiwa-footer,.light .aiwa-footer {
-  --footer-bg:#f5f5f3;
-  --footer-ink:#0a0a0a;
-  --footer-muted:#55564f;
-  --footer-border:rgba(10,10,10,.23);
+/* The footer keeps the editorial masthead but now follows the saved theme. */
+.aiwa-footer {
+  --footer-bg:#0f0f0f;
+  --footer-ink:#f5f5f3;
+  --footer-muted:#aaa9a2;
+  --footer-border:rgba(255,255,255,.23);
   background:var(--footer-bg);
   color:var(--footer-ink);
   padding-top:clamp(40px,5vw,70px);
+}
+.light .aiwa-footer {
+  --footer-bg:#f5f5f3;--footer-ink:#0a0a0a;--footer-muted:#55564f;
+  --footer-border:rgba(10,10,10,.23);
 }
 .aiwa-footer__eyebrow {
   font:400 clamp(13px,1.05vw,18px)/1 var(--font-aiwa-poster),Impact,sans-serif;

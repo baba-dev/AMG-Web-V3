@@ -75,7 +75,7 @@ const measure=async page=>page.evaluate(()=>{
         h.box.left>=-10 && h.box.right<=width+10),
         project.slug+" "+width+": headline clipping "+JSON.stringify(values.headings));
       check(values.art?.height>280,project.slug+" "+width+": visual artwork collapsed");
-      assert.equal(values.paper,"rgb(245, 245, 243)",project.slug+" paper token mismatch");
+      assert.equal(values.paper,"rgb(17, 18, 16)",project.slug+" dark narrative token mismatch");
       const headerBg=await page.locator(".aiwa-inner-header")
         .evaluate(el=>getComputedStyle(el).backgroundColor);
       assert.equal(headerBg,"rgb(10, 10, 10)",project.slug+" "+width+": translucent header obscures reading");

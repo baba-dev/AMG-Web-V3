@@ -6,6 +6,7 @@
   --aiwa-font-body:var(--aiwa-font-interface);
   --contact-paper:#f4f3ef;--contact-ink:#0a0a0b;--contact-muted:#565653;
   --contact-accent:#d94f31;--contact-rule:rgba(14,15,16,.22);
+  --contact-outro:#dedbd4;--contact-outro-ink:#0a0a0b;--contact-outro-accent:#b43f25;
   width:100%;min-width:0;overflow:clip;
   background:var(--contact-paper);color:var(--contact-ink);
   font-family:var(--aiwa-font-interface);
@@ -13,6 +14,7 @@
 html.dark .contact-page{
   --contact-paper:#151618;--contact-ink:#f6f4ef;--contact-muted:#bebcb6;
   --contact-accent:#ff926e;--contact-rule:rgba(246,244,239,.23);
+  --contact-outro:#090909;--contact-outro-ink:#f6f4ef;--contact-outro-accent:#ef7852;
 }
 .contact-page *, .contact-page *::before, .contact-page *::after {box-sizing:border-box;}
 .contact-page :is(a,button):focus-visible{outline:2px solid currentColor;outline-offset:5px;}
@@ -252,25 +254,25 @@ html.dark .contact-page{
   min-height:clamp(560px,75vh,950px);display:flex;flex-direction:column;
   align-items:flex-start;justify-content:center;gap:clamp(35px,5vw,65px);
   padding-block:clamp(90px,11vw,175px);
-  background:#090909;color:#f6f4ef;
+  background:var(--contact-outro);color:var(--contact-outro-ink);
 }
 .contact-outro>span{font:700 12px/1.2 var(--aiwa-font-interface);letter-spacing:.05em;}
 .contact-outro h2{
-  font-size:clamp(84px,11.9vw,210px);color:#f6f4ef;
+  font-size:clamp(84px,11.9vw,210px);color:var(--contact-outro-ink);
 }
-.contact-outro h2 em{color:#ef7852;}
+.contact-outro h2 em{color:var(--contact-outro-accent);}
 .contact-outro>a{
   display:inline-flex;justify-content:space-between;align-items:center;gap:60px;
   padding:15px 0;min-height:56px;border-bottom:1px solid currentColor;
-  color:#f6f4ef;text-decoration:none;
+  color:var(--contact-outro-ink);text-decoration:none;
   font:700 clamp(20px,1.7vw,27px)/1.25 var(--aiwa-font-interface);
 }
 .contact-outro>a svg{transition:transform .28s;}
 .contact-outro>a:hover svg{transform:translate(5px,-5px);}
-/* The shared footer stays paper-colored, matching the reference's final change of pace. */
+/* The shared footer follows the same paper/ink pair as the contact narrative. */
 .contact-page .aiwa-footer,.light .contact-page .aiwa-footer{
-  --footer-bg:#f5f5f3;--footer-ink:#0a0a0a;
-  --footer-muted:#565653;--footer-border:rgba(10,10,10,.22);
+  --footer-bg:var(--contact-paper);--footer-ink:var(--contact-ink);
+  --footer-muted:var(--contact-muted);--footer-border:var(--contact-rule);
   background:var(--footer-bg);color:var(--footer-ink);
 }
 
