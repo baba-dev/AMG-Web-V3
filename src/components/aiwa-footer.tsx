@@ -7,9 +7,9 @@ import { resolveSiteHref } from "@/lib/site-navigation";
 import "./aiwa-footer.css";
 
 const navigation = [
-  { label: "WORK", href: "#work" },
+  { label: "WORK", href: "/work" },
   { label: "ABOUT", href: "#about" },
-  { label: "SPECIALISMS", href: "#specialisms" },
+  { label: "SPECIALISMS", href: "/specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
   { label: "CONTACT", href: "/contact" },
   { label: "LATEST", href: "https://www.linkedin.com/company/aiwamediagroup/" },

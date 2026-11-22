@@ -67,3 +67,12 @@ This is a **stacked PR** on `feat/work-index-list-theme-editorial` (PR #19).
 Merge PR #19 into main first, then retarget this branch to main. The transition
 PR should contain only its own commits after that retarget, so gallery and
 motion improvements do not conflict or ship partially.
+
+## Mainline integration correction (Nov 22, 2026)
+
+The originally stacked PR #20 merged into PR #19's head branch after PR #19 had already
+merged into main. Consequently the route controller never reached production.
+This repair rebases the exact seven-file transition payload onto current main,
+then wires dedicated WORK / SPECIALISMS / CONTACT header navigation to their
+published routes. Homepage #work, #specialisms and #contact sections remain
+available through their explicit in-page scroll controls.

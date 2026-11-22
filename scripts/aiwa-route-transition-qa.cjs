@@ -98,6 +98,20 @@ async function overflow(page, context) {
       await context.close();
     }
 
+    // The homepage WORK nav should open the actual portfolio and play Signal Cut.
+    const home = await browser.newContext({viewport:{width:1440,height:900},reducedMotion:"no-preference"});
+    const homePage = await home.newPage();
+    homePage.on("pageerror",(err)=>errors.push("home: "+err.message));
+    await load(homePage,"/");
+    const workNav = homePage.locator(".aiwa-header__navigation a").filter({hasText:"WORK"}).first();
+    assert.equal(await workNav.getAttribute("href"),"/work");
+    await workNav.click();
+    await homePage.locator(".aiwa-route-stage").waitFor({state:"visible",timeout:2500});
+    assert.equal(await homePage.locator(".aiwa-route-stage").getAttribute("data-kind"),"signal");
+    await homePage.waitForURL(pathIs("/work"),{timeout:12000});
+    await settle(homePage);
+    await home.close();
+
     // Native behavior is mandatory for reduced-motion visitors.
     const reduced = await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
     const reducedPage = await reduced.newPage();

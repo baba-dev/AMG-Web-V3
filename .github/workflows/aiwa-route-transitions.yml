@@ -2,11 +2,14 @@ name: Aiwa Signal + Project Portal regression
 
 on:
   push:
-    branches: [feat/aiwa-signal-portal-transitions]
+    branches: [fix/aiwa-signal-mainline]
   pull_request:
     branches: [main, feat/work-index-list-theme-editorial]
     paths:
       - 'src/app/layout.tsx'
+      - 'src/lib/site-navigation.ts'
+      - 'src/components/aiwa-footer.tsx'
+      - 'scripts/work-directory-qa.cjs'
       - 'src/components/aiwa-route-transition.*'
       - 'src/lib/aiwa-route-motion.ts'
       - 'scripts/aiwa-route-transition-qa.cjs'
