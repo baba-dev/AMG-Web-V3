@@ -16,11 +16,11 @@
   isolation: isolate;
 }
 .light .aiwa-site.aiwa-global-ending {
-  --aiwa-paper: #f5f3ed;
+  --aiwa-paper: #f5f5f3;
   --aiwa-paper-ink: #0a0a0a;
   --aiwa-paper-muted: #4f514a;
   --aiwa-paper-rule: rgb(10 10 10 / 20%);
-  background: #f5f3ed;
+  background: #f5f5f3;
   color: #0a0a0a;
 }
 .aiwa-global-ending *,
