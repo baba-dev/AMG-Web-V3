@@ -1,6 +1,5 @@
 import { AiwaOffice } from "@/components/aiwa-office";
 import { AiwaGlobalFooter } from "@/components/aiwa-footer";
-import "./aiwa-polish.css";
 import "./aiwa-global-ending.css";
 
 /**
