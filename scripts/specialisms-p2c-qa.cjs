@@ -148,7 +148,7 @@ const sample=async page=>page.evaluate(()=>{
   assert.deepEqual(await homePage.locator(".aiwa-specialisms__row").evaluateAll(nodes=>nodes.map(x=>new URL(x.href).pathname)),
     records.map(([slug])=>"/specialisms/"+slug),"Homepage links must exactly match the seven routes");
   assert.equal(await homePage.locator(".aiwa-specialisms__all").getAttribute("href"),"/specialisms");
-  assert.equal(await homePage.locator(".aiwa-header__navigation a").filter({hasText:"SPECIALISMS"}).getAttribute("href"),"#specialisms");
+  assert.equal(await homePage.locator(".aiwa-header__navigation a").filter({hasText:"SPECIALISMS"}).getAttribute("href"),"/specialisms");
   await home.close();
   // Both themes change actual surfaces; no opaque overlay or token regression.
   const themeCtx=await browser.newContext({viewport:{width:390,height:844},colorScheme:"dark"});
