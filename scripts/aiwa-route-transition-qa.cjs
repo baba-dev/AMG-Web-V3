@@ -25,6 +25,38 @@ async function overflow(page, context) {
   const delta = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
   assert.ok(delta <= 2, context + ": horizontal overflow " + delta);
 }
+async function assertEditorialType(page, context) {
+  const type = await page.locator(".aiwa-route-stage").evaluate((stage) => {
+    const word = stage.querySelector(".aiwa-route-stage__wordmark");
+    const masthead = stage.querySelector(".aiwa-route-stage__masthead");
+    const title = stage.querySelector(".aiwa-route-stage__destination");
+    const bottom = stage.querySelector(".aiwa-route-stage__bottom");
+    const top = stage.querySelector(".aiwa-route-stage__top");
+    const stack = stage.querySelector(".aiwa-route-stage__headline");
+    const box = (el) => {
+      const r = el.getBoundingClientRect();
+      return { top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height };
+    };
+    return {
+      vw:innerWidth,vh:innerHeight,
+      word:box(word), masthead:box(masthead), title:box(title),
+      stack:box(stack), top:box(top), bottom:box(bottom),
+      fontWord:parseFloat(getComputedStyle(word).fontSize),
+      fontTitle:parseFloat(getComputedStyle(title).fontSize),
+      destination:title.textContent?.trim(),
+    };
+  });
+  assert.ok(type.fontWord <= Math.min(90, type.vw * .18), context + ": wordmark still oversized " + type.fontWord);
+  assert.ok(type.fontTitle > type.fontWord, context + ": title should lead the hierarchy");
+  assert.ok(type.masthead.bottom + 8 <= type.title.top,
+    context + ": masthead/title collision " + JSON.stringify(type));
+  assert.ok(type.stack.left >= 0 && type.stack.right <= type.vw + 2,
+    context + ": horizontal title crop " + JSON.stringify(type));
+  assert.ok(type.stack.top >= type.top.bottom - 2 && type.stack.bottom <= type.bottom.top + 2,
+    context + ": typography collides with stage metadata " + JSON.stringify(type));
+  assert.ok(type.title.height > 24, context + ": destination title is missing");
+}
+
 
 (async function run() {
   const browser = await chromium.launch({ headless:true, args:["--disable-dev-shm-usage"] });
@@ -56,7 +88,8 @@ async function overflow(page, context) {
       assert.equal(await stage.getAttribute("data-phase"), "covering", "Expected exit phase");
       if (expectPortal) assert.equal(await stage.getAttribute("data-kind"), "portal",
         "Project art should expand into its own portal");
-      await page.waitForTimeout(270); // capture actual mid-flight choreography, not an empty first frame
+      await assertEditorialType(page, width + " portal type");
+      await page.waitForTimeout(375); // frame after typography has arrived, before 510ms route swap
       await page.screenshot({ path:out+"/portal-"+width+".png" });
       await page.waitForURL(pathIs("/work/mymo-express"), { timeout:12000 });
       await page.locator(".case-hero h1").waitFor({ state:"visible" });
@@ -90,7 +123,8 @@ async function overflow(page, context) {
       await nav.click();
       await stage.waitFor({ state:"visible", timeout:2500 });
       assert.equal(await stage.getAttribute("data-kind"), "signal");
-      await page.waitForTimeout(270);
+      await assertEditorialType(page, width + " signal type");
+      await page.waitForTimeout(375);
       await page.screenshot({ path:out+"/signal-"+width+".png" });
       await page.waitForURL(pathIs("/specialisms"), { timeout:12000 });
       await settle(page);
