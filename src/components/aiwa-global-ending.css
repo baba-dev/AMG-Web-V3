@@ -28,9 +28,26 @@
 .aiwa-global-ending *::after {
   box-sizing: border-box;
 }
-.aiwa-global-ending :is(.aiwa-office, .aiwa-footer) {
+/* Pin the same ending palette on every route. Page-specific editorial
+   overrides must not recolor the universal footer or Muscat gallery. */
+.aiwa-site.aiwa-global-ending .aiwa-office,
+.aiwa-site.aiwa-global-ending .aiwa-footer {
   width: 100%;
   padding-inline: var(--aiwa-gutter);
+  background-color: var(--aiwa-paper);
+  color: var(--aiwa-paper-ink);
+}
+.aiwa-site.aiwa-global-ending .aiwa-office {
+  --office-bg: var(--aiwa-paper);
+  --office-ink: var(--aiwa-paper-ink);
+  --office-muted: var(--aiwa-paper-muted);
+  --office-border: var(--aiwa-paper-rule);
+}
+.aiwa-site.aiwa-global-ending .aiwa-footer {
+  --footer-bg: var(--aiwa-paper);
+  --footer-ink: var(--aiwa-paper-ink);
+  --footer-muted: var(--aiwa-paper-muted);
+  --footer-border: var(--aiwa-paper-rule);
 }
 @media (max-width: 767px) {
   .aiwa-site.aiwa-global-ending { --aiwa-gutter: 17px; }
