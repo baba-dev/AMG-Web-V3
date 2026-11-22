@@ -227,10 +227,10 @@ export function AiwaAbout() {
             <a
               ref={ctaRef}
               className="aiwa-about__cta"
-              href="https://aiwamediagroup.com/about-us/"
-              aria-label="Learn more about Aiwa Media Group"
+              href="/team"
+              aria-label="Meet Aiwa Media Group people and culture"
             >
-              <span>LEARN MORE</span>
+              <span>MEET THE PEOPLE</span>
               <span className="aiwa-about__cta-icon" aria-hidden="true">
                 <ArrowUpRight size={21} strokeWidth={1.8} />
               </span>

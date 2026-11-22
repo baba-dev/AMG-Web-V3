@@ -3,7 +3,8 @@ export const siteNavigation = [
   { label: "WORK", href: "/work" },
   { label: "ABOUT", href: "#about" },
   { label: "SPECIALISMS", href: "/specialisms" },
-  { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
+  { label: "TEAM", href: "/team" },
+  { label: "JOIN US", href: "/join-us" },
   { label: "CONTACT US", href: "/contact" },
   { label: "LATEST", href: "https://www.linkedin.com/company/aiwamediagroup/" },
 ] as const;

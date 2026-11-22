@@ -20,6 +20,8 @@ export function resolveMotionDestination(href: string, currentHref: string): Mot
 export function motionDestinationLabel(pathname: string, projects: ReadonlyArray<{ slug: string; client: string }>): string {
   if (pathname === "/") return "AIWA.";
   if (pathname === "/work") return "THE WORK.";
+  if (pathname === "/team") return "THE PEOPLE.";
+  if (pathname === "/join-us") return "JOIN THE SIGNAL.";
   if (pathname === "/specialisms") return "WHAT WE DO.";
   const project = projects.find((item) => pathname === "/work/" + item.slug);
   if (project) return project.client.toUpperCase() + ".";

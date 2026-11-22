@@ -50,7 +50,9 @@ export function AiwaInnerHeader() {
         {siteNavigation.map((item) => (
           <a key={item.label} href={resolveSiteHref(item.href, pathname)}
              aria-current={(item.label === "WORK" && pathname.startsWith("/work") ||
-               item.label === "SPECIALISMS" && pathname.startsWith("/specialisms")) ? "page" : undefined}>
+               item.label === "SPECIALISMS" && pathname.startsWith("/specialisms") ||
+               item.label === "TEAM" && pathname.startsWith("/team") ||
+               item.label === "JOIN US" && pathname.startsWith("/join-us")) ? "page" : undefined}>
             {item.label}
           </a>
         ))}
@@ -72,7 +74,9 @@ export function AiwaInnerHeader() {
           <a key={item.label} ref={index === 0 ? firstRef : undefined}
             href={resolveSiteHref(item.href, pathname)} onClick={() => setExpanded(false)}
             aria-current={(item.label === "WORK" && pathname.startsWith("/work") ||
-               item.label === "SPECIALISMS" && pathname.startsWith("/specialisms")) ? "page" : undefined}>
+               item.label === "SPECIALISMS" && pathname.startsWith("/specialisms") ||
+               item.label === "TEAM" && pathname.startsWith("/team") ||
+               item.label === "JOIN US" && pathname.startsWith("/join-us")) ? "page" : undefined}>
             <span>{String(index + 1).padStart(2, "0")}</span>
             {item.label}
             <ArrowUpRight size={23} aria-hidden="true" />
