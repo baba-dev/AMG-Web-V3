@@ -483,12 +483,12 @@
 
 /* Narrative sections now share one complete theme rather than alternating
    into hard-coded paper. Image-led media frames remain intentionally neutral. */
-.aiwa-site.work-project-page{
+.aiwa-site.work-page.work-project-page{
  --case-page:#0a0a0a;--case-paper:#111210;--case-paper-secondary:#191a17;
  --case-ink:#f5f5f3;--case-muted:#b3b5ae;--case-line:rgba(255,255,255,.24);
  --case-button:#f5f5f3;--case-button-ink:#0a0a0a;
 }
-.light .aiwa-site.work-project-page{
+.light .aiwa-site.work-page.work-project-page{
  --case-page:#f5f5f3;--case-paper:#f5f5f3;--case-paper-secondary:#e7e7e0;
  --case-ink:#0a0a0a;--case-muted:#4f514a;--case-line:rgba(10,10,10,.25);
  --case-button:#0a0a0a;--case-button-ink:#f5f5f3;
