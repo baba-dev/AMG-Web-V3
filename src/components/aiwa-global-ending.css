@@ -1,0 +1,39 @@
+/* Root-layout closing section. No per-route footer styles or duplicate IDs. */
+.aiwa-site.aiwa-global-ending {
+  --aiwa-gutter: clamp(18px, 2.5vw, 48px);
+  --aiwa-font-interface: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  --aiwa-font-body: var(--aiwa-font-interface);
+  --aiwa-paper: #0f0f0f;
+  --aiwa-paper-rule: rgb(255 255 255 / 20%);
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+  background: #0f0f0f;
+  color: #f5f5f3;
+  font-family: var(--aiwa-font-body);
+  isolation: isolate;
+}
+.light .aiwa-site.aiwa-global-ending {
+  --aiwa-paper: #f5f3ed;
+  --aiwa-paper-rule: rgb(10 10 10 / 20%);
+  background: #f5f3ed;
+  color: #0a0a0a;
+}
+.aiwa-global-ending *,
+.aiwa-global-ending *::before,
+.aiwa-global-ending *::after {
+  box-sizing: border-box;
+}
+.aiwa-global-ending :is(.aiwa-office, .aiwa-footer) {
+  width: 100%;
+  padding-inline: var(--aiwa-gutter);
+}
+@media (max-width: 767px) {
+  .aiwa-site.aiwa-global-ending { --aiwa-gutter: 17px; }
+}
+/* Keep the marquee flush to the viewport and avoid unrelated page skin
+   affecting the universal footer, especially Work and Contact overrides. */
+.aiwa-global-ending .aiwa-office__hello {
+  margin-inline: calc(-1 * var(--aiwa-gutter));
+  width: calc(100% + 2 * var(--aiwa-gutter));
+}

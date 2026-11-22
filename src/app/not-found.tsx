@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import "@/components/aiwa-polish.css";
 import "./legal.css";
 
@@ -18,7 +17,6 @@ export default function NotFound() {
           <Link href="/">RETURN HOME <ArrowUpRight size={22} aria-hidden="true" /></Link>
         </div>
       </main>
-      <AiwaGlobalFooter />
     </div>
   );
 }

@@ -130,7 +130,7 @@ export function WorkCaseStudyArticle({project,story,index}:Props){
   <section className="work-page__outro case-cta work-page__gutter" aria-labelledby="case-cta-heading">
     <span className="work-page__eyebrow">GOT SOMETHING OF YOUR OWN IN MIND?</span>
     <h2 id="case-cta-heading">YOUR MOVE.<br/><em>OUR ENERGY.</em></h2>
-    <a href="/#contact" className="work-page__contact-link">START A CONVERSATION <ArrowUpRight size={25} aria-hidden="true"/></a>
+    <a href="/contact" className="work-page__contact-link">START A CONVERSATION <ArrowUpRight size={25} aria-hidden="true"/></a>
   </section>
  </>;
 }

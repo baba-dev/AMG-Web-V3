@@ -6,9 +6,6 @@ import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
 import { AiwaAbout } from "@/components/aiwa-about";
 import { AiwaWorkShowcase } from "@/components/aiwa-work";
-import { AiwaContact } from "@/components/aiwa-contact";
-import { AiwaOffice } from "@/components/aiwa-office";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import { ModeToggle } from "@/components/mode-toggle";
 import { siteNavigation } from "@/lib/site-navigation";
 import { AiwaFilmPlayer, type FilmOrigin } from "@/components/aiwa-film-player";
@@ -338,10 +335,6 @@ export function AiwaHero() {
       <AiwaSpecialisms />
       <AiwaAbout />
       <AiwaWorkShowcase />
-      <AiwaContact />
-      <AiwaOffice />
-      <AiwaGlobalFooter />
-
       <AiwaFilmPlayer
         open={filmOpen}
         origin={filmOrigin}

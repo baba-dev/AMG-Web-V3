@@ -5,7 +5,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { AiwaGlobalFooter } from "@/components/aiwa-footer";
 import {
  specialisms, getSpecialism, getRelatedProjects, nextSpecialism, previousSpecialism,
 } from "@/lib/specialisms";
@@ -153,6 +152,6 @@ export default async function SpecialismDetail({params}:Props){
      <h2 id="specialism-contact-heading">READY FOR<br/><em>THE NEXT MOVE?</em></h2>
      <a href="/contact">START A CONVERSATION <ArrowUpRight size={24} aria-hidden="true"/></a>
     </section>
-   </main><AiwaGlobalFooter/>
+   </main>
   </div>;
 }
