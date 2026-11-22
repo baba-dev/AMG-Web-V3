@@ -1,0 +1,52 @@
+name: Aiwa Signal + Project Portal regression
+
+on:
+  push:
+    branches: [feat/aiwa-signal-portal-transitions]
+  pull_request:
+    branches: [main, feat/work-index-list-theme-editorial]
+    paths:
+      - 'src/app/layout.tsx'
+      - 'src/components/aiwa-route-transition.*'
+      - 'src/lib/aiwa-route-motion.ts'
+      - 'scripts/aiwa-route-transition-qa.cjs'
+      - '.github/workflows/aiwa-route-transitions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  motion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Build Cloudflare static export
+        run: |
+          npm ci --no-audit --no-fund
+          npx eslint src/components/aiwa-route-transition.tsx src/lib/aiwa-route-motion.ts
+          npm run build
+          test -f out/index.html
+      - name: Install test-only Chromium
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Verify transition choreography
+        run: |
+          node scripts/work-static-preview.cjs > /tmp/aiwa-route-preview.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:4173/work > /dev/null && break
+            sleep 1
+          done
+          node scripts/aiwa-route-transition-qa.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: aiwa-signal-portal-frames
+          path: test-artifacts/aiwa-signal/
+          retention-days: 7
