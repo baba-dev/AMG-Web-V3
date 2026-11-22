@@ -48,7 +48,11 @@ jobs:
           npx playwright install chromium --only-shell
       - name: Test single global ending, gallery, footer and no JS
         run: |
-          python3 -m http.server 4173 --directory out >/tmp/aiwa-finale-http.log 2>&1 &
+          node scripts/work-static-preview.cjs > /tmp/aiwa-finale-http.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:4173/ > /dev/null && break
+            sleep 1
+          done
           node scripts/homepage-finale-smoke.cjs
       - uses: actions/upload-artifact@v4
         if: always()
