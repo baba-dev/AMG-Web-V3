@@ -151,7 +151,7 @@ export default async function SpecialismDetail({params}:Props){
     <section className="spec-detail__contact spec-pad" aria-labelledby="specialism-contact-heading">
      <span className="spec-kicker">LET'S TALK ABOUT YOUR IDEA.</span>
      <h2 id="specialism-contact-heading">READY FOR<br/><em>THE NEXT MOVE?</em></h2>
-     <a href="/#contact">START A CONVERSATION <ArrowUpRight size={24} aria-hidden="true"/></a>
+     <a href="/contact">START A CONVERSATION <ArrowUpRight size={24} aria-hidden="true"/></a>
     </section>
    </main><AiwaGlobalFooter/>
   </div>;

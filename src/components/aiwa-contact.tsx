@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { ArrowUpRight, MoveDownRight } from "lucide-react";
 import "./aiwa-contact.css";
 
-const CONTACT_URL = "https://aiwamediagroup.com/contact-us/";
+const CONTACT_URL = "/contact";
 
 export function AiwaContact() {
   const sectionRef = useRef<HTMLElement>(null);

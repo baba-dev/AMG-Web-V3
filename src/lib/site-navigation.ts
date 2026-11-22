@@ -12,5 +12,6 @@ export function resolveSiteHref(href: string, path: string): string {
   // Inner pages have a complete specialisms directory; homepage retains its
   // cinematic #specialisms section and its existing in-page nav.
   if (href === "#specialisms" && path !== "/") return "/specialisms";
+  if (href === "#contact" && path !== "/") return "/contact";
   return href.startsWith("#") && path !== "/" ? "/" + href : href;
 }

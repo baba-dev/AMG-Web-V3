@@ -73,7 +73,7 @@ export default function SpecialismsDirectory(){
    <section className="spec-directory__contact spec-pad" aria-labelledby="spec-directory-contact">
     <span className="spec-kicker">HAVE AN IDEA THAT NEEDS A TEAM?</span>
     <h2 id="spec-directory-contact">LET'S MAKE<br/><em>IT HAPPEN.</em></h2>
-    <a href="/#contact">START A CONVERSATION <ArrowUpRight size={25}/></a>
+    <a href="/contact">START A CONVERSATION <ArrowUpRight size={25}/></a>
    </section>
   </main>
   <AiwaGlobalFooter/>
