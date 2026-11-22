@@ -166,6 +166,46 @@
 .aiwa-work__media > img { transition:transform .9s cubic-bezier(.16,1,.3,1),filter .6s ease; }
 .aiwa-work__card:hover .aiwa-work__media > img,
 .aiwa-work__card:focus-visible .aiwa-work__media > img { transform:scale(1.095); filter:saturate(1.12); }
+.aiwa-work__archive-proof {
+  position:absolute;
+  z-index:3;
+  left:clamp(12px,1.2vw,18px);
+  bottom:clamp(12px,1.2vw,18px);
+  display:block;
+  width:clamp(66px,22%,100px);
+  aspect-ratio:1;
+  overflow:visible;
+  outline:clamp(3px,.35vw,5px) solid #f4f0e7;
+  background:#f4f0e7;
+  box-shadow:0 12px 32px rgba(0,0,0,.32);
+  transform:rotate(-4deg);
+  transform-origin:20% 80%;
+  transition:transform .72s cubic-bezier(.16,1,.3,1),box-shadow .5s ease;
+}
+.aiwa-work__archive-proof > img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.aiwa-work__archive-proof > span {
+  position:absolute;
+  left:-4px;
+  bottom:-17px;
+  display:block;
+  min-width:max-content;
+  padding:4px 6px;
+  color:#fff;
+  background:#080808;
+  font:700 clamp(6px,.48vw,8px)/1 var(--font-geist-mono),ui-monospace,monospace;
+  letter-spacing:.025em;
+}
+.aiwa-work__card:hover .aiwa-work__archive-proof,
+.aiwa-work__card:focus-visible .aiwa-work__archive-proof {
+  z-index:5;
+  box-shadow:0 20px 42px rgba(0,0,0,.42);
+  transform:rotate(1.5deg) scale(1.68) translate(12%,-11%);
+}
 .aiwa-work__video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; }
 .aiwa-work__media-open { transition:transform .42s cubic-bezier(.16,1,.3,1),background .32s ease; }
 .aiwa-work__card:hover .aiwa-work__media-open,
@@ -190,6 +230,7 @@
 .aiwa-work__slot:focus-within { z-index: 18!important; }
 @media (prefers-reduced-motion:reduce) {
   .aiwa-work__media > img, .aiwa-work__media-open,
+  .aiwa-work__archive-proof,
   .aiwa-work__cta, .aiwa-work__cta svg {
     transition: none!important; animation: none!important; filter: none!important;
   }

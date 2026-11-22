@@ -34,6 +34,7 @@ async function checkDesktop(browser, width, height) {
       heading:work.querySelector("h2").textContent.replace(/\s+/g," ").trim(),
       cta:work.querySelector(".aiwa-work__cta").getAttribute("href"),
       assets:assets.map(i=>i.getAttribute("src")),
+      archiveProofs:work.querySelectorAll(".aiwa-work__archive-proof img").length,
       links:links.map(a=>({href:a.href,target:a.target,rel:a.rel})),
       noOverflow:document.documentElement.scrollWidth - innerWidth <= 2,
     };
@@ -42,7 +43,9 @@ async function checkDesktop(browser, width, height) {
   assert.equal(base.count,6,"Expected six documented projects");
   assert(base.heading.includes("SELECTED") && base.heading.includes("CAMPAIGNS"),"Heading missing");
   assert.equal(base.cta,"/work","View All Work must point to real /work route");
-  assert(base.assets.every(src=>src.startsWith("/media/work/")),"All art must use owned local media");
+  assert(base.assets.every(src=>src.startsWith("/media/work/") || src.startsWith("/media/archive/")),
+    "All art must use owned local Aiwa media");
+  assert.equal(base.archiveProofs,2,"Expected authentic MYMO and Casabella archive proofs");
   assert(base.links.every(a=>{const url=new URL(a.href);return url.origin===new URL(ORIGIN).origin && /^\/work\/[a-z0-9-]+$/.test(url.pathname) && a.target==="";}),"Project links must stay on Aiwa V3 and use local static project routes");
   assert(base.noOverflow,"Section 5 caused horizontal overflow");
   assert(base.stageHeight>height*3.2,"Desktop montage needs a multi-viewport scroll stage");

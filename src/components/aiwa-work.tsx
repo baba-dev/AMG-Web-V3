@@ -8,19 +8,6 @@ import { workProjects, type WorkProject } from "@/lib/work/projects";
 import "./aiwa-work.css";
 
 function WorkCard({ project, index }: { project: WorkProject; index: number }) {
-  const previewRef = useRef<HTMLVideoElement>(null);
-  const playPreview = () => {
-    if (typeof window === "undefined" ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    void previewRef.current?.play().catch(() => {
-      // Muted video previews are optional; the static poster always remains.
-    });
-  };
-  const stopPreview = () => {
-    const video = previewRef.current;
-    if (video) { video.pause(); video.currentTime = 0; }
-  };
-
   return (
     <article className={"aiwa-work__slot aiwa-work__slot--" + project.slug}
       data-work-card={project.slug} data-work-index={index}>
@@ -29,8 +16,15 @@ function WorkCard({ project, index }: { project: WorkProject; index: number }) {
         <span className="aiwa-work__media">
           <Image src={project.artwork} width={960} height={740} alt={project.alt}
             unoptimized loading="lazy" draggable={false}/>
+          {project.archiveArtwork && (
+            <span className="aiwa-work__archive-proof" aria-hidden="true">
+              <Image src={project.archiveArtwork} width={1080} height={1080} alt=""
+                unoptimized loading="lazy" draggable={false}/>
+              <span>{project.archiveLabel}</span>
+            </span>
+          )}
           {project.video && (
-            <video ref={previewRef} className="aiwa-work__video" src={project.video.src}
+            <video className="aiwa-work__video" src={project.video.src}
               poster={project.video.poster} muted playsInline loop preload="none"
               aria-hidden="true" tabIndex={-1}/>
           )}
@@ -208,7 +202,7 @@ export function AiwaWorkShowcase() {
             <span>VIEW ALL WORK</span><MoveRight size={23} strokeWidth={2} aria-hidden="true"/>
           </Link>
           <p className="aiwa-work__art-disclosure">
-            ORIGINAL EDITORIAL ARTWORK / EXPLORE DOCUMENTED AIWA PROJECTS
+            ORIGINAL EDITORIAL ART + PUBLISHED AIWA ARCHIVE / EXPLORE DOCUMENTED PROJECTS
           </p>
         </div>
       </div>

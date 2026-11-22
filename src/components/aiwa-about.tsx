@@ -1,12 +1,36 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import "./aiwa-about.css";
 
 const headline = [
   { text: "CREATIVE MEDIA FOR", italic: false },
   { text: "BRAVE BRANDS.", italic: true },
+] as const;
+
+const archiveFrames = [
+  {
+    className: "aiwa-about__archive-frame--lead",
+    src: "/media/archive/ridhwan-showcase.webp",
+    alt: "Aiwa's published product-campaign collage for an optical retailer",
+  },
+  {
+    className: "aiwa-about__archive-frame--casabella",
+    src: "/media/archive/casabella-discount.webp",
+    alt: "Aiwa's published bilingual retail campaign artwork for Casabella",
+  },
+  {
+    className: "aiwa-about__archive-frame--mymo",
+    src: "/media/archive/mymo-coffee.webp",
+    alt: "Aiwa's published MYMO Express product campaign artwork",
+  },
+  {
+    className: "aiwa-about__archive-frame--production",
+    src: "/media/archive/production-team.webp",
+    alt: "Production image published in Aiwa's former company-site gallery",
+  },
 ] as const;
 
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
@@ -143,12 +167,32 @@ export function AiwaAbout() {
       </div>
 
       <div className="aiwa-about__content">
-        <figure className="aiwa-about__media">
-          <img src="https://i.ytimg.com/vi/d4wBqEmgFKA/hqdefault.jpg"
-            alt="A still from Aiwa Media Group's published showreel"
-            loading="lazy" decoding="async" referrerPolicy="no-referrer"
-            onError={event => { event.currentTarget.style.opacity = "0"; }} />
-          <figcaption>AIWA / BEHIND THE IDEAS</figcaption>
+        <figure className="aiwa-about__media aiwa-about__archive">
+          <div className="aiwa-about__archive-grid">
+            {archiveFrames.map((frame) => (
+              <span className={"aiwa-about__archive-frame " + frame.className} key={frame.src}>
+                <Image
+                  className="aiwa-about__archive-image"
+                  src={frame.src}
+                  alt={frame.alt}
+                  fill
+                  sizes="(max-width: 700px) 50vw, 24vw"
+                  unoptimized
+                  loading="lazy"
+                  draggable={false}
+                />
+              </span>
+            ))}
+          </div>
+          <div className="aiwa-about__archive-signal" aria-hidden="true">
+            <span>AIWA</span>
+            <span>23.5880° N</span>
+            <span>058.3829° E</span>
+          </div>
+          <figcaption>
+            <span>AIWA / PUBLISHED WORK ARCHIVE</span>
+            <span>MUSCAT / 2024</span>
+          </figcaption>
         </figure>
         <h2 className="aiwa-about__heading" id="aiwa-about-heading">
           {headline.map(({ text, italic }, index) => (

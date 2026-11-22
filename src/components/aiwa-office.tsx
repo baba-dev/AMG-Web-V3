@@ -15,20 +15,20 @@ const scenes = [
     alt: "Original illustrated panorama inspired by Muscat's shoreline and mountains at golden hour",
   },
   {
-    id: "studio",
-    label: "02 / THE MAKING",
-    title: "IDEAS TAKE SHAPE.",
-    text: "Strategy, design, production and technology move together.",
-    src: "/media/finale/creative-process.svg",
-    alt: "Original conceptual editorial illustration of lights, camera and a creative studio setup",
+    id: "futurecraft",
+    label: "02 / FUTURECRAFT",
+    title: "MUSCAT, REIMAGINED.",
+    text: "An original Aiwa landscape where Omani heritage and a fluid digital signal share the same horizon.",
+    src: "/media/home-2/muscat-futurecraft-landscape.webp",
+    alt: "Original Aiwa Futurecraft artwork blending Muscat's coast and mountains with flowing digital forms",
   },
   {
-    id: "motion",
-    label: "03 / THE ENERGY",
-    title: "MADE TO MOVE.",
-    text: "From the first sketch to the final frame, the energy stays in the work.",
-    src: "/media/finale/creative-motion.svg",
-    alt: "Original abstract creative-motion artwork with cinematic frames and vivid directional streaks",
+    id: "production",
+    label: "03 / THE FRAME",
+    title: "MADE TO BE SEEN.",
+    text: "A Muscat production moment imagined for Aiwa: local perspective, cinematic craft and a story ready to travel.",
+    src: "/media/home-2/muscat-futurecraft-film-still.webp",
+    alt: "Original cinematic Aiwa artwork of a filmmaker capturing Muscat's waterfront and mountain skyline",
   },
 ] as const;
 
@@ -173,7 +173,7 @@ export function AiwaOffice() {
       </div>
 
       <p className="aiwa-office__media-disclaimer">
-        Original conceptual illustrations — not photographs of Aiwa&apos;s office or team.
+        Original Aiwa editorial artwork — conceptual scenes, not photographs of Aiwa&apos;s office or team.
       </p>
     </section>
   );

@@ -7,7 +7,8 @@
     "prebuild": "node scripts/prepare-private-roc-font.cjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:home-media": "node scripts/home-authentic-media-smoke.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
