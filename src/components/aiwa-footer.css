@@ -76,18 +76,6 @@
   color:var(--footer-muted);
   font:800 12px/1 var(--font-geist-mono),monospace;
 }
-.aiwa-footer__wordmark {
-  width:100%;margin:clamp(40px,6vw,90px) 0 -3px;
-  font:900 clamp(175px,38vw,680px)/.65 var(--font-aiwa-display),Impact,"Arial Narrow",sans-serif;
-  letter-spacing:-.073em;
-  text-align:center;
-  white-space:nowrap;
-  user-select:none;pointer-events:none;
-  transform:translateX(-.02em);
-  color:var(--footer-ink);
-  overflow:visible;
-}
-.aiwa-footer__wordmark span { color:var(--footer-muted);letter-spacing:-.11em; }
 .aiwa-footer__bottom {
   display:flex;align-items:center;justify-content:space-between;gap:24px;
   padding-top:23px;
@@ -107,7 +95,6 @@
 @media(max-width:1150px) {
   .aiwa-footer__upper { grid-template-columns:1.1fr .9fr .7fr;row-gap:65px; }
   .aiwa-footer__social { grid-column:2 / 4; }
-  .aiwa-footer__wordmark {font-size:37vw;}
 }
 @media(max-width:767px) {
   .aiwa-footer {padding:53px 17px 25px;}
@@ -118,7 +105,6 @@
   .aiwa-footer__navigation {grid-column:1;}
   .aiwa-footer__social {grid-column:2;}
   .aiwa-footer__city {font-size:10px;line-height:1.5;}
-  .aiwa-footer__wordmark {font-size:37vw;margin:70px 0 10px;}
   .aiwa-footer__bottom {display:grid;grid-template-columns:1fr auto;row-gap:25px;}
   .aiwa-footer__bottom>span {grid-column:1 / -1;}
   .aiwa-footer__bottom>div {gap:20px;flex-wrap:wrap;}
@@ -139,7 +125,6 @@
 .aiwa-footer__bottom button:focus-visible {
   outline:2px solid var(--footer-ink);outline-offset:6px;
 }
-.aiwa-footer__wordmark { contain:paint; }
 @supports (font-variation-settings:normal) {
  .aiwa-footer__intro p {font-synthesis:none;}
 }
@@ -174,20 +159,132 @@
   font-family:var(--font-aiwa-poster),Impact,sans-serif;
   font-weight:400;
 }
-.aiwa-footer__wordmark {
-  font-family:var(--font-aiwa-poster),Impact,sans-serif;
-  font-size:clamp(62px,6.5vw,104px);
-  font-weight:400;
-  text-align:left;
-  letter-spacing:-.025em;
-  line-height:.9;
-  margin:clamp(40px,6vw,80px) 0 25px;
-  transform:none;
-}
-.aiwa-footer__wordmark span {color:var(--footer-muted);}
 @media(max-width:767px){
   .aiwa-footer__upper {gap:38px 20px;padding-bottom:48px;}
   .aiwa-footer__intro p {font-size:clamp(44px,12vw,71px);}
-  .aiwa-footer__wordmark {font-size:65px;margin:46px 0 20px;}
   .aiwa-footer__bottom {padding-top:20px;}
+}
+
+@font-face {
+  font-family:"Aiwa Echo Kufi";
+  src:url("/fonts/aiwa-echo-kufi-bold.ttf") format("truetype");
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+}
+
+/* A single readable Arabic line, with two decorative print passes. */
+.aiwa-footer__echo {
+  --echo-coral:#ef4f4a;
+  --echo-cyan:#53bdd7;
+  --echo-rule:rgba(255,255,255,.24);
+  position:relative;
+  display:grid;
+  align-items:center;
+  justify-content:start;
+  min-height:clamp(150px,18vw,260px);
+  width:100%;
+  margin:clamp(35px,5vw,72px) 0 20px;
+  padding:clamp(30px,4.5vw,62px) 0;
+  isolation:isolate;
+  overflow:clip;
+  font:700 clamp(26px,5.6vw,86px)/1.5 "Aiwa Echo Kufi",Tahoma,Arial,sans-serif;
+  letter-spacing:-.018em;
+}
+.light .aiwa-footer__echo { --echo-rule:rgba(10,10,10,.22); }
+.aiwa-footer__echo::before,
+.aiwa-footer__echo::after {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  left:min(59%,760px);
+  top:50%;
+  width:min(35vw,455px);
+  aspect-ratio:1;
+  border:1px solid var(--echo-rule);
+  border-radius:50%;
+  transform:translate(-50%,-50%) rotate(-12deg);
+  pointer-events:none;
+}
+.aiwa-footer__echo::after { width:min(26vw,340px);opacity:.6; }
+.aiwa-footer__echo[data-in-view="true"]::before {
+  animation:aiwa-echo-orbit 22s linear infinite;
+}
+.aiwa-footer__echo-layer {
+  grid-area:1 / 1;
+  z-index:1;
+  width:max-content;
+  max-width:100%;
+  white-space:nowrap;
+  direction:rtl;
+  unicode-bidi:isolate;
+  text-align:left;
+}
+.aiwa-footer__echo-layer--coral {
+  color:var(--echo-coral);
+  transform:translate(-9px,8px);
+  pointer-events:none;
+  user-select:none;
+}
+.aiwa-footer__echo-layer--cyan {
+  color:var(--echo-cyan);
+  transform:translate(10px,-7px);
+  pointer-events:none;
+  user-select:none;
+}
+.aiwa-footer__echo-layer--ink { z-index:2;color:var(--footer-ink); }
+.aiwa-footer__echo[data-in-view="true"] .aiwa-footer__echo-layer--coral {
+  animation:aiwa-echo-coral-arrive .95s cubic-bezier(.16,1,.3,1) both,
+    aiwa-echo-coral-drift 5.7s ease-in-out .95s infinite;
+}
+.aiwa-footer__echo[data-in-view="true"] .aiwa-footer__echo-layer--cyan {
+  animation:aiwa-echo-cyan-arrive 1.05s cubic-bezier(.16,1,.3,1) both,
+    aiwa-echo-cyan-drift 5.7s ease-in-out 1.05s infinite;
+}
+.aiwa-footer__echo[data-in-view="true"] .aiwa-footer__echo-layer--ink {
+  animation:aiwa-echo-ink-arrive 1.1s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes aiwa-echo-ink-arrive {
+  from {opacity:0;filter:blur(8px);transform:translateY(13px)}
+  to {opacity:1;filter:blur(0);transform:translateY(0)}
+}
+@keyframes aiwa-echo-coral-arrive {
+  from {opacity:0;transform:translate(0,0)}
+  to {opacity:1;transform:translate(-9px,8px)}
+}
+@keyframes aiwa-echo-cyan-arrive {
+  from {opacity:0;transform:translate(0,0)}
+  to {opacity:1;transform:translate(10px,-7px)}
+}
+@keyframes aiwa-echo-coral-drift {
+  0%,100% {transform:translate(-9px,8px)}
+  50% {transform:translate(-13px,10px)}
+}
+@keyframes aiwa-echo-cyan-drift {
+  0%,100% {transform:translate(10px,-7px)}
+  50% {transform:translate(14px,-9px)}
+}
+@keyframes aiwa-echo-orbit {
+  from {transform:translate(-50%,-50%) rotate(-12deg)}
+  to {transform:translate(-50%,-50%) rotate(348deg)}
+}
+@media(max-width:767px) {
+  .aiwa-footer__echo {
+    min-height:170px;
+    margin:40px 0 16px;
+    padding:35px 0;
+    font-size:clamp(26px,7.6vw,54px);
+  }
+  .aiwa-footer__echo::before {left:55%;width:min(80vw,320px)}
+  .aiwa-footer__echo::after {left:55%;width:min(62vw,245px)}
+  .aiwa-footer__echo-layer--coral {transform:translate(-5px,5px)}
+  .aiwa-footer__echo-layer--cyan {transform:translate(6px,-5px)}
+  .aiwa-footer__echo[data-in-view="true"] .aiwa-footer__echo-layer--coral,
+  .aiwa-footer__echo[data-in-view="true"] .aiwa-footer__echo-layer--cyan {
+    animation:none;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .aiwa-footer__echo::before {animation:none!important}
+  .aiwa-footer__echo-layer {animation:none!important}
 }

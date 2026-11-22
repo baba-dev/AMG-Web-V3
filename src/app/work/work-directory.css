@@ -116,7 +116,6 @@ html.light .aiwa-site.work-page {
 .aiwa-site.work-page .aiwa-footer__bottom button {
   font-family:var(--aiwa-font-interface); font-weight:700;
 }
-.aiwa-site.work-page .aiwa-footer__wordmark { color:var(--footer-ink); }
 
 @media(max-width:1080px) { .work-page__paper { scroll-margin-top:74px; } }
 @media(max-width:767px) {

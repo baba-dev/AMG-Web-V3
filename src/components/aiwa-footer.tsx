@@ -3,6 +3,7 @@
 import { ArrowUp, ArrowUpRight, Camera, Briefcase, MapPin } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { resolveSiteHref } from "@/lib/site-navigation";
 import "./aiwa-footer.css";
 
@@ -17,6 +18,20 @@ const navigation = [
 
 export function AiwaGlobalFooter() {
   const pathname = usePathname();
+  const echoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const wordmark = echoRef.current;
+    if (!wordmark || !window.IntersectionObserver) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      wordmark.dataset.inView = entry.isIntersecting ? "true" : "false";
+    }, { threshold: 0.1 });
+
+    observer.observe(wordmark);
+    return () => observer.disconnect();
+  }, []);
+
   const backToTop = () => {
     window.history.replaceState(null, "", window.location.pathname + window.location.search);
     window.scrollTo({
@@ -75,7 +90,17 @@ export function AiwaGlobalFooter() {
         </div>
       </div>
 
-      <div className="aiwa-footer__wordmark" aria-hidden="true">AIWA<span>.</span></div>
+      <div className="aiwa-footer__echo" ref={echoRef} lang="ar" dir="ltr" data-in-view="false">
+        <span className="aiwa-footer__echo-layer aiwa-footer__echo-layer--coral" dir="rtl" aria-hidden="true">
+          مجموعة أيوا الإعلامية
+        </span>
+        <span className="aiwa-footer__echo-layer aiwa-footer__echo-layer--cyan" dir="rtl" aria-hidden="true">
+          مجموعة أيوا الإعلامية
+        </span>
+        <span className="aiwa-footer__echo-layer aiwa-footer__echo-layer--ink" dir="rtl">
+          مجموعة أيوا الإعلامية
+        </span>
+      </div>
 
       <div className="aiwa-footer__bottom">
         <span>© 2026 AIWA MEDIA GROUP · BY AHMED AL AJMI TRADING</span>
