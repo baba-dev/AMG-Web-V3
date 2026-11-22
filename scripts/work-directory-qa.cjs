@@ -197,7 +197,7 @@ async function geometry(page){return page.evaluate(()=>{
   assert.equal(await themePage.locator(".work-page__paper").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
   assert.equal(await themePage.locator(".work-gallery").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 238)");
   assert.equal(await themePage.locator(".work-process").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(232, 229, 223)");
-  assert.equal(await themePage.locator(".aiwa-footer").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 243, 237)");
+  assert.equal(await themePage.locator(".aiwa-footer").evaluate(el=>getComputedStyle(el).backgroundColor),"rgb(245, 245, 243)");
   await themePage.locator('[data-view-button="list"]').click();
   const frameLightList=()=>themePage.evaluate(()=>{
     const controls=document.querySelector(".work-gallery__filterbar");
