@@ -39,6 +39,18 @@ const pages = [
     shots: [".spec-detail__hero", ".spec-detail__thinking", ".spec-detail__capabilities", ".spec-detail__related"],
   },
   {
+    id: "team",
+    path: "/team.html",
+    surfaces: [".team-hero", ".team-gallery", ".team-people", ".team-divisions", ".team-culture", ".team-muscat", ".team-careers", ".aiwa-office", ".aiwa-footer"],
+    shots: [".team-hero", ".team-people", ".team-culture", ".team-careers"],
+  },
+  {
+    id: "join-us",
+    path: "/join-us.html",
+    surfaces: [".join-hero", ".join-values", ".join-opportunities", ".aiwa-office", ".aiwa-footer"],
+    shots: [".join-hero", ".join-values", ".join-opportunities"],
+  },
+  {
     id: "contact",
     path: "/contact.html",
     surfaces: [".aiwa-inner-header", ".contact-intro", ".contact-office", ".contact-outro", ".aiwa-office", ".aiwa-footer"],
