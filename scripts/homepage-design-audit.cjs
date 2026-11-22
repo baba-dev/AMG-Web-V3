@@ -67,8 +67,8 @@ const testSelectors = [
         }, testSelectors);
         assert(initial.overflow <= 2, width+"px: horizontal overflow "+initial.overflow);
         assert(initial.fonts.every(x=>!x.missing),width+"px: missing editorial section");
-        assert(initial.paper.every(x=>x.color==="rgb(245, 245, 243)"),
-          width+"px: light-section colors diverge: "+JSON.stringify(initial.paper));
+        assert(initial.paper.every(x=>x.color==="rgb(15, 15, 15)"),
+          width+"px: dark editorial surfaces diverge: "+JSON.stringify(initial.paper));
         assert(initial.heroWords.every(r=>r.x>=-12 && r.right<=width+12),
           width+"px: clipped hero words: "+JSON.stringify(initial.heroWords));
         const usesPrivateRoc = await page.evaluate(() =>

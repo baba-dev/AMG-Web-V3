@@ -104,3 +104,40 @@
 @media(max-width:390px){.spec-directory__hero h1{font-size:11.6vw;}.spec-directory__gallery-heading h2{font-size:11vw;}.spec-directory__card-content h3{font-size:12vw;}.spec-directory__promise h2,.spec-directory__contact h2{font-size:11.6vw;}}
 @media(prefers-reduced-motion:reduce){.spec-directory__card-media img,.spec-directory__arrow{transition:none!important;transform:none!important;}}
 #all-services{scroll-margin-top:90px;}
+
+/* Complete two-mode surface system. Artwork retains its own colour, while
+   every editorial panel, label and rule follows the persistent theme. */
+.aiwa-site.spec-site{
+ --spec-page:#0a0a0a;--spec-panel:#111210;--spec-panel-alt:#191a17;
+ --spec-ink:#f5f5f3;--spec-muted:#b4b6af;--spec-rule:#777a72;
+ --spec-button:#f5f5f3;--spec-button-ink:#0a0a0a;
+ background:var(--spec-page);color:var(--spec-ink);
+}
+.light .aiwa-site.spec-site{
+ --spec-page:#f5f5f3;--spec-panel:#f5f5f3;--spec-panel-alt:#e5e6df;
+ --spec-ink:#0a0a0a;--spec-muted:#4f514a;--spec-rule:#8f9188;
+ --spec-button:#0a0a0a;--spec-button-ink:#f5f5f3;
+}
+.spec-directory__hero,
+.light .spec-directory__hero{background:var(--spec-page);color:var(--spec-ink);}
+.spec-directory__hero-footer,
+.spec-directory__hero-center>p,
+.spec-directory__hero-bottom>p,
+.light .spec-directory__hero-center>p,
+.light .spec-directory__hero-bottom>p,
+.light .spec-directory__hero-footer{color:var(--spec-muted);}
+.spec-directory__hero-bottom>a,
+.light .spec-directory__hero-bottom>a{border-bottom-color:var(--spec-ink);}
+.spec-directory__gallery{background:var(--spec-panel);color:var(--spec-ink);}
+.spec-directory__gallery-heading>p,
+.spec-directory__card-line span:last-child,
+.spec-directory__card-content>p{color:var(--spec-muted);}
+.spec-directory__card-line,
+.spec-directory__gallery-foot{border-color:var(--spec-rule);}
+.spec-directory__arrow{background:var(--spec-button);color:var(--spec-button-ink);}
+.spec-directory__promise{background:var(--spec-panel-alt);color:var(--spec-ink);}
+.spec-directory__promise-bottom a{border-color:currentColor;}
+.spec-directory__contact,
+.light .spec-directory__contact{background:var(--spec-page);color:var(--spec-ink);}
+.spec-directory__contact>a,
+.light .spec-directory__contact>a{border-color:currentColor;}

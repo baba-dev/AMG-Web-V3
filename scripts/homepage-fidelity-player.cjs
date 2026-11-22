@@ -51,8 +51,8 @@ async function run(browser,width,height){
    "Homepage has a section seam gap/overlap");
  const specParts=geometry.specRGB.match(/\d+/g)?.map(Number)||[];
  const aboutParts=geometry.aboutRGB.match(/\d+/g)?.map(Number)||[];
- assert(specParts.slice(0,3).every(x=>x>=229),"Specialisms must use reference-light surface");
- assert(aboutParts.slice(0,3).every(x=>x>=229),"About must use a reference-light surface");
+ assert(specParts.slice(0,3).every(x=>x<=30),"Dark Specialisms must use the ink surface");
+ assert(aboutParts.slice(0,3).every(x=>x<=30),"Dark About must use the ink surface");
  assert(geometry.aboutImage.w>width*.28,"About must be media-led");
  if(width>700) {
    const split=await page.evaluate(()=>({

@@ -159,8 +159,8 @@ async function testHeroSpecialismsMotion(browser, width, height) {
       background:getComputedStyle(section).backgroundColor};
   });
   const rgb = spec.background.match(/\d+/g)?.map(Number) || [];
-  assert(rgb.length>=3 && rgb.slice(0,3).every(channel=>channel>=230),
-    "Reference Specialisms needs a light canvas, got "+spec.background);
+  assert(rgb.length>=3 && rgb.slice(0,3).every(channel=>channel<=30),
+    "Dark-mode Specialisms needs an ink canvas, got "+spec.background);
   assert(spec.rows.length===7,"Seven specialisms required");
   assert(spec.rows.every(r=>r.mediaWidth>20),"Each category needs an embedded media tile");
 
@@ -389,11 +389,11 @@ async function testDuotoneTheme(browser,width,height) {
   assert.equal(light.heading, "rgb(21, 22, 19)", "Hero heading lacks ink contrast");
   assert(/^rgb\(/.test(light.specialisms) &&
     (light.specialisms.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n >= 230),
-    "Specialisms must retain the bright reference canvas");
+    "Light-mode Specialisms must use the bright editorial canvas");
   assert((light.specialismsText.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n < 80),
     "Specialisms labels must have dark ink contrast");
   assert((light.about.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n >= 230),
-    "About should retain its light media-led reference surface");
+    "Light-mode About should use the media-led paper surface");
   assert((light.aboutCopy.match(/\d+/g)?.slice(0,3).map(Number) || []).every(n => n < 100),
     "About copy lacks readable contrast");
   assert.equal(light.themeStored, "light", "Light choice not persisted");

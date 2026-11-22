@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:home-media": "node scripts/home-authentic-media-smoke.mjs"
+    "test:home-media": "node scripts/home-authentic-media-smoke.mjs",
+    "test:themes": "node scripts/all-pages-theme-qa.cjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

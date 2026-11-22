@@ -2,6 +2,9 @@
   --work-paper: #0a0a0a;
   --work-ink: #f7f7f4;
   --work-muted: #b8b8b5;
+  --work-rule: rgba(255,255,255,.28);
+  --work-button: #f7f7f4;
+  --work-button-ink: #090909;
   --work-gutter: clamp(18px, 3vw, 58px);
   position: relative;
   isolation: isolate;
@@ -14,7 +17,7 @@
 .aiwa-work__stage { position: relative; width: 100%; }
 .aiwa-work__scene { position: relative; width: 100%; min-height: 100svh; padding: clamp(96px, 13vh, 156px) var(--work-gutter) 92px; }
 .aiwa-work__header { position: relative; z-index: 1; display: flex; align-items: center; flex-direction: column; gap: 30px; text-align: center; pointer-events: none; }
-.aiwa-work__eyebrow { display: inline-grid; place-items: center; padding: 10px 17px; border: 1px solid rgba(255,255,255,.28); font: 800 18px/1 var(--font-aiwa-display), Impact, sans-serif; letter-spacing: .02em; }
+.aiwa-work__eyebrow { display: inline-grid; place-items: center; padding: 10px 17px; border: 1px solid var(--work-rule); font: 800 18px/1 var(--font-aiwa-display), Impact, sans-serif; letter-spacing: .02em; }
 .aiwa-work__headline { margin: 0; color: inherit; font: 900 clamp(100px, 16.2vw, 245px)/.76 var(--font-aiwa-display), Impact, "Arial Narrow", sans-serif; letter-spacing: -.048em; text-transform: uppercase; }
 .aiwa-work__headline span { display: block; }
 .aiwa-work__cards { position: relative; z-index: 3; width: min(1280px,100%); margin: 96px auto 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: clamp(34px, 6vw, 100px); }
@@ -27,10 +30,13 @@
 .aiwa-work__caption { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-top: 13px; font-size: clamp(12px, .9vw, 15px); }
 .aiwa-work__caption strong { font: 900 clamp(17px, 1.6vw, 24px)/1 var(--font-aiwa-display), Impact, sans-serif; text-transform: uppercase; }
 .aiwa-work__caption span { max-width: 55%; color: var(--work-muted); text-align: right; line-height: 1.25; }
-.aiwa-work__cta { position: relative; z-index: 15; display: flex; align-items: center; justify-content: space-between; gap: 46px; width: fit-content; min-width: 234px; min-height: 59px; margin: 72px auto 0; padding: 0 19px; background: #f7f7f4; color: #090909; text-decoration: none; font: 900 17px/1 var(--font-aiwa-display), Impact, sans-serif; }
+.aiwa-work__cta { position: relative; z-index: 15; display: flex; align-items: center; justify-content: space-between; gap: 46px; width: fit-content; min-width: 234px; min-height: 59px; margin: 72px auto 0; padding: 0 19px; background: var(--work-button); color: var(--work-button-ink); text-decoration: none; font: 900 17px/1 var(--font-aiwa-display), Impact, sans-serif; }
 .aiwa-work__cta svg { flex: none; }
 .aiwa-work :is(a):focus-visible { outline: 3px solid currentColor; outline-offset: 6px; }
-.light .aiwa-work { --work-paper: #171713; --work-ink: #f7f7f4; --work-muted: #b8b8b5; }
+.light .aiwa-work {
+  --work-paper:#f0eee8;--work-ink:#151613;--work-muted:#5d5f58;
+  --work-rule:rgba(21,22,19,.25);--work-button:#151613;--work-button-ink:#f5f3ed;
+}
 @media (max-width: 767px) {
   .aiwa-work__scene { padding: 78px 16px 80px; }
   .aiwa-work__header { gap: 23px; }

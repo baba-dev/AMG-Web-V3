@@ -200,21 +200,25 @@
 .aiwa-office__contact a:focus-visible {outline:3px solid var(--office-ink);outline-offset:5px;}
 
 
-/* Final-page white 'SAY HELLO' signature echoes the reference footer's
-   monumental type without claiming the reference's five office locations. */
-.aiwa-office,.light .aiwa-office {
-  --office-bg:#f5f5f3;
-  --office-ink:#0a0a0a;
-  --office-muted:#4e504a;
+/* The 'SAY HELLO' signature follows the selected editorial paper. */
+.aiwa-office {
+  --office-bg:#0f0f0f;
+  --office-ink:#f5f5f3;
+  --office-muted:#aaa9a2;
+  --office-border:rgba(255,255,255,.2);
   background:var(--office-bg);
   color:var(--office-ink);
+}
+.light .aiwa-office {
+  --office-bg:#f5f5f3;--office-ink:#0a0a0a;--office-muted:#4e504a;
+  --office-border:rgba(10,10,10,.2);
 }
 .aiwa-office__hello {
   margin:calc(-1 * clamp(40px,5vw,84px)) calc(-1 * var(--aiwa-gutter,clamp(20px,3.65vw,72px))) clamp(36px,6vw,88px);
   width:calc(100% + 2 * var(--aiwa-gutter,clamp(20px,3.65vw,72px)));
   overflow:hidden;
   white-space:nowrap;
-  border-bottom:1px solid rgba(10,10,10,.17);
+  border-bottom:1px solid var(--office-border);
 }
 .aiwa-office__hello-track {
   display:flex;
@@ -224,7 +228,7 @@
   padding:clamp(14px,1.7vw,28px) 0 clamp(10px,1.5vw,24px);
   font:400 clamp(130px,16vw,248px)/.88 var(--font-aiwa-poster),Impact,sans-serif;
   letter-spacing:-.025em;
-  color:#090909;
+  color:var(--office-ink);
   animation:aiwa-hello-marquee 26s linear infinite alternate;
 }
 .aiwa-office__hello-track span {flex:none;}

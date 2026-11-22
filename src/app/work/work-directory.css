@@ -37,8 +37,8 @@ html.light .aiwa-site.work-page {
   --work-row-hover:rgba(22,24,27,.042);
   --work-active-ink:#f7f5ef;
   --work-accent:#af381e;
-  --work-outro:#16171a;
-  --work-outro-ink:#f7f5ef;
+  --work-outro:#dedbd4;
+  --work-outro-ink:#17191c;
 }
 .aiwa-site.work-page *,
 .aiwa-site.work-page *::before,
