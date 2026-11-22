@@ -189,10 +189,15 @@ export function AiwaRouteTransition() {
           <div className="aiwa-route-stage__top">
             <span>AIWA / THE SIGNAL</span><span>CREATIVE IN MOTION</span>
           </div>
-          <div className="aiwa-route-stage__headline">
-            <span className="aiwa-route-stage__wordmark">AIWA<span>.</span></span>
-            <span className="aiwa-route-stage__line" />
+          <div className="aiwa-route-stage__headline"
+            data-title-length={scene.label.length > 23 ? "very-long" : scene.label.length > 15 ? "long" : "short"}>
+            <div className="aiwa-route-stage__masthead">
+              <span className="aiwa-route-stage__wordmark">AIWA<span>.</span></span>
+              <span className="aiwa-route-stage__masthead-rule" />
+              <span className="aiwa-route-stage__overline">OPENING</span>
+            </div>
             <strong className="aiwa-route-stage__destination">{scene.label}</strong>
+            <span className="aiwa-route-stage__underline" />
           </div>
           <div className="aiwa-route-stage__bottom">
             <span>IDEAS THAT MAKE NOISE.</span><span>01 / 01</span>
