@@ -110,7 +110,7 @@ async function checkViewport(browser,w,h) {
     await assertGlobalStructure(page,pathname);
     if(pathname==="/contact") {
       assert.equal(await page.locator("#contact-office").count(),1,"Contact's own office needs its own anchor");
-      assert.equal(await page.locator('.contact-wall__row[href="#contact-office"]').count(),1,
+      assert.equal(await page.locator('.contact-wall__sequence:first-child .contact-wall__row[href="#contact-office"]').count(),1,
         "Contact's office marquee link must keep working");
     }
   }
