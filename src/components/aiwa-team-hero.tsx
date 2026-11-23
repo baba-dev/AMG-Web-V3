@@ -20,7 +20,7 @@ export function AiwaTeamHero() {
           </h1>
           <div className="team-hero__lead">
             <p>Many perspectives. One creative pulse. Meet the people, disciplines and energy behind Aiwa Media Group.</p>
-            <a href="#people" className="team-round-link" aria-label="Explore the people in Aiwa's published team archive">
+            <a href="#people" className="team-round-link" aria-label="Explore the people at Aiwa Media Group">
               <span>MEET THE PEOPLE</span><ArrowDown aria-hidden="true" size={20} />
             </a>
           </div>
