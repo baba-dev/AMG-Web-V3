@@ -11,7 +11,7 @@ import "./team.css";
 
 export const metadata: Metadata = {
   title: "Our People & Culture | Aiwa Media Group",
-  description: "Meet the perspectives, disciplines and creative energy behind Aiwa Media Group in Muscat. Explore our published team archive, work and culture.",
+  description: "Meet the team behind Aiwa Media Group in Muscat: leadership, operations, web engineering, sales and creative artwork.",
   alternates: { canonical: "/team" },
   openGraph: { title:"The Minds. The Makers. The Magic. | Aiwa Media Group",
     description:"Discover the people, creative work and culture of Aiwa Media Group.", type:"website" },
