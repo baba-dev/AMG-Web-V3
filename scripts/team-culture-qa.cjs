@@ -19,14 +19,24 @@ const about = read("src/components/aiwa-about.tsx");
 const routes = read("src/lib/aiwa-route-motion.ts");
 const themeQa = read("scripts/all-pages-theme-qa.cjs");
 
-assert.match(team, /https:\/\/aiwamediagroup\.com\/our-team\//, "person source required");
-assert.equal((team.match(/portrait:null, source:teamSource/g) || []).length, 10, "ten source-attributed profile records expected");
-assert.equal((team.match(/department:"(?:leadership|creative|production|technology)"/g) || []).length, 10);
-assert.match(team, /historical source material/, "data must disclose historical provenance");
+for (const name of ["Imaad Khan", "Abeer Sayed", "Sameer Siddiqui", "Mahmoud", "Talha"]) {
+  assert.ok(team.includes('name: "' + name + '"'), "missing current employee " + name);
+}
+assert.equal((team.match(/\bicon: "(?:founder|operations|engineering|sales|design)"/g) || []).length, 5,
+  "five distinct role-specific icon assignments expected");
+assert.match(team, /over 20 years/);
+assert.match(team, /Events Orchestration/);
+assert.match(team, /ESP32-based IoT hardware/);
+assert.doesNotMatch(team, /name: "Bilawal Ali"/, "do not show unconfirmed legacy employees");
+assert.doesNotMatch(team, /portrait\s*:/, "no portrait assets should be part of team profiles");
 assert.match(directory, /showModal\(\)/, "dialog should use native accessibility");
 assert.match(directory, /aria-pressed=/, "filter state should be announced");
 assert.match(directory, /onClose=/, "dialog close must restore opener focus");
-assert.match(directory, /current role and membership have not been independently verified/i);
+assert.match(directory, /roleIcons/);
+assert.match(directory, /data-team-profile-icon/);
+assert.match(directory, /TEAM MEMBERS/);
+assert.doesNotMatch(directory, /<Image\b/, "team profiles must use icons, not images");
+assert.doesNotMatch(directory, /ARCHIVE PROFILE/, "current roster must not be labeled archived");
 assert.match(hero, /production-team\.webp/);
 assert.match(gallery, /PUBLISHED CAMPAIGN WORK/);
 assert.match(media, /category:"published-work"/);
@@ -60,4 +70,4 @@ for (const asset of [
   "public/media/finale/muscat-editorial.svg",
   "public/media/team/aiwa-signal.svg",
 ]) assert(fs.existsSync(path.join(__dirname, "..", asset)), "missing real/editorial media: " + asset);
-console.log("AIWA_TEAM_SOURCE_AND_ROUTE_PASS profiles=10 routes=2 archived-media=4");
+console.log("AIWA_TEAM_SOURCE_AND_ROUTE_PASS profiles=5 routes=2 icon-profiles=5");
