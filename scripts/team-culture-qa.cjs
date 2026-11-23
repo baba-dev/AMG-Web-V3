@@ -34,7 +34,7 @@ assert.match(directory, /aria-pressed=/, "filter state should be announced");
 assert.match(directory, /onClose=/, "dialog close must restore opener focus");
 assert.match(directory, /roleIcons/);
 assert.match(directory, /data-team-profile-icon/);
-assert.match(directory, /TEAM MEMBERS/);
+assert.match(directory, /"MEMBERS"/, "team count should describe members, not archived profiles");
 assert.doesNotMatch(directory, /<Image\b/, "team profiles must use icons, not images");
 assert.doesNotMatch(directory, /ARCHIVE PROFILE/, "current roster must not be labeled archived");
 assert.match(hero, /production-team\.webp/);
