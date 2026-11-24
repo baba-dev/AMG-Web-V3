@@ -1,0 +1,3 @@
+import { ArrowUpRight } from "lucide-react";
+import { capabilities } from "@/lib/about/content";
+export function AboutCapabilities(){return <section className="ab-section" aria-labelledby="ab-capabilities"><div className="ab-kicker"><span>06 / THE CONNECTED CAPABILITIES</span><span>12 DISCIPLINES</span></div><h2 id="ab-capabilities" className="ab-heading">EVERYTHING <em>CONNECTED.</em></h2><ol className="ab-capabilities">{capabilities.map(([name,slug],i)=><li key={name}><a href={"/specialisms/"+slug}><small>{String(i+1).padStart(2,"0")}</small><span>{name}</span><ArrowUpRight aria-hidden="true"/></a></li>)}</ol><a className="ab-link" href="/specialisms">EXPLORE ALL SPECIALISMS <ArrowUpRight aria-hidden="true"/></a></section>}
