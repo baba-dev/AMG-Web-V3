@@ -1,8 +1,8 @@
 # Client logo library — V1 + V2 upload
 
-This is an asset-only scaffold. No route, component or client directory data is enabled by this change.
+**Status (24 November 2026):** the asset scaffold and upload are merged in [PR #48](https://github.com/baba-dev/AMG-Web-V3/pull/48). Main contains 58 WebP files. File presence is verified; decoding, rights and UI acceptance remain separate gates. No client directory route is present in the baseline main tree. The upload instructions below are retained for future replacement/recovery, not a request to repeat the upload.
 
-## Upload to this PR branch
+## Original upload / future recovery procedure
 
 Extract `aiwa-client-logos-v1-v2-web.zip` locally. Upload the **contents** of the two resolution directories (not the ZIP, not another nested web folder):
 
