@@ -39,3 +39,23 @@
   }
 }
 @media(max-width:350px) { :root { --type-hero:12vw; } }
+
+/* Portfolio roles: shared families, fit-aware sizes for editorial compositions. */
+:root {
+  --type-portfolio-hero:clamp(56px,7.8vw,138px);
+  --type-portfolio-heading:var(--type-display-l);
+  --type-project-title:clamp(30px,3.7vw,62px);
+  --type-project-list:clamp(28px,3.2vw,54px);
+  --type-process-title:clamp(24px,2.5vw,43px);
+  --type-filter-size:clamp(13px,.95vw,15px);
+}
+@media(max-width:1120px){:root{--type-portfolio-hero:clamp(48px,7vw,88px)}}
+@media(max-width:900px){:root{--type-project-list:clamp(24px,4vw,39px)}}
+@media(max-width:767px){:root{
+ --type-portfolio-hero:clamp(44px,12vw,86px);
+ --type-portfolio-heading:clamp(40px,10.4vw,80px);
+ --type-project-title:clamp(28px,7.2vw,45px);
+ --type-project-list:clamp(21px,5.5vw,31px);
+ --type-process-title:clamp(27px,6.5vw,34px);
+ --type-filter-size:13px;
+}}
