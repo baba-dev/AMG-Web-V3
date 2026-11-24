@@ -26,7 +26,7 @@ Decision evidence: [typography #37](https://github.com/baba-dev/AMG-Web-V3/pull/
 
 ## What is on main
 
-The verified App Router tree has `/`, `/about`, `/contact`, `/work`, `/work/[slug]`, `/specialisms`, `/specialisms/[slug]`, `/privacy`, `/terms`, and not-found handling. Check static params/content registries for actual slugs. Old service routes may remain for compatibility; their presence does not mean their redesign is complete.
+The verified baseline App Router tree has `/`, `/about`, `/contact`, `/work`, `/work/[slug]`, `/specialisms`, `/specialisms/[slug]`, `/privacy`, `/terms`, and not-found handling. Check static params/content registries for actual slugs. Old service routes may remain for compatibility; their presence does not mean their redesign is complete.
 
 The current mega-menu uses `src/lib/site-navigation.ts`; some destinations deliberately point to the legacy site, legacy service routes, contact anchors or mailto. Footer placeholders are in `src/lib/footer-navigation.ts`. Do not silently imply unfinished destinations are complete.
 
@@ -46,6 +46,10 @@ This is a directional backlog, not permission to invent scope or mark work done.
 | P2 | Media and launch readiness | Audit missing authentic media, responsive images, accessibility, metadata, internal links, performance, legal content and end-to-end theme/motion. |
 
 Client Directory and team/case-study requirements must be grounded in confirmed content; unknown work categories, employment details, dates, endorsements and outcomes should be omitted or held for review, not inferred from a logo. No empty placeholder route solely to tick a roadmap box.
+
+## Subsequent implementation
+
+Main at `777a26ab3480b3667d46f473f02d737ad012e612` includes the Client Directory at `/work/clients`. The Proof in Motion showcase PR adds `/work/case-studies`, links it from Work and enriches existing project detail pages. See [showcase evidence and acceptance](case-study-showcase.md); merge and deployment status must be verified separately. BEST remains a featured brand, not a results-backed case study.
 
 ## Updating this file
 

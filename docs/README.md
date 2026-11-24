@@ -8,7 +8,7 @@ Start with [current direction](current-direction.md) and [agentic development](a
 | Typography and themes | [Editorial typography](homepage-typography.md), [licensed Roc](licensed-roc-and-space-typography.md), [original audit](typography-color-spacing-audit.md) |
 | Hero and motion | [Hero adaptation](hero-adaptation.md), [film correction](film-motion-correction.md), [motion audit](hero-specialisms-motion-audit.md), [route transitions](aiwa-signal-route-transitions.md), [homepage QA](homepage-fidelity-qa.md) |
 | Homepage content | [Authentic media](home-authentic-media-release.md), [About section](section4-about.md), [selected campaigns](section5-selected-campaigns.md), [campaign release](section5-release-notes.md), [finale spec](homepage-finale-spec.md), [finale release](homepage-finale-release.md) |
-| Work | [Directory spec](work-directory-v3-spec.md), [directory release](work-directory-v3-release.md), [grid/list](work-grid-list-theme-v4.md), [case-study spec](work-case-studies-p2b-spec.md), [case-study release](work-case-studies-p2b-release.md) |
+| Work | [Directory spec](work-directory-v3-spec.md), [directory release](work-directory-v3-release.md), [grid/list](work-grid-list-theme-v4.md), [case-study spec](work-case-studies-p2b-spec.md), [case-study release](work-case-studies-p2b-release.md), [Proof in Motion showcase](case-study-showcase.md) |
 | Services | [Specialisms spec](specialisms-p2c-spec.md), [release](specialisms-p2c-release.md) |
 | About and contact | [About sources](about-page-content-sources.md), [contact choreography](contact-motion-choreography.md), [global footer](global-say-hello-footer.md) |
 | Client identity assets | [Logo delivery and acceptance](client-logos/README.md), [manifest](client-logos/manifest.json) |
