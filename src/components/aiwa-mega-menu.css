@@ -140,8 +140,8 @@
 @media(min-width:1121px) and (max-height:650px){.aiwa-mega__links{padding-block:18px}.aiwa-mega__link-list>a{min-height:66px;padding-block:10px}.aiwa-mega__art{min-height:260px;grid-template-rows:auto minmax(105px,1fr) auto}}
 
 /* Vivid identity, quiet interface: accents illuminate, never replace readable text. */
-.aiwa-mega{--mega-accent-ink:color-mix(in srgb,var(--mega-accent,#71b9d3) 70%,var(--mega-ink))}
-.light .aiwa-mega{--mega-accent-ink:color-mix(in srgb,var(--mega-accent,#71b9d3) 40%,#11120f)}
+.aiwa-mega :is(.aiwa-mega__trigger,.aiwa-mega__panel,.aiwa-mega-mobile__groups>section){--mega-accent-ink:color-mix(in srgb,var(--mega-accent,#71b9d3) 70%,var(--mega-ink))}
+.light .aiwa-mega :is(.aiwa-mega__trigger,.aiwa-mega__panel,.aiwa-mega-mobile__groups>section){--mega-accent-ink:color-mix(in srgb,var(--mega-accent,#71b9d3) 40%,#11120f)}
 .aiwa-mega__trigger::before,.aiwa-mega__trigger::after{background:var(--mega-accent-ink)}
 .aiwa-mega__trigger[aria-expanded="true"]{color:var(--mega-accent-ink)}
 .aiwa-mega__trigger:focus-visible{outline:2px solid currentColor;outline-offset:3px}
