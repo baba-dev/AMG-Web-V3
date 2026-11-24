@@ -103,11 +103,20 @@
 /* Homepage section contrast previously stayed ivory even in dark mode.
  * These late overrides keep the approved geometry while making all copy,
  * rules and controls inherit the active paper system. */
+.aiwa-specialisms, .light .aiwa-specialisms {
+  --spec-paper: var(--aiwa-paper);
+  --spec-ink: var(--aiwa-paper-ink);
+}
 .aiwa-specialisms__top h2 { border-color:var(--aiwa-paper-rule); }
+.aiwa-specialisms__row,
+.aiwa-specialisms__row:visited { color:var(--spec-ink); }
+.aiwa-specialisms__row:focus-visible,
+.aiwa-specialisms__why:focus-visible,
+.aiwa-specialisms__all:focus-visible { outline-color:var(--spec-ink); }
 .aiwa-specialisms__footer p,
-.aiwa-specialisms__view-all,
-.aiwa-specialisms__view-all:visited { color:var(--aiwa-paper-ink); }
-.aiwa-specialisms__view-all { border-bottom-color:var(--aiwa-paper-ink); }
+.aiwa-specialisms__all,
+.aiwa-specialisms__all:visited { color:var(--aiwa-paper-ink); }
+.aiwa-specialisms__all { border-bottom-color:var(--aiwa-paper-ink); }
 .aiwa-specialisms__why {
   color:var(--aiwa-paper);background:var(--aiwa-paper-ink);border-color:var(--aiwa-paper-ink);
 }
