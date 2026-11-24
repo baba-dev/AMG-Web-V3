@@ -138,16 +138,13 @@ export function AiwaMegaMenu({ variant, mobileOpen, onMobileClose }: AiwaMegaMen
             aria-label={`${group.label} menu`} aria-hidden={!openNow} inert={!openNow}
             onMouseEnter={() => open(group.id)}>
             <div className="aiwa-mega__links">
-              <div className="aiwa-mega__panel-heading">
-                <span>{group.eyebrow}</span><p>{group.caption}</p>
-              </div>
               <div className="aiwa-mega__link-list">
                 {group.items.map((item, index) => <a key={item.label} href={item.href}
                   target={"external" in item && item.external ? "_blank" : undefined}
                   rel={"external" in item && item.external ? "noreferrer" : undefined} onClick={() => setActive(null)}>
                   <span className="aiwa-mega__number">0{index + 1}</span>
                   <span className="aiwa-mega__link-copy"><strong>{item.label}</strong><small>{item.description}</small></span>
-                  <ArrowUpRight size={25} strokeWidth={1.35} aria-hidden="true"/>
+                  <ArrowUpRight size={18} strokeWidth={1.5} aria-hidden="true"/>
                 </a>)}
               </div>
             </div>
