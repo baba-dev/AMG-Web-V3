@@ -161,7 +161,7 @@ async function testHeroSpecialismsMotion(browser, width, height) {
   const rgb = spec.background.match(/\d+/g)?.map(Number) || [];
   assert(rgb.length>=3 && rgb.slice(0,3).every(channel=>channel<=30),
     "Dark-mode Specialisms needs an ink canvas, got "+spec.background);
-  assert(spec.rows.length===7,"Seven specialisms required");
+  assert(spec.rows.length===6,"Six specialisms required");
   assert(spec.rows.every(r=>r.mediaWidth>20),"Each category needs an embedded media tile");
 
   const firstRowPosition=await page.locator(".aiwa-specialisms__row").first().evaluate(el=>el.getBoundingClientRect().top+scrollY);
