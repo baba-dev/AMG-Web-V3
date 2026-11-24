@@ -23,16 +23,16 @@ fs.mkdirSync(dir,{recursive:true});
    await page.waitForFunction(t=>document.documentElement.classList.contains(t),theme);
    const typography=await page.evaluate(()=>{
      const style=s=>getComputedStyle(document.querySelector(s));
-     return {display:[".contact-wall__word",".contact-intro h2",".contact-office h2",".contact-outro h2",".contact-enquiries__panel h3",".contact-office__details h3"].map(s=>style(s).fontFamily),body:[".contact-intro__aside p",".contact-enquiries__tabs strong",".contact-office__address address",".contact-office__links a"].map(s=>style(s).fontFamily),emphasis:[...document.querySelectorAll(".contact-intro h2 em,.contact-office h2 em,.contact-outro h2 em")].map(el=>({family:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,style:getComputedStyle(el).fontStyle})),mono:style(".contact-office__count").fontFamily};
+     return {display:[".contact-signal h1",".contact-intro h2",".contact-office h2",".contact-outro h2",".contact-enquiries__panel h3",".contact-office__details h3"].map(s=>style(s).fontFamily),body:[".contact-intro__aside p",".contact-enquiries__tabs strong",".contact-office__address address",".contact-office__links a"].map(s=>style(s).fontFamily),emphasis:[...document.querySelectorAll(".contact-intro h2 em,.contact-office h2 em,.contact-outro h2 em")].map(el=>({family:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,style:getComputedStyle(el).fontStyle})),mono:style(".contact-office__count").fontFamily};
    });
    requireIt(typography.display.every(f=>/anton/i.test(f)),width+": display font drift "+JSON.stringify(typography));
    requireIt(typography.body.every(f=>/space[_ ]?grotesk/i.test(f)),width+": body font drift");
    requireIt(typography.emphasis.every(f=>/barlow/i.test(f.family)&&f.weight==="900"&&f.style==="italic"),width+": emphasis drift");
    requireIt(/geist.*mono/i.test(typography.mono),width+": metadata drift");
    const structure=await page.evaluate(()=>{
-    const wall=document.querySelector(".contact-wall");
+    const wall=document.querySelector(".contact-signal");
     const root=document.querySelector(".contact-page");
-    const links=[...document.querySelectorAll(".contact-wall__sequence:first-child .contact-wall__row")];
+    const links=[...document.querySelectorAll(".contact-signal__cta")];
     const panel=document.querySelector("[data-contact-enquiries]");
     return {
      overflow:document.documentElement.scrollWidth-window.innerWidth,
@@ -44,25 +44,25 @@ fs.mkdirSync(dir,{recursive:true});
      panel:!!panel,
      realOfficeCount:document.querySelectorAll(".contact-office__details").length,
      wallCount:links.length,
-     imageCount:document.querySelectorAll(".contact-wall__picture img").length,
+     imageCount:document.querySelectorAll(".muscat-signal image").length,
      phone:!!document.querySelector('a[href="tel:+96896138461"]'),
      mail:!!document.querySelector('a[href="mailto:info@aiwamediagroup.com"]'),
      directions:!!document.querySelector('a[href^="https://www.google.com/maps/search/"]'),
      body:root?getComputedStyle(root).backgroundColor:"",
-     hiddenDecorative:[...document.querySelectorAll('.contact-wall__sequence[aria-hidden="true"]')].every(e=>[...e.querySelectorAll("a")].every(a=>a.tabIndex===-1)),
+     hiddenDecorative:document.querySelector('.muscat-signal')?.getAttribute('aria-hidden')==='true',
     };
    });
    requireIt(structure.overflow<=2,width+": unwanted horizontal scroll "+structure.overflow);
-   requireIt(structure.wallHeight>=Math.min(height-83,450),width+": marquee hero too short");
-   requireIt(structure.wallBackground==="rgb(8, 8, 8)",width+": should match reference black hero");
-   requireIt(structure.wallCount===5,width+": 5 meaningful typographic rows");
-   requireIt(structure.imageCount===20,width+": all image intercuts should render");
+   requireIt(structure.wallHeight>=Math.min(height-83,450),width+": signal hero too short");
+   requireIt(structure.wallBackground===(theme==="dark"?"rgb(10, 10, 10)":"rgb(245, 243, 237)"),width+": should match reference black hero");
+   requireIt(structure.wallCount===1,width+": one primary contact CTA");
+   requireIt(structure.imageCount===1,width+": one geographic artwork layer");
    requireIt(structure.intro&&structure.office&&structure.panel,width+": expected contact sections");
    requireIt(structure.realOfficeCount===1,width+": do not imply unverified offices");
    requireIt(structure.phone&&structure.mail&&structure.directions,width+": official live contact links");
-   requireIt(structure.hiddenDecorative,width+": duplicate marquees must be removed from tab order");
-   requireIt(await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationName)==="none",
-      width+": reduced motion must stop the marquee");
+   requireIt(structure.hiddenDecorative,width+": decorative map must be hidden from assistive technology");
+   requireIt(await page.locator(".muscat-signal__pulse").first().evaluate(el=>getComputedStyle(el).animationName)==="none",
+      width+": reduced motion must stop ambient signals");
    requireIt(await page.locator(".contact-intro").getAttribute("data-entered")==="true",
       width+": reduced motion must not hide any sections");
    const header=await page.locator(".aiwa-inner-header").evaluate(el=>el.getBoundingClientRect().height);
@@ -117,42 +117,21 @@ fs.mkdirSync(dir,{recursive:true});
   const page=await browser.newPage({viewport:{width:1440,height:900}});
   await page.goto(base+"/contact");
   await page.evaluate(()=>document.fonts.ready);
-  await page.waitForTimeout(180);
-  const moving=await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationName);
-  requireIt(moving==="contact-wall-scroll","full-motion marquee must animate on desktop");
-  const firstVisible=await page.locator(".contact-wall__row").evaluateAll(nodes=>{
-    const row=nodes.find(el=>{
-      const r=el.getBoundingClientRect();
-      return r.bottom>160 && r.top<innerHeight-150;
-    });
-    if(!row)return null;
-    const r=row.getBoundingClientRect();
-    return {x:r.left+r.width/2,y:Math.max(120,Math.min(innerHeight-180,r.top+r.height/2))};
-  });
-  requireIt(firstVisible!==null,"there must be a visible marquee row");
-  await page.mouse.move(firstVisible.x,firstVisible.y);
-  const paused=await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationPlayState);
-  requireIt(paused==="paused","hover should pause the moving typography");
-  await page.screenshot({path:dir+"/1440-motion-hover.png"});
-
-  await page.waitForFunction(()=>document.querySelector("[data-contact-page]")?.dataset.contactMotion==="ready");
+  await page.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.intro==="playing");
   const score=await page.evaluate(()=>{
-    const style=selector=>getComputedStyle(document.querySelector(selector));
-    return {
-      row:style(".contact-wall__sequence:first-child .contact-wall__row").animationName,
-      picture:style(".contact-wall__sequence:first-child .contact-wall__picture").animationName,
-      track:style(".contact-wall__track").animationName,
-      duration:style(".contact-wall__track").animationDuration,
-      delay:style(".contact-wall__track").animationDelay,
-    };
+    const el=s=>document.querySelector(s);
+    const nodes=[".contact-signal h1>span:first-child",".contact-signal h1>span:last-child",".contact-signal__cta"].map(el);
+    const animations=nodes.map(n=>n.getAnimations()[0]);
+    const sample=t=>{animations.forEach(a=>{a.pause();a.currentTime=t});return nodes.map(n=>Number(getComputedStyle(n).opacity));};
+    const early=sample(200),mid=sample(1450),late=sample(3000);animations.forEach(a=>a.play());return {early,mid,late};
   });
-  requireIt(score.row==="contact-wall-beat","staggered typographic entrance");
-  requireIt(score.picture==="contact-image-cut","separate image cut");
-  requireIt(score.track==="contact-wall-scroll" && score.duration==="51s" && score.delay==="1.4s",
-    "ambient marquee starts after the first entrance");
-  await page.mouse.move(0,0);
-  await page.waitForTimeout(1750);
+  requireIt(score.early.every(n=>n<.05),"opening content begins hidden");
+  requireIt(score.mid[0]>.95&&score.mid[2]<.05,"headline precedes CTA");
+  requireIt(score.late.every(n=>n>.95),"opening resolves to visible content");
+  await page.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.intro==="settled");
   await page.screenshot({path:dir+"/1440-settled-motion-hero.png"});
+  await page.locator(".contact-signal__cta").click();
+  requireIt(new URL(page.url()).hash==="#enquiries","primary CTA opens enquiries");
 
   await page.locator("#enquiries").scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector(".contact-intro")?.dataset.entered==="true");
@@ -165,7 +144,7 @@ fs.mkdirSync(dir,{recursive:true});
 
   await page.locator(".contact-office__image").scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector(".contact-office")?.dataset.entered==="true");
-  await page.waitForFunction(()=>document.querySelector(".contact-wall")?.dataset.sceneActive==="false");
+  await page.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.sceneActive==="false");
   await page.waitForTimeout(150);
   const driftA=await page.locator(".contact-office__image").evaluate(el=>
     parseFloat(el.style.getPropertyValue("--contact-photo-drift")));
@@ -175,8 +154,8 @@ fs.mkdirSync(dir,{recursive:true});
     parseFloat(el.style.getPropertyValue("--contact-photo-drift")));
   requireIt(Number.isFinite(driftA)&&Number.isFinite(driftB)&&Math.abs(driftA-driftB)>1,
     "Muscat artwork must move subtly and reversibly with scroll");
-  const parked=await page.locator(".contact-wall__track").evaluate(el=>getComputedStyle(el).animationPlayState);
-  requireIt(parked==="paused","offscreen marquee must pause");
+  const parked=await page.locator(".muscat-signal__pulse").first().evaluate(el=>getComputedStyle(el).animationName);
+  requireIt(parked==="none","offscreen signal must stop");
   await page.locator(".contact-outro").scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector(".contact-outro")?.dataset.entered==="true");
   await page.waitForTimeout(1050);
@@ -205,10 +184,10 @@ fs.mkdirSync(dir,{recursive:true});
   const mobile=await browser.newPage({viewport:{width:390,height:844},reducedMotion:"no-preference"});
   await mobile.goto(base+"/contact",{waitUntil:"domcontentloaded"});
   await mobile.waitForFunction(()=>document.querySelector("[data-contact-page]")?.dataset.contactMotion==="ready");
-  const mobileBeat=await mobile.locator(".contact-wall__sequence:first-child .contact-wall__row")
-    .first().evaluate(el=>getComputedStyle(el).animationName);
-  requireIt(mobileBeat==="contact-wall-beat","mobile type cut must remain choreographed");
-  await mobile.waitForTimeout(1200);
+  await mobile.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.intro==="playing");
+  await mobile.keyboard.press("Tab");
+  await mobile.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.intro==="settled");
+  requireIt(await mobile.locator(".contact-signal__cta").evaluate(el=>Number(getComputedStyle(el).opacity))===1,"keyboard interruption makes CTA visible");
   await mobile.screenshot({path:dir+"/390-mobile-motion-hero.png"});
   requireIt(await mobile.evaluate(()=>document.documentElement.scrollWidth-innerWidth)<=2,
     "mobile motion must not introduce horizontal overflow");
@@ -217,6 +196,7 @@ fs.mkdirSync(dir,{recursive:true});
   const noJs=await browser.newContext({viewport:{width:390,height:844},javaScriptEnabled:false});
   const fallback=await noJs.newPage();
   await fallback.goto(base+"/contact",{waitUntil:"domcontentloaded"});
+  requireIt(await fallback.locator(".contact-signal h1").innerText().then(t=>t.includes("FIND US.")),"server-rendered headline");
   const visible=await fallback.locator(".contact-intro__grid h2")
     .evaluate(el=>getComputedStyle(el).opacity);
   requireIt(Number(visible)===1,"no-JS typography must remain visible");

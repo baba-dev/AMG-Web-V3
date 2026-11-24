@@ -8,6 +8,10 @@ on:
       - src/components/aiwa-footer.*
       - src/components/aiwa-contact.*
       - src/components/contact-enquiries.tsx
+      - src/components/contact-motion.tsx
+      - src/components/contact/**
+      - public/media/contact/**
+      - src/styles/typography.css
       - src/app/work/page.tsx
       - src/app/specialisms/**
       - src/lib/site-navigation.ts
