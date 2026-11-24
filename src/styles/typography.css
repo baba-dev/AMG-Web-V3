@@ -106,3 +106,8 @@
  --type-directory-card:clamp(40px,5.6vw,94px);
 }
 @media(max-width:767px){:root{--type-directory-hero:clamp(36px,11.6vw,88px);--type-directory-heading:clamp(36px,11vw,84px);--type-directory-card:clamp(36px,10.5vw,76px)}}
+
+/* Contact Signal: two-line poster scale. */
+:root{--type-signal-hero:clamp(72px,9.6vw,176px)}
+@media(max-width:1100px){:root{--type-signal-hero:clamp(62px,9.2vw,110px)}}
+@media(max-width:767px){:root{--type-signal-hero:clamp(42px,12vw,90px)}}

@@ -1,7 +1,9 @@
 import { ArrowDown, ArrowRight } from "lucide-react";
+import { MuscatSignal } from "./muscat-signal";
+import "./contact-hero-v2.css";
 export function ContactHeroV2(){
  return <section className="contact-signal contact-pad" aria-labelledby="contact-signal-title" data-contact-hero>
-  <div className="contact-signal__art" aria-hidden="true"/>
+  <div className="contact-signal__art" aria-hidden="true"><MuscatSignal/></div>
   <div className="contact-signal__content">
    <p className="contact-signal__eyebrow">AIWA / CONTACT / OMAN</p>
    <h1 id="contact-signal-title"><span>FIND US.</span><span><em>START HERE.</em></span></h1>
