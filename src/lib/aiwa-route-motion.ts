@@ -21,6 +21,7 @@ export function motionDestinationLabel(pathname: string, projects: ReadonlyArray
   if (pathname === "/") return "AIWA.";
   if (pathname === "/about") return "BEYOND THE NOISE.";
   if (pathname === "/work") return "THE WORK.";
+  if (pathname === "/work/clients") return "GOOD COMPANY.";
   if (pathname === "/specialisms") return "WHAT WE DO.";
   const project = projects.find((item) => pathname === "/work/" + item.slug);
   if (project) return project.client.toUpperCase() + ".";
