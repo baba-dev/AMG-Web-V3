@@ -70,3 +70,11 @@
 }
 @media(max-width:900px){:root{--type-about-poster:clamp(48px,14vw,140px);--type-about-heading:clamp(36px,8.5vw,90px)}}
 @media(max-width:700px){:root{--type-about-poster:clamp(40px,13.8vw,96px);--type-about-heading:clamp(34px,9vw,65px);--type-about-stat:clamp(60px,20vw,120px);--type-about-control:clamp(18px,5vw,26px);--type-about-card:clamp(20px,5vw,27px)}}
+
+/* Specialisms directory: poster, chapter and service-card optical scales. */
+:root{
+ --type-directory-hero:clamp(68px,12vw,200px);
+ --type-directory-heading:var(--type-display-xl);
+ --type-directory-card:clamp(40px,5.6vw,94px);
+}
+@media(max-width:767px){:root{--type-directory-hero:clamp(36px,11.6vw,88px);--type-directory-heading:clamp(36px,11vw,84px);--type-directory-card:clamp(36px,10.5vw,76px)}}
