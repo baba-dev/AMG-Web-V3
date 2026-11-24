@@ -70,3 +70,21 @@
 }
 @media(max-width:900px){:root{--type-about-poster:clamp(48px,14vw,140px);--type-about-heading:clamp(36px,8.5vw,90px)}}
 @media(max-width:700px){:root{--type-about-poster:clamp(40px,13.8vw,96px);--type-about-heading:clamp(34px,9vw,65px);--type-about-stat:clamp(60px,20vw,120px);--type-about-control:clamp(18px,5vw,26px);--type-about-card:clamp(20px,5vw,27px)}}
+
+/* Creative service experience: shared editorial roles, fit-aware compositions. */
+:root{
+ --type-service-name:clamp(36px,4.5vw,72px);
+ --type-service-hero:clamp(62px,9.4vw,158px);
+ --type-service-heading:clamp(52px,8vw,138px);
+ --type-service-question:clamp(42px,6.4vw,105px);
+ --type-service-item:clamp(26px,2.8vw,49px);
+ --type-lab-word:clamp(56px,15vw,210px);
+}
+@media(max-width:767px){:root{
+ --type-service-name:clamp(28px,8vw,48px);
+ --type-service-hero:clamp(36px,11vw,80px);
+ --type-service-heading:clamp(36px,10.5vw,78px);
+ --type-service-question:clamp(34px,9.5vw,68px);
+ --type-service-item:clamp(25px,6.8vw,40px);
+ --type-lab-word:clamp(48px,15vw,100px);
+}}

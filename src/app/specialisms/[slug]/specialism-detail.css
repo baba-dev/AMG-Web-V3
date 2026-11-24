@@ -229,8 +229,8 @@
 
 /* Creatives: a tighter editorial sequence, scoped to the new service. */
 .spec-detail--creatives{--creative-ease:cubic-bezier(.16,1,.3,1)}
-.spec-detail--creatives .spec-detail__hero-headline{font-size:clamp(62px,10vw,165px)}
-.spec-detail--creatives .spec-detail__hero-headline em{font:inherit;color:var(--spec-accent)}
+
+.spec-detail--creatives .spec-detail__hero-headline em{color:var(--spec-accent)}
 .light .spec-detail--creatives .spec-detail__hero-headline em{color:#a52b27}
 .spec-detail--creatives .spec-detail__hero-main{position:relative}
 .spec-detail--creatives .spec-detail__hero::before{background:radial-gradient(ellipse at 85% 45%,color-mix(in srgb,var(--spec-accent) 14%,transparent),transparent 57%)}
@@ -249,10 +249,39 @@
 .spec-detail--creatives .spec-detail__work-card:is(:hover,:focus-visible) .spec-detail__work-arrow{transform:rotate(-12deg)}
 .spec-detail--creatives .spec-detail__contact h2{margin-block:clamp(36px,5vw,80px)}
 @media(max-width:767px){
- .spec-detail--creatives .spec-detail__hero-headline{font-size:clamp(40px,11vw,83px)}
+ 
  .spec-detail--creatives .spec-detail__art{aspect-ratio:4/3}
  .spec-detail--creatives .spec-detail__thinking-rail{margin-bottom:35px}
- .spec-detail--creatives .spec-detail__capabilities h2,.spec-detail--creatives .spec-detail__related header h2,.spec-detail--creatives .spec-detail__contact h2{font-size:clamp(38px,11vw,82px);overflow-wrap:anywhere;margin-top:35px}
+ .spec-detail--creatives .spec-detail__capabilities h2,.spec-detail--creatives .spec-detail__related header h2,.spec-detail--creatives .spec-detail__contact h2{overflow-wrap:anywhere;margin-top:35px}
  .spec-detail--creatives .spec-detail__work-art{aspect-ratio:4/3}
 }
 @media(prefers-reduced-motion:reduce){.spec-detail--creatives *, .spec-detail--creatives *::after{animation:none!important;transition:none!important}}
+
+/* Creatives consumes the shared type roles without changing legacy service layouts. */
+.spec-detail--creatives .spec-detail__hero h1{font:400 var(--type-service-name)/var(--leading-display) var(--type-display);letter-spacing:var(--tracking-display);}
+.spec-detail--creatives .spec-detail__hero-headline{font:400 var(--type-service-hero)/.92 var(--type-display);letter-spacing:var(--tracking-display);}
+.spec-detail--creatives .spec-detail__hero-headline em{font:italic 900 .96em/.94 var(--type-emphasis);letter-spacing:-.045em;}
+.spec-detail--creatives .spec-detail__thinking h2{font:400 var(--type-service-question)/1 var(--type-display);letter-spacing:var(--tracking-display);}
+.spec-detail--creatives .spec-detail__approach h2,.spec-detail--creatives .spec-detail__capabilities h2,.spec-detail--creatives .spec-detail__related header h2,.spec-detail--creatives .spec-detail__contact h2{font:400 var(--type-service-heading)/var(--leading-display) var(--type-display);letter-spacing:var(--tracking-display);}
+.spec-detail--creatives .spec-detail__approach h2 em,.spec-detail--creatives .spec-detail__capabilities h2 em,.spec-detail--creatives .spec-detail__related header h2 em,.spec-detail--creatives .spec-detail__contact h2 em{font:italic 900 .96em/.94 var(--type-emphasis);letter-spacing:-.045em;}
+.spec-detail--creatives .spec-detail__hero-nav,.spec-detail--creatives .spec-detail__hero-foot,.spec-detail--creatives .spec-detail__art figcaption,.spec-detail--creatives .spec-detail__approach-top,.spec-detail--creatives .spec-detail__approach li>span,.spec-detail--creatives .spec-detail__capabilities li span,.spec-detail--creatives .spec-detail__work-info,.spec-detail--creatives .spec-detail__work-art>span:first-of-type{font:500 var(--type-meta-size)/1.4 var(--type-mono);letter-spacing:var(--tracking-label);}
+.spec-detail--creatives .spec-detail__hero-nav>a,.spec-detail--creatives .spec-detail__hero-bottom>a,.spec-detail--creatives .spec-detail__contact>a,.spec-detail--creatives .spec-detail__sources>div:last-child a,.spec-detail--creatives .spec-detail__pager a{font:600 var(--type-ui-size)/1.3 var(--type-body);letter-spacing:var(--tracking-body);}
+.spec-detail--creatives .spec-kicker{font:600 var(--type-eyebrow-size)/1.3 var(--type-body);letter-spacing:var(--tracking-label);}
+.spec-detail--creatives .spec-detail__hero-bottom>p,.spec-detail--creatives .spec-detail__thinking-text,.spec-detail--creatives .spec-detail__approach li p,.spec-detail--creatives .spec-detail__capabilities header>p,.spec-detail--creatives .spec-detail__capabilities li p,.spec-detail--creatives .spec-detail__related header p,.spec-detail--creatives .spec-detail__work-info p,.spec-detail--creatives .spec-detail__sources p{font:400 var(--type-body-size)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body);}
+.spec-detail--creatives .spec-detail__thinking-lead{font:500 var(--type-body-large)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body);}
+.spec-detail--creatives .spec-detail__approach li h3,.spec-detail--creatives .spec-detail__capabilities li h3{font:400 var(--type-service-item)/1.08 var(--type-display);letter-spacing:var(--tracking-display);}
+.spec-detail--creatives .spec-detail__work-info strong{font:400 var(--type-project-title)/1.05 var(--type-display);letter-spacing:var(--tracking-display);}
+.spec-detail--creatives .spec-detail__pager strong{font:600 var(--type-body-large)/1.2 var(--type-body);}
+.spec-detail--creatives .spec-detail__thinking-rail>span:last-child{font:400 var(--type-meta-size)/1.4 var(--type-body);}
+.aiwa-site.spec-detail--creatives{font-family:var(--type-body);font-synthesis:none}
+.spec-detail--creatives .spec-detail__hero-headline>span{overflow-wrap:normal}
+.spec-detail--creatives .spec-detail__thinking h2{max-width:19ch;overflow-wrap:break-word}
+.spec-detail--creatives .spec-detail__approach li h3,.spec-detail--creatives .spec-detail__capabilities li h3{overflow-wrap:break-word;min-width:0}
+.spec-detail--creatives .spec-detail__related header{margin-bottom:clamp(36px,5vw,80px)}
+.spec-detail--creatives .spec-detail__sources{padding-block:clamp(48px,6vw,96px)}
+.spec-detail--creatives .spec-detail__pager a{min-width:0;overflow-wrap:anywhere}
+.spec-detail--creatives .spec-detail__approach{background:#21191c;color:#f5f5f3}
+.light .spec-detail--creatives .spec-detail__approach{background:var(--detail-surface-alt);color:var(--detail-ink)}
+.light .spec-detail--creatives .spec-detail__approach li p,.light .spec-detail--creatives .spec-detail__approach li>span{color:var(--detail-muted)}
+.light .spec-detail--creatives .spec-detail__approach li,.light .spec-detail--creatives .spec-detail__approach-top{border-color:var(--detail-rule)}
+@media(max-width:767px){.spec-detail--creatives :is(.spec-detail__thinking,.spec-detail__approach,.spec-detail__capabilities,.spec-detail__related,.spec-detail__contact){padding-block:56px 72px}.spec-detail--creatives .spec-detail__hero-headline>span{overflow-wrap:break-word}.spec-detail--creatives .spec-detail__art figcaption{font-size:11px}.spec-detail--creatives .spec-detail__pager a{font-size:12px}}
