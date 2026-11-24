@@ -6,13 +6,22 @@ const origin=process.env.AIWA_ORIGIN||"http://127.0.0.1:4173";
 const out="test-artifacts/about";fs.mkdirSync(out,{recursive:true});
 (async()=>{const browser=await chromium.launch({headless:true});
 try{
-for(const theme of ["light","dark"]) for(const width of [320,390,768,1440,1920]){
+for(const theme of ["light","dark"]) for(const width of [320,360,390,430,768,950,1280,1440,1920]){
  const ctx=await browser.newContext({viewport:{width,height:900},colorScheme:theme,reducedMotion:"reduce"});
  const page=await ctx.newPage();const errors=[];page.on("pageerror",e=>errors.push(e.message));
  await page.addInitScript(t=>localStorage.setItem("theme",t),theme);
  const response=await page.goto(origin+"/about.html");assert.equal(response.status(),200);
  await page.waitForFunction(t=>document.documentElement.classList.contains(t),theme);
  await page.evaluate(()=>document.fonts.ready);
+ const typography=await page.evaluate(()=>{
+ const style=s=>getComputedStyle(document.querySelector(s));
+ return {display:[".ab-poster",".ab-heading",".ab-stats dd"].map(s=>style(s).fontFamily),emphasis:[...document.querySelectorAll(".ab-poster em,.ab-heading em")].map(el=>({family:getComputedStyle(el).fontFamily,style:getComputedStyle(el).fontStyle,weight:getComputedStyle(el).fontWeight})),body:[".ab-copy",".ab-link",".ab-value-buttons button",".ab-capabilities a",".ab-work h3"].map(s=>style(s).fontFamily),mono:style(".ab-kicker").fontFamily,loaded:[...document.fonts].filter(f=>f.status==="loaded").map(f=>f.family)};
+ });
+ assert(typography.display.every(f=>/anton/i.test(f)),JSON.stringify(typography));
+ assert(typography.emphasis.every(f=>/barlow/i.test(f.family)&&f.style==="italic"&&f.weight==="900"),JSON.stringify(typography));
+ assert(typography.body.every(f=>/space[_ ]?grotesk/i.test(f)),JSON.stringify(typography));
+ assert(/geist.*mono/i.test(typography.mono),JSON.stringify(typography));
+ assert(typography.loaded.some(f=>/anton/i.test(f))&&typography.loaded.some(f=>/space[_ ]?grotesk/i.test(f)),JSON.stringify(typography));
  assert.equal(await page.locator("main h1").count(),1);
  assert.match(await page.locator("main h1").innerText(),/BEYOND\s*THE NOISE/);
  assert.equal(await page.locator("main .ab-section").count(),9);
