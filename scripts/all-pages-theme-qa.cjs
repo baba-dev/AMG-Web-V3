@@ -108,6 +108,21 @@ async function inspect(browser, config, theme, viewport, capture) {
     assert(contrast(foreground, background) >= 4.2,
       `${config.id} ${theme} ${selector}: contrast ${contrast(foreground, background).toFixed(2)}`);
   }
+  // Check descendants too: a themed section can still contain fixed-color links.
+  if (config.id === "home") {
+    const surface = rgb(values[".aiwa-specialisms"].background);
+    const rows = page.locator(".aiwa-specialisms__row");
+    assert.equal(await rows.count(), 7, "home: missing Specialisms rows");
+    for (const selector of [".aiwa-specialisms__row", ".aiwa-specialisms__name", ".aiwa-specialisms__all"]) {
+      const colors = await page.locator(selector).evaluateAll(elements =>
+        elements.map(element => getComputedStyle(element).color));
+      assert(colors.length > 0, `home: missing ${selector}`);
+      for (const color of colors) {
+        assert(rgb(color) && contrast(rgb(color), surface) >= 4.5,
+          `home ${theme} ${selector}: insufficient text contrast (${color})`);
+      }
+    }
+  }
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
   assert(overflow <= 2, `${config.id} ${theme}: horizontal overflow ${overflow}px`);
   assert.equal(errors.length, 0, `${config.id} ${theme}: ${errors.join("; ")}`);
