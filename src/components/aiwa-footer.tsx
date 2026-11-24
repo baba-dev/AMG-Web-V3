@@ -17,7 +17,7 @@ function SocialIcon({ name }: { name: typeof footerSocials[number] }) {
 }
 
 export function AiwaGlobalFooter() {
-  const [expanded, setExpanded] = useState<string[]>([]);
+  const [collapsed, setCollapsed] = useState<string[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
   const echoRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +47,7 @@ export function AiwaGlobalFooter() {
   }, []);
 
   const activateAccordion = (title: string) => {
-    setExpanded(previous => previous.includes(title) ? previous.filter(item => item !== title) : [...previous, title]);
+    setCollapsed(previous => previous.includes(title) ? previous.filter(item => item !== title) : [...previous, title]);
   };
 
   const backToTop = () => {
@@ -71,7 +71,7 @@ export function AiwaGlobalFooter() {
         </div>
         <div className="aiwa-footer__legacy-grid" ref={gridRef}>
           {footerGroups.map((group, index) => {
-            const open = expanded.includes(group.title);
+            const open = !collapsed.includes(group.title);
             const panelId = `footer-group-${index}`;
             return (
               <nav className="aiwa-footer__group" key={group.title} aria-label={group.title}>
