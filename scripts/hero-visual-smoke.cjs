@@ -94,7 +94,7 @@ async function testHeroSpecialismsMotion(browser, width, height) {
   page.on("pageerror", e=>errors.push(e.message));
   await page.goto(URL,{waitUntil:"domcontentloaded",timeout:30_000});
   await page.evaluate(()=>document.fonts.ready);
-  await page.waitForTimeout(1700); // Let intro masks settle.
+  await page.waitForFunction(()=>document.querySelector(".aiwa-sequence")?.dataset.heroIntro==="settled");
 
   const checkpoints = [];
   for (const ratio of [0,.25,.5,.75,1]) {
@@ -427,9 +427,35 @@ async function testDuotoneTheme(browser,width,height) {
   return {viewport:width+"x"+height,initial,light};
 }
 
+async function testOpening(browser,width,height){
+ const ctx=await browser.newContext({viewport:{width,height},reducedMotion:"no-preference"});
+ const page=await ctx.newPage();
+ await page.goto(URL,{waitUntil:"domcontentloaded"});
+ await page.waitForFunction(()=>document.querySelector(".aiwa-sequence")?.dataset.heroIntro==="playing");
+ const frames=await page.evaluate(()=>{
+   const selectors=[".aiwa-hero__film-tile",".aiwa-header__identity",".aiwa-header__utility",".aiwa-hero__scroll"];
+   const nodes=selectors.map(s=>document.querySelector(s));
+   const animations=nodes.map(n=>n.getAnimations().find(a=>a.animationName?.startsWith("aiwa-opening")));
+   if(animations.some(a=>!a))throw Error("Opening animation missing");
+   const sample=t=>{animations.forEach(a=>{a.pause();a.currentTime=t});return nodes.map(n=>({opacity:Number(getComputedStyle(n).opacity),width:n.getBoundingClientRect().width}));};
+   const early=sample(100),middle=sample(1100),late=sample(2400),end=sample(3200);
+   animations.forEach(a=>a.play());
+   return {early,middle,late,end};
+ });
+ assert(frames.early[1].opacity<.05 && frames.early[3].opacity<.05,"Chrome must begin hidden");
+ assert(frames.middle[0].width>frames.early[0].width && frames.end[0].width>frames.middle[0].width,"Aperture must open progressively");
+ assert(frames.late[1].opacity>.5 && frames.late[3].opacity<.05,"Navigation must precede scroll cue");
+ await page.keyboard.press("Tab");
+ await page.waitForFunction(()=>document.querySelector(".aiwa-sequence")?.dataset.heroIntro==="settled");
+ assert.equal(await page.locator(".aiwa-hero__film-tile").evaluate(el=>Number(getComputedStyle(el).opacity)),1);
+ await ctx.close();
+ return frames;
+}
+
 (async () => {
   const browser=await chromium.launch({headless:true});
   try {
+    const openings=[await testOpening(browser,1440,900),await testOpening(browser,390,844)];
     const results=[];
     results.push(await testViewport(browser,1440,900));
     results.push(await testViewport(browser,390,844));
@@ -438,7 +464,7 @@ async function testDuotoneTheme(browser,width,height) {
     motionFrames.push(await testHeroSpecialismsMotion(browser,390,844));
     const aboutMotion = await testAboutEntrance(browser);
     const themes = [await testDuotoneTheme(browser,1440,900), await testDuotoneTheme(browser,390,844)];
-    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,motionFrames,aboutMotion,themes},null,2));
+    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,motionFrames,aboutMotion,themes,openings},null,2));
     console.log("AIWA_EDITORIAL_DUOTONE_THEME_PASS");
     console.log("AIWA_HERO_SPECIALISMS_MOTION_PASS");
     console.log(JSON.stringify(results.map(r=>({viewport:r.viewport,hero:r.initial.hero,film:r.inFilm.film,projection:r.inFilm.projection,third:r.third,about:r.fourth})),null,2));
