@@ -3,7 +3,7 @@
   --footer-ink:#f5f5f3;
   --footer-muted:#aaa9a2;
   --footer-border:rgba(255,255,255,.23);
-  --footer-link-font:600 var(--type-ui-size)/1.4 var(--type-body);
+  --footer-link-font:600 clamp(10px,.77vw,13px)/1.35 var(--type-mono);
   width:100%; background:var(--footer-bg); color:var(--footer-ink);
   padding:clamp(40px,5vw,70px) var(--aiwa-gutter,clamp(20px,3.65vw,72px)) 26px;
   overflow:clip; isolation:isolate;
@@ -53,9 +53,9 @@
 .aiwa-footer__links a:hover svg,.aiwa-footer__links a:focus-visible svg {opacity:1;transform:translate(0);}
 .aiwa-footer__accordion {display:none;}
 .aiwa-footer__contact address,.aiwa-footer__contact>a {
-  color:var(--footer-ink); font-size:clamp(15px,1.15vw,20px); line-height:1.5; font-style:normal;
+  color:var(--footer-ink); font:var(--footer-link-font); font-style:normal;
 }
-.aiwa-footer__contact address {margin:18px 0;}
+.aiwa-footer__contact address {margin:12px 0 18px;overflow-wrap:anywhere;}
 .aiwa-footer__contact address span {color:var(--footer-muted);text-decoration:underline;text-underline-offset:3px;}
 .aiwa-footer__contact>a {display:inline-block;text-decoration:none;}
 .aiwa-footer__contact>a:hover {text-decoration:underline;}
@@ -68,7 +68,7 @@
 .aiwa-footer__social-icons a:hover,.aiwa-footer__social-icons a:focus-visible {transform:translateY(-3px);background:var(--footer-ink);color:var(--footer-bg);}
 .aiwa-footer__start svg,.aiwa-footer__bottom button svg {transition:transform .35s ease;}
 .aiwa-footer__start:hover svg,.aiwa-footer__start:focus-visible svg {transform:translate(4px,-4px);}
-.aiwa-footer__bottom {display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:23px;border-top:1px solid var(--footer-border);font:500 var(--type-meta-size)/1.4 var(--type-mono);}
+.aiwa-footer__bottom {display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:23px;border-top:1px solid var(--footer-border);font:var(--footer-link-font);}
 .aiwa-footer__bottom>div {display:flex;gap:25px;}
 .aiwa-footer__bottom a {color:var(--footer-ink);text-decoration:none;}
 .aiwa-footer__bottom a:hover {text-decoration:underline;}
@@ -324,10 +324,12 @@
 }
 
 /* All textual footer actions share the legal-link typography. Keep the
-   signature, Arabic artwork, section headings and contact address distinct. */
+   signature, Arabic artwork and section headings distinct. */
 .aiwa-footer .aiwa-footer__links a,
 .aiwa-footer .aiwa-footer__start,
 .aiwa-footer .aiwa-footer__contact > a,
+.aiwa-footer .aiwa-footer__contact address,
+.aiwa-footer .aiwa-footer__contact address span,
 .aiwa-footer .aiwa-footer__bottom a,
 .aiwa-footer .aiwa-footer__bottom button {
   font:var(--footer-link-font);
@@ -335,7 +337,7 @@
   text-transform:uppercase;
 }
 
-.aiwa-footer .aiwa-footer__bottom a{font:500 var(--type-meta-size)/1.4 var(--type-body);}
+
 .aiwa-footer .aiwa-footer__links a{min-height:44px;}
-.aiwa-footer__contact address{font:400 var(--type-body-size)/var(--leading-body) var(--type-body);}
+
 .aiwa-footer__signature strong{font-family:var(--type-display);}

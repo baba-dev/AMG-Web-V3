@@ -79,11 +79,12 @@ const testSelectors = [
         const roles = await page.evaluate(() => {
           const font = el => getComputedStyle(el).fontFamily;
           const rows = [...document.querySelectorAll(".aiwa-specialisms__row")];
-          return {names:rows.map(el=>el.querySelector(".aiwa-specialisms__name").textContent),sizes:rows.map(el=>getComputedStyle(el).fontSize),ui:[...document.querySelectorAll(".aiwa-header__link,.aiwa-footer__links a,.aiwa-specialisms__why,.aiwa-work__cta")].map(font),italic:[...document.querySelectorAll("em.aiwa-hero__word,.aiwa-about__line-text em")].map(el=>({font:font(el),style:getComputedStyle(el).fontStyle})),fontLoaded:[...document.fonts].filter(f=>f.status==="loaded").map(f=>f.family)};
+          return {names:rows.map(el=>el.querySelector(".aiwa-specialisms__name").textContent),sizes:rows.map(el=>getComputedStyle(el).fontSize),ui:[...document.querySelectorAll(".aiwa-header__link,.aiwa-specialisms__why,.aiwa-work__cta")].map(font),footer:[...document.querySelectorAll('.aiwa-footer__links a,.aiwa-footer__contact address,.aiwa-footer__contact > a,.aiwa-footer__bottom a')].map(font),italic:[...document.querySelectorAll("em.aiwa-hero__word,.aiwa-about__line-text em")].map(el=>({font:font(el),style:getComputedStyle(el).fontStyle})),fontLoaded:[...document.fonts].filter(f=>f.status==="loaded").map(f=>f.family)};
         });
         assert.deepEqual(roles.names,["Creatives","Marketing","Development","IT Support","Branding","Events"]);
         assert.equal(new Set(roles.sizes).size,1,"Service cap height must match");
         assert(roles.ui.every(x=>/space[_ ]?grotesk/i.test(x)),"Unexpected UI font");
+        assert(roles.footer.length>0&&roles.footer.every(x=>/geist.*mono/i.test(x)),"Footer must retain approved mono typography");
         assert(roles.italic.every(x=>/barlow/i.test(x.font)&&x.style==="italic"),"Editorial emphasis drift");
         assert(roles.fontLoaded.some(x=>/anton/i.test(x)),"Anton not loaded");
         assert(roles.fontLoaded.some(x=>/space[_ ]?grotesk/i.test(x)),"Space Grotesk not loaded");

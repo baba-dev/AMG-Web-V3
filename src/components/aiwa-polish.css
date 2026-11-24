@@ -57,9 +57,7 @@
 .aiwa-contact__message p,
 .aiwa-office__current-story p,
 .aiwa-office__contact address,
-.aiwa-office__contact a:not(.aiwa-office__map-link),
-.aiwa-footer__contact address,
-.aiwa-footer__contact > a:not(.aiwa-footer__directions) {
+.aiwa-office__contact a:not(.aiwa-office__map-link) {
   font-family: var(--aiwa-font-body);
   font-weight: 400;
   letter-spacing: -.02em;
@@ -260,8 +258,7 @@ html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-end
   .aiwa-work__caption span,
   .aiwa-contact__message p,
   .aiwa-office__current-story p,
-  .aiwa-office__contact address,
-  .aiwa-footer__contact address
+  .aiwa-office__contact address
 ) {
   font-weight: 400;
 }
