@@ -76,6 +76,11 @@ const sample=async page=>page.evaluate(()=>{
        assert.equal(await page.locator("[data-no-verified-case-study]").count(),0);
       }
       if(slug==="creatives") {
+        const type=await page.evaluate(()=>{const s=q=>getComputedStyle(document.querySelector(q));return {display:[".spec-detail__hero-headline",".spec-detail__thinking h2",".spec-detail__capabilities li h3",".creative-lab h2",".creative-lab__scene strong"].map(q=>s(q).fontFamily),body:[".spec-detail__thinking-text",".spec-detail__hero-bottom>a",".creative-lab__controls button",".creative-lab__caption p"].map(q=>s(q).fontFamily),emphasis:[".spec-detail__hero-headline em",".creative-lab h2 em"].map(q=>({family:s(q).fontFamily,weight:s(q).fontWeight,style:s(q).fontStyle})),mono:s(".creative-lab__controls small").fontFamily};});
+        check(type.display.every(f=>/anton/i.test(f)),JSON.stringify(type));
+        check(type.body.every(f=>/space[_ ]?grotesk/i.test(f)),JSON.stringify(type));
+        check(type.emphasis.every(f=>/barlow/i.test(f.family)&&f.weight==="900"&&f.style==="italic"),JSON.stringify(type));
+        check(/geist.*mono/i.test(type.mono),JSON.stringify(type));
         assert.equal(await page.locator(".creative-lab__controls button").count(),6);
         await page.getByRole("button",{name:/Photography/}).click();
         assert.equal(await page.getByRole("button",{name:/Photography/}).getAttribute("aria-pressed"),"true");
