@@ -338,6 +338,88 @@
 }
 
 
-.aiwa-footer .aiwa-footer__links a{min-height:44px;}
+
 
 .aiwa-footer__signature strong{font-family:var(--type-display);}
+
+/* A shared typographic baseline, not a separate stack of oversized buttons. */
+.aiwa-footer {
+  --footer-row:32px;
+  --footer-heading-gap:16px;
+  --footer-column-gap:clamp(24px,3.2vw,64px);
+}
+.aiwa-footer .aiwa-footer__legacy-grid {
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  align-items:start;
+  gap:var(--footer-column-gap);
+  padding-block:clamp(28px,3vw,48px);
+}
+.aiwa-footer .aiwa-footer__group .aiwa-footer__eyebrow,
+.aiwa-footer .aiwa-footer__contact .aiwa-footer__eyebrow {
+  margin:0 0 var(--footer-heading-gap);
+  line-height:1.35;
+}
+.aiwa-footer .aiwa-footer__links {gap:0;}
+.aiwa-footer .aiwa-footer__links a,
+.aiwa-footer .aiwa-footer__contact > a {
+  display:inline-flex;
+  align-items:center;
+  min-height:var(--footer-row);
+  margin:0;
+  padding:0;
+  max-width:100%;
+}
+.aiwa-footer .aiwa-footer__contact address {
+  margin:0;
+  padding-block:calc((var(--footer-row) - 1.35em)/2) 0;
+  line-height:1.35;
+}
+.aiwa-footer__contact address span {display:inline-block;text-decoration:none;}
+.aiwa-footer__social-label {
+  display:block;
+  font:var(--footer-link-font);
+  color:var(--footer-muted);
+  text-transform:uppercase;
+  margin:20px 0 0;
+}
+.aiwa-footer .aiwa-footer__social-icons {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  width:min(100%,230px);
+  gap:0;
+  margin-top:8px;
+  border-block:1px solid var(--footer-border);
+}
+.aiwa-footer .aiwa-footer__social-icons a {
+  position:relative;
+  display:grid;
+  place-items:center;
+  width:100%;
+  min-width:0;
+  height:44px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--footer-ink);
+  transition:color var(--footer-fast),background var(--footer-fast);
+}
+.aiwa-footer .aiwa-footer__social-icons a+a {border-inline-start:1px solid var(--footer-border);}
+.aiwa-footer .aiwa-footer__social-icons a svg {width:18px;height:18px;transition:transform var(--footer-fast) var(--footer-ease);}
+.aiwa-footer .aiwa-footer__social-icons a:is(:hover,:focus-visible) {
+  transform:none;background:transparent;color:var(--footer-accent);border-color:var(--footer-border);
+}
+.aiwa-footer .aiwa-footer__social-icons a:is(:hover,:focus-visible) svg {transform:translateY(-2px);}
+.aiwa-footer .aiwa-footer__social-icons a:focus-visible {outline-offset:-3px;}
+@media(max-width:1023px) {
+  .aiwa-footer .aiwa-footer__legacy-grid {grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px;}
+}
+@media(max-width:767px) {
+  .aiwa-footer {--footer-row:44px;--footer-heading-gap:12px;}
+  .aiwa-footer .aiwa-footer__legacy-grid {grid-template-columns:minmax(0,1fr);gap:0;padding-block:14px 28px;}
+  .aiwa-footer .aiwa-footer__links {padding-bottom:12px;}
+  .aiwa-footer .aiwa-footer__contact {padding-top:24px;}
+  .aiwa-footer .aiwa-footer__social-icons {width:100%;max-width:260px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .aiwa-footer .aiwa-footer__social-icons a svg {transition:none;}
+}
