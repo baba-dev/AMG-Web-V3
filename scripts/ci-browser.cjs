@@ -25,6 +25,7 @@ const suites=[
  ["work-directory-qa.cjs",false,[...work,...shared]],
  ["client-directory-qa.cjs",false,[/^src\/app\/work\/clients\//,/^src\/components\/client-directory\//,/^src\/lib\/client-directory\.ts$/,/^public\/media\/client-logos\//,/^docs\/client-logos\//,/^scripts\/client-directory-assets\.mjs$/,...shared]],
  ["work-case-study-qa.cjs",false,[...work,...shared]],
+ ["case-study-showcase-qa.cjs",false,[/^src\/app\/work\/case-studies\//,/^src\/components\/case-studies\//,/^src\/lib\/work\/case-study-showcase\.ts$/,/^public\/media\/case-studies\//,/^public\/media\/archive\//,...shared]],
  ["specialisms-p2c-qa.cjs",false,[...specialisms,...shared]],
  ["about-page-qa.cjs",false,[/^src\/app\/about\//,/^src\/components\/about\//,...shared]],
  ["contact-page-qa.cjs",false,[...contact,...shared]],

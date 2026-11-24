@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import type { FeaturedWorkProject } from "@/lib/work/projects";
 import { workProjects } from "@/lib/work/projects";
+import { getShowcaseChapter } from "@/lib/work/case-study-showcase";
 import type { EditorialStory } from "@/lib/work/case-studies";
 
 type Props={project:FeaturedWorkProject;story:EditorialStory;index:number};
@@ -10,6 +11,7 @@ type Props={project:FeaturedWorkProject;story:EditorialStory;index:number};
 export function WorkCaseStudyArticle({project,story,index}:Props){
  const previous=workProjects[(index-1+workProjects.length)%workProjects.length];
  const next=workProjects[(index+1)%workProjects.length];
+ const showcase=getShowcaseChapter(project.slug);
  const isLimited=story.confidence==="limited";
  return <>
   <section className="work-project__hero case-hero work-page__gutter" aria-labelledby="project-heading">
@@ -69,6 +71,12 @@ export function WorkCaseStudyArticle({project,story,index}:Props){
       <span aria-hidden="true">✳</span>
     </div>
   </section>
+  {showcase && showcase.metrics.length>0 && <section className="case-historical-results work-page__gutter" aria-labelledby="case-results-title">
+    <span className="work-page__eyebrow">HISTORICAL / REPORTED RESULTS</span><h2 id="case-results-title">THE IMPACT.</h2>
+    <p>{showcase.response}</p><dl>{showcase.metrics.map(metric=><div key={metric.label}><dt>{metric.label} · {metric.period}</dt><dd>{metric.display}</dd></div>)}</dl>
+    <p>Historical figures reported in Aiwa’s legacy case study; not independently audited.</p>
+    <Link href="/work/case-studies" className="case-showcase-link">EXPLORE THE IMPACT SHOWCASE <ArrowUpRight size={20} aria-hidden="true"/></Link>
+  </section>}
   <section className="case-deliverables work-page__gutter" aria-labelledby="case-work-heading">
     <div className="case-deliverables__heading">
       <span className="work-page__eyebrow">03 / {isLimited?"THE PUBLIC RECORD":"THE WORK"}</span>
@@ -113,7 +121,7 @@ export function WorkCaseStudyArticle({project,story,index}:Props){
   <aside className="case-sources work-page__gutter" aria-label="Project sources and editorial disclosure">
     <div>
       <span className="work-page__eyebrow">DOCUMENTATION / SOURCES</span>
-      <p>Project descriptions are based on Aiwa's publicly documented work. Editorial illustrations are original conceptual designs and are not photographs, approved campaign deliverables or performance evidence. No unverified metrics are displayed.</p>
+      <p>Project descriptions are based on Aiwa's publicly documented work. Editorial illustrations are original conceptual designs and are not photographs, approved campaign deliverables or performance evidence. Any historical results shown are attributed to Aiwa’s legacy case study, not independent audit evidence.</p>
     </div>
     <div className="case-sources__links">
       {story.sources.map((source,number)=><a key={source.href} href={source.href}

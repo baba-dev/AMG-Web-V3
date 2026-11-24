@@ -35,7 +35,7 @@ jobs:
         run: |
           test -f out/index.html
           test -d out/_next/static
-          for route in about contact work specialisms privacy terms; do
+          for route in about contact work work/clients work/case-studies specialisms privacy terms; do
             test -f "out/$route.html" || test -f "out/$route/index.html" || exit 1
           done
           for slug in mymo-express casabella-oman best-genetco aqua-petro razmazaan vitamin-phones; do
