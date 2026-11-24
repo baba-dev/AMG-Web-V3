@@ -83,13 +83,13 @@ fs.mkdirSync(dir,{recursive:true});
      width+": Home returns to first enquiry");
    const localNav=page.locator('.aiwa-inner-header a[href="/contact"]');
    requireIt(await localNav.count()>=1,width+": navigation should link to own contact page");
-   if(width<=1080){
+   if(width<=1120){
     const toggle=page.getByRole("button",{name:"Open navigation"});
     await toggle.click();
-    requireIt(await page.locator(".aiwa-inner-header__drawer").getAttribute("aria-hidden")==="false",
+    requireIt(await page.locator("#aiwa-mega-mobile-inner").getAttribute("aria-hidden")==="false",
       width+": mobile drawer should open");
     await page.keyboard.press("Escape");
-    requireIt(await page.locator(".aiwa-inner-header__drawer").getAttribute("aria-hidden")==="true",
+    requireIt(await page.locator("#aiwa-mega-mobile-inner").getAttribute("aria-hidden")==="true",
       width+": Escape closes drawer");
    }
    await page.evaluate(()=>{if(document.activeElement instanceof HTMLElement)document.activeElement.blur();window.scrollTo({top:0,behavior:"instant"});});

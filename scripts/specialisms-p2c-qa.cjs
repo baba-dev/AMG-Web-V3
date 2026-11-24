@@ -154,10 +154,10 @@ const sample=async page=>page.evaluate(()=>{
       measurements.push({width,height,slug,...state});
     }
     assert.deepEqual(errors,[],width+": browser page errors");
-    // Inner header should navigate to the directory, while homepage retains #specialisms.
-    const nav=page.locator(".aiwa-inner-header__links a").filter({hasText:"SPECIALISMS"}).first();
-    assert.equal(await nav.getAttribute("href"),"/specialisms");
-    if(width<=1080){
+    // The new IA exposes service routes through the Creatives mega-menu group.
+    const nav=page.locator('#aiwa-mega-panel-creatives a[href="/specialisms/creatives"]').first();
+    assert.equal(await nav.getAttribute("href"),"/specialisms/creatives");
+    if(width<=1120){
       const menu=page.locator(".aiwa-inner-header__menu");
       await menu.click();
       assert.equal(await menu.getAttribute("aria-expanded"),"true");
@@ -173,7 +173,7 @@ const sample=async page=>page.evaluate(()=>{
   assert.deepEqual(await homePage.locator(".aiwa-specialisms__row").evaluateAll(nodes=>nodes.map(x=>x.getAttribute("href"))),
     ["/specialisms/creatives", ...Array(5).fill("#")],"Homepage must link Creatives and keep five placeholders");
   assert.equal(await homePage.locator(".aiwa-specialisms__all").getAttribute("href"),"#");
-  assert.equal(await homePage.locator(".aiwa-header__navigation a").filter({hasText:"SPECIALISMS"}).getAttribute("href"),"/specialisms");
+  assert.equal(await homePage.locator('#aiwa-mega-panel-creatives a[href="/specialisms/creatives"]').first().getAttribute("href"),"/specialisms/creatives");
   await home.close();
   // Both themes change actual surfaces; no opaque overlay or token regression.
   const themeCtx=await browser.newContext({viewport:{width:390,height:844},colorScheme:"dark"});

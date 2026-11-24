@@ -79,7 +79,7 @@ const testSelectors = [
         const roles = await page.evaluate(() => {
           const font = el => getComputedStyle(el).fontFamily;
           const rows = [...document.querySelectorAll(".aiwa-specialisms__row")];
-          return {names:rows.map(el=>el.querySelector(".aiwa-specialisms__name").textContent),sizes:rows.map(el=>getComputedStyle(el).fontSize),ui:[...document.querySelectorAll(".aiwa-header__link,.aiwa-specialisms__why,.aiwa-work__cta")].map(font),footer:[...document.querySelectorAll('.aiwa-footer__links a,.aiwa-footer__contact address,.aiwa-footer__contact > a,.aiwa-footer__bottom a')].map(font),italic:[...document.querySelectorAll("em.aiwa-hero__word,.aiwa-about__line-text em")].map(el=>({font:font(el),style:getComputedStyle(el).fontStyle})),fontLoaded:[...document.fonts].filter(f=>f.status==="loaded").map(f=>f.family)};
+          return {names:rows.map(el=>el.querySelector(".aiwa-specialisms__name").textContent),sizes:rows.map(el=>getComputedStyle(el).fontSize),ui:[...document.querySelectorAll(".aiwa-mega__trigger,.aiwa-specialisms__why,.aiwa-work__cta")].map(font),footer:[...document.querySelectorAll('.aiwa-footer__links a,.aiwa-footer__contact address,.aiwa-footer__contact > a,.aiwa-footer__bottom a')].map(font),italic:[...document.querySelectorAll("em.aiwa-hero__word,.aiwa-about__line-text em")].map(el=>({font:font(el),style:getComputedStyle(el).fontStyle})),fontLoaded:[...document.fonts].filter(f=>f.status==="loaded").map(f=>f.family)};
         });
         assert.deepEqual(roles.names,["Creatives","Marketing","Development","IT Support","Branding","Events"]);
         assert.equal(new Set(roles.sizes).size,1,"Service cap height must match");
@@ -102,18 +102,18 @@ const testSelectors = [
         });
         assert(tap.every(x=>x.height>=(width>=768&&[".aiwa-footer__links a",".aiwa-footer__contact > a"].includes(x.selector)?31.5:43.5)&&x.width>=24),
           width+"px: undersized essential touch target: "+JSON.stringify(tap.filter(x=>x.height<(width>=768&&[".aiwa-footer__links a",".aiwa-footer__contact > a"].includes(x.selector)?31.5:43.5)||x.width<24)));
-        // Screenshot regression: mobile must not show desktop-only Offices.
+        // Screenshot regression: mobile must expose the compact menu trigger.
         // Footer phone and Directions must never collide on the same line.
         const mobileDetails = await page.evaluate(() => ({
-          offices: getComputedStyle(document.querySelector(".aiwa-header__offices")).display,
+          menuToggle: getComputedStyle(document.querySelector(".aiwa-header__menu-toggle")).display,
           footerContacts: [...document.querySelectorAll(".aiwa-footer__contact > a")].map(el => {
             const r = el.getBoundingClientRect();
             return {text:el.textContent.trim(),top:r.top,bottom:r.bottom};
           }),
         }));
-        if (width <= 950) {
-          assert.equal(mobileDetails.offices,"none",
-            width+"px: desktop Offices control leaked into mobile header");
+        if (width <= 1120) {
+          assert.ok(["flex","inline-flex"].includes(mobileDetails.menuToggle),
+            width+"px: mobile mega-menu trigger is missing");
         }
         assert(mobileDetails.footerContacts.every((item,i,list) =>
           i===0 || item.top >= list[i-1].bottom - 1),

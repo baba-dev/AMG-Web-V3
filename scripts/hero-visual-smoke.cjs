@@ -230,7 +230,7 @@ async function testViewport(browser, width, height) {
       projection: r(document.querySelector(".aiwa-reel")),
       categories: Array.from(document.querySelectorAll(".aiwa-specialisms__name")).map(x=>x.textContent),
       serviceHrefs: Array.from(document.querySelectorAll(".aiwa-specialisms__row")).map(x=>x.getAttribute("href")),
-      aboutNavigation: document.querySelector(".aiwa-header__link[href='/about']") !== null,
+      aboutNavigation: document.querySelector("#aiwa-mega-panel-about a[href='/about']") !== null,
       specialismsToAbout: document.querySelector(".aiwa-specialisms__why[href='#about']") !== null,
       overflow: document.documentElement.scrollWidth - innerWidth,
     };
@@ -256,11 +256,11 @@ async function testViewport(browser, width, height) {
 
   await page.screenshot({path:"test-artifacts/"+id+"-hero.png",fullPage:false});
 
-  if (width <= 950) {
+  if (width <= 1120) {
     const menu = page.getByRole("button",{name:"Open navigation"});
     assert(await menu.isVisible(),"Mobile nav trigger is hidden");
     await menu.click();
-    await page.waitForFunction(() => getComputedStyle(document.querySelector("#aiwa-mobile-menu")).visibility === "visible");
+    await page.waitForFunction(() => getComputedStyle(document.querySelector("#aiwa-mega-mobile-hero")).visibility === "visible");
     await page.getByRole("button",{name:"Close navigation"}).click();
   }
 
