@@ -29,19 +29,12 @@
   box-sizing: border-box;
 }
 /* Pin the same ending palette on every route. Page-specific editorial
-   overrides must not recolor the universal footer or Muscat gallery. */
-.aiwa-site.aiwa-global-ending .aiwa-office,
+   overrides must not recolor the universal footer. */
 .aiwa-site.aiwa-global-ending .aiwa-footer {
   width: 100%;
   padding-inline: var(--aiwa-gutter);
   background-color: var(--aiwa-paper);
   color: var(--aiwa-paper-ink);
-}
-.aiwa-site.aiwa-global-ending .aiwa-office {
-  --office-bg: var(--aiwa-paper);
-  --office-ink: var(--aiwa-paper-ink);
-  --office-muted: var(--aiwa-paper-muted);
-  --office-border: var(--aiwa-paper-rule);
 }
 .aiwa-site.aiwa-global-ending .aiwa-footer {
   --footer-bg: var(--aiwa-paper);
@@ -51,10 +44,4 @@
 }
 @media (max-width: 767px) {
   .aiwa-site.aiwa-global-ending { --aiwa-gutter: 17px; }
-}
-/* Keep the marquee flush to the viewport and avoid unrelated page skin
-   affecting the universal footer, especially Work and Contact overrides. */
-.aiwa-global-ending .aiwa-office__hello {
-  margin-inline: calc(-1 * var(--aiwa-gutter));
-  width: calc(100% + 2 * var(--aiwa-gutter));
 }
