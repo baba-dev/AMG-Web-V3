@@ -161,7 +161,7 @@ const sample=async page=>page.evaluate(()=>{
   const homePage=await home.newPage();
   await homePage.goto(origin+"/",{waitUntil:"domcontentloaded"});
   assert.deepEqual(await homePage.locator(".aiwa-specialisms__row").evaluateAll(nodes=>nodes.map(x=>x.getAttribute("href"))),
-    Array(6).fill("#"),"Homepage links must be six placeholders");
+    ["/specialisms/creatives", ...Array(5).fill("#")],"Homepage must link Creatives and keep five placeholders");
   assert.equal(await homePage.locator(".aiwa-specialisms__all").getAttribute("href"),"#");
   assert.equal(await homePage.locator(".aiwa-header__navigation a").filter({hasText:"SPECIALISMS"}).getAttribute("href"),"/specialisms");
   await home.close();
