@@ -44,6 +44,8 @@ async function assertGlobalStructure(page, pathname) {
 
       phone:document.querySelector('.aiwa-footer__contact a[href="tel:+96896138461"]')!==null,
       footerLinks:document.querySelectorAll(".aiwa-footer__links a").length,
+      footerPlaceholders:[...document.querySelectorAll(".aiwa-footer__links a")].every(a=>a.getAttribute("href")==="#"),
+      footerSocials:document.querySelectorAll(".aiwa-footer__social-icons a").length,
       contrast:{
 
         footer:getComputedStyle(footer).backgroundColor,
@@ -58,6 +60,8 @@ async function assertGlobalStructure(page, pathname) {
   assert.equal(data.wrapperAfterRoute,true,pathname+": ending must follow the route content");
   assert.ok(near(data.seam,0,5),pathname+": space before global ending "+data.seam);
   assert.equal(data.footerLinks,15,pathname+": global footer navigation unavailable");
+  assert.equal(data.footerPlaceholders,true,pathname+": expected placeholder destinations");
+  assert.equal(data.footerSocials,5,pathname+": missing legacy social platforms");
   assert.ok(data.phone,pathname+": footer phone must remain linked");
   assert.ok(data.overflow<=2,pathname+": horizontal overflow "+data.overflow);
   return data;
