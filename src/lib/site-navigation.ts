@@ -23,7 +23,7 @@ export const megaMenuGroups = [
     caption: "Campaigns, platforms and identities made with ambitious teams.",
     items: [
       { label: "Selected Work", href: "/work", description: "Our current portfolio and project stories." },
-      { label: "Client Directory", href: "https://aiwamediagroup.com/clients-showcase/", description: "Brands and organisations we have worked beside.", external: true },
+      { label: "Client Directory", href: "/work/clients", description: "Brands and organisations we have worked beside." },
       { label: "Case Studies", href: "https://aiwamediagroup.com/case-study/", description: "A closer look at the brief, thinking and outcome.", external: true },
     ],
   },

@@ -23,6 +23,7 @@ const suites=[
  ["homepage-finale-smoke.cjs",false,[...finale,...shared]],
  ["work-section-smoke.cjs",false,[...work,...home]],
  ["work-directory-qa.cjs",false,[...work,...shared]],
+ ["client-directory-qa.cjs",false,[/^src\/app\/work\/clients\//,/^src\/components\/client-directory\//,/^src\/lib\/client-directory\.ts$/,/^public\/media\/client-logos\//,/^docs\/client-logos\//,/^scripts\/client-directory-assets\.mjs$/,...shared]],
  ["work-case-study-qa.cjs",false,[...work,...shared]],
  ["specialisms-p2c-qa.cjs",false,[...specialisms,...shared]],
  ["about-page-qa.cjs",false,[/^src\/app\/about\//,/^src\/components\/about\//,...shared]],
