@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Barlow_Condensed, Anton, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import "@/styles/typography.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AiwaRouteTransition } from "@/components/aiwa-route-transition";
 import { AiwaGlobalEnding } from "@/components/aiwa-global-ending";
