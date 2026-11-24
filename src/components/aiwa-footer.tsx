@@ -13,7 +13,7 @@ function SocialIcon({ name }: { name: typeof footerSocials[number] }) {
     Instagram: "M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4ZM16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM17.5 6.5h.01",
     WhatsApp: "M3 21l1.5-5A9 9 0 1 1 8 20L3 21ZM9 8c-2 1 0 5 3 7s5 0 4-1l-3-2-1 1-2-2 1-1-2-2Z",
   };
-  return <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]} /></svg>;
+  return <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[name]} /></svg>;
 }
 
 export function AiwaGlobalFooter() {
@@ -78,7 +78,8 @@ export function AiwaGlobalFooter() {
             <h2 className="aiwa-footer__eyebrow">Contact Us</h2>
             <a href={footerPhone.href}>Tele: {footerPhone.label}</a>
             <address><span>Our Address:</span><br />HGRW+VMV, 3711 Way,<br />Muscat, Oman</address>
-            <div className="aiwa-footer__social-icons" aria-label="Social media">
+            <span className="aiwa-footer__social-label" id="footer-social-label">Follow Aiwa</span>
+            <div className="aiwa-footer__social-icons" role="group" aria-labelledby="footer-social-label">
               {footerSocials.map(name => <a key={name} href={footerPlaceholder} aria-label={name}><SocialIcon name={name} /></a>)}
             </div>
           </section>

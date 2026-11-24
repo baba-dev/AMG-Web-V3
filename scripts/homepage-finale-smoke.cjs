@@ -73,6 +73,17 @@ async function assertGlobalStructure(page, pathname) {
 
   assert.equal(data.footerPlaceholders,true,pathname+": expected placeholder destinations");
   assert.equal(data.footerSocials,5,pathname+": missing legacy social platforms");
+  const rhythm=await page.evaluate(()=>{
+    const first=[...document.querySelectorAll(".aiwa-footer__links li:first-child a")];
+    const phone=document.querySelector(".aiwa-footer__contact > a");
+    const rows=[...document.querySelectorAll(".aiwa-footer__links")].map(list=>[...list.querySelectorAll("a")].map(a=>a.getBoundingClientRect().top));
+    const social=[...document.querySelectorAll(".aiwa-footer__social-icons a")];
+    const top=el=>el.getBoundingClientRect().top;
+    return {desktop:innerWidth>=1024,aligned:[...first,phone].every(el=>Math.abs(top(el)-top(first[0]))<2),steps:rows.flatMap(list=>list.slice(1).map((y,i)=>y-list[i])),social:social.map(el=>({radius:getComputedStyle(el).borderRadius,height:el.getBoundingClientRect().height,label:el.getAttribute("aria-label")})),row:parseFloat(getComputedStyle(document.querySelector(".aiwa-footer")).getPropertyValue("--footer-row"))};
+  });
+  if(rhythm.desktop) assert.ok(rhythm.aligned,pathname+": first footer rows not aligned");
+  assert.ok(rhythm.steps.every(step=>near(step,rhythm.row,2)),pathname+": inconsistent link rhythm "+JSON.stringify(rhythm));
+  assert.ok(rhythm.social.every(item=>item.radius==="0px"&&item.height>=44&&item.label),pathname+": social index styling or accessibility drift");
   assert.ok(data.phone,pathname+": footer phone must remain linked");
   assert.ok(data.overflow<=2,pathname+": horizontal overflow "+data.overflow);
   return data;

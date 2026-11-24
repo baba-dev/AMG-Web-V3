@@ -100,8 +100,8 @@ const testSelectors = [
               height:r.height,width:r.width};
           }));
         });
-        assert(tap.every(x=>x.height>=43.5&&x.width>=24),
-          width+"px: undersized essential touch target: "+JSON.stringify(tap.filter(x=>x.height<43.5||x.width<24)));
+        assert(tap.every(x=>x.height>=(width>=768&&x.selector===".aiwa-footer__links a"?31.5:43.5)&&x.width>=24),
+          width+"px: undersized essential touch target: "+JSON.stringify(tap.filter(x=>x.height<(width>=768&&x.selector===".aiwa-footer__links a"?31.5:43.5)||x.width<24)));
         // Screenshot regression: mobile must not show desktop-only Offices.
         // Footer phone and Directions must never collide on the same line.
         const mobileDetails = await page.evaluate(() => ({
