@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { AiwaCreativesMotion } from "@/components/aiwa-creatives-motion";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import {
  specialisms, getSpecialism, getRelatedProjects, nextSpecialism, previousSpecialism,
@@ -71,6 +72,8 @@ export default async function SpecialismDetail({params}:Props){
        alt={service.alt}/>
      <figcaption id="specialism-art-caption"><span>AIWA / {service.name.toUpperCase()} / ORIGINAL ART</span><span>CONCEPTUAL SERVICE ILLUSTRATION / NOT CLIENT CAMPAIGN MEDIA</span></figcaption>
     </figure>
+
+    {service.slug==="creatives" && <AiwaCreativesMotion/>}
 
     <section id="service-thinking" className="spec-detail__thinking spec-pad" aria-labelledby="service-thinking-heading">
      <div className="spec-detail__thinking-rail">
