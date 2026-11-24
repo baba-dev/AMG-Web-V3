@@ -46,6 +46,10 @@ export function AiwaGlobalFooter() {
     return () => observer.disconnect();
   }, []);
 
+  const activateAccordion = (title: string) => {
+    setExpanded(previous => previous.includes(title) ? previous.filter(item => item !== title) : [...previous, title]);
+  };
+
   const backToTop = () => {
     window.history.replaceState(null, "", window.location.pathname + window.location.search);
     window.scrollTo({
@@ -73,7 +77,7 @@ export function AiwaGlobalFooter() {
               <nav className="aiwa-footer__group" key={group.title} aria-label={group.title}>
                 <h2 className="aiwa-footer__eyebrow aiwa-footer__desktop-heading">{group.title}</h2>
                 <button type="button" className="aiwa-footer__accordion" aria-expanded={open} aria-controls={panelId}
-                  onClick={() => setExpanded(previous => open ? previous.filter(title => title !== group.title) : [...previous, group.title])}>
+                  onClick={() => activateAccordion(group.title)}>
                   {group.title}<ChevronDown size={20} aria-hidden="true" />
                 </button>
                 <ul id={panelId} className="aiwa-footer__links" data-expanded={open}>
@@ -106,7 +110,7 @@ export function AiwaGlobalFooter() {
       </div>
 
       <div className="aiwa-footer__bottom">
-        <span>© 2026 AIWA MEDIA GROUP · BY AHMED AL AJMI TRADING</span>
+        <div className="aiwa-footer__signature"><strong aria-label="Aiwa Media Group">AIWA<span>.</span></strong><span>© 2026 AIWA MEDIA GROUP · BY AHMED AL AJMI TRADING</span></div>
         <div>
           <a href={footerPlaceholder}>PRIVACY NOTES</a>
           <a href={footerPlaceholder}>SITE TERMS</a>
