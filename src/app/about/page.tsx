@@ -11,10 +11,12 @@ import "@/components/aiwa-polish.css";
 import "./about-page.css";
 import "@/components/about/about-story.css";
 import "./about-editorial.css";
+import "./about-finish.css";
+import { AboutMotion } from "@/components/about/about-motion";
 export const metadata: Metadata = {
  title:"About Aiwa Media Group | Beyond the Noise",
  description:"Meet the Muscat-based media group connecting creative production, marketing, events and digital technology.",
  alternates:{canonical:"/about/"},
  openGraph:{title:"Beyond the Noise — Aiwa Media Group",description:"Creative, digital and technology from Muscat, Oman."},
 };
-export default function AboutPage(){return <div className="aiwa-site about-page"><AiwaInnerHeader/><main id="main-content"><AboutHero/><AboutIntroduction/><AboutManifesto/><AboutValues/><AboutCapabilities/><AboutCulture/><AboutClosing/></main></div>}
+export default function AboutPage(){return <div className="aiwa-site about-page"><AiwaInnerHeader/><main id="main-content"><AboutMotion/><AboutHero/><AboutIntroduction/><AboutManifesto/><AboutValues/><AboutCapabilities/><AboutCulture/><AboutClosing/></main></div>}

@@ -230,7 +230,7 @@ async function testViewport(browser, width, height) {
       projection: r(document.querySelector(".aiwa-reel")),
       categories: Array.from(document.querySelectorAll(".aiwa-specialisms__name")).map(x=>x.textContent),
       serviceHrefs: Array.from(document.querySelectorAll(".aiwa-specialisms__row")).map(x=>x.getAttribute("href")),
-      aboutNavigation: document.querySelector(".aiwa-header__link[href='#about']") !== null,
+      aboutNavigation: document.querySelector(".aiwa-header__link[href='/about']") !== null,
       specialismsToAbout: document.querySelector(".aiwa-specialisms__why[href='#about']") !== null,
       overflow: document.documentElement.scrollWidth - innerWidth,
     };
@@ -249,7 +249,7 @@ async function testViewport(browser, width, height) {
   assert(closeTo(initial.film.top,initial.hero.bottom,3),"Film must follow hero in document flow");
   assert(closeTo(initial.specialisms.top,initial.film.bottom,3),"Specialisms must follow film");
   assert(closeTo(initial.about.top, initial.specialisms.bottom, 3),"About must follow Specialisms with no gap or overlap");
-  assert(initial.aboutNavigation && initial.specialismsToAbout,"Section navigation must target the new About section");
+  assert(initial.aboutNavigation && initial.specialismsToAbout,"Navigation must target the About route and preserve the Specialisms anchor");
   assert(initial.overflow <= 2,"Horizontal overflow before scroll");
   assert(closeTo(initial.projection.x,initial.tile.x,4) && closeTo(initial.projection.y,initial.tile.y,4),"Initial projected media must originate at inline tile");
   assert(closeTo(initial.projection.width,initial.tile.width,4),"Projected media width must start inline");
@@ -325,7 +325,7 @@ async function testViewport(browser, width, height) {
   assert(fourth.heading.includes("CREATIVE MEDIA FOR") && fourth.heading.includes("BRAVE BRANDS."),"About headline is missing");
   assert(fourth.body.includes("Aiwa Media Group") && fourth.body.includes("production"),"About description must mention Aiwa and its real work");
   assert(fourth.headlineBoxes.every(b => b.left >= -2 && b.right <= width + 2),"At least one About headline line is clipped horizontally");
-  assert.equal(fourth.link,"https://aiwamediagroup.com/about-us/","About CTA must use the real About page");
+  assert.equal(fourth.link,"/about","About CTA must use the real About page");
   assert(fourth.overflow <= 2,"Section 4 has horizontal overflow");
   await page.screenshot({path:"test-artifacts/"+id+"-about.png",fullPage:false});
 
