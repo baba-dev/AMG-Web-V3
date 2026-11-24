@@ -11,7 +11,7 @@ import { useEffect } from "react";
 export function ContactMotion() {
   useEffect(() => {
     const page = document.querySelector<HTMLElement>("[data-contact-page]");
-    const wall = page?.querySelector<HTMLElement>(".contact-wall");
+    const wall = page?.querySelector<HTMLElement>("[data-contact-hero]");
     const office = page?.querySelector<HTMLElement>(".contact-office__image");
     if (!page || !wall || !office) return;
 
@@ -21,8 +21,11 @@ export function ContactMotion() {
     const observers: IntersectionObserver[] = [];
     let frame = 0;
     let wallVisible = true;
+    let introSettled = false;
+    const settleIntro = () => { introSettled = true; wall.dataset.intro = "settled"; };
 
     const updateWall = () => {
+      if (!wallVisible || reduced.matches) settleIntro();
       wall.dataset.sceneActive = String(
         !reduced.matches && wallVisible && document.visibilityState === "visible"
       );
@@ -31,6 +34,10 @@ export function ContactMotion() {
     const paintDepth = () => {
       frame = 0;
       if (reduced.matches || document.visibilityState !== "visible") return;
+      if (Math.abs(window.scrollY) > 2 && !introSettled) settleIntro();
+      const heroRect = wall.getBoundingClientRect();
+      const heroProgress = Math.max(0,Math.min(1,-heroRect.top/Math.max(1,heroRect.height)));
+      wall.style.setProperty("--signal-scroll",heroProgress.toFixed(4));
       const rect = office.getBoundingClientRect();
       const height = window.innerHeight;
       if (rect.bottom < 0 || rect.top > height) return;
@@ -75,6 +82,7 @@ export function ContactMotion() {
       if (reduced.matches) {
         chapters.forEach(node => { node.dataset.entered = "true"; });
         office.style.removeProperty("--contact-photo-drift");
+        wall.style.removeProperty("--signal-scroll");
       } else {
         onScroll();
       }
@@ -82,6 +90,16 @@ export function ContactMotion() {
     };
 
     configure();
+    if (!reduced.matches && !introSettled && !location.hash && scrollY < 2) wall.dataset.intro = "playing";
+    else settleIntro();
+    const introTimer = window.setTimeout(settleIntro, 3200);
+    const interrupt = () => settleIntro();
+    const keyInterrupt = (event: KeyboardEvent) => { if (["Tab","Escape","ArrowDown","ArrowUp","PageDown","PageUp","Home","End"," "].includes(event.key)) settleIntro(); };
+    window.addEventListener("keydown",keyInterrupt);
+    wall.addEventListener("focusin", interrupt);
+    wall.addEventListener("pointerdown", interrupt);
+    window.addEventListener("wheel", interrupt, {passive:true});
+    window.addEventListener("touchstart", interrupt, {passive:true});
     document.addEventListener("visibilitychange", updateWall);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
@@ -89,6 +107,13 @@ export function ContactMotion() {
     narrow.addEventListener("change", onScroll);
 
     return () => {
+      window.clearTimeout(introTimer);
+      window.removeEventListener("keydown",keyInterrupt);
+      wall.style.removeProperty("--signal-scroll");
+      wall.removeEventListener("focusin", interrupt);
+      wall.removeEventListener("pointerdown", interrupt);
+      window.removeEventListener("wheel", interrupt);
+      window.removeEventListener("touchstart", interrupt);
       observers.forEach(observer => observer.disconnect());
       document.removeEventListener("visibilitychange", updateWall);
       window.removeEventListener("scroll", onScroll);
@@ -98,6 +123,7 @@ export function ContactMotion() {
       if (frame) window.cancelAnimationFrame(frame);
       delete page.dataset.contactMotion;
       delete wall.dataset.sceneActive;
+      delete wall.dataset.intro;
       office.style.removeProperty("--contact-photo-drift");
     };
   }, []);

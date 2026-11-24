@@ -1,5 +1,4 @@
-/* Aiwa Contact: typographic office wall inspired by The Romans' Contact composition.
-   All imagery is original Aiwa editorial artwork; no borrowed photography or office claims. */
+/* Contact enquiry, office and closing sections. Hero V2 owns its own styles. */
 .contact-page{
   --aiwa-gutter:clamp(18px,2.5vw,48px);
   --aiwa-font-interface:var(--type-body);
@@ -19,75 +18,6 @@ html.dark .contact-page{
 .contact-page *, .contact-page *::before, .contact-page *::after {box-sizing:border-box;}
 .contact-page :is(a,button):focus-visible{outline:2px solid currentColor;outline-offset:5px;}
 .contact-pad{padding-inline:var(--aiwa-gutter);}
-.contact-wall{
-  --contact-wall-row-size:clamp(150px,14.6vw,210px);
-  --contact-wall-start:calc(var(--contact-wall-row-size) * -.58);
-  position:relative; height:calc(100svh - 83px);min-height:480px;
-  background:#080808;color:#f7f7f7;overflow:hidden;isolation:isolate;
-}
-.contact-wall__sr-only{
-  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
-  clip:rect(0,0,0,0);white-space:nowrap;border:0;
-}
-.contact-wall__topnote{
-  position:absolute;z-index:3;top:17px;left:var(--aiwa-gutter);right:var(--aiwa-gutter);
-  display:flex;justify-content:space-between;gap:16px;
-  pointer-events:none;color:#aaa9a7;;;
-}
-.contact-wall__viewport{position:absolute;inset:0;overflow:hidden;}
-.contact-wall__track{
-  display:flex;flex-direction:column;
-  width:100%;will-change:transform;
-  transform:translateY(var(--contact-wall-start));
-  animation:contact-wall-scroll 39s linear infinite;
-}
-.contact-wall:hover .contact-wall__track,
-.contact-wall:focus-within .contact-wall__track{animation-play-state:paused;}
-.contact-wall__sequence{display:flex;flex-direction:column;flex:none;}
-.contact-wall__row{
-  position:relative;display:flex;align-items:center;justify-content:center;
-  gap:clamp(7px,.9vw,17px);min-height:var(--contact-wall-row-size);
-  white-space:nowrap;text-decoration:none;color:inherit;
-  text-align:center;;user-select:none;
-  transition:color .35s;
-}
-.contact-wall__word{
-  display:block;white-space:nowrap;flex:none;;;text-transform:uppercase;
-  transform:scaleX(.92);
-  transform-origin:center;
-  transition:transform .45s cubic-bezier(.22,1,.36,1);
-}
-.contact-wall__picture{
-  position:relative;flex:none;width:calc(var(--contact-wall-row-size) * .91);
-  height:calc(var(--contact-wall-row-size) * .86);overflow:hidden;
-  background:#454545;filter:grayscale(1) contrast(1.5);
-  transition:filter .45s,transform .45s;
-}
-.contact-wall__picture img{
-  display:block;width:100%;height:100%;object-fit:cover;
-  transform:scale(1.13);transition:transform .55s cubic-bezier(.22,1,.36,1);
-}
-.contact-wall__row-index{display:none;}
-.contact-wall__row:is(:hover,:focus-visible) .contact-wall__picture{
-  filter:grayscale(1) contrast(1.12);transform:rotate(-2deg);
-}
-.contact-wall__row:is(:hover,:focus-visible) .contact-wall__picture img{transform:scale(1.01);}
-.contact-wall__row:is(:hover,:focus-visible) .contact-wall__word{transform:scaleX(.94) translateY(-3px);}
-.contact-wall__edge{
-  position:absolute;z-index:5;bottom:0;left:0;right:0;
-  display:flex;justify-content:space-between;align-items:center;gap:20px;
-  padding:20px var(--aiwa-gutter);
-  background:linear-gradient(0deg,#080808 30%,#08080800);;;
-}
-.contact-wall__edge span{color:#bcbcb9;}
-.contact-wall__edge a{display:inline-flex;align-items:center;gap:18px;min-height:45px;color:#f7f7f7;text-decoration:none;}
-.contact-wall__edge a svg{transition:transform .3s;}
-.contact-wall__edge a:hover svg{transform:translateY(4px);}
-@keyframes contact-wall-scroll{
-  from{transform:translateY(var(--contact-wall-start));}
-  to{transform:translateY(calc(var(--contact-wall-start) - 25%));}
-}
-
 .contact-intro{
   padding-top:clamp(82px,10vw,150px);
   padding-bottom:clamp(100px,12vw,185px);
@@ -257,21 +187,6 @@ html.dark .contact-page{
   .contact-page .aiwa-inner-header__brand{font-size:33px;}
   .contact-page .aiwa-inner-header__menu{height:44px;width:44px;}
   .contact-page .aiwa-inner-header__drawer{max-height:calc(100svh - 56px);}
-  .contact-wall{
-    --contact-wall-row-size:clamp(53px,14.7vw,72px);
-    --contact-wall-start:0px;
-    height:calc(100svh - 56px);min-height:510px;
-  }
-  .contact-wall__topnote{display:none;}
-  .contact-wall__row{gap:3px;min-height:var(--contact-wall-row-size);}
-  .contact-wall__word{;;transform:scaleX(.93);}
-  .contact-wall__picture{
-    width:calc(var(--contact-wall-row-size) * .78);
-    height:calc(var(--contact-wall-row-size) * .8);
-  }
-  .contact-wall__edge{padding:15px 17px;gap:14px;;}
-  .contact-wall__edge a{gap:7px;min-height:40px;;}
-  .contact-wall__edge a svg{width:17px;}
   .contact-intro,.contact-office{scroll-margin-top:56px;}
   .contact-intro{padding-block:70px 92px;}
   .contact-intro__top,.contact-office__eyebrows{;}
@@ -313,52 +228,16 @@ html.dark .contact-page{
   .contact-outro>a{;}
 }
 @media(max-width:390px){
-  .contact-wall{--contact-wall-row-size:clamp(49px,14.6vw,57px);}
-  .contact-wall__word{;}
-  .contact-wall__edge span{max-width:150px;}
   .contact-intro h2{;}
   .contact-office h2{;}
   .contact-office__details h3{;}
   .contact-outro h2{;}
 }
 @media(prefers-reduced-motion:reduce){
-  .contact-wall__track{animation:none!important;}
   .contact-page *,.contact-page *::before,.contact-page *::after{transition:none!important;animation:none!important;}
 }
 
-/* ==========================================================
-   Contact V3 / Motion score
-   00:00–01:35  Each type/photo pairing arrives as a deliberate beat.
-   01:35 onward The wall scrolls at a measured constant pace while visible.
-   On scroll      Chapter rules -> titles -> copy -> actions -> imagery.
-   The observer marks chapters entered once; scroll depth is reversible.
-   No-JS and reduced-motion rendering remain fully visible and usable.
-   ========================================================== */
-.contact-page[data-contact-motion="ready"] .contact-wall__track {
-  animation-duration:51s;
-  animation-delay:1.4s;
-  animation-fill-mode:both;
-}
-.contact-page[data-contact-motion="ready"] .contact-wall[data-scene-active="false"] .contact-wall__track {
-  animation-play-state:paused;
-}
-.contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__row {
-  animation:contact-wall-beat .8s cubic-bezier(.19,1,.22,1) both;
-  animation-delay:calc(.07s + var(--contact-row) * .13s);
-}
-.contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__picture {
-  animation:contact-image-cut .65s cubic-bezier(.22,1,.36,1) both;
-  animation-delay:calc(.22s + var(--contact-row) * .13s);
-}
-@keyframes contact-wall-beat {
-  from {opacity:.28;transform:translate3d(0,22%,0);filter:blur(2px);}
-  65% {filter:blur(0);}
-  to {opacity:1;transform:translate3d(0,0,0);filter:blur(0);}
-}
-@keyframes contact-image-cut {
-  from {clip-path:inset(0 100% 0 0);opacity:.2;}
-  to {clip-path:inset(0 0 0 0);opacity:1;}
-}
+
 
 /* Readable without JavaScript. Only the enhanced path adopts entrance states. */
 .contact-page[data-contact-motion="ready"] .contact-intro:not([data-entered="true"])
@@ -451,37 +330,17 @@ html.dark .contact-page{
 
 /* Mobile still has a story, but not the blur/longer desktop choreography. */
 @media(max-width:767px) {
-  .contact-page[data-contact-motion="ready"] .contact-wall__track {
-    animation-delay:1.1s;
-    animation-duration:61s;
-  }
-  .contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__row {
-    animation-duration:.7s;
-    animation-delay:calc(.05s + var(--contact-row) * .1s);
-  }
-  .contact-page[data-contact-motion="ready"] .contact-wall__sequence:first-child .contact-wall__picture {
-    animation-duration:.6s;
-    animation-delay:calc(.17s + var(--contact-row) * .1s);
-  }
   .contact-page[data-contact-motion="ready"] .contact-office__image img {
     transform:translate3d(0,var(--contact-photo-drift,0px),0) scale(1.075);
   }
 }
 @media(prefers-reduced-motion:reduce) {
-  .contact-page .contact-wall__track {animation:none!important;transform:translateY(var(--contact-wall-start));}
   .contact-page .contact-office__image img {transform:none!important;}
   .contact-page [data-contact-reveal],.contact-page [data-contact-reveal] * {
     opacity:1!important;clip-path:none!important;filter:none!important;
     transform:none!important;
   }
 }
-
-/* Canonical typography roles; marquee row height and timing stay intact. */
-.contact-wall__word{font:400 var(--contact-wall-row-size)/.86 var(--type-display);letter-spacing:var(--tracking-display);}
-.contact-wall__row{line-height:.85;}
-.contact-wall__topnote{font:500 var(--type-meta-size)/1.2 var(--type-mono);letter-spacing:var(--tracking-label);}
-.contact-wall__edge{font:600 var(--type-meta-size)/1.3 var(--type-body);letter-spacing:var(--tracking-label);}
-.contact-wall__edge a{font:700 var(--type-ui-size)/1.2 var(--type-body);}
 .contact-intro__top,.contact-office__eyebrows{font:600 var(--type-eyebrow-size)/1.3 var(--type-body);letter-spacing:var(--tracking-label);}
 .contact-intro h2,.contact-office h2,.contact-outro h2{font:400 var(--type-contact-heading)/var(--leading-display) var(--type-display);letter-spacing:var(--tracking-display);}
 .contact-intro h2 em,.contact-office h2 em,.contact-outro h2 em{font:italic 900 1em/.94 var(--type-emphasis);letter-spacing:-.045em;}
@@ -513,4 +372,4 @@ html.dark .contact-page{
 .contact-office__details{min-width:0}
 .contact-intro__primary,.contact-enquiries__panel>a,.contact-outro>a{gap:clamp(20px,4vw,60px)}
 .contact-outro{min-height:clamp(440px,65vh,800px);padding-block:clamp(65px,8vw,140px)}
-@media(max-width:767px){.contact-intro,.contact-office{padding-block:60px 76px}.contact-enquiries__panel{min-height:320px}.contact-enquiries__tabs strong{line-height:1.25}.contact-office__bottom{flex-wrap:wrap}.contact-office__image>span{font-size:11px}.contact-outro{min-height:460px}.contact-wall__word{letter-spacing:-.045em}}
+@media(max-width:767px){.contact-intro,.contact-office{padding-block:60px 76px}.contact-enquiries__panel{min-height:320px}.contact-enquiries__tabs strong{line-height:1.25}.contact-office__bottom{flex-wrap:wrap}.contact-office__image>span{font-size:11px}.contact-outro{min-height:460px}}

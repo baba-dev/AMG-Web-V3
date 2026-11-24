@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { ContactEnquiries } from "@/components/contact-enquiries";
+import { ContactHeroV2 } from "@/components/contact/contact-hero-v2";
 import { ContactMotion } from "@/components/contact-motion";
 import "@/components/aiwa-polish.css";
 import "./contact-page.css";
@@ -19,56 +20,13 @@ export const metadata: Metadata = {
   },
 };
 
-const phrases = [
-  { text: "MUSCAT", image: "/media/finale/muscat-editorial.svg", action: "#contact-office", imageFirst: false, note: "Our home" },
-  { text: "SAY HELLO", image: "/media/specialisms/studio.svg", action: "#enquiries", imageFirst: true, note: "Start talking" },
-  { text: "CREATIVE", image: "/media/finale/creative-process.svg", action: "#enquiries", imageFirst: false, note: "Build with us" },
-  { text: "DIGITAL", image: "/media/specialisms/tech.svg", action: "#enquiries", imageFirst: true, note: "Make things work" },
-  { text: "TOGETHER", image: "/media/finale/creative-motion.svg", action: "#enquiries", imageFirst: false, note: "Make noise" },
-] as const;
-
 export default function AiwaContactPage() {
   return (
     <div className="aiwa-site contact-page" data-contact-page>
       <AiwaInnerHeader />
       <ContactMotion />
       <main id="main-content">
-        <section className="contact-wall" aria-labelledby="contact-wall-title">
-          <h1 id="contact-wall-title" className="contact-wall__sr-only">Contact Aiwa Media Group — Say hello from Muscat</h1>
-          <div className="contact-wall__viewport" data-contact-marquee>
-            <div className="contact-wall__track">
-              {Array.from({ length: 4 }, (_, repeat) => (
-                <div className="contact-wall__sequence" key={repeat}
-                  aria-hidden={repeat !== 0 ? true : undefined}>
-                  {phrases.map((phrase, index) => (
-                    <a key={phrase.text}
-                      className={"contact-wall__row" + (phrase.imageFirst ? " contact-wall__row--reverse" : "")}
-                      style={{ "--contact-row": index } as React.CSSProperties}
-                      href={phrase.action}
-                      tabIndex={repeat === 0 ? undefined : -1}
-                      aria-label={repeat === 0 ? phrase.text + " — " + phrase.note : undefined}
-                      data-contact-marquee-row={repeat === 0 ? phrase.text : undefined}>
-                      {phrase.imageFirst && (
-                        <span className="contact-wall__picture" aria-hidden="true">
-                          <Image src={phrase.image} width={380} height={360} unoptimized alt=""
-                            loading={repeat === 0 ? "eager" : "lazy"} />
-                        </span>
-                      )}
-                      <span className="contact-wall__word">{phrase.text}</span>
-                      {!phrase.imageFirst && (
-                        <span className="contact-wall__picture" aria-hidden="true">
-                          <Image src={phrase.image} width={380} height={360} unoptimized alt=""
-                            loading={repeat === 0 ? "eager" : "lazy"} />
-                        </span>
-                      )}
-                      <span className="contact-wall__row-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                    </a>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ContactHeroV2 />
 
         <section className="contact-intro contact-pad" id="enquiries" data-contact-reveal aria-labelledby="contact-intro-title">
           <div className="contact-intro__top"><span>01 / START HERE</span><span>GOOD CONVERSATIONS LEAD TO GREAT THINGS</span></div>
