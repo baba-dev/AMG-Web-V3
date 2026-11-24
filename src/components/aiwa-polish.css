@@ -15,17 +15,17 @@
  */
 .aiwa-site.aiwa-site {
   --aiwa-gutter: clamp(18px, 2.5vw, 48px);
-  --aiwa-font-interface: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
+  --aiwa-font-interface: var(--type-body);
   --aiwa-font-body: var(--aiwa-font-interface);
-  --aiwa-font-display: var(--font-aiwa-poster), Impact, "Arial Narrow", sans-serif;
-  --aiwa-font-italic: var(--font-aiwa-display), "Arial Narrow", sans-serif;
+  --aiwa-font-display: var(--type-display);
+  --aiwa-font-italic: var(--type-emphasis);
   --aiwa-paper: #0f0f0f;
   --aiwa-paper-raised: #171716;
   --aiwa-paper-ink: #f5f5f3;
   --aiwa-paper-muted: #aaa9a2;
   --aiwa-paper-rule: rgba(255, 255, 255, .2);
   font-family: var(--aiwa-font-body);
-  font-synthesis: weight;
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
 .light .aiwa-site.aiwa-site {
@@ -61,13 +61,13 @@
 .aiwa-footer__contact address,
 .aiwa-footer__contact > a:not(.aiwa-footer__directions) {
   font-family: var(--aiwa-font-body);
-  font-weight: 450;
+  font-weight: 400;
   letter-spacing: -.02em;
 }
 .aiwa-about__description,
 .aiwa-office__current-story p,
 .aiwa-contact__message p { line-height: 1.48; }
-.aiwa-specialisms__footer p { line-height: 1.5; }
+.aiwa-specialisms__footer p {; }
 
 /* Genuine italic from Barlow instead of browser-sheared Anton. */
 .aiwa-hero__word:is(em),
@@ -155,15 +155,12 @@
 }
 
 /* Links must not be tiny hit targets on a touch screen. */
-.aiwa-footer__navigation a,
-.aiwa-footer__social a,
 .aiwa-footer__contact > a {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
 }
-.aiwa-footer__navigation,
-.aiwa-footer__social { gap: 4px; }
+
 .aiwa-office__contact a { min-height: 44px; }
 .aiwa-header__identity { display: inline-flex; align-items: center; min-height: 44px; }
 .aiwa-footer__contact a,
@@ -176,9 +173,9 @@
 /* Tablet needs a narrower poster lockup before the mobile fold starts.
  * Do not modify scroll geometry, the reel's transform, or section heights. */
 @media (min-width: 721px) and (max-width: 950px) {
-  .aiwa-hero__headline { font-size: clamp(63px, 8.5vw, 82px); }
+  .aiwa-hero__headline {; }
   .aiwa-hero__film-tile { width: clamp(95px, 12.5vw, 123px); }
-  .aiwa-about__heading { font-size: clamp(38px, 4.55vw, 58px); }
+  .aiwa-about__heading {; }
 }
 @media (max-width: 767px) {
   .aiwa-site.aiwa-site { --aiwa-gutter: 17px; }
@@ -192,34 +189,33 @@
   .aiwa-office, .light .aiwa-office { padding-inline: var(--aiwa-gutter); }
   .aiwa-footer, .light .aiwa-footer { padding-inline: var(--aiwa-gutter); }
 
-  .aiwa-hero__headline { letter-spacing: -.022em; }
-  .aiwa-hero__word:is(em) { letter-spacing: -.042em; }
+  .aiwa-hero__headline {; }
+  .aiwa-hero__word:is(em) {; }
   .aiwa-hero__film-tile { min-height: 44px; }
   .aiwa-about__media { margin-bottom: clamp(20px, 5vw, 27px); }
   .aiwa-about__heading { max-width: 100%; }
-  .aiwa-about__description { font-size: clamp(15px, 4vw, 17px); line-height: 1.5; }
-  .aiwa-specialisms__footer p { font-size: 13px; line-height: 1.5; }
+  .aiwa-about__description {;; }
+  .aiwa-specialisms__footer p {;; }
   .aiwa-contact__message p { line-height: 1.46; }
-  .aiwa-footer__intro p { max-width: 12ch; }
+  
   .aiwa-footer__upper { column-gap: clamp(17px, 5vw, 27px); }
-  .aiwa-footer__navigation,
-  .aiwa-footer__social { gap: 0; }
+  
   .aiwa-footer__bottom > div { column-gap: 14px; row-gap: 3px; }
   .aiwa-footer__bottom a { display: inline-flex; align-items: center; min-height: 44px; }
   .aiwa-office__hello { margin-left: calc(-1 * var(--aiwa-gutter)); margin-right: calc(-1 * var(--aiwa-gutter)); width: calc(100% + 2 * var(--aiwa-gutter)); }
 }
 @media (max-width: 390px) {
-  .aiwa-hero__headline { font-size: 12.2vw; }
+  .aiwa-hero__headline {; }
   .aiwa-hero__film-tile { width: clamp(78px, 21.5vw, 92px); }
-  .aiwa-specialisms__row { font-size: 10.35vw; }
-  .aiwa-about__heading { font-size: 9.05vw; }
-  .aiwa-footer__intro p { font-size: clamp(43px, 12vw, 52px); }
+  .aiwa-specialisms__row {; }
+  .aiwa-about__heading {; }
+  .aiwa-footer__intro p {; }
 }
 @media (max-width: 350px) {
-  .aiwa-hero__headline { font-size: 12vw; }
+  .aiwa-hero__headline {; }
   .aiwa-hero__center { padding-inline: 12px; }
   .aiwa-footer__upper { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .aiwa-footer__navigation a, .aiwa-footer__social a { font-size: 14px; }
+  
 }
 @media (prefers-reduced-motion: reduce) {
   .aiwa-hero__film-tile { animation: none !important; }
@@ -255,10 +251,10 @@
   font-style: normal;
   font-display: swap;
 }
-html[data-aiwa-roc="true"] .aiwa-site {
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending) {
   --aiwa-font-body: "Aiwa Roc Grotesk Web", var(--font-space-grotesk), Arial, Helvetica, sans-serif;
 }
-html[data-aiwa-roc="true"] .aiwa-site :where(
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending) :where(
   .aiwa-specialisms__footer p,
   .aiwa-about__description,
   .aiwa-work__caption span,
@@ -283,12 +279,12 @@ html[data-aiwa-roc="true"] .aiwa-site :where(
 .aiwa-office__top,
 .aiwa-footer__eyebrow {
   font-family: var(--aiwa-font-interface);
-  font-weight: 700;
-  letter-spacing: -.027em;
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
 }
 .aiwa-header__link,
-.aiwa-header__offices { font-size: clamp(12px, .92vw, 15px); }
-.aiwa-mobile-nav__link { font-size: clamp(25px, 6.3vw, 43px); }
+.aiwa-header__offices {; }
+.aiwa-mobile-nav__link {; }
 
 /* Real touch geometry: keep the film tile over 44 CSS px despite font metric changes. */
 .aiwa-site .aiwa-hero__film-tile { min-height: 45px; }
