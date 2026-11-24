@@ -21,15 +21,15 @@ function readViewPreference(): WorkView {
   const urlView = new URL(window.location.href).searchParams.get("view");
   if (urlView === "list" || urlView === "grid") return urlView;
   try {
-    return window.localStorage.getItem(viewPreferenceKey) === "list" ? "list" : "grid";
+    return window.localStorage.getItem(viewPreferenceKey) === "grid" ? "grid" : "list";
   } catch {
-    return "grid";
+    return "list";
   }
 }
 
 export function WorkGallery() {
   const [category, setCategory] = useState<DirectoryCategory>("all");
-  const [view, setView] = useState<WorkView>("grid");
+  const [view, setView] = useState<WorkView>("list");
 
   useEffect(() => {
     const restore = () => {
@@ -50,8 +50,8 @@ export function WorkGallery() {
     const url = new URL(window.location.href);
     if (nextCategory === "all") url.searchParams.delete("category");
     else url.searchParams.set("category", nextCategory);
-    if (nextView === "grid") url.searchParams.delete("view");
-    else url.searchParams.set("view", nextView);
+    // Explicit view parameters keep history and shared links independent of stored preferences.
+    url.searchParams.set("view", nextView);
     window.history.pushState(null, "", url.pathname + url.search + url.hash);
   };
 
