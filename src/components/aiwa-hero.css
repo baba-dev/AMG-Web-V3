@@ -197,7 +197,7 @@
 .aiwa-hero__word {
   display: inline-block;
   font-size: inherit; font-style: normal; font-weight: inherit; line-height: inherit;
-  animation: aiwa-word-entrance .95s both cubic-bezier(.22,1,.36,1);
+  animation:none;
 }
 .aiwa-hero__word--one { animation-delay: .08s; }
 .aiwa-hero__word--two { animation-delay: .17s; }
@@ -222,7 +222,7 @@
   background-position: center;
   background-size: cover;
   cursor: pointer;
-  animation: aiwa-tile-pop .85s .35s both cubic-bezier(.22,1,.36,1);
+  animation:none;
 }
 .aiwa-hero__film-tile::before { content: ""; position: absolute; inset: 0; border: 1px solid rgba(255,255,255,.25); }
 .aiwa-hero__film-icon {
@@ -493,7 +493,7 @@
   margin: .015em .045em 0 .025em;
   clip-path: polygon(8% 0,100% 0,92% 100%,0 100%);
   transform-origin: center center;
-  animation: aiwa-reference-film-pop 1.12s .34s both cubic-bezier(.16,1,.3,1);
+  animation:none;
 }
 .aiwa-hero__film-tile::before { clip-path: polygon(8% 0,100% 0,92% 100%,0 100%); }
 .aiwa-hero__location {;
@@ -798,3 +798,40 @@
 .aiwa-reel__next{font:700 var(--type-ui-size)/1.2 var(--type-body);}
 .aiwa-hero__word{font-weight:400;}
 .aiwa-hero__word:is(em){font-weight:900;}
+
+
+/* First-view score: the media physically opens a gap in the second line.
+   The original full-size slot is restored before scroll projection resumes.
+   No animation is applied to the scroll-owned parent opacity or transforms. */
+.aiwa-sequence{--hero-intro-slot:clamp(105px,13.1vw,192px)}
+@media(max-width:767px){.aiwa-sequence{--hero-intro-slot:clamp(77px,22vw,131px)}}
+@media(max-width:720px){.aiwa-sequence{--hero-intro-slot:clamp(84px,23vw,138px)}}
+.aiwa-hero__inline-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.aiwa-hero__film-icon{position:relative;z-index:1}
+@media(prefers-reduced-motion:no-preference){
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__word{animation:aiwa-opening-word .9s cubic-bezier(.16,1,.3,1) backwards}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__word--one{animation-delay:0ms}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__word--two{animation-delay:130ms}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__word--three{animation-delay:260ms}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__word--four{animation-delay:400ms}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__film-tile{
+  width:var(--hero-intro-slot);
+  animation:aiwa-opening-aperture 1.65s .28s cubic-bezier(.65,0,.19,1) backwards;
+ }
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__identity,
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__navigation,
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__utility{animation:aiwa-opening-header .62s 1.94s cubic-bezier(.22,1,.36,1) backwards}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__navigation{animation-delay:2.04s}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__utility{animation-delay:2.12s}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__location{animation:aiwa-opening-footer .55s 2.55s cubic-bezier(.22,1,.36,1) backwards}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__scroll{animation:aiwa-opening-footer .5s 2.7s cubic-bezier(.22,1,.36,1) backwards}
+}
+@keyframes aiwa-opening-word{from{opacity:0;transform:translateY(105%)}to{opacity:1;transform:translateY(0)}}
+@keyframes aiwa-opening-aperture{
+ 0%{width:0;opacity:0;clip-path:polygon(50% 0,50% 0,50% 100%,50% 100%)}
+ 12%{opacity:1}
+ 100%{width:var(--hero-intro-slot);opacity:1;clip-path:polygon(8% 0,100% 0,92% 100%,0 100%)}
+}
+@keyframes aiwa-opening-header{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:translateY(0)}}
+@keyframes aiwa-opening-footer{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.aiwa-hero__inline-video{display:none}}
