@@ -459,24 +459,33 @@ async function testMegaLayer(browser,theme){
  await page.goto(URL,{waitUntil:"domcontentloaded"});
  await page.waitForFunction(()=>document.querySelector(".aiwa-sequence")?.dataset.heroIntro==="settled");
  await page.evaluate(()=>document.fonts.ready);
+ await page.waitForFunction(()=>{const r=document.querySelector(".aiwa-reel");return Number(getComputedStyle(r).opacity)>.99&&r.getBoundingClientRect().width>20});
  const trigger=page.locator('.aiwa-mega__trigger[aria-controls="aiwa-mega-panel-about"]');
  await trigger.hover();
  const panel=page.locator("#aiwa-mega-panel-about");
  await panel.waitFor({state:"visible"});
+ await page.screenshot({path:"test-artifacts/mega-menu-"+theme+".png"});
  const layout=await panel.evaluate(el=>{
-   const rect=el.getBoundingClientRect(), reel=document.querySelector(".aiwa-reel").getBoundingClientRect();
+   // Deliberately overlap the actual projected media, independent of compact panel height.
+   const projected=document.querySelector(".aiwa-reel"), oldStyle=projected.getAttribute("style");
+   const rect=el.getBoundingClientRect(), original=projected.getBoundingClientRect();
+   projected.style.translate=(rect.left+rect.width*.5-original.left-original.width*.5)+"px "+(rect.top+rect.height*.5-original.top-original.height*.5)+"px";
+   projected.style.pointerEvents="auto";
+   const reel=projected.getBoundingClientRect();
    const l=Math.max(rect.left,reel.left),r=Math.min(rect.right,reel.right),t=Math.max(rect.top,reel.top),b=Math.min(rect.bottom,reel.bottom);
    const overlap=r>l&&b>t;
-   const hit=overlap?document.elementFromPoint((l+r)/2,(t+b)/2):null;
+   const stack=overlap?document.elementsFromPoint((l+r)/2,(t+b)/2):[];
+   const hit=stack[0];
+   const mediaInStack=stack.some(node=>node===projected||projected.contains(node));
+   projected.setAttribute("style",oldStyle??"");
    const title=el.querySelector(".aiwa-mega__link-copy strong");
-   return {overlap,hit:!!hit&&el.contains(hit),children:[...el.children].map(n=>n.className),filler:!!el.querySelector(".aiwa-mega__panel-heading"),font:getComputedStyle(title).fontFamily,size:parseFloat(getComputedStyle(title).fontSize)};
+   return {overlap,mediaInStack,hit:!!hit&&el.contains(hit),children:[...el.children].map(n=>n.className),filler:!!el.querySelector(".aiwa-mega__panel-heading"),font:getComputedStyle(title).fontFamily,size:parseFloat(getComputedStyle(title).fontSize)};
  });
- assert(layout.overlap,"Test must exercise actual video/menu overlap");
+ assert(layout.overlap&&layout.mediaInStack,"Test must exercise both actual stacking layers");
  assert(layout.hit,"Menu must receive pointer events above projected video");
  assert.deepEqual(layout.children,["aiwa-mega__links","aiwa-mega__art"]);
  assert(!layout.filler,"Remove the left filler column");
  assert(/space[_ ]?grotesk/i.test(layout.font)&&layout.size<=16,"Submenu typography drift");
- await page.screenshot({path:"test-artifacts/mega-menu-"+theme+".png"});
  await page.keyboard.press("Escape");
  await page.waitForFunction(()=>document.querySelector("#aiwa-mega-panel-about")?.getAttribute("aria-hidden")==="true");
  await ctx.close();
