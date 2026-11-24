@@ -141,13 +141,13 @@ const sample=async page=>page.evaluate(()=>{
     }
    }finally{await context.close();}
   }
-  // The existing seven animated homepage links must no longer be inert placeholders.
+  // The six approved homepage disciplines are placeholders until their pages are completed.
   const home=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
   const homePage=await home.newPage();
   await homePage.goto(origin+"/",{waitUntil:"domcontentloaded"});
-  assert.deepEqual(await homePage.locator(".aiwa-specialisms__row").evaluateAll(nodes=>nodes.map(x=>new URL(x.href).pathname)),
-    records.map(([slug])=>"/specialisms/"+slug),"Homepage links must exactly match the seven routes");
-  assert.equal(await homePage.locator(".aiwa-specialisms__all").getAttribute("href"),"/specialisms");
+  assert.deepEqual(await homePage.locator(".aiwa-specialisms__row").evaluateAll(nodes=>nodes.map(x=>x.getAttribute("href"))),
+    Array(6).fill("#"),"Homepage links must be six placeholders");
+  assert.equal(await homePage.locator(".aiwa-specialisms__all").getAttribute("href"),"#");
   assert.equal(await homePage.locator(".aiwa-header__navigation a").filter({hasText:"SPECIALISMS"}).getAttribute("href"),"/specialisms");
   await home.close();
   // Both themes change actual surfaces; no opaque overlay or token regression.

@@ -113,7 +113,7 @@ async function inspect(browser, config, theme, viewport, capture) {
   if (config.id === "home") {
     const surface = rgb(values[".aiwa-specialisms"].background);
     const rows = page.locator(".aiwa-specialisms__row");
-    assert.equal(await rows.count(), 7, "home: missing Specialisms rows");
+    assert.equal(await rows.count(), 6, "home: missing Specialisms rows");
     for (const selector of [".aiwa-specialisms__row", ".aiwa-specialisms__name", ".aiwa-specialisms__all"]) {
       const colors = await page.locator(selector).evaluateAll(elements =>
         elements.map(element => getComputedStyle(element).color));

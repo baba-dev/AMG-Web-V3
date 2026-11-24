@@ -2,25 +2,22 @@
 
 import { useEffect, useRef, type MouseEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
-import type { SpecialismSlug } from "@/lib/specialisms";
 import "./aiwa-specialisms.css";
 
 type Specialism = {
   name: string;
-  slug: SpecialismSlug;
   side: "left" | "right";
   tint: string;
   image?: string;
 };
 
 const categories: Specialism[] = [
-  { name: "Global", slug: "global", side: "right", tint: "global", image: "/media/specialisms/global.svg" },
-  { name: "Consumer", slug: "consumer", side: "left", tint: "consumer", image: "/media/specialisms/consumer.svg" },
-  { name: "Corporate", slug: "corporate", side: "right", tint: "corporate", image: "/media/specialisms/corporate.svg" },
-  { name: "Sports", slug: "sports", side: "left", tint: "sports", image: "/media/specialisms/sports.svg" },
-  { name: "Social", slug: "social", side: "right", tint: "social", image: "/media/specialisms/social.svg" },
-  { name: "Studio", slug: "studio", side: "left", tint: "studio", image: "/media/specialisms/studio.svg" },
-  { name: "TECH", slug: "tech", side: "right", tint: "tech", image: "/media/specialisms/tech.svg" },
+  { name: "Creatives", side: "right", tint: "studio", image: "/media/specialisms/studio.svg" },
+  { name: "Marketing", side: "left", tint: "social", image: "/media/specialisms/social.svg" },
+  { name: "Development", side: "right", tint: "tech", image: "/media/specialisms/tech.svg" },
+  { name: "IT Support", side: "left", tint: "global", image: "/media/specialisms/global.svg" },
+  { name: "Branding", side: "right", tint: "consumer", image: "/media/specialisms/consumer.svg" },
+  { name: "Events", side: "left", tint: "sports", image: "/media/specialisms/sports.svg" },
 ];
 
 const clamp = (x: number) => Math.min(1, Math.max(0, x));
@@ -140,7 +137,7 @@ export function AiwaSpecialisms() {
           <li className="aiwa-specialisms__item" key={category.name}>
             <a
               className={"aiwa-specialisms__row aiwa-specialisms__row--" + category.tint}
-              href={"/specialisms/" + category.slug}
+              href="#"
               aria-label={"Explore " + category.name + " specialism"}
               data-visible="false"
             >
@@ -159,7 +156,7 @@ export function AiwaSpecialisms() {
         <a href="#about" className="aiwa-specialisms__why" onClick={scrollToAbout}>
           THIS IS WHY <ArrowUpRight size={19} strokeWidth={2} aria-hidden="true" />
         </a>
-        <a href="/specialisms" className="aiwa-specialisms__all">
+        <a href="#" className="aiwa-specialisms__all">
           EXPLORE ALL SPECIALISMS <ArrowUpRight size={19} strokeWidth={2} aria-hidden="true"/>
         </a>
       </div>
