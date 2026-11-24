@@ -1,11 +1,6 @@
 name: Public reference motion frame audit
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - scripts/reference-motion-audit.cjs
-      - .github/workflows/reference-motion-audit.yml
   workflow_dispatch:
 
 permissions:
@@ -28,11 +23,15 @@ jobs:
           npx playwright install chromium --only-shell
       - name: Capture public visible frames
         run: node scripts/reference-motion-audit.cjs
+      - name: Capture public Contact reference
+        run: node scripts/contact-reference-qa.cjs
       - name: Inventory Aiwa public site media for placeholders
         run: node scripts/aiwa-media-inventory.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: public-motion-reference-frames
-          path: reference-motion/
+          path: |
+            reference-motion/
+            test-artifacts/contact-reference/
           retention-days: 2
