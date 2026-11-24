@@ -4,21 +4,31 @@ const fs=require("node:fs");
 const { chromium }=require("playwright");
 const base=process.env.AIWA_TEST_URL||"http://127.0.0.1:4173";
 const dir="test-artifacts/contact-page";
-const widths=[[1440,900],[1280,800],[950,800],[768,850],[430,932],[390,844],[360,800],[320,700]];
+const widths=[[1920,1080],[1440,900],[1280,800],[950,800],[768,850],[430,932],[390,844],[360,800],[320,700]];
 const requireIt=(value,msg)=>assert.ok(value,msg);
 fs.mkdirSync(dir,{recursive:true});
 (async()=>{
  const browser=await chromium.launch({headless:true});
  try{
-  for(const [width,height] of widths){
-   const page=await browser.newPage({viewport:{width,height},reducedMotion:"reduce"});
+  for(const theme of ["dark","light"]) for(const [width,height] of widths){
+   const page=await browser.newPage({viewport:{width,height},reducedMotion:"reduce",colorScheme:theme});
    const errors=[];
    page.on("pageerror",e=>errors.push(e.message));
+   await page.addInitScript(t=>localStorage.setItem("theme",t),theme);
    const response=await page.goto(base+"/contact",{waitUntil:"domcontentloaded",timeout:45000});
    requireIt(response?.ok(),width+": contact route should load");
    await page.evaluate(()=>document.fonts.ready);
    await page.waitForFunction(()=>document.querySelector("[data-contact-page]")?.dataset.contactMotion==="reduced");
    await page.waitForTimeout(120);
+   await page.waitForFunction(t=>document.documentElement.classList.contains(t),theme);
+   const typography=await page.evaluate(()=>{
+     const style=s=>getComputedStyle(document.querySelector(s));
+     return {display:[".contact-wall__word",".contact-intro h2",".contact-office h2",".contact-outro h2",".contact-enquiries__panel h3",".contact-office__details h3"].map(s=>style(s).fontFamily),body:[".contact-intro__aside p",".contact-enquiries__tabs strong",".contact-office__address address",".contact-office__links a"].map(s=>style(s).fontFamily),emphasis:[...document.querySelectorAll(".contact-intro h2 em,.contact-office h2 em,.contact-outro h2 em")].map(el=>({family:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,style:getComputedStyle(el).fontStyle})),mono:style(".contact-office__count").fontFamily};
+   });
+   requireIt(typography.display.every(f=>/anton/i.test(f)),width+": display font drift "+JSON.stringify(typography));
+   requireIt(typography.body.every(f=>/space[_ ]?grotesk/i.test(f)),width+": body font drift");
+   requireIt(typography.emphasis.every(f=>/barlow/i.test(f.family)&&f.weight==="900"&&f.style==="italic"),width+": emphasis drift");
+   requireIt(/geist.*mono/i.test(typography.mono),width+": metadata drift");
    const structure=await page.evaluate(()=>{
     const wall=document.querySelector(".contact-wall");
     const root=document.querySelector(".contact-page");
@@ -84,7 +94,7 @@ fs.mkdirSync(dir,{recursive:true});
    }
    await page.evaluate(()=>{if(document.activeElement instanceof HTMLElement)document.activeElement.blur();window.scrollTo({top:0,behavior:"instant"});});
    await page.mouse.move(5,5);
-   await page.screenshot({path:dir+"/"+width+"x"+height+"-hero.png"});
+   await page.screenshot({path:dir+"/"+theme+"-"+width+"x"+height+"-hero.png"});
    const frame=async(id)=>{
      await page.evaluate(id=>{
        const element=document.getElementById(id);
@@ -95,9 +105,9 @@ fs.mkdirSync(dir,{recursive:true});
      },id);
    };
    await frame("enquiries");
-   await page.screenshot({path:dir+"/"+width+"x"+height+"-enquiries.png"});
-   await frame("office");
-   await page.screenshot({path:dir+"/"+width+"x"+height+"-office.png"});
+   await page.screenshot({path:dir+"/"+theme+"-"+width+"x"+height+"-enquiries.png"});
+   await frame("contact-office");
+   await page.screenshot({path:dir+"/"+theme+"-"+width+"x"+height+"-office.png"});
    const vertical=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
    requireIt(vertical<=2,width+": scrolled horizontal overflow "+vertical);
    requireIt(errors.length===0,width+": browser errors "+errors.join(" | "));

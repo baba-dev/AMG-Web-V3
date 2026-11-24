@@ -235,8 +235,6 @@
 
 /* Footer contact rhythm: avoid the excessive double margins between
  * address, phone and Directions after enlarging touch targets. */
-.aiwa-footer__contact address { margin-bottom: 12px; }
-.aiwa-footer__contact > a { margin-top: 6px; }
 .aiwa-footer__contact .aiwa-footer__directions { margin-top: 8px; }
 
 /* The regular-weight licensed font is supplied only by a protected build
@@ -249,10 +247,10 @@
   font-style: normal;
   font-display: swap;
 }
-html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.spec-directory) {
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory) {
   --aiwa-font-body: "Aiwa Roc Grotesk Web", var(--font-space-grotesk), Arial, Helvetica, sans-serif;
 }
-html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.spec-directory) :where(
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory) :where(
   .aiwa-specialisms__footer p,
   .aiwa-about__description,
   .aiwa-work__caption span,
