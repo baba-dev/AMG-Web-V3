@@ -28,11 +28,6 @@
   padding: 7px 18px;
   margin: 0;
   border: 1px solid #d5d5d5;
-  font-family: var(--font-aiwa-display), Impact, "Arial Narrow", sans-serif;
-  font-size: clamp(16px, 1.3vw, 20px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -.015em;
   text-transform: uppercase;
 }
 .aiwa-specialisms__list {
@@ -63,11 +58,6 @@
   margin: 0;
   padding: 0;
   color: var(--spec-ink);
-  font-family: var(--font-aiwa-display), Impact, "Arial Narrow", sans-serif;
-  font-size: clamp(85px, 13.5vw, 207px);
-  font-weight: 900;
-  line-height: .9;
-  letter-spacing: -.045em;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
@@ -140,10 +130,6 @@
   right: 8px;
   bottom: 8px;
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(8px, .55vw, 11px);
-  font-weight: 900;
-  letter-spacing: .09em;
   text-shadow: 0 1px 8px rgba(0,0,0,.55);
 }
 .aiwa-specialisms__visual--global { background: radial-gradient(circle at 45% 30%, #9fc4d9, transparent 39%),linear-gradient(122deg,#172c37,#1a5b71,#071b28); }
@@ -166,11 +152,6 @@
 .aiwa-specialisms__footer p {
   max-width: 49ch;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(12px, .95vw, 16px);
-  line-height: 1.48;
-  font-weight: 500;
-  letter-spacing: -.035em;
 }
 .aiwa-specialisms__why {
   display: inline-flex;
@@ -183,10 +164,6 @@
   color: white;
   background: #070707;
   border: 1px solid #070707;
-  font-family: var(--font-aiwa-display), Impact, sans-serif;
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1;
   text-transform: uppercase;
   text-decoration: none;
   transition: color .28s ease, background-color .28s ease;
@@ -206,7 +183,7 @@
 
 @media (max-width: 950px) {
   .aiwa-specialisms { padding-top: 90px; }
-  .aiwa-specialisms__row { height: clamp(92px, 13.1vw, 143px); font-size: clamp(70px, 12.7vw, 143px); }
+  .aiwa-specialisms__row { height: clamp(92px, 13.1vw, 143px); }
   .aiwa-specialisms__visual { width: .91em; height: .92em; }
 }
 @media (max-width: 700px) {
@@ -215,22 +192,20 @@
     padding: 63px 14px 70px;
   }
   .aiwa-specialisms__top { margin-bottom: 38px; }
-  .aiwa-specialisms__top h2 { min-height: 34px; font-size: 13px; padding: 6px 11px; }
+  .aiwa-specialisms__top h2 { min-height: 34px; padding: 6px 11px; }
   .aiwa-specialisms__list { width: 100%; }
   .aiwa-specialisms__row {
     gap: 3px;
     height: clamp(58px, 13.6vw, 91px);
-    font-size: clamp(45px, 11.6vw, 81px);
-    letter-spacing: -.045em;
   }
   .aiwa-specialisms__visual { width: .95em; height: .94em; }
-  .aiwa-specialisms__visual-caption { right: 3px; bottom: 3px; font-size: 6px; }
+  .aiwa-specialisms__visual-caption { right: 3px; bottom: 3px; }
   .aiwa-specialisms__footer { margin-top: 64px; gap: 26px; width: min(420px, 92%); }
-  .aiwa-specialisms__footer p { font-size: 12px; }
-  .aiwa-specialisms__why { min-height: 43px; min-width: 146px; font-size: 15px; }
+  .aiwa-specialisms__footer p {; }
+  .aiwa-specialisms__why { min-height: 43px; min-width: 146px; }
 }
 @media (max-width: 385px) {
-  .aiwa-specialisms__row { font-size: 11.3vw; }
+  .aiwa-specialisms__row {; }
 }
 @media (prefers-reduced-motion: reduce) {
   .aiwa-specialisms__row,
@@ -267,17 +242,10 @@
   min-height:29px;
   padding:5px 12px;
   border:1px solid #c8c8c5;
-  font:400 clamp(13px,1.05vw,17px)/1 var(--font-aiwa-poster),Impact,sans-serif;
-  letter-spacing:.015em;
 }
 .aiwa-specialisms__list {width:min(1000px,100%);}
 .aiwa-specialisms__row {
   height:clamp(102px,10.6vw,151px);
-  font-family:var(--font-aiwa-poster),Impact,sans-serif;
-  font-size:clamp(82px,9.45vw,138px);
-  font-weight:400;
-  letter-spacing:-.035em;
-  line-height:.86;
   gap:clamp(6px,.6vw,10px);
   filter:none!important;
 }
@@ -294,36 +262,31 @@
 .aiwa-specialisms__footer {margin:clamp(55px,6vw,89px) auto 0;}
 .aiwa-specialisms__footer p {
   max-width:45ch;
-  font:500 clamp(13px,1vw,16px)/1.42 Arial,Helvetica,sans-serif;
-  letter-spacing:-.024em;
 }
 .aiwa-specialisms__why {
   min-width:173px;
   min-height:49px;
-  font:400 clamp(17px,1.4vw,21px)/1 var(--font-aiwa-poster),Impact,sans-serif;
   background:#050505;color:#fff;
 }
 @media(max-width:950px){
  .aiwa-specialisms {padding-top:61px;}
- .aiwa-specialisms__row {font-size:clamp(66px,9.5vw,113px);height:clamp(82px,10.5vw,125px);}
+ .aiwa-specialisms__row {;height:clamp(82px,10.5vw,125px);}
 }
 @media(max-width:700px){
  .aiwa-specialisms {padding:37px 11px 55px;}
  .aiwa-specialisms__top {margin-bottom:25px;}
- .aiwa-specialisms__top h2 {min-height:27px;font-size:12px;padding:4px 10px;}
- .aiwa-specialisms__row {
-   font-size:clamp(40px,10.75vw,73px);
+ .aiwa-specialisms__top h2 {min-height:27px;padding:4px 10px;}
+ .aiwa-specialisms__row {;
    height:clamp(51px,13.7vw,85px);
    gap:3px;
-   letter-spacing:-.034em;
  }
  .aiwa-specialisms__visual {width:.68em;height:.67em;}
  .aiwa-specialisms__footer {margin:44px auto 0;gap:23px;}
- .aiwa-specialisms__footer p {font-size:12px;line-height:1.45;}
- .aiwa-specialisms__why {min-height:44px;font-size:17px;}
+ .aiwa-specialisms__footer p {;}
+ .aiwa-specialisms__why {min-height:44px;}
 }
 @media(max-width:390px){
- .aiwa-specialisms__row {font-size:10.6vw;}
+ .aiwa-specialisms__row {;}
 }
 
 /* Homepage service navigation is temporarily placeholder-only. */
@@ -331,14 +294,21 @@
  display:inline-flex;align-items:center;justify-content:center;gap:14px;
  min-height:46px;padding:8px 3px;border-bottom:1px solid #0a0a0a;
  color:#0a0a0a;text-decoration:none;
- font:700 12px/1.25 var(--font-space-grotesk),Arial,sans-serif;
 }
 .aiwa-specialisms__all:focus-visible{outline:3px solid #0a0a0a;outline-offset:5px;}
-.aiwa-specialisms__footer p{font-family:var(--font-space-grotesk),Arial,sans-serif;}
+.aiwa-specialisms__footer p{;}
 @media(max-width:700px){.aiwa-specialisms__all{min-height:46px;}}
 
 /* Fit the longest approved discipline without changing the folding rhythm. */
-.aiwa-specialisms__row--tech {font-size:clamp(72px,8.6vw,126px);}
-@media(max-width:950px){.aiwa-specialisms__row--tech {font-size:clamp(54px,8.5vw,105px);}}
-@media(max-width:700px){.aiwa-specialisms__row--tech {font-size:clamp(30px,8.7vw,61px);}}
+.aiwa-specialisms__row--tech {;}
+@media(max-width:950px){.aiwa-specialisms__row--tech {;}}
+@media(max-width:700px){.aiwa-specialisms__row--tech {;}}
 .aiwa-specialisms__row:focus-visible {opacity:1!important;transform:none!important;outline-color:var(--spec-ink);}
+
+/* One optical cap height for all six service names. */
+.aiwa-specialisms__row{font:400 var(--type-specialisms)/.86 var(--type-display);letter-spacing:var(--tracking-display);}
+.aiwa-specialisms__top h2{font:600 var(--type-eyebrow-size)/1.2 var(--type-body);letter-spacing:var(--tracking-label);}
+.aiwa-specialisms__footer p{font:400 var(--type-body-size)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body);}
+.aiwa-specialisms__why{font:700 var(--type-ui-size)/1.2 var(--type-body);}
+.aiwa-specialisms__all{font:700 var(--type-ui-size)/1.2 var(--type-body);}
+.aiwa-specialisms__visual-caption{font:500 var(--type-meta-size)/1.2 var(--type-mono);letter-spacing:var(--tracking-label);}

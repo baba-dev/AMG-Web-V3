@@ -10,7 +10,7 @@ const URL = process.env.AIWA_TEST_URL || "http://127.0.0.1:4173/";
 const output = "test-artifacts/design-audit";
 fs.mkdirSync(output, { recursive: true });
 const breakpoints = [
-  [1440, 900], [1280, 800], [950, 800],
+  [1920, 1080], [1440, 900], [1280, 800], [950, 800],
   [768, 850], [430, 932], [390, 844], [360, 800], [320, 700]
 ];
 const testSelectors = [
@@ -69,26 +69,32 @@ const testSelectors = [
           width+"px: dark editorial surfaces diverge: "+JSON.stringify(initial.paper));
         assert(initial.heroWords.every(r=>r.x>=-12 && r.right<=width+12),
           width+"px: clipped hero words: "+JSON.stringify(initial.heroWords));
-        const usesPrivateRoc = await page.evaluate(() =>
-          document.documentElement.dataset.aiwaRoc === "true");
-        const bodyExpected = usesPrivateRoc ? /aiwa roc grotesk web/i : /space[_ ]?grotesk/i;
+        const bodyExpected = /space[_ ]?grotesk/i;
         assert(bodyExpected.test(initial.bodyFont),
           width+"px: unexpected body family: "+initial.bodyFont);
-        if (usesPrivateRoc) {
-          assert(await page.evaluate(() =>
-            document.fonts.check('16px "Aiwa Roc Grotesk Web"')),
-            width+"px: private Roc font failed to load");
-        }
-        const poster = initial.fonts.filter(x=>["hero","specialisms","work"].includes(x.key));
+
+        const poster = initial.fonts.filter(x=>["brand","hero","specialisms","about","work","footer"].includes(x.key));
         assert(poster.every(x=>x.font.toLowerCase().includes("anton")),
           width+"px: poster headings should share an Anton stack: "+JSON.stringify(poster));
+        const roles = await page.evaluate(() => {
+          const font = el => getComputedStyle(el).fontFamily;
+          const rows = [...document.querySelectorAll(".aiwa-specialisms__row")];
+          return {names:rows.map(el=>el.querySelector(".aiwa-specialisms__name").textContent),sizes:rows.map(el=>getComputedStyle(el).fontSize),ui:[...document.querySelectorAll(".aiwa-header__link,.aiwa-specialisms__why,.aiwa-work__cta")].map(font),footer:[...document.querySelectorAll('.aiwa-footer__links a,.aiwa-footer__contact address,.aiwa-footer__contact > a,.aiwa-footer__bottom a')].map(font),italic:[...document.querySelectorAll("em.aiwa-hero__word,.aiwa-about__line-text em")].map(el=>({font:font(el),style:getComputedStyle(el).fontStyle})),fontLoaded:[...document.fonts].filter(f=>f.status==="loaded").map(f=>f.family)};
+        });
+        assert.deepEqual(roles.names,["Creatives","Marketing","Development","IT Support","Branding","Events"]);
+        assert.equal(new Set(roles.sizes).size,1,"Service cap height must match");
+        assert(roles.ui.every(x=>/space[_ ]?grotesk/i.test(x)),"Unexpected UI font");
+        assert(roles.footer.length>0&&roles.footer.every(x=>/geist.*mono/i.test(x)),"Footer must retain approved mono typography");
+        assert(roles.italic.every(x=>/barlow/i.test(x.font)&&x.style==="italic"),"Editorial emphasis drift");
+        assert(roles.fontLoaded.some(x=>/anton/i.test(x)),"Anton not loaded");
+        assert(roles.fontLoaded.some(x=>/space[_ ]?grotesk/i.test(x)),"Space Grotesk not loaded");
         const tap = await page.evaluate(() => {
           const selectors = [
             ".aiwa-header__identity",".aiwa-hero__film-tile",
-            ".aiwa-footer__navigation a",".aiwa-footer__social a",
+            ".aiwa-footer__links a",".aiwa-footer__social-icons a",
             ".aiwa-footer__contact > a"
           ];
-          return selectors.flatMap(s=>[...document.querySelectorAll(s)].map(el=>{
+          return selectors.flatMap(s=>[...document.querySelectorAll(s)].filter(el=>el.getClientRects().length).map(el=>{
             const r=el.getBoundingClientRect();
             return {selector:s,text:(el.textContent||el.getAttribute("aria-label")||"").trim().slice(0,25),
               height:r.height,width:r.width};

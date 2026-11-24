@@ -34,6 +34,20 @@ async function geometry(page){return page.evaluate(()=>{
       width+": hero heading missing");
     const initial=await geometry(page);
     assert.equal(initial.cards,6,width+": six server-rendered cards required");
+    const type=await page.evaluate(()=>{
+      const style=s=>getComputedStyle(document.querySelector(s));
+      return {
+        display:[".work-hero h1",".work-page__index-header h2",".work-gallery__client",".work-process h2",".work-page__outro h2"].map(s=>style(s).fontFamily),
+        body:[".work-hero__type p",".work-gallery__title",".work-gallery__filters button",".work-page__contact-link"].map(s=>style(s).fontFamily),
+        emphasis:style(".work-hero h1 em").fontFamily,
+        italic:style(".work-hero h1 em").fontStyle,
+        index:style(".work-gallery__number").fontFamily
+      };
+    });
+    check(type.display.every(x=>/anton/i.test(x)),width+": portfolio display typography drift "+JSON.stringify(type));
+    check(type.body.every(x=>/space[_ ]?grotesk/i.test(x)),width+": portfolio body typography drift");
+    check(/barlow/i.test(type.emphasis)&&type.italic==="italic",width+": italic emphasis drift");
+    check(/geist.*mono/i.test(type.index),width+": project index typography drift");
     check(initial.overflow<=2,width+": initial overflow "+initial.overflow);
     check(/space[_ ]?grotesk|aiwa roc grotesk/i.test(initial.font),
       width+": Work font stack differs "+initial.font);

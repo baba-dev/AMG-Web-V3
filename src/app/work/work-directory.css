@@ -1,8 +1,8 @@
 /* Work-specific editorial system. Both themes are complete, never mixed. */
 .aiwa-site.work-page {
   --aiwa-gutter:clamp(18px,2.5vw,48px);
-  --aiwa-font-interface:var(--font-space-grotesk),Arial,Helvetica,sans-serif;
-  --aiwa-font-body:var(--aiwa-font-interface);
+  --aiwa-font-interface:var(--type-body);
+  --aiwa-font-body:var(--type-body);
   --work-cover:#0c0d10;
   --work-cover-ink:#f7f5ef;
   --work-cover-muted:#c2c0bb;
@@ -45,9 +45,7 @@ html.light .aiwa-site.work-page {
 .aiwa-site.work-page *::after { box-sizing:border-box; }
 .work-page :is(a,button):focus-visible { outline:2px solid currentColor; outline-offset:4px; }
 .work-page__gutter { padding-inline:var(--aiwa-gutter); }
-.work-page__eyebrow {
-  font:700 clamp(11px,.95vw,14px)/1.25 var(--aiwa-font-interface);
-  letter-spacing:.055em;
+.work-page__eyebrow {;
 }
 .work-page__paper {
   padding-block:clamp(74px,9vw,156px) clamp(82px,11vw,180px);
@@ -59,19 +57,16 @@ html.light .aiwa-site.work-page {
   gap:clamp(30px,6vw,90px); margin-bottom:clamp(44px,5vw,85px);
 }
 .work-page__index-header h2 {
-  margin:20px 0 0;
-  font:700 clamp(66px,8.2vw,140px)/.94 var(--aiwa-font-interface);
-  letter-spacing:-.092em; text-transform:none;
+  margin:20px 0 0; text-transform:none;
 }
 .work-page__index-header h2 span { color:var(--work-accent); }
 .work-page__index-header p {
   max-width:365px; margin:0 0 8px;
-  color:var(--work-muted); font:500 clamp(16px,1.35vw,20px)/1.5 var(--aiwa-font-body);
-  letter-spacing:-.035em;
+  color:var(--work-muted);
 }
 .work-page__disclosure {
   max-width:800px; margin:clamp(65px,7vw,115px) 0 0;
-  color:var(--work-muted); font:500 13px/1.6 var(--aiwa-font-body);
+  color:var(--work-muted);
 }
 .work-page__outro {
   padding-top:clamp(85px,11vw,185px);
@@ -80,60 +75,46 @@ html.light .aiwa-site.work-page {
 }
 .work-page__outro h2 {
   margin:clamp(33px,4.3vw,65px) 0 clamp(34px,4.3vw,65px);
-  font:700 clamp(62px,9vw,160px)/.96 var(--aiwa-font-interface);
-  letter-spacing:-.085em;
 }
-.work-page__outro h2 em {
-  font:italic 900 1em/.96 var(--font-aiwa-display),"Arial Narrow",sans-serif;
-  letter-spacing:-.04em;
+.work-page__outro h2 em {;
 }
 .work-page__contact-link {
   display:inline-flex; align-items:center; gap:clamp(30px,6vw,100px);
   min-height:54px; padding:10px 0; color:inherit; text-decoration:none;
   border-bottom:1px solid currentColor;
-  font:700 clamp(17px,1.5vw,24px)/1.2 var(--aiwa-font-interface);
 }
 .work-page__contact-link svg { transition:transform .3s; }
 .work-page__contact-link:hover svg { transform:translate(4px,-4px); }
-
-/* The shared footer is deliberately ink-on-paper globally.
-   On this route it follows the selected Work theme, without changing other pages. */
-.aiwa-site.work-page .aiwa-footer {
-  --footer-bg:var(--work-surface);
-  --footer-ink:var(--work-ink);
-  --footer-muted:var(--work-muted);
-  --footer-border:var(--work-line);
-  background:var(--footer-bg); color:var(--footer-ink);
-}
-.aiwa-site.work-page .aiwa-footer__intro p {
-  font:700 clamp(36px,4.1vw,72px)/1.04 var(--aiwa-font-interface);
-  letter-spacing:-.068em;
-}
-.aiwa-site.work-page .aiwa-footer__eyebrow,
-.aiwa-site.work-page .aiwa-footer__navigation a,
-.aiwa-site.work-page .aiwa-footer__social a,
-.aiwa-site.work-page .aiwa-footer__start,
-.aiwa-site.work-page .aiwa-footer__bottom button {
-  font-family:var(--aiwa-font-interface); font-weight:700;
-}
 
 @media(max-width:1080px) { .work-page__paper { scroll-margin-top:74px; } }
 @media(max-width:767px) {
   .aiwa-site.work-page { --aiwa-gutter:17px; }
   .work-page__paper { padding-block:70px 91px; }
   .work-page__index-header { display:block; margin-bottom:42px; }
-  .work-page__index-header h2 {
-    font-size:clamp(46px,10.8vw,83px); letter-spacing:-.07em; margin-top:17px;
+  .work-page__index-header h2 {; margin-top:17px;
   }
-  .work-page__index-header p { margin:20px 0 0; max-width:360px; font-size:16px; }
+  .work-page__index-header p { margin:20px 0 0; max-width:360px; }
   .work-page__disclosure { margin-top:56px; }
   .work-page__outro { padding-block:88px 108px; }
-  .work-page__outro h2 { font-size:clamp(49px,10.4vw,85px); }
-  .aiwa-site.work-page .aiwa-footer__intro p { font-size:clamp(41px,10vw,63px); }
+  .work-page__outro h2 {; }
+
 }
 @media(max-width:360px) {
-  .work-page__index-header h2 { font-size:clamp(41px,11.2vw,46px); }
+  .work-page__index-header h2 {; }
 }
 @media(prefers-reduced-motion:reduce) {
   .work-page__contact-link svg { transition:none!important; }
 }
+
+/* Central editorial roles. */
+.work-page__eyebrow{font:600 var(--type-eyebrow-size)/1.25 var(--type-body);letter-spacing:var(--tracking-label);}
+.work-page__index-header h2{font:400 var(--type-portfolio-heading)/var(--leading-display) var(--type-display);letter-spacing:var(--tracking-display);text-transform:uppercase;}
+.work-page__index-header p{font:400 var(--type-body-size)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body);}
+.work-page__disclosure{font:400 var(--type-meta-size)/1.6 var(--type-body);}
+.work-page__outro h2{font:400 var(--type-portfolio-heading)/var(--leading-display) var(--type-display);letter-spacing:var(--tracking-display);}
+.work-page__outro h2 em{font:italic 900 1em/.96 var(--type-emphasis);letter-spacing:-.045em;}
+.work-page__contact-link{font:700 var(--type-ui-size)/1.2 var(--type-body);}
+
+.work-page__paper{padding-block:clamp(60px,7vw,120px) clamp(70px,8vw,145px)}
+.work-page__index-header{margin-bottom:clamp(34px,4vw,64px)}
+.work-page__outro{padding-block:clamp(70px,8vw,145px)}

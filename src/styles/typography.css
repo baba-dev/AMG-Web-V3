@@ -1,0 +1,61 @@
+/* Canonical Aiwa editorial typography. Component styles own geometry. */
+:root {
+  --type-display: var(--font-aiwa-poster), Impact, sans-serif;
+  --type-emphasis: var(--font-aiwa-display), "Arial Narrow", sans-serif;
+  --type-body: var(--font-space-grotesk), Arial, sans-serif;
+  --type-mono: var(--font-geist-mono), monospace;
+  --type-arabic: "Aiwa Echo Kufi", Tahoma, sans-serif;
+  --type-display-xl: clamp(42px, 11.8vw, 182px);
+  --type-display-l: clamp(34px, 9.7vw, 148px);
+  --type-display-m: clamp(30px, 6.4vw, 112px);
+  --type-display-s: clamp(24px, 3vw, 51px);
+  --type-body-large: clamp(17px, 1.5vw, 24px);
+  --type-body-size: clamp(15px, 1.2vw, 18px);
+  --type-ui-size: clamp(14px, 1vw, 16px);
+  --type-eyebrow-size: clamp(12px, .95vw, 14px);
+  --type-meta-size: clamp(11px, .85vw, 13px);
+  --leading-display: .94;
+  --leading-body: 1.5;
+  --tracking-display: -.03em;
+  --tracking-body: -.015em;
+  --tracking-label: .045em;
+  /* Fit-specific variants preserve the existing poster/video geometry. */
+  --type-hero: var(--type-display-l);
+  --type-specialisms: clamp(32px, 8.6vw, 126px);
+  --type-about: clamp(38px, 4.8vw, 78px);
+  --type-work: var(--type-display-xl);
+  --type-footer: var(--type-display-m);
+}
+@media (min-width:721px) and (max-width:950px) {
+  :root { --type-hero:clamp(63px,8.5vw,82px); --type-about:clamp(38px,4.55vw,58px); }
+}
+@media(max-width:767px) {
+  :root {
+    --type-hero:clamp(40px,12.2vw,80px);
+    --type-specialisms:clamp(26px,8.7vw,66px);
+    --type-about:clamp(29px,9.05vw,63px);
+    --type-work:clamp(48px,13vw,98px);
+    --type-footer:clamp(38px,10.5vw,70px);
+  }
+}
+@media(max-width:350px) { :root { --type-hero:12vw; } }
+
+/* Portfolio roles: shared families, fit-aware sizes for editorial compositions. */
+:root {
+  --type-portfolio-hero:clamp(56px,7.8vw,138px);
+  --type-portfolio-heading:var(--type-display-l);
+  --type-project-title:clamp(30px,3.7vw,62px);
+  --type-project-list:clamp(28px,3.2vw,54px);
+  --type-process-title:clamp(24px,2.5vw,43px);
+  --type-filter-size:clamp(13px,.95vw,15px);
+}
+@media(max-width:1120px){:root{--type-portfolio-hero:clamp(48px,7vw,88px)}}
+@media(max-width:900px){:root{--type-project-list:clamp(24px,4vw,39px)}}
+@media(max-width:767px){:root{
+ --type-portfolio-hero:clamp(44px,12vw,86px);
+ --type-portfolio-heading:clamp(40px,10.4vw,80px);
+ --type-project-title:clamp(28px,7.2vw,45px);
+ --type-project-list:clamp(21px,5.5vw,31px);
+ --type-process-title:clamp(27px,6.5vw,34px);
+ --type-filter-size:13px;
+}}
