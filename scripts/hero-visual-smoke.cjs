@@ -465,24 +465,54 @@ async function testMegaLayer(browser,theme){
  const panel=page.locator("#aiwa-mega-panel-about");
  await panel.waitFor({state:"visible"});
  await page.screenshot({path:"test-artifacts/mega-menu-"+theme+".png"});
- const layout=await panel.evaluate(el=>{
-   // Deliberately overlap the actual projected media, independent of compact panel height.
-   const projected=document.querySelector(".aiwa-reel"), oldStyle=projected.getAttribute("style");
-   const rect=el.getBoundingClientRect(), original=projected.getBoundingClientRect();
-   projected.style.translate=(rect.left+rect.width*.5-original.left-original.width*.5)+"px "+(rect.top+rect.height*.5-original.top-original.height*.5)+"px";
-   projected.style.pointerEvents="auto";
-   const reel=projected.getBoundingClientRect();
-   const l=Math.max(rect.left,reel.left),r=Math.min(rect.right,reel.right),t=Math.max(rect.top,reel.top),b=Math.min(rect.bottom,reel.bottom);
-   const overlap=r>l&&b>t;
-   const stack=overlap?document.elementsFromPoint((l+r)/2,(t+b)/2):[];
-   const hit=stack[0];
-   const mediaInStack=stack.some(node=>node===projected||projected.contains(node));
-   projected.setAttribute("style",oldStyle??"");
+ // Use the REAL reel element and its existing stacking context, but a controlled
+ // geometry and solid diagnostic fill. Pixel checks prove paint order even when
+ // Chromium omits an occluded compositor layer from elementsFromPoint().
+ const fixture=await panel.evaluate(el=>{
+   const rect=el.getBoundingClientRect();
+   const sequence=document.querySelector(".aiwa-sequence").getBoundingClientRect();
+   const x=Math.floor(rect.left+rect.width*.72),y=Math.floor(rect.top+Math.min(rect.height*.5,160));
+   const style=document.createElement("style");
+   style.id="mega-layer-test-fixture";
+   style.textContent=`.aiwa-reel {
+     left:${x-sequence.left-40}px!important;top:${y-sequence.top-40}px!important;
+     width:80px!important;height:80px!important;transform:none!important;
+     translate:none!important;clip-path:none!important;opacity:1!important;
+     visibility:visible!important;background:rgb(255,0,255)!important;
+     pointer-events:auto!important;
+   }.aiwa-reel>*{visibility:hidden!important}`;
+   document.head.append(style);
+   const reel=document.querySelector(".aiwa-reel").getBoundingClientRect();
+   const hit=document.elementFromPoint(x,y);
    const title=el.querySelector(".aiwa-mega__link-copy strong");
-   return {overlap,mediaInStack,hit:!!hit&&el.contains(hit),children:[...el.children].map(n=>n.className),filler:!!el.querySelector(".aiwa-mega__panel-heading"),font:getComputedStyle(title).fontFamily,size:parseFloat(getComputedStyle(title).fontSize)};
+   return {x,y,overlap:x>reel.left&&x<reel.right&&y>reel.top&&y<reel.bottom,
+     hit:!!hit&&el.contains(hit),children:[...el.children].map(n=>n.className),
+     filler:!!el.querySelector(".aiwa-mega__panel-heading"),font:getComputedStyle(title).fontFamily,
+     size:parseFloat(getComputedStyle(title).fontSize)};
  });
- assert(layout.overlap&&layout.mediaInStack,"Test must exercise both actual stacking layers");
- assert(layout.hit,"Menu must receive pointer events above projected video");
+ const readPixel=async()=>{
+   const png=await page.screenshot({clip:{x:fixture.x,y:fixture.y,width:1,height:1},scale:"css"});
+   return page.evaluate(async data=>{
+     const img=new Image();img.src=data;await img.decode();
+     const canvas=document.createElement("canvas");canvas.width=1;canvas.height=1;
+     const ctx=canvas.getContext("2d");ctx.drawImage(img,0,0);
+     return Array.from(ctx.getImageData(0,0,1,1).data);
+   },"data:image/png;base64,"+png.toString("base64"));
+ };
+ let covered,uncovered;
+ try {
+   assert(fixture.overlap,"Diagnostic media must intersect the dropdown: "+JSON.stringify(fixture));
+   assert(fixture.hit,"Open panel must own the overlapping pointer position");
+   covered=await readPixel();
+   await panel.evaluate(el=>el.style.setProperty("visibility","hidden","important"));
+   uncovered=await readPixel();
+   assert.deepEqual(uncovered,[255,0,255,255],"Control: projected reel must be painted when dropdown is hidden");
+   assert.notDeepEqual(covered,uncovered,"Open dropdown must cover the real projected reel");
+ } finally {
+   await panel.evaluate(el=>el.style.removeProperty("visibility"));
+   await page.evaluate(()=>document.getElementById("mega-layer-test-fixture")?.remove());
+ }
+ const layout={...fixture,covered,uncovered};
  assert.deepEqual(layout.children,["aiwa-mega__links","aiwa-mega__art"]);
  assert(!layout.filler,"Remove the left filler column");
  assert(/space[_ ]?grotesk/i.test(layout.font)&&layout.size<=16,"Submenu typography drift");
