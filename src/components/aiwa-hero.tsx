@@ -65,6 +65,7 @@ export function AiwaHero() {
   const [filmOrigin, setFilmOrigin] = useState<FilmOrigin | null>(null);
   const [filmControlsActive, setFilmControlsActive] = useState(false);
   const [playNativeReel, setPlayNativeReel] = useState(false);
+  const [playOpeningVideo, setPlayOpeningVideo] = useState(false);
 
   useEffect(() => {
     const sequence = sequenceRef.current;
@@ -87,10 +88,12 @@ export function AiwaHero() {
     let opening = !motion.matches && Math.abs(window.scrollY) < 2 && !window.location.hash;
     const startedAt = performance.now();
     sequence.dataset.heroIntro = opening ? "playing" : "settled";
+    setPlayOpeningVideo(opening && Boolean(nativeVideo));
     const finishOpening = () => {
       if (!opening) return;
       opening = false;
       sequence.dataset.heroIntro = "settled";
+      setPlayOpeningVideo(false);
       schedule();
     };
 
@@ -223,7 +226,7 @@ export function AiwaHero() {
 
   return (
     <main className="aiwa-site">
-      <div className="aiwa-sequence" ref={sequenceRef}>
+      <div className="aiwa-sequence" data-hero-intro="playing" ref={sequenceRef}>
         <section ref={heroRef} className="aiwa-hero" aria-labelledby="aiwa-hero-heading">
           <header ref={headerRef} className="aiwa-header">
             <Link className="aiwa-header__identity" href="/" aria-label="Aiwa home">
@@ -300,7 +303,7 @@ export function AiwaHero() {
                   onClick={openFilm}
                   style={{ backgroundImage: "url(" + poster + ")" }}
                 >
-                  {nativeVideo && !playNativeReel && <video className="aiwa-hero__inline-video" src={nativeVideo} muted autoPlay loop playsInline preload="metadata" aria-hidden="true" />}
+                  {nativeVideo && playOpeningVideo && <video className="aiwa-hero__inline-video" src={nativeVideo} muted autoPlay loop playsInline preload="metadata" aria-hidden="true" />}
                   <span className="aiwa-hero__film-icon" aria-hidden="true"><Play size={17} fill="currentColor" /></span>
                 </button>
                 <span className="aiwa-hero__mask"><span className="aiwa-hero__word aiwa-hero__word--four">WITH AIWA.</span></span>
