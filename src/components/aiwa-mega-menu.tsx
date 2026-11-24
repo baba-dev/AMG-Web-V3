@@ -19,41 +19,41 @@ function isGroupCurrent(group: MegaMenuGroup, pathname: string) {
 }
 
 function MenuSketch({ kind }: { kind: MegaMenuGroup["id"] }) {
-  const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, pathLength: 1, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   return (
     <svg className="aiwa-mega-sketch" viewBox="0 0 520 310" aria-hidden="true">
       <path className="aiwa-mega-sketch__orbit" d="M35 245C122 78 350 22 488 116" {...common}/>
       {kind === "work" && <>
         <path d="M109 224l78-117 90 34 91-82 54 135-111 47-96-41z" {...common}/>
-        <path className="aiwa-mega-sketch__accent" d="M123 218l88-19 67-54 86-80M187 107l28 92 96 42" {...common}/>
+        <path className="aiwa-mega-sketch__accent" pathLength={1} d="M123 218l88-19 67-54 86-80M187 107l28 92 96 42" {...common}/>
         <circle cx="366" cy="64" r="9" {...common}/><path d="M78 250h367" {...common}/>
       </>}
       {kind === "about" && <>
         <path d="M79 238c55-49 84-117 129-120 38-3 52 45 85 42 38-3 55-75 110-69 25 2 42 18 55 39" {...common}/>
-        <path className="aiwa-mega-sketch__accent" d="M65 246h396M242 159l28 87M330 142l43 104" {...common}/>
+        <path className="aiwa-mega-sketch__accent" pathLength={1} d="M65 246h396M242 159l28 87M330 142l43 104" {...common}/>
         <path d="M145 180v66m-22-42h43M392 174v72m-25-37h49" {...common}/>
         <circle cx="270" cy="88" r="22" {...common}/>
       </>}
       {kind === "creatives" && <>
         <rect x="83" y="71" width="326" height="178" rx="5" {...common}/>
-        <circle cx="246" cy="160" r="65" {...common}/><circle className="aiwa-mega-sketch__accent" cx="246" cy="160" r="31" {...common}/>
+        <circle cx="246" cy="160" r="65" {...common}/><circle className="aiwa-mega-sketch__accent" pathLength={1} cx="246" cy="160" r="31" {...common}/>
         <path d="M91 91l-45-30m355 30l62-35M89 230l-48 27m363-28l61 31" {...common}/>
-        <path className="aiwa-mega-sketch__accent" d="M328 112c27 12 27 84 0 97M352 95c48 29 48 111 0 136" {...common}/>
+        <path className="aiwa-mega-sketch__accent" pathLength={1} d="M328 112c27 12 27 84 0 97M352 95c48 29 48 111 0 136" {...common}/>
       </>}
       {kind === "campaigns" && <>
         <path d="M76 198l247-101v126L76 148zM323 121l94-33v144l-94-33" {...common}/>
-        <path className="aiwa-mega-sketch__accent" d="M107 191v52m37-65v65m239-100h81m-81-35l68-43m-68 114l68 43" {...common}/>
+        <path className="aiwa-mega-sketch__accent" pathLength={1} d="M107 191v52m37-65v65m239-100h81m-81-35l68-43m-68 114l68 43" {...common}/>
         <path d="M184 173c12 42 30 71 61 83" {...common}/>
       </>}
       {kind === "development" && <>
         <rect x="67" y="55" width="385" height="201" rx="8" {...common}/>
         <path d="M67 91h385M104 73h1m21 0h1m21 0h1" {...common}/>
-        <path className="aiwa-mega-sketch__accent" d="M130 139l-43 28 43 28m257-56l43 28-43 28M291 116l-61 103" {...common}/>
+        <path className="aiwa-mega-sketch__accent" pathLength={1} d="M130 139l-43 28 43 28m257-56l43 28-43 28M291 116l-61 103" {...common}/>
         <path d="M166 116v103m187-103v103" {...common}/>
       </>}
       {kind === "start" && <>
         <path d="M102 225c54-94 112-141 199-125 45 8 83 40 121 112" {...common}/>
-        <path className="aiwa-mega-sketch__accent" d="M86 226h357M259 95V39m-27 63l-28-48m82 49l30-48" {...common}/>
+        <path className="aiwa-mega-sketch__accent" pathLength={1} d="M86 226h357M259 95V39m-27 63l-28-48m82 49l30-48" {...common}/>
         <path d="M183 226c5-55 36-83 76-83 42 0 70 29 77 83M225 185l34-20 34 20" {...common}/>
         <circle cx="259" cy="118" r="8" {...common}/>
       </>}
