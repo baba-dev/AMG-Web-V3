@@ -560,3 +560,13 @@
 #case-brief,.case-visual-study__grid{scroll-margin-top:95px;}
 @media(max-width:1080px){#case-brief,.case-visual-study__grid{scroll-margin-top:83px;}}
 @media(max-width:767px){#case-brief,.case-visual-study__grid{scroll-margin-top:74px;}}
+
+/* Source-reported case metrics: shared type roles, no change to existing chapter geometry. */
+.case-historical-results{background:var(--aiwa-paper);color:var(--aiwa-paper-ink);padding-block:clamp(50px,8vw,120px);border-block:1px solid var(--aiwa-paper-rule)}
+.case-historical-results h2{font:400 clamp(48px,8vw,126px)/.94 var(--type-display);letter-spacing:-.03em;margin:18px 0}
+.case-historical-results p{font:400 var(--type-body-size)/1.55 var(--type-body);max-width:60ch;color:var(--aiwa-paper-muted)}
+.case-historical-results dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:20px;margin:30px 0}
+.case-historical-results dl>div{border-top:1px solid var(--aiwa-paper-rule);padding-top:14px;display:flex;flex-direction:column-reverse;gap:12px}
+.case-historical-results dt{font:600 var(--type-ui-size)/1.4 var(--type-body)}
+.case-historical-results dd{font:400 clamp(55px,9vw,135px)/1 var(--type-display);margin:0}
+.case-showcase-link{display:inline-flex;align-items:center;gap:16px;min-height:44px;border-bottom:1px solid currentColor;font:700 var(--type-ui-size)/1.3 var(--type-body);color:inherit;text-decoration:none}

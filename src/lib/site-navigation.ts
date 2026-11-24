@@ -24,7 +24,7 @@ export const megaMenuGroups = [
     items: [
       { label: "Selected Work", href: "/work", description: "Our current portfolio and project stories." },
       { label: "Client Directory", href: "/work/clients", description: "Brands and organisations we have worked beside." },
-      { label: "Case Studies", href: "https://aiwamediagroup.com/case-study/", description: "A closer look at the brief, thinking and outcome.", external: true },
+      { label: "Case Studies", href: "/work/case-studies", description: "A closer look at the brief, thinking and outcome." },
     ],
   },
   {
