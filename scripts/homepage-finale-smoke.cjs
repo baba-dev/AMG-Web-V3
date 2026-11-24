@@ -81,6 +81,15 @@ async function checkViewport(browser,w,h) {
   assert.ok(near(workToFooter,0,5),"Homepage Work must flow directly into footer: "+workToFooter);
   await page.locator("#site-footer").scrollIntoViewIfNeeded();
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-footer.png"});
+  if(w<768) {
+    const toggle=page.getByRole("button",{name:"Get Started",exact:true});
+    await toggle.click();
+    assert.equal(await toggle.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("#footer-group-0").isVisible(),false);
+    await toggle.click();
+    assert.equal(await toggle.getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("#footer-group-0").isVisible(),true);
+  }
   await page.getByRole("button",{name:"Back to top"}).click();
   await page.waitForFunction(()=>scrollY<8,{timeout:11000});
   assert.ok(await page.evaluate(()=>scrollY<8),"Back to top must return to homepage hero");
@@ -103,6 +112,27 @@ async function checkViewport(browser,w,h) {
   await context.close();
   return {viewport:w+"x"+h,pages:routes.length,office:data.officeCount,footer:data.footerCount};
 }
+async function choreography(browser) {
+  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:"no-preference"});
+  const page=await context.newPage();
+  await navigate(page,"/work");
+  const beats=page.locator("#site-footer [data-footer-beat]");
+  assert.equal(await beats.count(),7);
+  for(const beat of await beats.all()) {
+    await beat.scrollIntoViewIfNeeded();
+    await beat.evaluate(el=>new Promise((resolve,reject)=>{
+      if(el.dataset.revealed==="true") return resolve();
+      const observer=new MutationObserver(()=>{
+        if(el.dataset.revealed==="true"){observer.disconnect();resolve();}
+      });
+      observer.observe(el,{attributes:true,attributeFilter:["data-revealed"]});
+      setTimeout(()=>{observer.disconnect();reject(new Error("Footer beat did not reveal"));},5000);
+    }));
+  }
+  await page.locator(".aiwa-footer__intro").scrollIntoViewIfNeeded();
+  assert.equal(await page.locator("#site-footer [data-footer-beat][data-revealed=true]").count(),7);
+  await context.close();
+}
 async function fallback(browser) {
 
   const plain=await browser.newContext({viewport:{width:390,height:844},javaScriptEnabled:false});
@@ -123,6 +153,7 @@ async function fallback(browser) {
     for(const [w,h] of [[1440,900],[1280,800],[390,844],[360,800]])
       results.push(await checkViewport(browser,w,h));
     await fallback(browser);
+    await choreography(browser);
     fs.writeFileSync(OUT+"/global-ending-report.json",JSON.stringify(results,null,2));
     console.log("AIWA_GLOBAL_ENDING_QA_PASS",JSON.stringify(results));
   } finally { await browser.close(); }
