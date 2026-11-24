@@ -6,7 +6,6 @@ const picks = ["fundoo-toys", "coy", "razmazaan", "aquapetro-chemicals"];
 
 export function ClientHero() {
   return <section className="cd-hero cd-gutter" aria-labelledby="cd-title">
-    <div className="cd-hero-top cd-label"><span>AIWA / THE CLIENT ARCHIVE</span><span>EDITION 01 <i aria-hidden="true"/> 001 — {String(clients.length).padStart(3,"0")}</span></div>
     <div className="cd-hero-stage">
       <div className="cd-hero-copy">
         <p className="cd-label cd-hero-kicker"><span aria-hidden="true"/> GOOD PEOPLE. GREAT THINGS.</p>
