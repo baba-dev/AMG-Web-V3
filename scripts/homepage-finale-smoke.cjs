@@ -69,7 +69,7 @@ async function assertGlobalStructure(page, pathname) {
       return properties.every(property=>computed[property]===style[property]);
     });
   });
-  assert.equal(typeMatches,true,pathname+": footer links must match Privacy Notes typography");
+  assert.equal(typeMatches,true,pathname+": footer links and contact details must match Privacy Notes typography");
 
   assert.equal(data.footerPlaceholders,true,pathname+": expected placeholder destinations");
   assert.equal(data.footerSocials,5,pathname+": missing legacy social platforms");
