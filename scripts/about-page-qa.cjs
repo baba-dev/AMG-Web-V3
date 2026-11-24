@@ -22,7 +22,8 @@ for(const theme of ["light","dark"]) for(const width of [320,390,768,1440,1920])
  const headline=await page.locator("#ab-title").evaluate(el=>[...el.querySelectorAll(":scope > span > b, :scope > span > em")].map(n=>({w:n.scrollWidth,c:n.clientWidth})));assert(headline.every(n=>n.w<=n.c+2),JSON.stringify(headline));
  assert.equal(await page.locator(".aiwa-office").count(),0);
  assert.equal(await page.locator("#site-footer").count(),1);
- assert.equal(await page.locator('.aiwa-footer__navigation a[href="/about"]').count(),1);
+ assert.equal(await page.locator('.aiwa-footer__links a').filter({hasText:"About Us"}).count(),1);
+ assert.equal(await page.locator('.aiwa-footer__links a').filter({hasText:"About Us"}).getAttribute("href"),"#");
  for(const name of ["Passionate","Collaborative","Results-Oriented"]){
   const button=page.getByRole("button",{name:new RegExp(name)});await button.click();
   assert.equal(await button.getAttribute("aria-pressed"),"true");
