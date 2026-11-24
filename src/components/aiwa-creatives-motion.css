@@ -27,3 +27,33 @@
 @media(max-width:1000px){.creative-lab__controls{grid-template-columns:repeat(3,minmax(0,1fr))}.creative-lab__controls button{border-bottom:1px solid var(--border)}}
 @media(max-width:600px){.creative-lab header{font-size:10px}.creative-lab__controls{grid-template-columns:repeat(2,minmax(0,1fr))}.creative-lab__controls button{min-height:52px}.creative-lab__scene{aspect-ratio:4/3}.creative-lab__caption{padding:12px;font-size:12px}.creative-lab__caption svg{width:16px;flex:none}}
 @media(prefers-reduced-motion:reduce){.creative-lab *, .creative-lab *::before,.creative-lab *::after{animation:none!important;transition:none!important}}
+
+/* The lab follows the homepage's ink, paper and poster-type language. */
+.creative-lab{--lab-ease:cubic-bezier(.16,1,.3,1);background:var(--detail-page);color:var(--detail-ink)}
+.creative-lab header{border-color:var(--detail-rule);color:var(--detail-muted)}
+.creative-lab h2 em{color:var(--detail-muted)}
+.creative-lab__stage{border:1px solid #ffffff25}
+.creative-lab__scene{background-size:auto,36px 36px,36px 36px;isolation:isolate}
+.creative-lab__scene::after{content:"";position:absolute;inset:12px;border:1px solid #ffffff15;pointer-events:none}
+.creative-lab__scene svg{opacity:.9}
+.creative-lab__scene strong{text-shadow:0 3px 30px #15131780}
+.creative-lab__guides{animation:none}
+.creative-lab[data-visible=true] .creative-lab__guides{animation:creative-guide .65s var(--lab-ease) both}
+.creative-lab[data-visible=true] .creative-lab__scene strong{animation-delay:90ms}
+.creative-lab__scene[data-mode="1"] .creative-lab__frames{transform-origin:400px 225px}
+.creative-lab[data-visible=true] .creative-lab__scene[data-mode="1"] .creative-lab__frames{animation:creative-film .85s var(--lab-ease) both}
+.creative-lab[data-visible=true] .creative-lab__scene[data-mode="4"] .creative-lab__frames{animation:creative-phone .95s var(--lab-ease) both}
+.creative-lab[data-visible=true] .creative-lab__scene[data-mode="5"] .creative-lab__orbit{animation:creative-live .9s var(--lab-ease) both}
+@keyframes creative-guide{from{opacity:0}to{opacity:.35}}
+@keyframes creative-film{from{transform:translateX(55px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes creative-phone{from{transform:translateY(45px) scale(.82);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes creative-live{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
+.creative-lab__controls{border-color:var(--detail-rule)}
+.creative-lab__controls button{position:relative;min-width:0;color:var(--detail-ink);border-color:var(--detail-rule);gap:clamp(6px,.7vw,12px);padding:14px 10px}
+.creative-lab__controls button span{overflow-wrap:anywhere}
+.creative-lab__controls button[aria-pressed=true]{background:var(--detail-ink);color:var(--detail-page)}
+.creative-lab__controls button:not([aria-pressed=true]):hover{background:var(--detail-surface-alt)}
+.creative-lab__controls button:focus-visible{outline-color:var(--detail-ink);outline-offset:-3px}
+.creative-lab__note{color:var(--detail-muted)}
+@media(max-width:600px){.creative-lab h2{font-size:clamp(46px,12vw,72px)}.creative-lab__scene strong{font-size:clamp(48px,15vw,100px)}.creative-lab__controls button{font-size:13px}.creative-lab__controls button svg{width:17px}.creative-lab__controls small{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.creative-lab *, .creative-lab *::before,.creative-lab *::after{animation:none!important;transition:none!important}}
