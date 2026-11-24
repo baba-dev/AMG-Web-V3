@@ -41,14 +41,19 @@ const sample=async page=>page.evaluate(()=>{
     assert.equal(dir?.status(),200,width+": directory failed to load");
     await pause(page);
     assert.equal(await page.locator("[data-specialisms-directory]").count(),1);
-    assert.equal(await page.locator("[data-specialism-card]").count(),7,width+": cards");
-    assert.deepEqual(await page.locator(".spec-directory__card").evaluateAll(x=>x.map(v=>new URL(v.href).pathname)),
-      records.map(([slug])=>"/specialisms/"+slug),width+": wrong project href order");
+    assert.equal(await page.locator("[data-specialism-card]").count(),6,width+": cards");
+    assert.deepEqual(await page.locator(".spec-directory__card-content h3").allTextContents(),["Creatives","Marketing","Development","IT Support","Branding","Events"]);
+    assert.deepEqual(await page.locator(".spec-directory__card").evaluateAll(x=>x.map(v=>v.getAttribute("href"))),
+      ["/specialisms/creatives",...Array(5).fill("#")],width+": wrong project href order");
     const state=await sample(page);
     check(state.overflow<=2,width+": directory overflow "+state.overflow);
     check(/space[_ ]?grotesk|aiwa roc grotesk/i.test(state.font),width+": directory body font "+state.font);
     const cards=await page.locator(".spec-directory__card").count();
-    assert.equal(cards,7);
+    assert.equal(cards,6);
+    const typography=await page.evaluate(()=>{const style=s=>getComputedStyle(document.querySelector(s));return {display:[".spec-directory__hero h1",".spec-directory__gallery-heading h2",".spec-directory__card-content h3",".spec-directory__promise h2",".spec-directory__contact h2"].map(s=>style(s).fontFamily),body:[".spec-directory__hero-bottom>p",".spec-directory__card-content>p",".spec-directory__contact>a"].map(s=>style(s).fontFamily),italic:style(".spec-directory__hero h1 em").fontFamily,mono:style(".spec-directory__card-line").fontFamily};});
+    check(typography.display.every(f=>/anton/i.test(f)),JSON.stringify(typography));
+    check(typography.body.every(f=>/space[_ ]?grotesk/i.test(f)),JSON.stringify(typography));
+    check(/barlow/i.test(typography.italic)&&/geist.*mono/i.test(typography.mono),JSON.stringify(typography));
     if(width===1440 || width===390 || width===320){
       await page.screenshot({path:output+"/"+width+"x"+height+"-directory-hero.png"});
       await page.evaluate(()=>document.getElementById("all-services").scrollIntoView({behavior:"instant",block:"start"}));
@@ -184,7 +189,7 @@ const sample=async page=>page.evaluate(()=>{
   const noJs=await browser.newContext({viewport:{width:360,height:800},javascriptEnabled:false});
   const noJsPage=await noJs.newPage();
   await noJsPage.goto(origin+"/specialisms",{waitUntil:"domcontentloaded"});
-  assert.equal(await noJsPage.locator(".spec-directory__card").count(),7);
+  assert.equal(await noJsPage.locator(".spec-directory__card").count(),6);
   await noJsPage.goto(origin+"/specialisms/sports",{waitUntil:"domcontentloaded"});
   assert.equal(await noJsPage.locator(".spec-detail__capabilities li").count(),4);
   assert.equal(await noJsPage.locator("[data-no-verified-case-study]").count(),1);
