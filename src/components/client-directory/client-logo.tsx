@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import { clientLogo, clientNumber, type Client } from "@/lib/client-directory";
+import { clientLogo, clientNumber, clientProject, type Client } from "@/lib/client-directory";
 
 export function ClientLogo({client, decorative=false, eager=false, sizes="(max-width: 767px) 46vw, (max-width: 1100px) 30vw, 22vw"}: {client:Client; decorative?:boolean; eager?:boolean; sizes?:string}) {
   // Pre-generated, lossless responsive assets; Next static export has no image optimizer.
@@ -11,8 +11,8 @@ export function ClientLogo({client, decorative=false, eager=false, sizes="(max-w
 export function ClientCard({client, open, index, list=false}: {client:Client; open:(c:Client)=>void; index:number; list?:boolean}) {
   return <li className="cd-item" data-client-id={client.id} style={{animationDelay: Math.min(index,8)*35+"ms"}}>
     <button className="cd-card" type="button" onClick={()=>open(client)} aria-label={"Explore "+client.name} aria-haspopup="dialog">
-      <div className="cd-card-art"><span className="cd-card-index">{clientNumber(client)} / ARCHIVE</span><ClientLogo client={client} decorative sizes={list?"(max-width: 767px) 76px, 124px":undefined}/><span className="cd-card-arrow"><ArrowUpRight size={19} aria-hidden="true"/></span></div>
-      <div className="cd-card-caption"><span><strong>{client.name}</strong>{client.industry && <small>{client.industry}</small>}</span><ArrowUpRight size={21} aria-hidden="true"/></div>
+      <div className="cd-card-art"><span className="cd-card-index">NO. {clientNumber(client)}</span><ClientLogo client={client} decorative sizes={list?"(max-width: 767px) 76px, 124px":undefined}/>{clientProject(client)&&<span className="cd-card-proof">SELECTED WORK <ArrowUpRight size={12} aria-hidden="true"/></span>}</div>
+      <div className="cd-card-caption"><span><strong>{client.name}</strong>{client.industry && <small>{client.industry}</small>}</span><span className="cd-card-action"><ArrowUpRight size={20} aria-hidden="true"/></span></div>
     </button>
   </li>;
 }

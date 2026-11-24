@@ -17,3 +17,6 @@ Route: /work/clients. The merged V1+V2 library supplies 29 paired WebP assets. T
 - Drag handle with pointer and keyboard, reset, check reduced-motion and mobile alternative.
 - Test portfolio links and CTA; confirm global menu/footer and route transition.
 - Measure LCP, CLS, INP, mobile network payload, contrast and animation smoothness in deployed preview; these are targets, not pre-verified results.
+
+## Premium refinement
+Print registration field, intentional four-card cover composition, archive numbering, quieter spaced gallery, single directional action, verified portfolio markers, filter counts and clear controls, refined dossier artwork plate and explicit focus return, mobile-specific play instructions, and restrained CTA line animation. Existing route and theme system retained. The dedicated browser QA suite checks real interactions and captures desktop/mobile screenshots using the existing shared preview; no additional browser or dependency installation is needed.
