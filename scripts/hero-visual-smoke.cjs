@@ -452,9 +452,56 @@ async function testOpening(browser,width,height){
  return frames;
 }
 
+async function testMegaLayer(browser,theme){
+ const ctx=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:"reduce",colorScheme:theme});
+ const page=await ctx.newPage();
+ await page.addInitScript(t=>localStorage.setItem("theme",t),theme);
+ await page.goto(URL,{waitUntil:"domcontentloaded"});
+ await page.waitForFunction(()=>document.querySelector(".aiwa-sequence")?.dataset.heroIntro==="settled");
+ await page.evaluate(()=>document.fonts.ready);
+ await page.waitForFunction(()=>{const r=document.querySelector(".aiwa-reel");return Number(getComputedStyle(r).opacity)>.99&&r.getBoundingClientRect().width>20});
+ const trigger=page.locator('.aiwa-mega__trigger[aria-controls="aiwa-mega-panel-about"]');
+ await trigger.hover();
+ const panel=page.locator("#aiwa-mega-panel-about");
+ await panel.waitFor({state:"visible"});
+ await page.screenshot({path:"test-artifacts/mega-menu-"+theme+".png"});
+ // Verify production stacking architecture directly, without moving or recolouring
+ // the media. The compact menu is not required to overlap the tile at every width.
+ const layout=await panel.evaluate(el=>{
+   const header=el.closest(".aiwa-header"),reel=document.querySelector(".aiwa-reel");
+   const rect=el.getBoundingClientRect(),x=rect.left+rect.width*.7,y=rect.top+rect.height*.5;
+   const hit=document.elementFromPoint(x,y);
+   const title=el.querySelector(".aiwa-mega__link-copy strong");
+   return {sameContext:header.parentElement===reel.parentElement,
+     headerZ:Number(getComputedStyle(header).zIndex),reelZ:Number(getComputedStyle(reel).zIndex),
+     hit:!!hit&&el.contains(hit),children:[...el.children].map(n=>n.className),
+     filler:!!el.querySelector(".aiwa-mega__panel-heading"),font:getComputedStyle(title).fontFamily,
+     size:parseFloat(getComputedStyle(title).fontSize)};
+ });
+ assert(layout.sameContext&&layout.headerZ>layout.reelZ,"Header must share the reel stacking context and paint above it: "+JSON.stringify(layout));
+ assert(layout.hit,"Open panel must receive pointer events");
+ assert.deepEqual(layout.children,["aiwa-mega__links","aiwa-mega__art"]);
+ assert(!layout.filler,"Remove the left filler column");
+ assert(/space[_ ]?grotesk/i.test(layout.font)&&layout.size<=16,"Submenu typography drift");
+ await trigger.focus();
+ await page.keyboard.press("ArrowDown");
+ await panel.locator("a").first().waitFor({state:"visible"});
+ await page.waitForFunction(()=>document.activeElement===document.querySelector("#aiwa-mega-panel-about a"));
+ await page.keyboard.press("End");
+ assert(await panel.locator("a").last().evaluate(el=>el===document.activeElement),"End reaches last submenu link");
+ await page.keyboard.press("Home");
+ assert(await panel.locator("a").first().evaluate(el=>el===document.activeElement),"Home reaches first submenu link");
+ await page.keyboard.press("Escape");
+ await page.waitForFunction(()=>document.querySelector("#aiwa-mega-panel-about")?.getAttribute("aria-hidden")==="true");
+ assert(await trigger.evaluate(el=>el===document.activeElement),"Escape restores trigger focus");
+ await ctx.close();
+ return layout;
+}
+
 (async () => {
   const browser=await chromium.launch({headless:true});
   try {
+    const megaMenu=[await testMegaLayer(browser,"light"),await testMegaLayer(browser,"dark")];
     const openings=[await testOpening(browser,1440,900),await testOpening(browser,390,844)];
     const results=[];
     results.push(await testViewport(browser,1440,900));
@@ -464,7 +511,7 @@ async function testOpening(browser,width,height){
     motionFrames.push(await testHeroSpecialismsMotion(browser,390,844));
     const aboutMotion = await testAboutEntrance(browser);
     const themes = [await testDuotoneTheme(browser,1440,900), await testDuotoneTheme(browser,390,844)];
-    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,motionFrames,aboutMotion,themes,openings},null,2));
+    fs.writeFileSync("test-artifacts/measurements.json",JSON.stringify({results,motionFrames,aboutMotion,themes,openings,megaMenu},null,2));
     console.log("AIWA_EDITORIAL_DUOTONE_THEME_PASS");
     console.log("AIWA_HERO_SPECIALISMS_MOTION_PASS");
     console.log(JSON.stringify(results.map(r=>({viewport:r.viewport,hero:r.initial.hero,film:r.inFilm.film,projection:r.inFilm.projection,third:r.third,about:r.fourth})),null,2));

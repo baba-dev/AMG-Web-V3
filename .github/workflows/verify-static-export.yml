@@ -5,20 +5,25 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: aiwa-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     name: Next.js static export
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up Node LTS
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
           cache: npm
@@ -26,7 +31,44 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Build static site
         run: npm run build
-      - name: Verify Pages output
+      - name: Verify public Pages output
         run: |
           test -f out/index.html
           test -d out/_next/static
+          for route in about contact work specialisms privacy terms; do
+            test -f "out/$route.html" || test -f "out/$route/index.html" || exit 1
+          done
+          for slug in mymo-express casabella-oman best-genetco aqua-petro razmazaan vitamin-phones; do
+            test -f "out/work/$slug.html" || test -f "out/work/$slug/index.html" || exit 1
+          done
+          test -f out/specialisms/creatives.html || test -f out/specialisms/creatives/index.html
+          test ! -f out/specialisms/consumer.html
+          test ! -f out/specialisms/consumer/index.html
+      - name: Install browser test dependency
+        if: github.event_name != 'push'
+        run: |
+          npm install --no-save --package-lock=false playwright
+          npx playwright install chromium --only-shell
+      - name: Run unique browser regressions
+        if: github.event_name != 'push'
+        env:
+          CI_EVENT: ${{ github.event_name }}
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          CI_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          node scripts/work-static-preview.cjs >/tmp/aiwa-preview.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:4173/ >/dev/null
+          node scripts/ci-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: failure() || github.event_name == 'workflow_dispatch'
+        with:
+          name: aiwa-browser-diagnostics
+          path: test-artifacts/
+          if-no-files-found: ignore
+          retention-days: 7
