@@ -24,7 +24,42 @@ execFileSync(process.execPath,["scripts/client-directory-assets.mjs"],{stdio:"in
     assert.equal(await page.locator('[data-client-id="rcs-oman"],[data-client-id="vitamin-phones"]').count(),0);
     assert.equal(await page.locator(".cd-card-art").first().evaluate(e=>getComputedStyle(e).backgroundColor),"rgb(255, 255, 255)");
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+2),width+": overflow");
+    assert.equal(await page.locator(".cd-hero-top").count(),0,"archive header strip removed");
+    assert.equal(await page.locator(".cd-orbit").count(),0,"old orbital widget removed");
+    assert.equal(await page.locator(".cd-story-link").count(),3,"three related portfolio stories");
+    const home=await context.newPage();
+    await home.goto(base+"/",{waitUntil:"domcontentloaded"});
+    await home.evaluate(()=>document.fonts.ready);
+    const homeType=await home.evaluate(()=>{
+      const hero=getComputedStyle(document.querySelector(".aiwa-hero__headline"));
+      const label=getComputedStyle(document.querySelector(".aiwa-specialisms__top h2"));
+      return {display:hero.fontFamily,tracking:hero.letterSpacing,body:label.fontFamily,labelWeight:label.fontWeight};
+    });
+    await home.close();
+    const type=await page.evaluate(()=>{
+      const hero=getComputedStyle(document.querySelector(".cd-hero h1"));
+      const label=getComputedStyle(document.querySelector(".cd-hero-kicker"));
+      const outro=getComputedStyle(document.querySelector(".cd-outro h2"));
+      const together=getComputedStyle(document.querySelector(".cd-outro h2>span:last-child"));
+      const fits=Array.from(document.querySelectorAll(".cd-hero h1>span>b,.cd-outro h2>span")).every(el=>{
+        const range=document.createRange();range.selectNodeContents(el);
+        const text=range.getBoundingClientRect(), box=el.getBoundingClientRect();
+        return text.width<=box.width+2;
+      });
+      return {display:hero.fontFamily,body:label.fontFamily,labelWeight:label.fontWeight,outro:outro.fontFamily,style:together.fontStyle,weight:together.fontWeight,fits};
+    });
+    assert.equal(type.display,homeType.display,"homepage display family");
+    assert.equal(type.body,homeType.body,"homepage eyebrow family");
+    assert.equal(type.labelWeight,homeType.labelWeight,"homepage eyebrow weight");
+    assert.equal(type.outro,homeType.display,"outro poster family");
+    assert.equal(type.style,"normal","upright TOGETHER");
+    assert.equal(type.weight,"400","normal poster weight");
+    assert.ok(type.fits,width+": poster lettering exceeds text column");
     await page.screenshot({path:folder+"/"+width+"-hero.png"});
+    await page.locator(".cd-connections").scrollIntoViewIfNeeded();
+    await page.screenshot({path:folder+"/"+width+"-stories.png"});
+    await page.locator(".cd-outro h2").scrollIntoViewIfNeeded();
+    await page.screenshot({path:folder+"/"+width+"-outro.png"});
     const search=page.getByRole("searchbox",{name:"Search client names"});
     await search.fill("fundoo");await page.waitForFunction(()=>document.querySelectorAll(".cd-gallery [data-client-id]").length===1);
     assert.equal(await cards.first().getAttribute("data-client-id"),"fundoo-toys");
