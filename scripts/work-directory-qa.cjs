@@ -152,8 +152,9 @@ async function geometry(page){return page.evaluate(()=>{
     }else{
       check(await page.locator(".aiwa-inner-header__links").isVisible(),width+": desktop nav missing");
     }
-    const footerWork=await page.locator(".aiwa-footer__navigation a").first().getAttribute("href");
-    assert.equal(footerWork,"/work",width+": footer Work link should open the portfolio route");
+    const footerLinks=page.locator(".aiwa-footer__links a");
+    assert.equal(await footerLinks.count(),15,width+": legacy footer links missing");
+    assert.ok(await footerLinks.evaluateAll(links=>links.every(link=>link.getAttribute("href")==="#")),width+": footer links must use approved placeholders");
     await page.evaluate(()=>scrollTo(0,0));
     await page.screenshot({path:folder+"/"+width+"x"+height+"-hero.png"});
     await page.evaluate(()=>document.getElementById("work-index").scrollIntoView({behavior:"instant",block:"start"}));
