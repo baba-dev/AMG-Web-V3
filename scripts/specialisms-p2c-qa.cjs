@@ -75,6 +75,15 @@ const sample=async page=>page.evaluate(()=>{
         await page.getByRole("button",{name:/Photography/}).click();
         assert.equal(await page.getByRole("button",{name:/Photography/}).getAttribute("aria-pressed"),"true");
         assert.equal(await page.locator(".creative-lab__scene strong").textContent(),"FOCUS.");
+        const scenes=new Set();
+        for(const control of await page.locator(".creative-lab__controls button").all()) {
+          await control.click();
+          assert.equal(await control.getAttribute("aria-pressed"),"true");
+          assert.equal(await page.locator(".creative-lab__controls button[aria-pressed=true]").count(),1);
+          scenes.add(await page.locator(".creative-lab__scene svg").innerHTML());
+        }
+        assert.equal(scenes.size,6,"Each discipline must have unique artwork");
+        assert.equal(await page.locator(".creative-lab__scene strong").evaluate(el=>getComputedStyle(el).animationName),"none");
       }
       const hrefs=await page.locator("[data-related-work]").evaluateAll(list=>list.map(x=>new URL(x.href).pathname));
       check(hrefs.every(x=>x.startsWith("/work/")),slug+": related work must stay on Aiwa V3");
