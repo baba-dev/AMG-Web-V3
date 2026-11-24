@@ -1,0 +1,59 @@
+.creative-lab{padding-block:clamp(60px,8vw,130px);background:var(--background);color:var(--foreground);overflow:clip}
+.creative-lab header{display:flex;justify-content:space-between;gap:16px;font:600 12px/1.4 var(--font-space-grotesk),sans-serif;letter-spacing:.08em;border-top:1px solid var(--border);padding-top:16px}
+.creative-lab h2{font:400 clamp(58px,10vw,154px)/.85 var(--font-aiwa-poster),Impact,sans-serif;letter-spacing:-.035em;margin:clamp(28px,4vw,64px) 0;text-transform:uppercase}
+.creative-lab h2 em{font-style:normal;color:var(--muted-foreground)}
+.creative-lab__stage{background:#151317;color:var(--lab-accent);position:relative;overflow:hidden;isolation:isolate;transition:color .45s ease}
+.creative-lab__scene{position:relative;aspect-ratio:16/9;display:grid;place-items:center;background:radial-gradient(ellipse at center,color-mix(in srgb,var(--lab-accent) 19%,transparent),transparent 65%),linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:auto,42px 42px,42px 42px}
+.creative-lab__scene svg{position:absolute;inset:0;width:100%;height:100%;opacity:.75}
+.creative-lab__scene strong{position:relative;z-index:1;color:#f5f5f3;font:400 clamp(56px,15vw,210px)/.9 var(--font-aiwa-poster),Impact,sans-serif;letter-spacing:-.04em}
+.creative-lab__scene strong span{color:var(--lab-accent)}
+.creative-lab__orbit,.creative-lab__frames{transform-origin:400px 225px}
+.creative-lab[data-visible=true] .creative-lab__orbit{animation:creative-orbit 1.4s cubic-bezier(.16,1,.3,1) both}
+.creative-lab[data-visible=true] .creative-lab__frames{animation:creative-frames .9s cubic-bezier(.16,1,.3,1) both}
+.creative-lab[data-visible=true] .creative-lab__scene strong{animation:creative-word .75s cubic-bezier(.16,1,.3,1) both}
+@keyframes creative-orbit{from{transform:rotate(-60deg) scale(.6);opacity:0}to{transform:rotate(0) scale(1);opacity:1}}
+@keyframes creative-frames{from{transform:rotate(35deg) scale(.8);opacity:0}to{transform:rotate(0) scale(1);opacity:1}}
+@keyframes creative-word{from{transform:translateY(18px);opacity:.3}to{transform:translateY(0);opacity:1}}
+.creative-lab__caption{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px;border-top:1px solid #ffffff30;color:#f5f5f3;font:500 14px/1.4 var(--font-space-grotesk),sans-serif}
+.creative-lab__caption p{margin:0;text-align:center}
+.creative-lab__controls{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-bottom:1px solid var(--border)}
+.creative-lab__controls button{display:flex;align-items:center;gap:10px;min-height:64px;padding:12px;color:var(--foreground);background:transparent;border:0;border-right:1px solid var(--border);font:600 14px/1.2 var(--font-space-grotesk),sans-serif;cursor:pointer;transition:background .25s,color .25s}
+.creative-lab__controls button:last-child{border-right:0}
+.creative-lab__controls button[aria-pressed=true]{background:var(--foreground);color:var(--background)}
+.creative-lab__controls button:not([aria-pressed=true]):hover{background:var(--muted)}
+.creative-lab__controls button:focus-visible{outline:2px solid var(--foreground);outline-offset:3px;z-index:2}
+.creative-lab__controls button svg{flex:none}.creative-lab__controls small{margin-left:auto;font-size:10px}
+.creative-lab__note{font-size:11px;color:var(--muted-foreground);margin:14px 0 0;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:1000px){.creative-lab__controls{grid-template-columns:repeat(3,minmax(0,1fr))}.creative-lab__controls button{border-bottom:1px solid var(--border)}}
+@media(max-width:600px){.creative-lab header{font-size:10px}.creative-lab__controls{grid-template-columns:repeat(2,minmax(0,1fr))}.creative-lab__controls button{min-height:52px}.creative-lab__scene{aspect-ratio:4/3}.creative-lab__caption{padding:12px;font-size:12px}.creative-lab__caption svg{width:16px;flex:none}}
+@media(prefers-reduced-motion:reduce){.creative-lab *, .creative-lab *::before,.creative-lab *::after{animation:none!important;transition:none!important}}
+
+/* The lab follows the homepage's ink, paper and poster-type language. */
+.creative-lab{--lab-ease:cubic-bezier(.16,1,.3,1);background:var(--detail-page);color:var(--detail-ink)}
+.creative-lab header{border-color:var(--detail-rule);color:var(--detail-muted)}
+.creative-lab h2 em{color:var(--detail-muted)}
+.creative-lab__stage{border:1px solid #ffffff25}
+.creative-lab__scene{background-size:auto,36px 36px,36px 36px;isolation:isolate}
+.creative-lab__scene::after{content:"";position:absolute;inset:12px;border:1px solid #ffffff15;pointer-events:none}
+.creative-lab__scene svg{opacity:.9}
+.creative-lab__scene strong{text-shadow:0 3px 30px #15131780}
+.creative-lab__guides{animation:none}
+.creative-lab[data-visible=true] .creative-lab__guides{animation:creative-guide .65s var(--lab-ease) both}
+.creative-lab[data-visible=true] .creative-lab__scene strong{animation-delay:90ms}
+.creative-lab__scene[data-mode="1"] .creative-lab__frames{transform-origin:400px 225px}
+.creative-lab[data-visible=true] .creative-lab__scene[data-mode="1"] .creative-lab__frames{animation:creative-film .85s var(--lab-ease) both}
+.creative-lab[data-visible=true] .creative-lab__scene[data-mode="4"] .creative-lab__frames{animation:creative-phone .95s var(--lab-ease) both}
+.creative-lab[data-visible=true] .creative-lab__scene[data-mode="5"] .creative-lab__orbit{animation:creative-live .9s var(--lab-ease) both}
+@keyframes creative-guide{from{opacity:0}to{opacity:.35}}
+@keyframes creative-film{from{transform:translateX(55px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes creative-phone{from{transform:translateY(45px) scale(.82);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+@keyframes creative-live{from{transform:scale(.55);opacity:0}to{transform:scale(1);opacity:1}}
+.creative-lab__controls{border-color:var(--detail-rule)}
+.creative-lab__controls button{position:relative;min-width:0;color:var(--detail-ink);border-color:var(--detail-rule);gap:clamp(6px,.7vw,12px);padding:14px 10px}
+.creative-lab__controls button span{overflow-wrap:anywhere}
+.creative-lab__controls button[aria-pressed=true]{background:var(--detail-ink);color:var(--detail-page)}
+.creative-lab__controls button:not([aria-pressed=true]):hover{background:var(--detail-surface-alt)}
+.creative-lab__controls button:focus-visible{outline-color:var(--detail-ink);outline-offset:-3px}
+.creative-lab__note{color:var(--detail-muted)}
+@media(max-width:600px){.creative-lab h2{font-size:clamp(46px,12vw,72px)}.creative-lab__scene strong{font-size:clamp(48px,15vw,100px)}.creative-lab__controls button{font-size:13px}.creative-lab__controls button svg{width:17px}.creative-lab__controls small{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.creative-lab *, .creative-lab *::before,.creative-lab *::after{animation:none!important;transition:none!important}}

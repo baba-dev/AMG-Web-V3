@@ -11,7 +11,7 @@
 import { workProjects, type FeaturedWorkProject } from "@/lib/work/projects";
 
 export type SpecialismSlug =
-  "global" | "consumer" | "corporate" | "sports" | "social" | "studio" | "tech";
+  "global" | "creatives" | "corporate" | "sports" | "social" | "studio" | "tech";
 
 export type Specialism = Readonly<{
   slug:SpecialismSlug;
@@ -66,30 +66,32 @@ export const specialisms = [
     sources:[{label:"Agency scope",href:"https://aiwamediagroup.com/about-us/"},{label:"Client and branding records",href:"https://aiwamediagroup.com/branding/"}],
   },
   {
-    slug:"consumer",name:"Consumer",index:2,kicker:"02 / MADE TO BE REMEMBERED",
-    headline:["NOT JUST SEEN.","FELT."],
-    title:"Brands with a point of view.",
-    lead:"Good consumer creative makes a business recognizable before the name appears. Identity, design and storytelling should belong to the same world.",
-    position:"IDENTITY WITH PERSONALITY.",
-    question:"What makes a brand worth choosing?",
-    answer:"A distinct voice, familiar visuals and ideas people can actually connect with. From retail to restaurants, Aiwa's documented branding projects show how foundational systems support that consistency.",
-    art:"/media/specialisms/consumer.svg",
-    alt:"Original coral editorial illustration with layered product forms and a glowing retail display arch",
-    accent:"#f28a75",ink:"#381a19",
+    slug:"creatives",name:"Creatives",index:2,kicker:"CREATIVE PRODUCTION / MUSCAT",
+    headline:["MAKE IT.","UNMISSABLE."],
+    title:"Ideas made impossible to ignore.",
+    lead:"From the first sketch to the final frame, we bring ideas to life through design, photography, film and motion.",
+    position:"THINK. MAKE. MOVE.",
+    question:"What makes an idea impossible to ignore?",
+    answer:"A clear point of view, crafted visuals and a story worth experiencing. We build creative around the audience, the message and the medium — from a single product image to a moving campaign.",
+    art:"/media/specialisms/creatives.svg",
+    alt:"Conceptual creative production artwork with a camera aperture, layered frames and expressive typography",
+    accent:"#ef6559",ink:"#201717",
     approach:[
-      {name:"FIND THE SIGNATURE",copy:"Identify the character, audience and point of difference that should guide the brand."},
-      {name:"CREATE THE SYSTEM",copy:"Build an adaptable visual and typographic language across touchpoints."},
-      {name:"GIVE IT PRESENCE",copy:"Apply that language to the formats where customers meet the business."},
+      {name:"FIND THE IDEA",copy:"Define the audience, creative direction and story before production begins."},
+      {name:"MAKE IT REAL",copy:"Design, shoot or animate the assets around the approved creative direction."},
+      {name:"FINISH WITH INTENT",copy:"Edit, retouch and prepare the work for the channels and formats it needs."},
     ],
     capabilities:[
-      {name:"Brand identity",copy:"Logos, palettes, typography and consistent guidelines."},
-      {name:"Retail creative",copy:"A connected visual experience across customer touchpoints."},
-      {name:"Restaurant branding",copy:"Distinctive identity systems for food and hospitality concepts."},
-      {name:"Campaign design",copy:"Editorial content and graphics consistent with a brand's voice."},
+      {name:"Graphic design",copy:"Campaign artwork, social media graphics and visual storytelling."},
+      {name:"Film & video production",copy:"High-resolution shooting, editing and content for web and large displays."},
+      {name:"Photography",copy:"Product, backdrop, commercial and workplace photography."},
+      {name:"Motion & animation",copy:"Animated graphics and moving visual narratives."},
+      {name:"Short-form content",copy:"Vertical videos and social-first creative for short-form channels."},
+      {name:"Event & aerial production",copy:"Event documentation and drone videography, subject to project requirements and permissions."},
     ],
-    workSlugs:["casabella-oman","razmazaan"],
-    evidenceNote:"Selected published Aiwa identity work for Casabella Oman and RazMazaan.",
-    sources:[{label:"Branding services and projects",href:"https://aiwamediagroup.com/branding/"},{label:"Aiwa capabilities",href:"https://aiwamediagroup.com/about-us/"}],
+    workSlugs:["aqua-petro"],
+    evidenceNote:"AquaPetro is documented in Aiwa's portfolio for photography, video and event coverage.",
+    sources:[{label:"Video production services",href:"https://aiwamediagroup.com/video-production/"},{label:"Creative production capabilities",href:"https://aiwamediagroup.com/about-us/"},{label:"Photography services",href:"https://aiwamediagroup.com/product/photography-services/"}],
   },
   {
     slug:"corporate",name:"Corporate",index:3,kicker:"03 / BUSINESS HAS A HUMAN SIDE",

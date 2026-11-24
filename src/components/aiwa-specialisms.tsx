@@ -12,7 +12,7 @@ type Specialism = {
 };
 
 const categories: Specialism[] = [
-  { name: "Creatives", side: "right", tint: "studio", image: "/media/specialisms/studio.svg" },
+  { name: "Creatives", side: "right", tint: "studio", image: "/media/specialisms/creatives.svg" },
   { name: "Marketing", side: "left", tint: "social", image: "/media/specialisms/social.svg" },
   { name: "Development", side: "right", tint: "tech", image: "/media/specialisms/tech.svg" },
   { name: "IT Support", side: "left", tint: "global", image: "/media/specialisms/global.svg" },
@@ -137,7 +137,7 @@ export function AiwaSpecialisms() {
           <li className="aiwa-specialisms__item" key={category.name}>
             <a
               className={"aiwa-specialisms__row aiwa-specialisms__row--" + category.tint}
-              href="#"
+              href={category.name === "Creatives" ? "/specialisms/creatives" : "#"}
               aria-label={"Explore " + category.name + " specialism"}
               data-visible="false"
             >

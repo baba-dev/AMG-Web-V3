@@ -7,7 +7,7 @@ const output="test-artifacts/specialisms-p2c";
 const viewports=[[1440,900],[1280,800],[950,800],[768,850],[430,932],[390,844],[360,800],[320,700]];
 const records=[
  ["global","GLOBAL",2],
- ["consumer","CONSUMER",2],
+ ["creatives","CREATIVES",1],
  ["corporate","CORPORATE",1],
  ["sports","SPORTS",0],
  ["social","SOCIAL",2],
@@ -69,6 +69,21 @@ const sample=async page=>page.evaluate(()=>{
           "Sports honesty disclosure missing");
       }else{
        assert.equal(await page.locator("[data-no-verified-case-study]").count(),0);
+      }
+      if(slug==="creatives") {
+        assert.equal(await page.locator(".creative-lab__controls button").count(),6);
+        await page.getByRole("button",{name:/Photography/}).click();
+        assert.equal(await page.getByRole("button",{name:/Photography/}).getAttribute("aria-pressed"),"true");
+        assert.equal(await page.locator(".creative-lab__scene strong").textContent(),"FOCUS.");
+        const scenes=new Set();
+        for(const control of await page.locator(".creative-lab__controls button").all()) {
+          await control.click();
+          assert.equal(await control.getAttribute("aria-pressed"),"true");
+          assert.equal(await page.locator(".creative-lab__controls button[aria-pressed=true]").count(),1);
+          scenes.add(await page.locator(".creative-lab__scene svg").innerHTML());
+        }
+        assert.equal(scenes.size,6,"Each discipline must have unique artwork");
+        assert.equal(await page.locator(".creative-lab__scene strong").evaluate(el=>getComputedStyle(el).animationName),"none");
       }
       const hrefs=await page.locator("[data-related-work]").evaluateAll(list=>list.map(x=>new URL(x.href).pathname));
       check(hrefs.every(x=>x.startsWith("/work/")),slug+": related work must stay on Aiwa V3");
@@ -146,7 +161,7 @@ const sample=async page=>page.evaluate(()=>{
   const homePage=await home.newPage();
   await homePage.goto(origin+"/",{waitUntil:"domcontentloaded"});
   assert.deepEqual(await homePage.locator(".aiwa-specialisms__row").evaluateAll(nodes=>nodes.map(x=>x.getAttribute("href"))),
-    Array(6).fill("#"),"Homepage links must be six placeholders");
+    ["/specialisms/creatives", ...Array(5).fill("#")],"Homepage must link Creatives and keep five placeholders");
   assert.equal(await homePage.locator(".aiwa-specialisms__all").getAttribute("href"),"#");
   assert.equal(await homePage.locator(".aiwa-header__navigation a").filter({hasText:"SPECIALISMS"}).getAttribute("href"),"/specialisms");
   await home.close();

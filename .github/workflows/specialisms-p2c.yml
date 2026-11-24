@@ -9,6 +9,7 @@ on:
       - 'src/app/specialisms/**'
       - 'src/lib/specialisms.ts'
       - 'src/components/aiwa-specialisms.*'
+      - 'src/components/aiwa-creatives-motion.*'
       - 'src/components/aiwa-inner-header.*'
       - 'src/lib/site-navigation.ts'
       - 'public/media/specialisms/**'
@@ -35,9 +36,11 @@ jobs:
           npm run build
           test -f out/index.html
           test -f out/specialisms.html || test -f out/specialisms/index.html
-          for slug in global consumer corporate sports social studio tech; do
+          for slug in global creatives corporate sports social studio tech; do
             test -f "out/specialisms/$slug.html" || test -f "out/specialisms/$slug/index.html"
           done
+          test ! -f out/specialisms/consumer.html
+          test ! -f out/specialisms/consumer/index.html
           for slug in mymo-express casabella-oman best-genetco aqua-petro razmazaan vitamin-phones; do
             test -f "out/work/$slug.html" || test -f "out/work/$slug/index.html"
           done

@@ -8,8 +8,8 @@ import "@/components/aiwa-polish.css";
 import "./specialisms-directory.css";
 
 export const metadata:Metadata={
-  title:"Specialisms | Creative, Social, Studio & Tech | Aiwa Media Group",
-  description:"Explore seven creative disciplines at Aiwa Media Group: global thinking, consumer branding, corporate content, sports and events, social, studio and technology.",
+  title:"Specialisms | Creatives, Social, Studio & Tech | Aiwa Media Group",
+  description:"Explore seven creative disciplines at Aiwa Media Group: global thinking, creative production, corporate content, sports and events, social, studio and technology.",
   alternates:{canonical:"/specialisms"},
   openGraph:{
     title:"What we do — Aiwa Media Group",
