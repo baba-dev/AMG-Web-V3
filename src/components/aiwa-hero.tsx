@@ -224,7 +224,6 @@ export function AiwaHero() {
   return (
     <main className="aiwa-site">
       <div className="aiwa-sequence" data-hero-intro="playing" ref={sequenceRef}>
-        <section ref={heroRef} className="aiwa-hero" aria-labelledby="aiwa-hero-heading">
           <header ref={headerRef} className="aiwa-header">
             <Link className="aiwa-header__identity" href="/" aria-label="Aiwa home">
               AIWA
@@ -248,7 +247,7 @@ export function AiwaHero() {
             </div>
 
           </header>
-
+        <section ref={heroRef} className="aiwa-hero" aria-labelledby="aiwa-hero-heading">
           <div ref={titleRef} className="aiwa-hero__center">
             <h1 className="aiwa-hero__headline" id="aiwa-hero-heading">
               <span className="aiwa-hero__line">
