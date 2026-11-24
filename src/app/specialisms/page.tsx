@@ -3,17 +3,17 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
-import { specialisms, getRelatedProjects } from "@/lib/specialisms";
+import { directorySpecialisms } from "@/lib/specialisms-directory";
 import "@/components/aiwa-polish.css";
 import "./specialisms-directory.css";
 
 export const metadata:Metadata={
-  title:"Specialisms | Creatives, Social, Studio & Tech | Aiwa Media Group",
-  description:"Explore seven creative disciplines at Aiwa Media Group: global thinking, creative production, corporate content, sports and events, social, studio and technology.",
+  title:"Specialisms | Creatives, Marketing, Development, IT Support, Branding & Events | Aiwa Media Group",
+  description:"Explore six connected disciplines at Aiwa Media Group: creatives, marketing, development, IT support, branding and events.",
   alternates:{canonical:"/specialisms"},
   openGraph:{
     title:"What we do — Aiwa Media Group",
-    description:"Seven ways to make a real difference. Creative, social, production and technology from Muscat.",
+    description:"Six ways to make a real difference. Creative, social, production and technology from Muscat.",
     type:"website",
   },
 };
@@ -23,16 +23,16 @@ export default function SpecialismsDirectory(){
   <AiwaInnerHeader/>
   <main id="main-content">
    <section className="spec-directory__hero spec-pad" aria-labelledby="spec-directory-title">
-    <div className="spec-directory__top"><span>AIWA / WHAT WE DO</span><span>SEVEN WAYS TO MAKE NOISE / MUSCAT</span></div>
+    <div className="spec-directory__top"><span>AIWA / WHAT WE DO</span><span>SIX WAYS TO MAKE NOISE / MUSCAT</span></div>
     <div className="spec-directory__hero-center">
      <p>CREATIVE MINDS. MANY DISCIPLINES.</p>
      <h1 id="spec-directory-title">EVERYTHING<br/><em>CONNECTS.</em></h1>
      <div className="spec-directory__hero-bottom">
-      <p>A brand doesn’t live in one channel. Neither do we. Explore the thinking, craft and technical work behind our seven specialisms.</p>
-      <a href="#all-services" aria-label="Explore seven specialisms">EXPLORE <ArrowDown size={22} aria-hidden="true"/></a>
+      <p>A brand doesn’t live in one channel. Neither do we. Explore the thinking, craft and technical work behind our six specialisms.</p>
+      <a href="#all-services" aria-label="Explore six specialisms">EXPLORE <ArrowDown size={22} aria-hidden="true"/></a>
      </div>
     </div>
-    <div className="spec-directory__hero-footer"><span>01 — 07 / AN EDITORIAL DIRECTORY</span><span>SCROLL TO EXPLORE</span></div>
+    <div className="spec-directory__hero-footer"><span>01 — 06 / AN EDITORIAL DIRECTORY</span><span>SCROLL TO EXPLORE</span></div>
    </section>
 
    <section id="all-services" className="spec-directory__gallery spec-pad" aria-labelledby="all-services-heading">
@@ -41,27 +41,26 @@ export default function SpecialismsDirectory(){
      <p>Different disciplines. Shared curiosity. Choose a direction and see what Aiwa brings to it.</p>
     </header>
     <ol className="spec-directory__items">
-     {specialisms.map(service=>{
-      const related=getRelatedProjects(service);
+     {directorySpecialisms.map((service,index)=>{
       return <li key={service.slug} className="spec-directory__item" data-specialism-card={service.slug} style={{"--spec-accent":service.accent} as React.CSSProperties}>
-       <Link href={"/specialisms/"+service.slug} className="spec-directory__card" aria-label={"Explore "+service.name+" specialism"}>
+       <Link href={service.href} className="spec-directory__card" aria-label={"Explore "+service.name+" specialism"}>
         <div className="spec-directory__card-media">
-         <Image src={service.art} alt={service.alt} width={1200} height={900} unoptimized
+         <Image src={service.art} alt={""} width={1200} height={900} unoptimized
           loading="lazy" sizes="(max-width:767px) 100vw, 60vw"/>
          <span className="spec-directory__art-note">ORIGINAL CONCEPTUAL ILLUSTRATION</span>
          <span className="spec-directory__arrow" aria-hidden="true"><ArrowUpRight size={29}/></span>
         </div>
         <div className="spec-directory__card-content">
-         <div className="spec-directory__card-line"><span>{String(service.index).padStart(2,"0")} / 07</span><span>{service.position}</span></div>
+         <div className="spec-directory__card-line"><span>{String(index+1).padStart(2,"0")} / 06</span><span>{service.position}</span></div>
          <h3>{service.name}</h3>
          <p>{service.title}</p>
-         <span className="spec-directory__proof">{related.length?related.length+" RELEVANT WORK "+(related.length===1?"STORY":"STORIES"):"CAPABILITY / NO VERIFIED SPORT CASE STUDY"}</span>
+         <span className="spec-directory__proof">{service.href==="#"?"SERVICE PAGE COMING SOON":"EXPLORE THE DISCIPLINE"}</span>
         </div>
        </Link>
       </li>;
      })}
     </ol>
-    <div className="spec-directory__gallery-foot"><span>ALL SEVEN / ONE CONNECTED CREATIVE GROUP</span><Link href="/work">EXPLORE SELECTED WORK <ArrowUpRight size={19}/></Link></div>
+    <div className="spec-directory__gallery-foot"><span>ALL SIX / ONE CONNECTED CREATIVE GROUP</span><Link href="/work">EXPLORE SELECTED WORK <ArrowUpRight size={19}/></Link></div>
    </section>
 
    <section className="spec-directory__promise spec-pad" aria-labelledby="spec-directory-promise">

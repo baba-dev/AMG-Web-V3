@@ -98,3 +98,11 @@
  --type-service-item:clamp(25px,6.8vw,40px);
  --type-lab-word:clamp(48px,15vw,100px);
 }}
+
+/* Specialisms directory: poster, chapter and service-card optical scales. */
+:root{
+ --type-directory-hero:clamp(68px,12vw,200px);
+ --type-directory-heading:var(--type-display-xl);
+ --type-directory-card:clamp(40px,5.6vw,94px);
+}
+@media(max-width:767px){:root{--type-directory-hero:clamp(36px,11.6vw,88px);--type-directory-heading:clamp(36px,11vw,84px);--type-directory-card:clamp(36px,10.5vw,76px)}}

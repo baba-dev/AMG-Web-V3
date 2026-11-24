@@ -247,10 +247,10 @@
   font-style: normal;
   font-display: swap;
 }
-html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page) {
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory) {
   --aiwa-font-body: "Aiwa Roc Grotesk Web", var(--font-space-grotesk), Arial, Helvetica, sans-serif;
 }
-html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page) :where(
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory) :where(
   .aiwa-specialisms__footer p,
   .aiwa-about__description,
   .aiwa-work__caption span,
