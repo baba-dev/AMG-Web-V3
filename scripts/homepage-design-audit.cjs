@@ -20,7 +20,6 @@ const testSelectors = [
   [".aiwa-about__heading", "about"],
   [".aiwa-about__description", "about-body"],
   [".aiwa-work__headline", "work"],
-  [".aiwa-office__details h2", "office"],
   [".aiwa-footer__intro p", "footer"],
 ];
 (async () => {
@@ -58,7 +57,7 @@ const testSelectors = [
             headerHeight:rect(document.querySelector(".aiwa-header")).height,
             heroHeight:rect(document.querySelector(".aiwa-hero")).height,
             fonts:selectors.map(describe),
-            paper:[".aiwa-specialisms",".aiwa-about",".aiwa-office",".aiwa-footer"].map(s =>
+            paper:[".aiwa-specialisms",".aiwa-about",".aiwa-footer"].map(s =>
               ({name:s,color:getComputedStyle(document.querySelector(s)).backgroundColor})),
             overflow:document.documentElement.scrollWidth-innerWidth,
             heroWords:[...document.querySelectorAll(".aiwa-hero__mask")].map(rect),
@@ -87,8 +86,7 @@ const testSelectors = [
           const selectors = [
             ".aiwa-header__identity",".aiwa-hero__film-tile",
             ".aiwa-footer__navigation a",".aiwa-footer__social a",
-            ".aiwa-footer__contact > a",".aiwa-office__selectors button",
-            ".aiwa-office__arrows button"
+            ".aiwa-footer__contact > a"
           ];
           return selectors.flatMap(s=>[...document.querySelectorAll(s)].map(el=>{
             const r=el.getBoundingClientRect();
@@ -119,7 +117,7 @@ const testSelectors = [
           width+"px: footer contact spacing too loose: "+JSON.stringify(mobileDetails.footerContacts));
 
         // Walk the page; some overflows only appear while sticky sections animate.
-        const sections=["#specialisms","#about","#work","#office","#site-footer"];
+        const sections=["#specialisms","#about","#work","#site-footer"];
         const sectionResults=[];
         for(const section of sections){
           await page.evaluate(s=>document.querySelector(s).scrollIntoView({behavior:"instant"}),section);
