@@ -83,9 +83,20 @@ export function AiwaHero() {
     let frame = 0;
     let controlsActive = false;
     let nativePlaying = false;
+    // The opening clock is independent of the reversible scroll projection.
+    let opening = !motion.matches && Math.abs(window.scrollY) < 2 && !window.location.hash;
+    const startedAt = performance.now();
+    sequence.dataset.heroIntro = opening ? "playing" : "settled";
+    const finishOpening = () => {
+      if (!opening) return;
+      opening = false;
+      sequence.dataset.heroIntro = "settled";
+      schedule();
+    };
 
     const paint = () => {
       frame = 0;
+      if (opening && (motion.matches || Math.abs(window.scrollY) > 2 || performance.now() - startedAt >= 3200)) finishOpening();
       // Both hero and film are real, adjacent 100svh sections in document
       // flow. The single projected media layer morphs between their boxes.
       const sequenceBox = sequence.getBoundingClientRect();
@@ -125,7 +136,7 @@ export function AiwaHero() {
       projection.style.transform = "translate3d(" + x.toFixed(2) +
         "px," + y.toFixed(2) + "px,0) scale(" +
         sx.toFixed(5) + "," + sy.toFixed(5) + ")";
-      projection.style.opacity = "1";
+      projection.style.opacity = opening ? "0" : "1";
       projection.style.borderRadius = "0";
       // Morph the slanted inline video aperture into the square-edged reel.
       const slant = (8 * (1 - expansion)).toFixed(3);
@@ -163,17 +174,26 @@ export function AiwaHero() {
         nativePlaying = playVideo;
         setPlayNativeReel(playVideo);
       }
+      if (opening) schedule();
     };
 
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(paint);
     };
 
+    const interrupt = (event: KeyboardEvent) => { if (event.key === "Tab" || event.key === "Escape" || event.key.startsWith("Arrow") || event.key === "PageDown" || event.key === "PageUp" || event.key === "Home" || event.key === "End" || event.key === " ") finishOpening(); };
+    const onFocus = () => finishOpening();
     schedule();
+    window.addEventListener("keydown", interrupt);
+    sequence.addEventListener("focusin", onFocus);
+    sequence.addEventListener("pointerdown", onFocus);
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     motion.addEventListener("change", schedule);
     return () => {
+      window.removeEventListener("keydown", interrupt);
+      sequence.removeEventListener("focusin", onFocus);
+      sequence.removeEventListener("pointerdown", onFocus);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       motion.removeEventListener("change", schedule);
@@ -280,6 +300,7 @@ export function AiwaHero() {
                   onClick={openFilm}
                   style={{ backgroundImage: "url(" + poster + ")" }}
                 >
+                  {nativeVideo && !playNativeReel && <video className="aiwa-hero__inline-video" src={nativeVideo} muted autoPlay loop playsInline preload="metadata" aria-hidden="true" />}
                   <span className="aiwa-hero__film-icon" aria-hidden="true"><Play size={17} fill="currentColor" /></span>
                 </button>
                 <span className="aiwa-hero__mask"><span className="aiwa-hero__word aiwa-hero__word--four">WITH AIWA.</span></span>
