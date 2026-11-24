@@ -1,8 +1,8 @@
 /* Root-layout closing section. No per-route footer styles or duplicate IDs. */
 .aiwa-site.aiwa-global-ending {
   --aiwa-gutter: clamp(18px, 2.5vw, 48px);
-  --aiwa-font-interface: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
-  --aiwa-font-body: var(--aiwa-font-interface);
+  --aiwa-font-interface: var(--type-body);
+  --aiwa-font-body: var(--type-body);
   --aiwa-paper: #0f0f0f;
   --aiwa-paper-ink: #f5f5f3;
   --aiwa-paper-muted: #aaa9a2;

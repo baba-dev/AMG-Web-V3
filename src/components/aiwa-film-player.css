@@ -90,15 +90,15 @@
 }
 .aiwa-cinema__brand {display:flex;gap:16px;align-items:baseline;min-width:0;}
 .aiwa-cinema__brand strong {
-  font:900 clamp(29px,2.5vw,43px)/1 var(--font-aiwa-display),Impact,sans-serif;
+  font:400 var(--type-display-s)/1 var(--type-display);
   letter-spacing:-.055em;
 }
 .aiwa-cinema__brand span {
-  font:800 clamp(9px,.9vw,13px)/1.2 var(--font-geist-mono),monospace;
+  font:800 clamp(9px,.9vw,13px)/1.2 var(--type-mono);
   letter-spacing:.04em;
 }
 .aiwa-cinema__actions {display:flex;align-items:center;gap:clamp(8px,1.5vw,24px);pointer-events:auto;}
-.aiwa-cinema__actions a {display:inline-flex;align-items:center;gap:7px;color:#fff;text-decoration:none;font:800 13px/1 var(--font-aiwa-display),Impact,sans-serif;}
+.aiwa-cinema__actions a {display:inline-flex;align-items:center;gap:7px;color:#fff;text-decoration:none;font:700 var(--type-ui-size)/1.2 var(--type-body);}
 .aiwa-cinema__actions a:hover,.aiwa-cinema__actions a:focus-visible {text-decoration:underline;}
 .aiwa-cinema__actions button {
   display:grid;place-items:center;
