@@ -239,10 +239,10 @@ async function testViewport(browser, width, height) {
   assert.equal(initial.brand,"AIWA","Logo must be AIWA only");
   assert(initial.headline.includes("YOUR BRAND’S") && initial.headline.includes("TOO QUIET."),"First line missing");
   assert(initial.headline.includes("DOMINATE") && initial.headline.includes("WITH AIWA."),"Second line missing");
-  assert.equal(initial.categories.join("|"),"Global|Consumer|Corporate|Sports|Social|Studio|TECH");
+  assert.equal(initial.categories.join("|"),"Creatives|Marketing|Development|IT Support|Branding|Events");
   assert.deepEqual(initial.serviceHrefs,
-    ["global","consumer","corporate","sports","social","studio","tech"].map(slug=>"/specialisms/"+slug),
-    "Homepage category links must reach seven real specialism pages");
+    Array(6).fill("#"),
+    "Homepage category links must use six placeholders");
   const expectedHeroHeight = width <= 720 ? height*.75 : height;
   assert(closeTo(initial.hero.height,expectedHeroHeight,3),
     "Hero must match desktop full-screen or reference mobile film fold");
