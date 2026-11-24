@@ -1,0 +1,922 @@
+{
+  "version": 2,
+  "canvas": [
+    600,
+    600
+  ],
+  "surface": "#ffffff",
+  "logos": [
+    {
+      "name": "Caesars Confectionery",
+      "slug": "caesars-confectionery",
+      "source": "Ceasers Confectionery.png",
+      "cleanup": "original alpha",
+      "source_bytes": 38981,
+      "web_600_bytes": 26392,
+      "web_300_bytes": 10524,
+      "master_bounds": [
+        32,
+        246,
+        568,
+        354
+      ],
+      "scale": 0.9926,
+      "white_surface_cleanup_mae": 0.0,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Thin bilingual wordmark; retain original detail.",
+      "assets": {
+        "600": "web/600/caesars-confectionery.webp",
+        "300": "web/300/caesars-confectionery.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "COY",
+      "slug": "coy",
+      "source": "COY Logo.png",
+      "cleanup": "coy",
+      "source_bytes": 113237,
+      "web_600_bytes": 40476,
+      "web_300_bytes": 15930,
+      "master_bounds": [
+        103,
+        106,
+        496,
+        493
+      ],
+      "scale": 0.7869,
+      "white_surface_cleanup_mae": 0.1326,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Preserve black badge and white internal details; original small slogan is soft.",
+      "assets": {
+        "600": "web/600/coy.webp",
+        "300": "web/300/coy.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "DK Furnishing",
+      "slug": "dk-furnishing",
+      "source": "DK Logo.png",
+      "cleanup": "dk",
+      "source_bytes": 181520,
+      "web_600_bytes": 93962,
+      "web_300_bytes": 31140,
+      "master_bounds": [
+        81,
+        81,
+        519,
+        518
+      ],
+      "scale": 0.8961,
+      "white_surface_cleanup_mae": 0.1511,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Preserve circular white badge, faint outer border and bilingual text.",
+      "assets": {
+        "600": "web/600/dk-furnishing.webp",
+        "300": "web/300/dk-furnishing.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "Grace Global Engineering",
+      "slug": "grace-global-engineering",
+      "source": "Grace Global Engineering Logo.png",
+      "cleanup": "original alpha",
+      "source_bytes": 89353,
+      "web_600_bytes": 71896,
+      "web_300_bytes": 26428,
+      "master_bounds": [
+        47,
+        173,
+        552,
+        426
+      ],
+      "scale": 1.0,
+      "white_surface_cleanup_mae": 0.0,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Retain fine bilingual lines; source limits microtext legibility.",
+      "assets": {
+        "600": "web/600/grace-global-engineering.webp",
+        "300": "web/300/grace-global-engineering.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "Gulfpac",
+      "slug": "gulfpac",
+      "source": "Gulfpac Logo.png",
+      "cleanup": "original alpha",
+      "source_bytes": 46394,
+      "web_600_bytes": 35092,
+      "web_300_bytes": 14704,
+      "master_bounds": [
+        47,
+        218,
+        553,
+        383
+      ],
+      "scale": 0.9961,
+      "white_surface_cleanup_mae": 0.0,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Preserve orange, blue and black wordmark.",
+      "assets": {
+        "600": "web/600/gulfpac.webp",
+        "300": "web/300/gulfpac.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "La Bella House",
+      "slug": "la-bella-house",
+      "source": "La Bella house logo.png",
+      "cleanup": "original alpha",
+      "source_bytes": 54603,
+      "web_600_bytes": 29914,
+      "web_300_bytes": 10636,
+      "master_bounds": [
+        88,
+        126,
+        513,
+        474
+      ],
+      "scale": 0.9862,
+      "white_surface_cleanup_mae": 0.0,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Retain fine black ornament and wordmark.",
+      "assets": {
+        "600": "web/600/la-bella-house.webp",
+        "300": "web/300/la-bella-house.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "Namaste Marhaba",
+      "slug": "namaste-marhaba",
+      "source": "Namaste Marhaba Logo.png",
+      "cleanup": "white matte",
+      "source_bytes": 180436,
+      "web_600_bytes": 134624,
+      "web_300_bytes": 44834,
+      "master_bounds": [
+        84,
+        94,
+        516,
+        510
+      ],
+      "scale": 0.8988,
+      "white_surface_cleanup_mae": 0.2032,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Remove white field; preserve enclosed white artwork.",
+      "assets": {
+        "600": "web/600/namaste-marhaba.webp",
+        "300": "web/300/namaste-marhaba.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "Oman REPS",
+      "slug": "oman-reps",
+      "source": "Oman Reps logo.png",
+      "cleanup": "original alpha",
+      "source_bytes": 171649,
+      "web_600_bytes": 118116,
+      "web_300_bytes": 40016,
+      "master_bounds": [
+        97,
+        66,
+        502,
+        534
+      ],
+      "scale": 0.9109,
+      "white_surface_cleanup_mae": 0.0,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Thin red outline and tiny text remain source-limited; seek vector master.",
+      "assets": {
+        "600": "web/600/oman-reps.webp",
+        "300": "web/300/oman-reps.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "Ooh LaLa",
+      "slug": "ooh-lala",
+      "source": "Ooh LaLa logo.png",
+      "cleanup": "original alpha",
+      "source_bytes": 167456,
+      "web_600_bytes": 109378,
+      "web_300_bytes": 34608,
+      "master_bounds": [
+        87,
+        106,
+        513,
+        495
+      ],
+      "scale": 0.9091,
+      "white_surface_cleanup_mae": 0.0,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Preserve original transparent script/illustration; white display surface required.",
+      "assets": {
+        "600": "web/600/ooh-lala.webp",
+        "300": "web/300/ooh-lala.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "RazmAzaan",
+      "slug": "razmazaan",
+      "source": "RazmAzaan Logo.png",
+      "cleanup": "white matte",
+      "source_bytes": 77591,
+      "web_600_bytes": 83394,
+      "web_300_bytes": 31118,
+      "master_bounds": [
+        52,
+        174,
+        548,
+        426
+      ],
+      "scale": 0.994,
+      "white_surface_cleanup_mae": 0.019,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Remove white field; source wordmark has raster softness.",
+      "assets": {
+        "600": "web/600/razmazaan.webp",
+        "300": "web/300/razmazaan.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "Spine Line",
+      "slug": "spine-line",
+      "source": "Spine Line Logo.png",
+      "cleanup": "white matte",
+      "source_bytes": 103542,
+      "web_600_bytes": 59518,
+      "web_300_bytes": 22124,
+      "master_bounds": [
+        93,
+        67,
+        506,
+        533
+      ],
+      "scale": 0.9711,
+      "white_surface_cleanup_mae": 0.1991,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Remove stepped white field; preserve gray tree and black lettering.",
+      "assets": {
+        "600": "web/600/spine-line.webp",
+        "300": "web/300/spine-line.webp"
+      },
+      "batch": "1"
+    },
+    {
+      "name": "AquaPetro Chemicals",
+      "slug": "aquapetro-chemicals",
+      "source": "AquaPetro Chemicals.png",
+      "source_dimensions": [
+        764,
+        327
+      ],
+      "source_sha256": "076e2828feb2cb0ab79d96340060acada7693766741c9dbb860a5a7b8dfa4203",
+      "source_bytes": 39490,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        24,
+        18,
+        732,
+        317
+      ],
+      "master_bounds": [
+        45,
+        192,
+        555,
+        407
+      ],
+      "scale": 0.7203,
+      "scale_300": 0.3602,
+      "web_600_bytes": 55830,
+      "web_300_bytes": 20432,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Blue wordmark with small tagline; original color and detail retained.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/aquapetro-chemicals.webp",
+        "300": "web/300/aquapetro-chemicals.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "BabaBuilds.com",
+      "slug": "bababuilds",
+      "source": "BabaBuilds.com-Logo.webp",
+      "source_dimensions": [
+        600,
+        130
+      ],
+      "source_sha256": "4b9125b7facb7fb1bfc6482d095033769ef480ef9ce8103a55246f6f058cba1c",
+      "source_bytes": 13282,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        20,
+        0,
+        598,
+        116
+      ],
+      "master_bounds": [
+        30,
+        246,
+        570,
+        354
+      ],
+      "scale": 0.9343,
+      "scale_300": 0.4671,
+      "web_600_bytes": 38646,
+      "web_300_bytes": 16126,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Wide signature with small peripheral details; verify smallest text at card size.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/bababuilds.webp",
+        "300": "web/300/bababuilds.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Best Appliances",
+      "slug": "best-appliances",
+      "source": "Best Applicances.png",
+      "source_dimensions": [
+        260,
+        208
+      ],
+      "source_sha256": "64e00c4d716125f43632c245f2e42d4503843302dd93398f0e577063354ec28e",
+      "source_bytes": 12965,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        3,
+        0,
+        257,
+        205
+      ],
+      "master_bounds": [
+        95,
+        134,
+        505,
+        465
+      ],
+      "scale": 1.6142,
+      "scale_300": 0.8071,
+      "web_600_bytes": 65650,
+      "web_300_bytes": 21942,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Preserve red badge and transparent internal lettering; top red space is part of supplied composition. Low-resolution source.",
+      "review_priority": "source replacement recommended",
+      "assets": {
+        "600": "web/600/best-appliances.webp",
+        "300": "web/300/best-appliances.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Sohar ODS",
+      "slug": "sohar-ods",
+      "source": "Capture.PNG",
+      "source_dimensions": [
+        241,
+        109
+      ],
+      "source_sha256": "0f2fc1f877bfb7c4e5829b967ebac0e9798f0858f2b291c187105879959d7baa",
+      "source_bytes": 5230,
+      "cleanup": "retain original opaque panel",
+      "source_crop": [
+        0,
+        0,
+        241,
+        109
+      ],
+      "master_bounds": [
+        55,
+        189,
+        545,
+        411
+      ],
+      "scale": 2.0332,
+      "scale_300": 1.0166,
+      "web_600_bytes": 52856,
+      "web_300_bytes": 15466,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Name taken from visible artwork (Sohar ODS Oil Derivatives & Services). Yellow/black panel retained; low-resolution screenshot.",
+      "review_priority": "source replacement recommended",
+      "assets": {
+        "600": "web/600/sohar-ods.webp",
+        "300": "web/300/sohar-ods.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "EzVesto",
+      "slug": "ezvesto",
+      "source": "EzVesto.PNG",
+      "source_dimensions": [
+        291,
+        116
+      ],
+      "source_sha256": "6e7d425c9643c780d5222537123e879de56f21d30a29a82a0acd7e9ab7fffdec",
+      "source_bytes": 12177,
+      "cleanup": "retain original opaque panel",
+      "source_crop": [
+        0,
+        0,
+        291,
+        116
+      ],
+      "master_bounds": [
+        50,
+        200,
+        550,
+        399
+      ],
+      "scale": 1.7182,
+      "scale_300": 0.8591,
+      "web_600_bytes": 48284,
+      "web_300_bytes": 15838,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Original dark field and orange top stripe retained; low-resolution screenshot.",
+      "review_priority": "source replacement recommended",
+      "assets": {
+        "600": "web/600/ezvesto.webp",
+        "300": "web/300/ezvesto.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Falcon Services & Logistics",
+      "slug": "falcon-services-logistics",
+      "source": "FALCON-LOGO.png",
+      "source_dimensions": [
+        673,
+        140
+      ],
+      "source_sha256": "bd29c0f3dcb7c8680033b233b5c21d456dafa125ba04e0cc27700809966e5793",
+      "source_bytes": 18819,
+      "cleanup": "retain original opaque panel",
+      "source_crop": [
+        0,
+        0,
+        673,
+        140
+      ],
+      "master_bounds": [
+        30,
+        244,
+        570,
+        356
+      ],
+      "scale": 0.8024,
+      "scale_300": 0.4012,
+      "web_600_bytes": 28634,
+      "web_300_bytes": 11500,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Original gold bilingual artwork on black retained; small lettering remains source-limited.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/falcon-services-logistics.webp",
+        "300": "web/300/falcon-services-logistics.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "FlyDestini",
+      "slug": "flydestini",
+      "source": "FlyDestini Logo.png",
+      "source_dimensions": [
+        152,
+        96
+      ],
+      "source_sha256": "fc3efb751e753116179993955bb1904d27adc8f32727377023d3df7adc8c0add",
+      "source_bytes": 14891,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        12,
+        9,
+        140,
+        84
+      ],
+      "master_bounds": [
+        81,
+        171,
+        520,
+        423
+      ],
+      "scale": 3.4375,
+      "scale_300": 1.7188,
+      "web_600_bytes": 90678,
+      "web_300_bytes": 31144,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Very low-resolution original; priority vector/high-resolution replacement. Fine travel tagline is source-limited.",
+      "review_priority": "high",
+      "assets": {
+        "600": "web/600/flydestini.webp",
+        "300": "web/300/flydestini.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Fundoo Toys",
+      "slug": "fundoo-toys",
+      "source": "Fundoo Toys.png",
+      "source_dimensions": [
+        800,
+        415
+      ],
+      "source_sha256": "1a02c01a73874ed41fac62167a191e72b83b5c9e21722fa5deccf2de398171d1",
+      "source_bytes": 71868,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        0,
+        0,
+        800,
+        415
+      ],
+      "master_bounds": [
+        50,
+        170,
+        550,
+        429
+      ],
+      "scale": 0.625,
+      "scale_300": 0.3125,
+      "web_600_bytes": 28368,
+      "web_300_bytes": 13702,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Original multicolor stacked wordmark; source reaches canvas edges, retained without clipping.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/fundoo-toys.webp",
+        "300": "web/300/fundoo-toys.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Genetco",
+      "slug": "genetco",
+      "source": "Genetco.png",
+      "source_dimensions": [
+        600,
+        600
+      ],
+      "source_sha256": "f2388c37a6092a69da9deb07e5322a356fba1d663a0a41f620f96fc51f834a1a",
+      "source_bytes": 34776,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        59,
+        192,
+        540,
+        409
+      ],
+      "master_bounds": [
+        50,
+        187,
+        550,
+        413
+      ],
+      "scale": 1.0395,
+      "scale_300": 0.5198,
+      "web_600_bytes": 37752,
+      "web_300_bytes": 17198,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Existing square source reframed to visible bilingual artwork; small company line retained.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/genetco.webp",
+        "300": "web/300/genetco.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Global Wealth Investments",
+      "slug": "global-wealth-investments",
+      "source": "GWI-Stacked.webp",
+      "source_dimensions": [
+        792,
+        614
+      ],
+      "source_sha256": "58f27fa864cdac0d0a1e533e04aa10b41fe7ea2b255e8a8fede1c446305213c4",
+      "source_bytes": 15604,
+      "cleanup": "crop excess original navy panel margins",
+      "source_crop": [
+        62,
+        66,
+        730,
+        548
+      ],
+      "master_bounds": [
+        70,
+        134,
+        530,
+        466
+      ],
+      "scale": 0.6886,
+      "scale_300": 0.3443,
+      "web_600_bytes": 56184,
+      "web_300_bytes": 23436,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Original navy/gold panel retained; excess peripheral navy space cropped without touching artwork. Embedded ICC converted to sRGB.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/global-wealth-investments.webp",
+        "300": "web/300/global-wealth-investments.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Health Zone Padel",
+      "slug": "health-zone-padel",
+      "source": "HZ_Oman.png",
+      "source_dimensions": [
+        316,
+        133
+      ],
+      "source_sha256": "993803cd68f9a9ab0279ed2faeface52e06a6af68c61a298a4a45ccd3c16b4ef",
+      "source_bytes": 24359,
+      "cleanup": "trim existing alpha; add neutral dark contrast plate",
+      "source_crop": [
+        12,
+        5,
+        299,
+        126
+      ],
+      "master_bounds": [
+        45,
+        178,
+        555,
+        421
+      ],
+      "scale": 1.6098,
+      "scale_300": 0.8049,
+      "web_600_bytes": 31282,
+      "web_300_bytes": 11508,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "White/green artwork needs a dark surface; neutral #181818 contrast plate added as presentation framing, not a brand redesign.",
+      "review_priority": "source replacement recommended",
+      "assets": {
+        "600": "web/600/health-zone-padel.webp",
+        "300": "web/300/health-zone-padel.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Najibebay",
+      "slug": "najibebay",
+      "source": "Najibebay.webp",
+      "source_dimensions": [
+        1080,
+        357
+      ],
+      "source_sha256": "4b43fa7c121b65a13e96b5b20db87dd1e135325e7bb5d2151d37a1440beb2fa5",
+      "source_bytes": 14726,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        87,
+        40,
+        978,
+        317
+      ],
+      "master_bounds": [
+        40,
+        219,
+        560,
+        381
+      ],
+      "scale": 0.5836,
+      "scale_300": 0.2918,
+      "web_600_bytes": 23138,
+      "web_300_bytes": 11114,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Red/blue script retained; source transparent margins trimmed.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/najibebay.webp",
+        "300": "web/300/najibebay.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "RCS Oman / Renaissance",
+      "slug": "rcs-oman",
+      "source": "RCS Oman.png",
+      "source_dimensions": [
+        626,
+        191
+      ],
+      "source_sha256": "f40ecbf9aef3b9e5c71bd7546406a2e3cfcb6948fd6b817bcf7d84b7bbfb406b",
+      "source_bytes": 40970,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        30,
+        20,
+        586,
+        177
+      ],
+      "master_bounds": [
+        40,
+        226,
+        560,
+        373
+      ],
+      "scale": 0.9353,
+      "scale_300": 0.4676,
+      "web_600_bytes": 35964,
+      "web_300_bytes": 15312,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Source filename says RCS Oman; visible mark reads Renaissance. Confirm public-facing client name before publishing.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/rcs-oman.webp",
+        "300": "web/300/rcs-oman.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Strategic Catering",
+      "slug": "strategic-catering",
+      "source": "Strategic Catering.webp",
+      "source_dimensions": [
+        300,
+        300
+      ],
+      "source_sha256": "896b91e06d1fea78a4a127da7b8c36bf4e2985a0f1c67ac6536eae4396b93b02",
+      "source_bytes": 17902,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        14,
+        21,
+        290,
+        285
+      ],
+      "master_bounds": [
+        96,
+        105,
+        504,
+        495
+      ],
+      "scale": 1.4855,
+      "scale_300": 0.7428,
+      "web_600_bytes": 123482,
+      "web_300_bytes": 42194,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Circular badge preserved including border and lettering; low-resolution source.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/strategic-catering.webp",
+        "300": "web/300/strategic-catering.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "The Gulf Post",
+      "slug": "the-gulf-post",
+      "source": "The Gulf Post.PNG",
+      "source_dimensions": [
+        252,
+        94
+      ],
+      "source_sha256": "ec9acb7c78330866d11ff188b927084949b973f7f6a96d2efc3d6808490ba324",
+      "source_bytes": 2879,
+      "cleanup": "retain original opaque panel",
+      "source_crop": [
+        0,
+        0,
+        252,
+        94
+      ],
+      "master_bounds": [
+        50,
+        206,
+        550,
+        393
+      ],
+      "scale": 1.9841,
+      "scale_300": 0.9921,
+      "web_600_bytes": 25430,
+      "web_300_bytes": 9720,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Original navy rectangle and white wordmark preserved; low-resolution screenshot.",
+      "review_priority": "source replacement recommended",
+      "assets": {
+        "600": "web/600/the-gulf-post.webp",
+        "300": "web/300/the-gulf-post.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "TribeOM",
+      "slug": "tribeom",
+      "source": "TribeOm logo.png",
+      "source_dimensions": [
+        512,
+        512
+      ],
+      "source_sha256": "fc5b111b139b8851bafde0734febb143279d278d160f760170027f54f15c6a33",
+      "source_bytes": 4797,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        136,
+        104,
+        376,
+        383
+      ],
+      "master_bounds": [
+        125,
+        97,
+        475,
+        503
+      ],
+      "scale": 1.4583,
+      "scale_300": 0.7292,
+      "web_600_bytes": 14530,
+      "web_300_bytes": 5500,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Black vertical emblem and spaced lettering retained; large transparent margins trimmed.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/tribeom.webp",
+        "300": "web/300/tribeom.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Vitamin Phones",
+      "slug": "vitamin-phones",
+      "source": "Vitamin Phones.png",
+      "source_dimensions": [
+        478,
+        166
+      ],
+      "source_sha256": "bc6144c5cfb92c5fb89e7057224d0f13a0df15ffcedaf3a469e6cba4821e5276",
+      "source_bytes": 42209,
+      "cleanup": "trim transparent margins; preserve existing alpha",
+      "source_crop": [
+        0,
+        0,
+        459,
+        152
+      ],
+      "master_bounds": [
+        41,
+        214,
+        560,
+        385
+      ],
+      "scale": 1.1329,
+      "scale_300": 0.5664,
+      "web_600_bytes": 39186,
+      "web_300_bytes": 14838,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Supplied artwork explicitly says POINT OF SALE; confirm this is the intended public client lockup.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/vitamin-phones.webp",
+        "300": "web/300/vitamin-phones.webp"
+      },
+      "batch": "2"
+    },
+    {
+      "name": "Xspiceo",
+      "slug": "xspiceo",
+      "source": "Xspiceo.PNG",
+      "source_dimensions": [
+        354,
+        122
+      ],
+      "source_sha256": "3de573ef578d8eac101ec490a37d444ce1fdac2a4a058db3366a81591ff9a1ad",
+      "source_bytes": 7802,
+      "cleanup": "retain original opaque panel",
+      "source_crop": [
+        0,
+        0,
+        354,
+        122
+      ],
+      "master_bounds": [
+        50,
+        214,
+        550,
+        386
+      ],
+      "scale": 1.4124,
+      "scale_300": 0.7062,
+      "web_600_bytes": 27512,
+      "web_300_bytes": 10054,
+      "recommended_surface": "#ffffff",
+      "source_quality_note": "Original black field, cyan wordmark and fine bottom line retained; small tagline source-limited.",
+      "review_priority": "standard",
+      "assets": {
+        "600": "web/600/xspiceo.webp",
+        "300": "web/300/xspiceo.webp"
+      },
+      "batch": "2"
+    }
+  ]
+}
