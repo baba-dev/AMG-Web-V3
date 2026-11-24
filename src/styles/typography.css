@@ -71,6 +71,16 @@
 @media(max-width:900px){:root{--type-about-poster:clamp(48px,14vw,140px);--type-about-heading:clamp(36px,8.5vw,90px)}}
 @media(max-width:700px){:root{--type-about-poster:clamp(40px,13.8vw,96px);--type-about-heading:clamp(34px,9vw,65px);--type-about-stat:clamp(60px,20vw,120px);--type-about-control:clamp(18px,5vw,26px);--type-about-card:clamp(20px,5vw,27px)}}
 
+/* Contact: keep the marquee geometry independent of reading typography. */
+:root{
+ --type-contact-heading:var(--type-display-xl);
+ --type-contact-office:clamp(58px,7.2vw,132px);
+ --type-contact-panel:clamp(34px,4.2vw,72px);
+ --type-contact-tab:clamp(18px,1.8vw,30px);
+}
+@media(max-width:1100px){:root{--type-contact-office:clamp(48px,6.8vw,96px)}}
+@media(max-width:767px){:root{--type-contact-heading:clamp(48px,13vw,105px);--type-contact-office:clamp(56px,15vw,110px);--type-contact-panel:clamp(32px,8.5vw,58px);--type-contact-tab:clamp(14px,3.7vw,21px)}}
+
 /* Creative service experience: shared editorial roles, fit-aware compositions. */
 :root{
  --type-service-name:clamp(36px,4.5vw,72px);
