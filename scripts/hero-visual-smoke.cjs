@@ -486,8 +486,17 @@ async function testMegaLayer(browser,theme){
  assert.deepEqual(layout.children,["aiwa-mega__links","aiwa-mega__art"]);
  assert(!layout.filler,"Remove the left filler column");
  assert(/space[_ ]?grotesk/i.test(layout.font)&&layout.size<=16,"Submenu typography drift");
+ await trigger.focus();
+ await page.keyboard.press("ArrowDown");
+ await panel.locator("a").first().waitFor({state:"visible"});
+ await page.waitForFunction(()=>document.activeElement===document.querySelector("#aiwa-mega-panel-about a"));
+ await page.keyboard.press("End");
+ assert(await panel.locator("a").last().evaluate(el=>el===document.activeElement),"End reaches last submenu link");
+ await page.keyboard.press("Home");
+ assert(await panel.locator("a").first().evaluate(el=>el===document.activeElement),"Home reaches first submenu link");
  await page.keyboard.press("Escape");
  await page.waitForFunction(()=>document.querySelector("#aiwa-mega-panel-about")?.getAttribute("aria-hidden")==="true");
+ assert(await trigger.evaluate(el=>el===document.activeElement),"Escape restores trigger focus");
  await ctx.close();
  return layout;
 }
