@@ -67,8 +67,33 @@ execFileSync(process.execPath,["scripts/client-directory-assets.mjs"],{stdio:"in
     await card.click();
     const dialog=page.getByRole("dialog");await dialog.waitFor({state:"visible"});
     assert.match(await dialog.getByRole("heading",{level:2}).innerText(),/Fundoo Toys/);
+    const website=dialog.locator("[data-client-website]");
+    assert.equal(await website.getAttribute("href"),"https://fundootoys.com/");
+    assert.equal(await website.getAttribute("target"),"_blank");
+    assert.equal(await website.getAttribute("rel"),"noopener");
+    assert.match(await website.getAttribute("aria-label"),/opens in a new tab/);
     await page.keyboard.press("Escape");await dialog.waitFor({state:"hidden"});
     assert.ok(await card.evaluate(e=>document.activeElement===e),"focus returns to card");
+    // Test the supplied destinations without relying on third-party availability.
+    if(width===1440){
+      const expected=[["global-wealth-investments","https://gwi-me.com/"],["fundoo-toys","https://fundootoys.com/"],["aquapetro-chemicals","https://aquapetrochemicals.com/"],["bababuilds","https://bababuilds.com/"],["best-appliances","https://bestappliances.net/"],["flydestini","https://flydestini.com/"],["the-gulf-post","https://thegulfpost.com/"]];
+      for(const [id,url] of expected){
+        await search.fill("");
+        await page.waitForFunction(()=>document.querySelectorAll(".cd-gallery [data-client-id]").length===27);
+        const button=page.locator('[data-client-id="'+id+'"] .cd-card');
+        await button.click();await dialog.waitFor({state:"visible"});
+        const link=dialog.locator("[data-client-website]");
+        assert.equal(await link.getAttribute("href"),url,id);
+        assert.equal(await link.getAttribute("target"),"_blank");
+        assert.equal(await link.getAttribute("rel"),"noopener");
+        await page.keyboard.press("Escape");await dialog.waitFor({state:"hidden"});
+      }
+      await page.locator('[data-client-id="coy"] .cd-card').click();
+      await dialog.waitFor({state:"visible"});
+      assert.equal(await dialog.locator("[data-client-website]").count(),0,"no invented client website");
+      await page.keyboard.press("Escape");await dialog.waitFor({state:"hidden"});
+      await search.fill("fundoo");
+    }
     await page.getByRole("button",{name:"Clear search",exact:true}).click();
     await page.waitForFunction(()=>document.querySelectorAll(".cd-gallery [data-client-id]").length===27);
     await page.getByRole("button",{name:"Food & beverage"}).click();
