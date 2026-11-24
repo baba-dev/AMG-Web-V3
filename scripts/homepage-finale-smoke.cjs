@@ -1,4 +1,4 @@
-/* Aiwa Global Ending — one SAY HELLO gallery and footer on every route.
+/* Aiwa Global Ending — one footer without the office gallery on every route.
  * Static Next.js export, browser/client links, themes, fallback and accessibility.
  */
 const assert = require("node:assert/strict");
@@ -20,7 +20,6 @@ async function navigate(page, path) {
 async function assertGlobalStructure(page, pathname) {
   const data = await page.evaluate(() => {
     const ending = document.querySelector("[data-aiwa-global-ending]");
-    const office = document.querySelector("#office");
     const footer = document.querySelector("#site-footer");
     const opening = document.querySelector(".aiwa-site:not(.aiwa-global-ending)");
     const rect = element => {
@@ -33,56 +32,35 @@ async function assertGlobalStructure(page, pathname) {
       officeCount:document.querySelectorAll("#office").length,
       footerCount:document.querySelectorAll("#site-footer").length,
       contactCount:document.querySelectorAll(".aiwa-contact").length,
-      hello:office?.querySelector(".aiwa-office__hello-track")?.textContent?.trim()||"",
-      officeOwned:office?.parentElement===ending,
+
+
       footerOwned:footer?.parentElement===ending,
       wrapperAfterRoute:bottom===opening,
-      seam:bottom&&office?rect(office).top-rect(bottom).bottom:null,
-      officeFooterSeam:office&&footer?rect(footer).top-rect(office).bottom:null,
-      officeBeforeFooter:office&&footer?office.compareDocumentPosition(footer)&Node.DOCUMENT_POSITION_FOLLOWING:0,
+      seam:bottom&&footer?rect(footer).top-rect(bottom).bottom:null,
+
+
       overflow:document.documentElement.scrollWidth-innerWidth,
-      panels:[...document.querySelectorAll(".aiwa-office__picture")].map(el=>el.dataset.scene),
-      selected:document.querySelectorAll(".aiwa-office__selectors [aria-pressed='true']").length,
-      phone:document.querySelector('.aiwa-office__contact a[href="tel:+96896138461"]')!==null,
+
+
+      phone:document.querySelector('.aiwa-footer__contact a[href="tel:+96896138461"]')!==null,
       footerLinks:document.querySelectorAll(".aiwa-footer__navigation a").length,
       contrast:{
-        office:getComputedStyle(office).backgroundColor,
+
         footer:getComputedStyle(footer).backgroundColor,
       },
     };
   });
   assert.equal(data.count,1,pathname+": global ending must render once");
-  assert.equal(data.officeCount,1,pathname+": duplicate #office anchor");
+  assert.equal(data.officeCount,0,pathname+": removed office returned");
   assert.equal(data.footerCount,1,pathname+": duplicate footer");
   assert.equal(data.contactCount,0,pathname+": removed giant homepage contact panel returned");
-  assert.equal(data.officeOwned,true,pathname+": office must live inside global ending");
   assert.equal(data.footerOwned,true,pathname+": footer must live inside global ending");
   assert.equal(data.wrapperAfterRoute,true,pathname+": ending must follow the route content");
   assert.ok(near(data.seam,0,5),pathname+": space before global ending "+data.seam);
-  assert.ok(near(data.officeFooterSeam,0,5),pathname+": gap between office and footer");
-  assert.ok(data.officeBeforeFooter,pathname+": wrong ending order");
-  assert.ok(data.hello.includes("SAY HELLO"),pathname+": missing marquee");
-  assert.deepEqual(data.panels,["muscat","futurecraft","production"],pathname+": changed office gallery");
-  assert.equal(data.selected,1,pathname+": exactly one selected gallery chapter");
   assert.equal(data.footerLinks,6,pathname+": global footer navigation unavailable");
-  assert.ok(data.phone,pathname+": office phone must remain linked");
+  assert.ok(data.phone,pathname+": footer phone must remain linked");
   assert.ok(data.overflow<=2,pathname+": horizontal overflow "+data.overflow);
   return data;
-}
-async function gallery(page, w, h) {
-  await page.locator(".aiwa-office__gallery").scrollIntoViewIfNeeded();
-  const active = () => page.locator(".aiwa-office__picture.is-active").getAttribute("data-scene");
-  assert.equal(await active(),"muscat");
-  await page.screenshot({path:OUT+"/"+w+"x"+h+"-hello.png"});
-  await page.getByRole("button",{name:"Next image"}).click();
-  assert.equal(await active(),"futurecraft");
-  await page.getByRole("button",{name:"Show image 3: 03 / THE FRAME"}).click();
-  assert.equal(await active(),"production");
-  await page.locator(".aiwa-office__gallery").focus();
-  await page.keyboard.press("ArrowLeft");
-  assert.equal(await active(),"futurecraft");
-  await page.getByRole("button",{name:"Previous image"}).click();
-  assert.equal(await active(),"muscat");
 }
 async function checkViewport(browser,w,h) {
   const context=await browser.newContext({viewport:{width:w,height:h},reducedMotion:"reduce",deviceScaleFactor:1});
@@ -91,13 +69,12 @@ async function checkViewport(browser,w,h) {
   page.on("pageerror",e=>errors.push(e.message));
   await navigate(page,"/");
   const data=await assertGlobalStructure(page,"/");
-  const workToOffice=await page.evaluate(()=>{
+  const workToFooter=await page.evaluate(()=>{
     const work=document.querySelector("#work").getBoundingClientRect();
-    const office=document.querySelector("#office").getBoundingClientRect();
-    return office.top-work.bottom;
+    const footer=document.querySelector("#site-footer").getBoundingClientRect();
+    return footer.top-work.bottom;
   });
-  assert.ok(near(workToOffice,0,5),"Homepage Work must flow directly into SAY HELLO: "+workToOffice);
-  await gallery(page,w,h);
+  assert.ok(near(workToFooter,0,5),"Homepage Work must flow directly into footer: "+workToFooter);
   await page.locator("#site-footer").scrollIntoViewIfNeeded();
   await page.screenshot({path:OUT+"/"+w+"x"+h+"-footer.png"});
   await page.getByRole("button",{name:"Back to top"}).click();
@@ -123,21 +100,14 @@ async function checkViewport(browser,w,h) {
   return {viewport:w+"x"+h,pages:routes.length,office:data.officeCount,footer:data.footerCount};
 }
 async function fallback(browser) {
-  const reduced=await browser.newContext({viewport:{width:390,height:844},reducedMotion:"reduce"});
-  const page=await reduced.newPage();
-  await navigate(page,"/work");
-  const animation=await page.locator(".aiwa-office__hello-track")
-    .evaluate(el=>getComputedStyle(el).animationName);
-  assert.equal(animation,"none","Reduced motion must disable SAY HELLO marquee");
-  await reduced.close();
 
   const plain=await browser.newContext({viewport:{width:390,height:844},javaScriptEnabled:false});
   const noJs=await plain.newPage();
   for(const pathname of ["/","/contact","/privacy","/terms","/work"]) {
     await navigate(noJs,pathname);
-    assert.equal(await noJs.locator("#office").count(),1,pathname+": no-JS office missing");
+    assert.equal(await noJs.locator("#office").count(),0,pathname+": no-JS office returned");
     assert.equal(await noJs.locator("#site-footer").count(),1,pathname+": no-JS footer missing");
-    assert.equal(await noJs.locator(".aiwa-office__picture.is-active").count(),1);
+    assert.equal(await noJs.locator(".aiwa-office").count(),0);
     assert.equal(await noJs.locator(".aiwa-footer__navigation a").count(),6);
   }
   await plain.close();
