@@ -19,7 +19,7 @@ function isGroupCurrent(group: MegaMenuGroup, pathname: string) {
 }
 
 function MenuSketch({ kind }: { kind: MegaMenuGroup["id"] }) {
-  const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, pathLength: 1, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   return (
     <svg className="aiwa-mega-sketch" viewBox="0 0 520 310" aria-hidden="true">
       <path className="aiwa-mega-sketch__orbit" d="M35 245C122 78 350 22 488 116" {...common}/>
@@ -66,20 +66,25 @@ export function AiwaMegaMenu({ variant, mobileOpen, onMobileClose }: AiwaMegaMen
   const rootRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [active, setActive] = useState<MegaMenuGroup["id"] | null>(null);
-  const [mobileGroup, setMobileGroup] = useState<MegaMenuGroup["id"]>("work");
+  const [mobileGroup, setMobileGroup] = useState<MegaMenuGroup["id"] | null>("work");
+  const cancelClose = () => {
+    if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; }
+  };
 
   const open = (id: MegaMenuGroup["id"]) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
+    cancelClose();
     setActive(id);
   };
   const scheduleClose = () => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setActive(null), 120);
+    cancelClose();
+    closeTimer.current = setTimeout(() => {
+      if (!rootRef.current?.querySelector(".aiwa-mega__panel :focus-visible")) setActive(null);
+    }, 220);
   };
   const focusFirstLink = (id: MegaMenuGroup["id"]) => {
     open(id);
     window.requestAnimationFrame(() => {
-      document.querySelector<HTMLAnchorElement>(`#aiwa-mega-panel-${id} a`)?.focus();
+      rootRef.current?.querySelector<HTMLAnchorElement>(`#aiwa-mega-panel-${id} a`)?.focus();
     });
   };
 
@@ -89,17 +94,30 @@ export function AiwaMegaMenu({ variant, mobileOpen, onMobileClose }: AiwaMegaMen
     };
     const onKey = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      if (active) setActive(null);
-      else if (mobileOpen) onMobileClose();
+      cancelClose();
+      if (active) {
+        const trigger = rootRef.current?.querySelector<HTMLButtonElement>(`[aria-controls="aiwa-mega-panel-${active}"]`);
+        if (rootRef.current?.querySelector(".aiwa-mega__panel.is-open")?.contains(document.activeElement)) trigger?.focus();
+        setActive(null);
+      } else if (mobileOpen) {
+        onMobileClose();
+        rootRef.current?.closest("header")?.querySelector<HTMLButtonElement>(`[aria-controls="aiwa-mega-mobile-${variant}"]`)?.focus();
+      }
     };
     document.addEventListener("pointerdown", onPointer);
     window.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("pointerdown", onPointer);
       window.removeEventListener("keydown", onKey);
-      if (closeTimer.current) clearTimeout(closeTimer.current);
     };
-  }, [active, mobileOpen, onMobileClose]);
+  }, [active, mobileOpen, onMobileClose, variant]);
+  useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
+  useEffect(() => {
+    if (!active || variant !== "hero") return;
+    const closeOnScroll = () => { if (window.scrollY > 80) { cancelClose(); setActive(null); } };
+    window.addEventListener("scroll", closeOnScroll, { passive: true });
+    return () => window.removeEventListener("scroll", closeOnScroll);
+  }, [active, variant]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -109,7 +127,7 @@ export function AiwaMegaMenu({ variant, mobileOpen, onMobileClose }: AiwaMegaMen
   }, [mobileOpen]);
 
   return (
-    <div ref={rootRef} className={`aiwa-mega aiwa-mega--${variant}`} onMouseLeave={scheduleClose}
+    <div ref={rootRef} className={`aiwa-mega aiwa-mega--${variant}`} onMouseEnter={cancelClose} onMouseLeave={scheduleClose}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setActive(null);
       }}>
@@ -119,10 +137,18 @@ export function AiwaMegaMenu({ variant, mobileOpen, onMobileClose }: AiwaMegaMen
           const openNow = active === group.id;
           return <button key={group.id} type="button" className="aiwa-mega__trigger"
             aria-expanded={openNow} aria-controls={`aiwa-mega-panel-${group.id}`}
+            style={{ "--mega-accent": group.accent } as CSSProperties}
             data-current={current || undefined} onMouseEnter={() => open(group.id)}
-            onFocus={() => open(group.id)} onClick={() => open(group.id)}
+            onClick={(event) => { if (event.detail === 0 && openNow) { cancelClose(); setActive(null); } else open(group.id); }}
             onKeyDown={(event) => {
               if (event.key === "ArrowDown") { event.preventDefault(); focusFirstLink(group.id); }
+              if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                event.preventDefault();
+                const triggers = Array.from(rootRef.current?.querySelectorAll<HTMLButtonElement>(".aiwa-mega__trigger") ?? []);
+                const next = triggers[(triggers.indexOf(event.currentTarget) + (event.key === "ArrowRight" ? 1 : triggers.length - 1)) % triggers.length];
+                next?.focus();
+                if (active && next) open(megaMenuGroups[triggers.indexOf(next)].id);
+              }
             }}>
             {group.label}<ChevronDown size={13} strokeWidth={1.8} aria-hidden="true"/>
           </button>;
@@ -136,6 +162,15 @@ export function AiwaMegaMenu({ variant, mobileOpen, onMobileClose }: AiwaMegaMen
             className={`aiwa-mega__panel${openNow ? " is-open" : ""}`}
             style={{ "--mega-accent": group.accent } as CSSProperties}
             aria-label={`${group.label} menu`} aria-hidden={!openNow} inert={!openNow}
+            onKeyDown={(event) => {
+              if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+              const links = Array.from(event.currentTarget.querySelectorAll<HTMLAnchorElement>("a"));
+              if (!links.length) return;
+              event.preventDefault();
+              const index = links.indexOf(document.activeElement as HTMLAnchorElement);
+              const next = event.key === "Home" ? 0 : event.key === "End" ? links.length - 1 : (index + (event.key === "ArrowDown" ? 1 : links.length - 1)) % links.length;
+              links[next]?.focus();
+            }}
             onMouseEnter={() => open(group.id)}>
             <div className="aiwa-mega__links">
               <div className="aiwa-mega__link-list">
@@ -166,7 +201,7 @@ export function AiwaMegaMenu({ variant, mobileOpen, onMobileClose }: AiwaMegaMen
             const expanded = mobileGroup === group.id;
             return <section key={group.id} style={{ "--mega-accent": group.accent } as CSSProperties}>
               <button type="button" aria-expanded={expanded} aria-controls={`aiwa-mobile-group-${group.id}`}
-                onClick={() => setMobileGroup(group.id)}>
+                onClick={() => setMobileGroup(expanded ? null : group.id)}>
                 <span>0{groupIndex + 1}</span><strong>{group.label}</strong><ChevronDown size={20} aria-hidden="true"/>
               </button>
               <div id={`aiwa-mobile-group-${group.id}`} className="aiwa-mega-mobile__items" hidden={!expanded}>
