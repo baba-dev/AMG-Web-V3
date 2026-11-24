@@ -241,8 +241,8 @@ async function testViewport(browser, width, height) {
   assert(initial.headline.includes("DOMINATE") && initial.headline.includes("WITH AIWA."),"Second line missing");
   assert.equal(initial.categories.join("|"),"Creatives|Marketing|Development|IT Support|Branding|Events");
   assert.deepEqual(initial.serviceHrefs,
-    Array(6).fill("#"),
-    "Homepage category links must use six placeholders");
+    ["/specialisms/creatives", ...Array(5).fill("#")],
+    "Homepage must link Creatives and keep five placeholders");
   const expectedHeroHeight = width <= 720 ? height*.75 : height;
   assert(closeTo(initial.hero.height,expectedHeroHeight,3),
     "Hero must match desktop full-screen or reference mobile film fold");
