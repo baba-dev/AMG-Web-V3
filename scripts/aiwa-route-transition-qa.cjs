@@ -116,17 +116,22 @@ async function assertEditorialType(page, context) {
       await overflow(page, width + " browser back");
 
       // A normal nav link gets the branded signal rather than a project portal.
-      if (width <= 1080) await page.locator(".aiwa-inner-header__menu").click();
-      const nav = width <= 1080
-        ? page.locator(".aiwa-inner-header__drawer a").filter({ hasText:"SPECIALISMS" }).first()
-        : page.locator(".aiwa-inner-header__links a").filter({ hasText:"SPECIALISMS" }).first();
+      if (width <= 1120) {
+        await page.locator(".aiwa-inner-header__menu").click();
+        await page.locator('#aiwa-mega-mobile-inner button').filter({hasText:"CREATIVES"}).click();
+      } else {
+        await page.locator(".aiwa-mega--inner .aiwa-mega__trigger").filter({hasText:"CREATIVES"}).click();
+      }
+      const nav = width <= 1120
+        ? page.locator('#aiwa-mega-mobile-inner a[href="/specialisms/creatives"]').first()
+        : page.locator('#aiwa-mega-panel-creatives a[href="/specialisms/creatives"]').first();
       await nav.click();
       await stage.waitFor({ state:"visible", timeout:2500 });
       assert.equal(await stage.getAttribute("data-kind"), "signal");
       await assertEditorialType(page, width + " signal type");
       await page.waitForTimeout(375);
       await page.screenshot({ path:out+"/signal-"+width+".png" });
-      await page.waitForURL(pathIs("/specialisms"), { timeout:12000 });
+      await page.waitForURL(pathIs("/specialisms/creatives"), { timeout:12000 });
       await settle(page);
       await overflow(page, width + " specialisms");
       await context.close();
@@ -137,7 +142,8 @@ async function assertEditorialType(page, context) {
     const homePage = await home.newPage();
     homePage.on("pageerror",(err)=>errors.push("home: "+err.message));
     await load(homePage,"/");
-    const workNav = homePage.locator(".aiwa-header__navigation a").filter({hasText:"WORK"}).first();
+    await homePage.locator(".aiwa-mega--hero .aiwa-mega__trigger").filter({hasText:"WORK"}).click();
+    const workNav = homePage.locator('#aiwa-mega-panel-work a[href="/work"]').first();
     assert.equal(await workNav.getAttribute("href"),"/work");
     await workNav.click();
     await homePage.locator(".aiwa-route-stage").waitFor({state:"visible",timeout:2500});

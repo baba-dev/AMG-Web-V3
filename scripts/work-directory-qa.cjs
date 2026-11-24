@@ -150,11 +150,11 @@ async function geometry(page){return page.evaluate(()=>{
     await page.locator('[data-filter-button="all"]').click();
     assert.equal(await page.locator("[data-work-project]").count(),6);
     const menu=page.locator(".aiwa-inner-header__menu");
-    if(width<=1080){
+    if(width<=1120){
       check(await menu.isVisible(),width+": mobile menu is missing");
       await menu.click();
       assert.equal(await menu.getAttribute("aria-expanded"),"true");
-      check(await page.locator("#aiwa-inner-menu a").first().isVisible(),
+      check(await page.locator("#aiwa-mega-mobile-inner a").first().isVisible(),
         width+": drawer links invisible");
       await page.keyboard.press("Escape");
       assert.equal(await menu.getAttribute("aria-expanded"),"false");
@@ -164,7 +164,7 @@ async function geometry(page){return page.evaluate(()=>{
       check(taps.every(t=>t.height>=43.5),
         width+": essential touch targets too short "+JSON.stringify(taps));
     }else{
-      check(await page.locator(".aiwa-inner-header__links").isVisible(),width+": desktop nav missing");
+      check(await page.locator(".aiwa-mega--inner .aiwa-mega__triggers").isVisible(),width+": desktop nav missing");
     }
     const footerLinks=page.locator(".aiwa-footer__links a");
     assert.equal(await footerLinks.count(),15,width+": legacy footer links missing");

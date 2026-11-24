@@ -2,18 +2,16 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
-import { ArrowDown, ArrowUpRight, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
+import { ArrowDown, Globe2, Menu, Play, VolumeX, X } from "lucide-react";
 import { AiwaSpecialisms } from "@/components/aiwa-specialisms";
 import { AiwaAbout } from "@/components/aiwa-about";
 import { AiwaWorkShowcase } from "@/components/aiwa-work";
 import { ModeToggle } from "@/components/mode-toggle";
-import { siteNavigation } from "@/lib/site-navigation";
+import { AiwaMegaMenu } from "@/components/aiwa-mega-menu";
 import { AiwaFilmPlayer, type FilmOrigin } from "@/components/aiwa-film-player";
 import "./aiwa-hero.css";
 // Editorial typography, spacing and touch-target harmonization.
 import "./aiwa-polish.css";
-
-const navigation = siteNavigation;
 
 const candidateId = process.env.NEXT_PUBLIC_AIWA_SHOWREEL_YOUTUBE_ID;
 const youtubeId = candidateId && /^[a-zA-Z0-9_-]{11}$/.test(candidateId)
@@ -60,7 +58,6 @@ export function AiwaHero() {
   const filmControlsRef = useRef<HTMLDivElement>(null);
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [officesOpen, setOfficesOpen] = useState(false);
   const [filmOpen, setFilmOpen] = useState(false);
   const [filmOrigin, setFilmOrigin] = useState<FilmOrigin | null>(null);
   const [filmControlsActive, setFilmControlsActive] = useState(false);
@@ -233,30 +230,16 @@ export function AiwaHero() {
               AIWA
             </Link>
 
-            <nav className="aiwa-header__navigation" aria-label="Primary navigation">
-              {navigation.map((item) => (
-                <a className="aiwa-header__link" href={item.href} key={item.label}
-                  >{item.label}</a>
-              ))}
-            </nav>
+            <AiwaMegaMenu variant="hero" mobileOpen={mobileNavOpen} onMobileClose={() => setMobileNavOpen(false)} />
 
             <div className="aiwa-header__utility">
-              <button
-                className="aiwa-header__offices"
-                type="button"
-                aria-expanded={officesOpen}
-                aria-controls="aiwa-offices-panel"
-                onClick={() => setOfficesOpen((x) => !x)}
-              >
-                OFFICES
-              </button>
               <span className="aiwa-header__clock"><Globe2 size={14} strokeWidth={2} aria-hidden="true" /><MuscatTime /></span>
               <ModeToggle />
               <button
                 className="aiwa-header__menu-toggle"
                 type="button"
                 aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"}
-                aria-controls="aiwa-mobile-menu"
+                aria-controls="aiwa-mega-mobile-hero"
                 aria-expanded={mobileNavOpen}
                 onClick={() => setMobileNavOpen((x) => !x)}
               >
@@ -264,25 +247,6 @@ export function AiwaHero() {
               </button>
             </div>
 
-            <div id="aiwa-offices-panel" className={"aiwa-header__offices-panel" + (officesOpen ? " is-open" : "")} inert={!officesOpen}>
-              <span>OUR OFFICE</span><strong>MUSCAT, OMAN</strong><MuscatTime />
-            </div>
-
-            <nav
-              id="aiwa-mobile-menu"
-              className={"aiwa-mobile-nav" + (mobileNavOpen ? " is-open" : "")}
-              aria-label="Mobile navigation"
-              inert={!mobileNavOpen}
-            >
-              {navigation.map((item, index) => (
-                <a key={item.label} className="aiwa-mobile-nav__link" href={item.href}
-                  onClick={() => { setMobileNavOpen(false);
- }}>
-                  <span>0{index + 1}</span>{item.label}<ArrowUpRight size={20} aria-hidden="true" />
-                </a>
-              ))}
-              <span className="aiwa-mobile-nav__location">MUSCAT, OMAN / WORLDWIDE</span>
-            </nav>
           </header>
 
           <div ref={titleRef} className="aiwa-hero__center">

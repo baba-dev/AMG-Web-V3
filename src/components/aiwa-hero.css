@@ -819,9 +819,9 @@
   animation:aiwa-opening-aperture 1.65s .28s cubic-bezier(.65,0,.19,1) backwards;
  }
  .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__identity,
- .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__navigation,
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-mega__triggers,
  .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__utility{animation:aiwa-opening-header .62s 1.94s cubic-bezier(.22,1,.36,1) backwards}
- .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__navigation{animation-delay:2.04s}
+ .aiwa-sequence[data-hero-intro="playing"] .aiwa-mega__triggers{animation:aiwa-opening-header .62s 2.04s cubic-bezier(.22,1,.36,1) backwards}
  .aiwa-sequence[data-hero-intro="playing"] .aiwa-header__utility{animation-delay:2.12s}
  .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__location{animation:aiwa-opening-footer .55s 2.55s cubic-bezier(.22,1,.36,1) backwards}
  .aiwa-sequence[data-hero-intro="playing"] .aiwa-hero__scroll{animation:aiwa-opening-footer .5s 2.7s cubic-bezier(.22,1,.36,1) backwards}
@@ -835,3 +835,10 @@
 @keyframes aiwa-opening-header{from{opacity:0;transform:translateY(-9px)}to{opacity:1;transform:translateY(0)}}
 @keyframes aiwa-opening-footer{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.aiwa-hero__inline-video{display:none}}
+
+/* The six-part mega navigation needs a little more room than the retired
+   flat menu. Switch to its editorial accordion before labels feel crowded. */
+@media(max-width:1120px){
+ .aiwa-header{grid-template-columns:1fr auto;min-height:74px;}
+ .aiwa-header__menu-toggle{display:inline-flex;margin-left:8px;}
+}
