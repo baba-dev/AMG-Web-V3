@@ -34,6 +34,10 @@ export function ContactMotion() {
     const paintDepth = () => {
       frame = 0;
       if (reduced.matches || document.visibilityState !== "visible") return;
+      if (Math.abs(window.scrollY) > 2 && !introSettled) settleIntro();
+      const heroRect = wall.getBoundingClientRect();
+      const heroProgress = Math.max(0,Math.min(1,-heroRect.top/Math.max(1,heroRect.height)));
+      wall.style.setProperty("--signal-scroll",heroProgress.toFixed(4));
       const rect = office.getBoundingClientRect();
       const height = window.innerHeight;
       if (rect.bottom < 0 || rect.top > height) return;
@@ -78,6 +82,7 @@ export function ContactMotion() {
       if (reduced.matches) {
         chapters.forEach(node => { node.dataset.entered = "true"; });
         office.style.removeProperty("--contact-photo-drift");
+        wall.style.removeProperty("--signal-scroll");
       } else {
         onScroll();
       }
@@ -89,6 +94,8 @@ export function ContactMotion() {
     else settleIntro();
     const introTimer = window.setTimeout(settleIntro, 3200);
     const interrupt = () => settleIntro();
+    const keyInterrupt = (event: KeyboardEvent) => { if (["Tab","Escape","ArrowDown","ArrowUp","PageDown","PageUp","Home","End"," "].includes(event.key)) settleIntro(); };
+    window.addEventListener("keydown",keyInterrupt);
     wall.addEventListener("focusin", interrupt);
     wall.addEventListener("pointerdown", interrupt);
     window.addEventListener("wheel", interrupt, {passive:true});
@@ -101,6 +108,8 @@ export function ContactMotion() {
 
     return () => {
       window.clearTimeout(introTimer);
+      window.removeEventListener("keydown",keyInterrupt);
+      wall.style.removeProperty("--signal-scroll");
       wall.removeEventListener("focusin", interrupt);
       wall.removeEventListener("pointerdown", interrupt);
       window.removeEventListener("wheel", interrupt);

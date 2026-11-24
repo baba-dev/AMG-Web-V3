@@ -39,3 +39,7 @@
 }
 @media(max-width:360px){.contact-signal__eyebrow{font-size:11px}.contact-signal__foot{letter-spacing:0}.contact-signal__art{height:215px}}
 @media(prefers-reduced-motion:reduce){.contact-signal *, .contact-signal *::before,.contact-signal *::after{animation:none!important;transition:none!important}}
+
+.contact-signal__cta:focus-visible,.contact-signal__foot a:focus-visible{outline:2px solid var(--signal-ink);outline-offset:5px}
+@media(prefers-reduced-motion:no-preference){.contact-signal__art .muscat-signal{transform:translateY(calc(var(--signal-scroll,0)*-20px));opacity:calc(1 - var(--signal-scroll,0)*.25)}.contact-page #enquiries,.contact-page #contact-office{scroll-margin-top:90px}}
+@media(max-width:767px){.contact-page #enquiries,.contact-page #contact-office{scroll-margin-top:65px}}
