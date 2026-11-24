@@ -326,7 +326,7 @@
  .aiwa-specialisms__row {font-size:10.6vw;}
 }
 
-/* P2-C: all seven animated homepage rows are real routes. */
+/* Homepage service navigation is temporarily placeholder-only. */
 .aiwa-specialisms__all{
  display:inline-flex;align-items:center;justify-content:center;gap:14px;
  min-height:46px;padding:8px 3px;border-bottom:1px solid #0a0a0a;
@@ -336,3 +336,9 @@
 .aiwa-specialisms__all:focus-visible{outline:3px solid #0a0a0a;outline-offset:5px;}
 .aiwa-specialisms__footer p{font-family:var(--font-space-grotesk),Arial,sans-serif;}
 @media(max-width:700px){.aiwa-specialisms__all{min-height:46px;}}
+
+/* Fit the longest approved discipline without changing the folding rhythm. */
+.aiwa-specialisms__row--tech {font-size:clamp(72px,8.6vw,126px);}
+@media(max-width:950px){.aiwa-specialisms__row--tech {font-size:clamp(54px,8.5vw,105px);}}
+@media(max-width:700px){.aiwa-specialisms__row--tech {font-size:clamp(30px,8.7vw,61px);}}
+.aiwa-specialisms__row:focus-visible {opacity:1!important;transform:none!important;outline-color:var(--spec-ink);}
