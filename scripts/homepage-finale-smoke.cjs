@@ -62,14 +62,14 @@ async function assertGlobalStructure(page, pathname) {
   assert.equal(data.footerLinks,15,pathname+": global footer navigation unavailable");
   const typeMatches=await page.evaluate(()=>{
     const reference=document.querySelector(".aiwa-footer__bottom a");
-    const properties=["fontFamily","fontSize","fontWeight","lineHeight","letterSpacing","textTransform"];
+    const properties=["fontFamily","fontSize","fontWeight","lineHeight","letterSpacing","textTransform","fontStyle"];
     const style=getComputedStyle(reference);
-    return [...document.querySelectorAll(".aiwa-footer__links a,.aiwa-footer__start,.aiwa-footer__contact > a,.aiwa-footer__bottom a,.aiwa-footer__bottom button")].every(el=>{
+    return [...document.querySelectorAll(".aiwa-footer__links a,.aiwa-footer__start,.aiwa-footer__contact > a,.aiwa-footer__contact address,.aiwa-footer__contact address span,.aiwa-footer__bottom a,.aiwa-footer__bottom button")].every(el=>{
       const computed=getComputedStyle(el);
       return properties.every(property=>computed[property]===style[property]);
     });
   });
-  assert.equal(typeMatches,true,pathname+": footer links must match Privacy Notes typography");
+  assert.equal(typeMatches,true,pathname+": footer links and contact details must match Privacy Notes typography");
 
   assert.equal(data.footerPlaceholders,true,pathname+": expected placeholder destinations");
   assert.equal(data.footerSocials,5,pathname+": missing legacy social platforms");
