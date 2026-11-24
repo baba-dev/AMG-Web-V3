@@ -3,6 +3,7 @@ import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { ShowcaseHero } from "@/components/case-studies/showcase-hero";
 import { ShowcaseIndex } from "@/components/case-studies/showcase-index";
 import { ShowcaseChapter } from "@/components/case-studies/showcase-chapter";
+import { ShowcaseMotion } from "@/components/case-studies/showcase-motion";
 import { ShowcaseOutro } from "@/components/case-studies/showcase-outro";
 import { showcaseChapters } from "@/lib/work/case-study-showcase";
 import "@/components/aiwa-polish.css";
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 };
 export default function CaseStudyShowcasePage() {
   return <div className="aiwa-site cs-page"><AiwaInnerHeader/><main id="main-content">
-    <ShowcaseHero/>
+    <ShowcaseHero/><ShowcaseMotion/>
     <ShowcaseIndex/>
     {showcaseChapters.map((chapter, index) => <ShowcaseChapter key={chapter.slug} chapter={chapter} index={index}/>)}
     <ShowcaseOutro/>
