@@ -7,7 +7,7 @@ const output="test-artifacts/specialisms-p2c";
 const viewports=[[1440,900],[1280,800],[950,800],[768,850],[430,932],[390,844],[360,800],[320,700]];
 const records=[
  ["global","GLOBAL",2],
- ["consumer","CONSUMER",2],
+ ["creatives","CREATIVES",1],
  ["corporate","CORPORATE",1],
  ["sports","SPORTS",0],
  ["social","SOCIAL",2],
@@ -69,6 +69,12 @@ const sample=async page=>page.evaluate(()=>{
           "Sports honesty disclosure missing");
       }else{
        assert.equal(await page.locator("[data-no-verified-case-study]").count(),0);
+      }
+      if(slug==="creatives") {
+        assert.equal(await page.locator(".creative-lab__controls button").count(),6);
+        await page.getByRole("button",{name:/Photography/}).click();
+        assert.equal(await page.getByRole("button",{name:/Photography/}).getAttribute("aria-pressed"),"true");
+        assert.equal(await page.locator(".creative-lab__scene strong").textContent(),"FOCUS.");
       }
       const hrefs=await page.locator("[data-related-work]").evaluateAll(list=>list.map(x=>new URL(x.href).pathname));
       check(hrefs.every(x=>x.startsWith("/work/")),slug+": related work must stay on Aiwa V3");
