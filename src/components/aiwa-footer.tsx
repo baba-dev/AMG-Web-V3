@@ -9,7 +9,7 @@ import "./aiwa-footer.css";
 
 const navigation = [
   { label: "WORK", href: "/work" },
-  { label: "ABOUT", href: "#about" },
+  { label: "ABOUT", href: "/about" },
   { label: "SPECIALISMS", href: "/specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
   { label: "CONTACT", href: "/contact" },
