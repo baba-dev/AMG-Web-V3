@@ -5,18 +5,16 @@ import { useEffect } from "react";
 /**
  * Contact page motion director.
  * CSS owns each animation's easing/timing; this component only synchronizes
- * entrance, section visibility and photo depth. No scroll hijacking, timers,
+ * entrance, section visibility and hero depth. No scroll hijacking, timers,
  * third-party animation runtime or constantly running React state.
  */
 export function ContactMotion() {
   useEffect(() => {
     const page = document.querySelector<HTMLElement>("[data-contact-page]");
     const wall = page?.querySelector<HTMLElement>("[data-contact-hero]");
-    const office = page?.querySelector<HTMLElement>(".contact-office__image");
-    if (!page || !wall || !office) return;
+    if (!page || !wall) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const narrow = window.matchMedia("(max-width: 767px)");
     const chapters = Array.from(page.querySelectorAll<HTMLElement>("[data-contact-reveal]"));
     const observers: IntersectionObserver[] = [];
     let frame = 0;
@@ -38,13 +36,6 @@ export function ContactMotion() {
       const heroRect = wall.getBoundingClientRect();
       const heroProgress = Math.max(0,Math.min(1,-heroRect.top/Math.max(1,heroRect.height)));
       wall.style.setProperty("--signal-scroll",heroProgress.toFixed(4));
-      const rect = office.getBoundingClientRect();
-      const height = window.innerHeight;
-      if (rect.bottom < 0 || rect.top > height) return;
-      const progress = Math.min(1, Math.max(0, (height - rect.top) / (height + rect.height)));
-      // Symmetric, reversible vertical drift; no hardcoded pixel scroll position.
-      const drift = (progress - 0.5) * (narrow.matches ? 18 : 42);
-      office.style.setProperty("--contact-photo-drift", drift.toFixed(2) + "px");
     };
 
     const onScroll = () => {
@@ -81,7 +72,6 @@ export function ContactMotion() {
       page.dataset.contactMotion = reduced.matches ? "reduced" : "ready";
       if (reduced.matches) {
         chapters.forEach(node => { node.dataset.entered = "true"; });
-        office.style.removeProperty("--contact-photo-drift");
         wall.style.removeProperty("--signal-scroll");
       } else {
         onScroll();
@@ -104,7 +94,6 @@ export function ContactMotion() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     reduced.addEventListener("change", configure);
-    narrow.addEventListener("change", onScroll);
 
     return () => {
       window.clearTimeout(introTimer);
@@ -119,12 +108,10 @@ export function ContactMotion() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       reduced.removeEventListener("change", configure);
-      narrow.removeEventListener("change", onScroll);
       if (frame) window.cancelAnimationFrame(frame);
       delete page.dataset.contactMotion;
       delete wall.dataset.sceneActive;
       delete wall.dataset.intro;
-      office.style.removeProperty("--contact-photo-drift");
     };
   }, []);
 

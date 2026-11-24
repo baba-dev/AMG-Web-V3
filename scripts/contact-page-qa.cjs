@@ -4,6 +4,8 @@ const fs=require("node:fs");
 const { chromium }=require("playwright");
 const base=process.env.AIWA_TEST_URL||"http://127.0.0.1:4173";
 const dir="test-artifacts/contact-page";
+const officeAddress="HGRW+VMV, 3711 Way, Muscat, Oman";
+const mockMap=async page=>page.route("https://www.google.com/maps?*",route=>route.fulfill({contentType:"text/html",body:'<!doctype html><html lang="en"><title>Map test fixture</title><button onclick="this.textContent=\'Zoomed\'">Zoom in</button></html>'}));
 const widths=[[1920,1080],[1440,900],[1280,800],[950,800],[768,850],[430,932],[390,844],[360,800],[320,700]];
 const requireIt=(value,msg)=>assert.ok(value,msg);
 fs.mkdirSync(dir,{recursive:true});
@@ -12,6 +14,7 @@ fs.mkdirSync(dir,{recursive:true});
  try{
   for(const theme of ["dark","light"]) for(const [width,height] of widths){
    const page=await browser.newPage({viewport:{width,height},reducedMotion:"reduce",colorScheme:theme});
+   await mockMap(page);
    const errors=[];
    page.on("pageerror",e=>errors.push(e.message));
    await page.addInitScript(t=>localStorage.setItem("theme",t),theme);
@@ -47,7 +50,7 @@ fs.mkdirSync(dir,{recursive:true});
      imageCount:document.querySelectorAll(".muscat-signal image").length,
      phone:!!document.querySelector('a[href="tel:+96896138461"]'),
      mail:!!document.querySelector('a[href="mailto:info@aiwamediagroup.com"]'),
-     directions:!!document.querySelector('a[href^="https://www.google.com/maps/search/"]'),
+     directions:!!document.querySelector('.contact-office__links a[href^="https://www.google.com/maps/dir/"]'),
      body:root?getComputedStyle(root).backgroundColor:"",
      hiddenDecorative:document.querySelector('.muscat-signal')?.getAttribute('aria-hidden')==='true',
     };
@@ -60,7 +63,20 @@ fs.mkdirSync(dir,{recursive:true});
    requireIt(structure.intro&&structure.office&&structure.panel,width+": expected contact sections");
    requireIt(structure.realOfficeCount===1,width+": do not imply unverified offices");
    requireIt(structure.phone&&structure.mail&&structure.directions,width+": official live contact links");
-   requireIt(structure.hiddenDecorative,width+": decorative map must be hidden from assistive technology");
+   requireIt(structure.hiddenDecorative,width+": decorative hero map must be hidden from assistive technology");
+   const map=page.locator(".contact-office__map iframe");
+   assert.equal(await map.count(),1);
+   const mapUrl=new URL(await map.getAttribute("src"));
+   assert.equal(mapUrl.origin,"https://www.google.com");
+   assert.equal(mapUrl.searchParams.get("q"),officeAddress);
+   assert.equal(mapUrl.searchParams.get("output"),"embed");
+   assert.equal(await map.getAttribute("loading"),"lazy");
+   assert.match(await map.getAttribute("title"),/Interactive Google map/);
+   const destination=new URL(await page.locator(".contact-office__links a").last().getAttribute("href"));
+   assert.equal(destination.searchParams.get("destination"),officeAddress);
+   assert.equal(await page.locator(".contact-office__map-caption a").getAttribute("href"),destination.href);
+   assert.equal(await page.locator(".contact-office__map img").count(),0);
+   requireIt(await map.evaluate(el=>el.getBoundingClientRect().height>=250),width+": map must have usable height");
    requireIt(await page.locator(".muscat-signal__pulse").first().evaluate(el=>getComputedStyle(el).animationName)==="none",
       width+": reduced motion must stop ambient signals");
    requireIt(await page.locator(".contact-intro").getAttribute("data-entered")==="true",
@@ -115,6 +131,7 @@ fs.mkdirSync(dir,{recursive:true});
    await page.close();
   }
   const page=await browser.newPage({viewport:{width:1440,height:900}});
+  await mockMap(page);
   await page.goto(base+"/contact");
   await page.evaluate(()=>document.fonts.ready);
   await page.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.intro==="playing");
@@ -142,18 +159,14 @@ fs.mkdirSync(dir,{recursive:true});
     .evaluate(el=>getComputedStyle(el).animationName);
   requireIt(panelMotion==="contact-panel-in","enquiry panel has a choreographed entrance");
 
-  await page.locator(".contact-office__image").scrollIntoViewIfNeeded();
+  const map=page.locator(".contact-office__map iframe");
+  await map.scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>document.querySelector(".contact-office")?.dataset.entered==="true");
   await page.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.sceneActive==="false");
-  await page.waitForTimeout(150);
-  const driftA=await page.locator(".contact-office__image").evaluate(el=>
-    parseFloat(el.style.getPropertyValue("--contact-photo-drift")));
-  await page.evaluate(()=>window.scrollBy({top:120,behavior:"instant"}));
-  await page.waitForTimeout(150);
-  const driftB=await page.locator(".contact-office__image").evaluate(el=>
-    parseFloat(el.style.getPropertyValue("--contact-photo-drift")));
-  requireIt(Number.isFinite(driftA)&&Number.isFinite(driftB)&&Math.abs(driftA-driftB)>1,
-    "Muscat artwork must move subtly and reversibly with scroll");
+  const zoom=page.frameLocator(".contact-office__map iframe").getByRole("button",{name:"Zoom in"});
+  await zoom.click();
+  requireIt(await page.frameLocator(".contact-office__map iframe").getByRole("button",{name:"Zoomed"}).isVisible(),"embedded map accepts pointer interaction (local fixture)");
+  requireIt(await map.evaluate(el=>getComputedStyle(el).transform==="none"),"map must not move with parallax");
   const parked=await page.locator(".muscat-signal__pulse").first().evaluate(el=>getComputedStyle(el).animationName);
   requireIt(parked==="none","offscreen signal must stop");
   await page.locator(".contact-outro").scrollIntoViewIfNeeded();
@@ -163,7 +176,7 @@ fs.mkdirSync(dir,{recursive:true});
     .evaluate(el=>Number(getComputedStyle(el).opacity));
   requireIt(outroCTA>.95,"closing CTA should have appeared after the final beat");
   await page.screenshot({path:dir+"/1440-choreographed-outro.png"});
-  console.log("CONTACT_CHOREOGRAPHY_PASS",JSON.stringify(score),driftA,driftB);
+  console.log("CONTACT_CHOREOGRAPHY_PASS",JSON.stringify(score));
 
   await page.evaluate(()=>{document.documentElement.classList.remove("dark");document.documentElement.classList.add("light");});
   await page.evaluate(()=>{
@@ -182,6 +195,7 @@ fs.mkdirSync(dir,{recursive:true});
   await page.close();
 
   const mobile=await browser.newPage({viewport:{width:390,height:844},reducedMotion:"no-preference"});
+  await mockMap(mobile);
   await mobile.goto(base+"/contact",{waitUntil:"domcontentloaded"});
   await mobile.waitForFunction(()=>document.querySelector("[data-contact-page]")?.dataset.contactMotion==="ready");
   await mobile.waitForFunction(()=>document.querySelector(".contact-signal")?.dataset.intro==="playing");
@@ -195,6 +209,7 @@ fs.mkdirSync(dir,{recursive:true});
 
   const noJs=await browser.newContext({viewport:{width:390,height:844},javaScriptEnabled:false});
   const fallback=await noJs.newPage();
+  await mockMap(fallback);
   await fallback.goto(base+"/contact",{waitUntil:"domcontentloaded"});
   requireIt(await fallback.locator(".contact-signal h1").innerText().then(t=>t.includes("FIND US.")),"server-rendered headline");
   const visible=await fallback.locator(".contact-intro__grid h2")

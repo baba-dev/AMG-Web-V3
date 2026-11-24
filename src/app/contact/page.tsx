@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { ContactEnquiries } from "@/components/contact-enquiries";
@@ -8,6 +7,10 @@ import { ContactHeroV2 } from "@/components/contact/contact-hero-v2";
 import { ContactMotion } from "@/components/contact-motion";
 import "@/components/aiwa-polish.css";
 import "./contact-page.css";
+
+const officeMapQuery = encodeURIComponent("HGRW+VMV, 3711 Way, Muscat, Oman");
+const officeMapEmbed = "https://www.google.com/maps?q=" + officeMapQuery + "&z=17&output=embed";
+const officeMapDirections = "https://www.google.com/maps/dir/?api=1&destination=" + officeMapQuery;
 
 export const metadata: Metadata = {
   title: "Contact Aiwa | Let's Make Some Noise | Aiwa Media Group",
@@ -47,12 +50,18 @@ export default function AiwaContactPage() {
           </div>
           <h2 id="contact-office-title">OUR <em>HOME.</em></h2>
           <div className="contact-office__layout">
-            <div className="contact-office__image">
-              <Image src="/media/finale/muscat-editorial.svg"
-                alt="Original editorial illustration inspired by Muscat's waterfront and surrounding mountains"
-                width={1600} height={950} unoptimized loading="lazy"/>
-              <span>AIWA / MUSCAT</span>
-              <span>ORIGINAL EDITORIAL ART</span>
+            <div className="contact-office__map">
+              <iframe
+                title="Interactive Google map of Aiwa Media Group, 3711 Way, Muscat, Oman"
+                src={officeMapEmbed}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+              <div className="contact-office__map-caption">
+                <span>AIWA / MUSCAT, OMAN</span>
+                <a href={officeMapDirections} target="_blank" rel="noopener noreferrer">OPEN IN MAPS <ArrowUpRight size={17} aria-hidden="true" /></a>
+              </div>
             </div>
             <div className="contact-office__details">
               <span className="contact-office__count">01 / 01 — OUR OFFICE</span>
@@ -65,7 +74,7 @@ export default function AiwaContactPage() {
               <div className="contact-office__links">
                 <a href="tel:+96896138461">+968 9613 8461 <ArrowUpRight size={20} aria-hidden="true" /></a>
                 <a href="mailto:info@aiwamediagroup.com">INFO@AIWAMEDIAGROUP.COM <ArrowUpRight size={20} aria-hidden="true" /></a>
-                <a href="https://www.google.com/maps/search/?api=1&query=HGRW%2BVMV%203711%20Way%20Muscat%20Oman"
+                <a href={officeMapDirections}
                   target="_blank" rel="noopener noreferrer">GET DIRECTIONS <ArrowUpRight size={20} aria-hidden="true" /></a>
               </div>
             </div>
