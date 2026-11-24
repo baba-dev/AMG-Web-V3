@@ -38,7 +38,7 @@ async function run(browser,width,height){
      aboutRGB:getComputedStyle(about).backgroundColor,
      aboutImage:rect(aboutImage),
      overflow:document.documentElement.scrollWidth-innerWidth,
-     rects:[...[".aiwa-hero",".aiwa-film-section",".aiwa-specialisms",".aiwa-about","#work","#office","#site-footer"]].map(s=>{
+     rects:[...[".aiwa-hero",".aiwa-film-section",".aiwa-specialisms",".aiwa-about","#work","#site-footer"]].map(s=>{
        const e=document.querySelector(s),r=e.getBoundingClientRect();
        return {name:s,top:r.top+scrollY,bottom:r.bottom+scrollY};
      }),
@@ -138,9 +138,6 @@ async function run(browser,width,height){
  await page.evaluate(()=>document.querySelector("#work").scrollIntoView({behavior:"instant"}));
  await page.waitForTimeout(260);
  await page.screenshot({path:OUT+"/"+width+"x"+height+"-work.png"});
- await page.evaluate(()=>document.querySelector("#office").scrollIntoView({behavior:"instant"}));
- await page.waitForTimeout(260);
- await page.screenshot({path:OUT+"/"+width+"x"+height+"-say-hello.png"});
  await page.evaluate(()=>document.querySelector("#site-footer").scrollIntoView({behavior:"instant"}));
  await page.waitForTimeout(260);
  await page.screenshot({path:OUT+"/"+width+"x"+height+"-footer.png"});
