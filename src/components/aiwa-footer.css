@@ -53,9 +53,9 @@
 .aiwa-footer__links a:hover svg,.aiwa-footer__links a:focus-visible svg {opacity:1;transform:translate(0);}
 .aiwa-footer__accordion {display:none;}
 .aiwa-footer__contact address,.aiwa-footer__contact>a {
-  color:var(--footer-ink); font-size:clamp(15px,1.15vw,20px); line-height:1.5; font-style:normal;
+  color:var(--footer-ink); font:var(--footer-link-font); font-style:normal;
 }
-.aiwa-footer__contact address {margin:18px 0;}
+.aiwa-footer__contact address {margin:12px 0 18px;overflow-wrap:anywhere;}
 .aiwa-footer__contact address span {color:var(--footer-muted);text-decoration:underline;text-underline-offset:3px;}
 .aiwa-footer__contact>a {display:inline-block;text-decoration:none;}
 .aiwa-footer__contact>a:hover {text-decoration:underline;}
@@ -324,10 +324,12 @@
 }
 
 /* All textual footer actions share the legal-link typography. Keep the
-   signature, Arabic artwork, section headings and contact address distinct. */
+   signature, Arabic artwork and section headings distinct. */
 .aiwa-footer .aiwa-footer__links a,
 .aiwa-footer .aiwa-footer__start,
 .aiwa-footer .aiwa-footer__contact > a,
+.aiwa-footer .aiwa-footer__contact address,
+.aiwa-footer .aiwa-footer__contact address span,
 .aiwa-footer .aiwa-footer__bottom a,
 .aiwa-footer .aiwa-footer__bottom button {
   font:var(--footer-link-font);
