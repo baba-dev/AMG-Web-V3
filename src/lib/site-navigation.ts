@@ -1,7 +1,7 @@
 /** Canonical page links shared by the homepage and inner-page shell. */
 export const siteNavigation = [
   { label: "WORK", href: "/work" },
-  { label: "ABOUT", href: "#about" },
+  { label: "ABOUT", href: "/about" },
   { label: "SPECIALISMS", href: "/specialisms" },
   { label: "JOIN US", href: "https://aiwamediagroup.com/career/" },
   { label: "CONTACT US", href: "/contact" },

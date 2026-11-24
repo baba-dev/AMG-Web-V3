@@ -9,7 +9,7 @@ const OUT = "test-artifacts/finale";
 fs.mkdirSync(OUT, {recursive:true});
 const near = (a,b,t=4) => Math.abs(a-b) <= t;
 const routes = [
-  "/", "/work", "/work/mymo-express", "/specialisms",
+  "/", "/about", "/work", "/work/mymo-express", "/specialisms",
   "/specialisms/tech", "/contact", "/privacy", "/terms", "/_not-found.html"
 ];
 async function navigate(page, path) {

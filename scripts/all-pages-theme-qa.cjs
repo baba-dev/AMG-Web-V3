@@ -8,6 +8,7 @@ const origin = process.env.AIWA_ORIGIN || "http://127.0.0.1:4173";
 const output = process.env.AIWA_THEME_QA_OUTPUT || "test-artifacts/all-pages-theme";
 
 const pages = [
+  {id:"about",path:"/about.html",surfaces:[".about-page",".ab-manifesto",".ab-close",".aiwa-footer"],shots:[".ab-hero",".ab-achievements",".ab-values-grid",".ab-close"]},
   {
     id: "home",
     path: "/",

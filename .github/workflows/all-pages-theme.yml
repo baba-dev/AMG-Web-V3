@@ -7,6 +7,7 @@ on:
       - 'src/app/**'
       - 'src/components/**'
       - 'scripts/all-pages-theme-qa.cjs'
+      - 'scripts/about-page-qa.cjs'
       - 'package.json'
       - '.github/workflows/all-pages-theme.yml'
   workflow_dispatch:
@@ -29,6 +30,7 @@ jobs:
           npm ci --no-audit --no-fund
           npm run build
           test -f out/index.html
+          test -f out/about.html
           test -f out/contact.html
           test -f out/privacy.html
           test -f out/terms.html
@@ -48,9 +50,12 @@ jobs:
             curl -fsS -o /dev/null http://127.0.0.1:4173/ && break || sleep 1
           done
           npm run test:themes
+          node scripts/about-page-qa.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: aiwa-all-pages-dual-theme
-          path: test-artifacts/all-pages-theme/
+          path: |
+            test-artifacts/all-pages-theme/
+            test-artifacts/about/
           retention-days: 7

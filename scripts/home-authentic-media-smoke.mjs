@@ -18,7 +18,6 @@ for (const asset of assets) {
 
 const about = readFileSync(resolve(root, "src/components/aiwa-about.tsx"), "utf8");
 const work = readFileSync(resolve(root, "src/lib/work/projects.ts"), "utf8");
-const office = readFileSync(resolve(root, "src/components/aiwa-office.tsx"), "utf8");
 const output = readFileSync(resolve(root, "out/index.html"), "utf8");
 
 for (const expected of [
@@ -35,13 +34,6 @@ for (const expected of [
   }
 }
 
-for (const expected of [
-  "/media/home-2/muscat-futurecraft-film-still.webp",
-  "/media/home-2/muscat-futurecraft-landscape.webp",
-]) {
-  if (!office.includes(expected) || !output.includes(expected)) {
-    throw new Error(`Futurecraft scene is missing: ${expected}`);
-  }
-}
+if (output.includes('id="office"')) throw new Error("Removed global office returned");
 
 console.log(`AIWA_HOME_AUTHENTIC_MEDIA_PASS assets=${assets.length}`);
