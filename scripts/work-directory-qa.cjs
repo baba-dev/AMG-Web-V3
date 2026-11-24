@@ -50,6 +50,10 @@ async function geometry(page){return page.evaluate(()=>{
     assert.deepEqual(hrefs,slugs.map(slug=>"/work/"+slug),width+": local project routes missing");
     const listSwitch=page.locator('[data-view-button="list"]');
     const gridSwitch=page.locator('[data-view-button="grid"]');
+    assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"),"list",width+": default view must be list");
+    assert.equal(await listSwitch.getAttribute("aria-pressed"),"true",width+": default list active");
+    assert.equal(new URL(page.url()).searchParams.get("view"),null,width+": clean default URL");
+    await gridSwitch.click();
     await listSwitch.click();
     assert.equal(await listSwitch.getAttribute("aria-pressed"),"true",width+": list toggle state");
     assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"),"list",width+": list view");
@@ -112,7 +116,10 @@ async function geometry(page){return page.evaluate(()=>{
       width+": list preference should restore from storage");
     await gridSwitch.click();
     assert.equal(await gridSwitch.getAttribute("aria-pressed"),"true",width+": grid state");
-    assert.equal(new URL(page.url()).searchParams.get("view"),null,width+": grid canonical URL");
+    assert.equal(new URL(page.url()).searchParams.get("view"),"grid",width+": grid deep link");
+    await page.reload({waitUntil:"domcontentloaded"});
+    await settle(page);
+    assert.equal(await page.locator("[data-work-gallery]").getAttribute("data-view"),"grid",width+": explicit grid survives reload");
     for(const [name,count] of Object.entries(expected)){
      await page.locator('[data-filter-button="'+name+'"]').click();
      await page.waitForTimeout(80);
@@ -180,6 +187,7 @@ async function geometry(page){return page.evaluate(()=>{
   const plainPage=await plain.newPage();
   await plainPage.goto(base+"/work",{waitUntil:"domcontentloaded"});
   assert.equal(await plainPage.locator("[data-work-project]").count(),6);
+  assert.equal(await plainPage.locator("[data-work-gallery]").getAttribute("data-view"),"list","server-rendered default");
   await plain.close();
   // Saved theme control works on desktop and does not break paper contrast.
   const themeContext=await browser.newContext({viewport:{width:1440,height:900}});
