@@ -18,31 +18,19 @@ function SocialIcon({ name }: { name: typeof footerSocials[number] }) {
 
 export function AiwaGlobalFooter() {
   const [collapsed, setCollapsed] = useState<string[]>([]);
-  const gridRef = useRef<HTMLDivElement>(null);
-  const echoRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const wordmark = echoRef.current;
-    if (!wordmark || !window.IntersectionObserver) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      wordmark.dataset.inView = entry.isIntersecting ? "true" : "false";
-    }, { threshold: 0.1 });
-
-    observer.observe(wordmark);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const grid = gridRef.current;
-    if (!grid || !window.IntersectionObserver) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        grid.dataset.revealed = "true";
-        observer.disconnect();
+    const footer = footerRef.current;
+    if (!footer || !window.IntersectionObserver) return;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        (entry.target as HTMLElement).dataset.revealed = "true";
+        observer.unobserve(entry.target);
       }
-    }, { threshold: 0.08 });
-    observer.observe(grid);
+    }, { threshold: 0.01, rootMargin: "0px 0px -24px 0px" });
+    footer.querySelectorAll("[data-footer-beat]").forEach(element => observer.observe(element));
     return () => observer.disconnect();
   }, []);
 
@@ -60,21 +48,21 @@ export function AiwaGlobalFooter() {
   };
 
   return (
-    <footer className="aiwa-footer" id="site-footer" aria-label="Aiwa Media Group global footer">
+    <footer ref={footerRef} className="aiwa-footer" id="site-footer" aria-label="Aiwa Media Group global footer">
       <div className="aiwa-footer__upper">
-        <div className="aiwa-footer__intro">
+        <div className="aiwa-footer__intro" data-footer-beat>
           <span className="aiwa-footer__eyebrow">READY TO MAKE SOME NOISE?</span>
-          <p>Good ideas don&apos;t need to whisper.</p>
+          <p><span>Good ideas don&apos;t</span><span>need to whisper.</span></p>
           <a className="aiwa-footer__start" href={footerPlaceholder}>
             WORK WITH AIWA <ArrowUpRight size={23} strokeWidth={1.6} aria-hidden="true"/>
           </a>
         </div>
-        <div className="aiwa-footer__legacy-grid" ref={gridRef}>
+        <div className="aiwa-footer__legacy-grid">
           {footerGroups.map((group, index) => {
             const open = !collapsed.includes(group.title);
             const panelId = `footer-group-${index}`;
             return (
-              <nav className="aiwa-footer__group" key={group.title} aria-label={group.title}>
+              <nav className="aiwa-footer__group" data-footer-beat key={group.title} aria-label={group.title}>
                 <h2 className="aiwa-footer__eyebrow aiwa-footer__desktop-heading">{group.title}</h2>
                 <button type="button" className="aiwa-footer__accordion" aria-expanded={open} aria-controls={panelId}
                   onClick={() => activateAccordion(group.title)}>
@@ -86,7 +74,7 @@ export function AiwaGlobalFooter() {
               </nav>
             );
           })}
-          <section className="aiwa-footer__contact" aria-label="Contact Us">
+          <section className="aiwa-footer__contact" data-footer-beat aria-label="Contact Us">
             <h2 className="aiwa-footer__eyebrow">Contact Us</h2>
             <a href={footerPhone.href}>Tele: {footerPhone.label}</a>
             <address><span>Our Address:</span><br />HGRW+VMV, 3711 Way,<br />Muscat, Oman</address>
@@ -97,7 +85,7 @@ export function AiwaGlobalFooter() {
         </div>
       </div>
 
-      <div className="aiwa-footer__echo" ref={echoRef} lang="ar" dir="ltr" data-in-view="false">
+      <div className="aiwa-footer__echo" data-footer-beat lang="ar" dir="ltr">
         <span className="aiwa-footer__echo-layer aiwa-footer__echo-layer--coral" dir="rtl" aria-hidden="true">
           مجموعة أيوا الإعلامية
         </span>
@@ -109,7 +97,7 @@ export function AiwaGlobalFooter() {
         </span>
       </div>
 
-      <div className="aiwa-footer__bottom">
+      <div className="aiwa-footer__bottom" data-footer-beat>
         <div className="aiwa-footer__signature"><strong aria-label="Aiwa Media Group">AIWA<span>.</span></strong><span>© 2026 AIWA MEDIA GROUP · BY AHMED AL AJMI TRADING</span></div>
         <div>
           <a href={footerPlaceholder}>PRIVACY NOTES</a>
