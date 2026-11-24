@@ -4,3 +4,18 @@
 .muscat-signal__endpoint{fill:currentColor}.muscat-signal__pulse{fill:none;stroke:currentColor;opacity:0;transform-box:fill-box;transform-origin:center}
 .muscat-signal__label{fill:var(--signal-ink);font:600 20px var(--type-body);letter-spacing:4px}
 .muscat-signal__coordinates,.muscat-signal__instrument{fill:var(--signal-muted);font:500 10px var(--type-mono);letter-spacing:1px}
+
+@media(prefers-reduced-motion:no-preference){
+.contact-signal[data-intro="playing"] .muscat-signal__geography{animation:signal-map .8s both}
+.contact-signal[data-intro="playing"] .muscat-signal__hub{animation:signal-map .75s .35s both}
+.contact-signal[data-intro="playing"] .muscat-signal__route{stroke-dasharray:1;animation:signal-route 1s calc(.75s + var(--route-index)*.06s) both}
+.contact-signal[data-intro="playing"] .muscat-signal__endpoint{animation:signal-map .45s 1.6s both}
+.contact-signal[data-intro="playing"] :is(.muscat-signal__label,.muscat-signal__instrument){animation:signal-map .65s 2.55s both}
+.contact-signal[data-scene-active="true"] .muscat-signal__particle{animation:signal-particle 4.8s calc(2s + var(--route-index)*.65s) infinite linear}
+.contact-signal[data-scene-active="true"] .muscat-signal__pulse{animation:signal-pulse 3.6s calc(1.15s + var(--pulse-index)*1.8s) infinite cubic-bezier(.15,.6,.3,1)}
+.contact-signal[data-scene-active="false"] :is(.muscat-signal__particle,.muscat-signal__pulse){animation-play-state:paused}
+}
+@keyframes signal-map{from{opacity:0}to{opacity:1}}
+@keyframes signal-route{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:.68}}
+@keyframes signal-particle{0%{stroke-dashoffset:0;opacity:0}8%{opacity:1}88%{opacity:1}100%{stroke-dashoffset:-1;opacity:0}}
+@keyframes signal-pulse{0%{transform:scale(.5);opacity:.8}100%{transform:scale(2.8);opacity:0}}

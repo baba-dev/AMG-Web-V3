@@ -11,7 +11,7 @@ import { useEffect } from "react";
 export function ContactMotion() {
   useEffect(() => {
     const page = document.querySelector<HTMLElement>("[data-contact-page]");
-    const wall = page?.querySelector<HTMLElement>(".contact-wall");
+    const wall = page?.querySelector<HTMLElement>("[data-contact-hero]");
     const office = page?.querySelector<HTMLElement>(".contact-office__image");
     if (!page || !wall || !office) return;
 
@@ -21,8 +21,11 @@ export function ContactMotion() {
     const observers: IntersectionObserver[] = [];
     let frame = 0;
     let wallVisible = true;
+    let introSettled = false;
+    const settleIntro = () => { introSettled = true; wall.dataset.intro = "settled"; };
 
     const updateWall = () => {
+      if (!wallVisible || reduced.matches) settleIntro();
       wall.dataset.sceneActive = String(
         !reduced.matches && wallVisible && document.visibilityState === "visible"
       );
@@ -82,6 +85,14 @@ export function ContactMotion() {
     };
 
     configure();
+    if (!reduced.matches && !introSettled && !location.hash && scrollY < 2) wall.dataset.intro = "playing";
+    else settleIntro();
+    const introTimer = window.setTimeout(settleIntro, 3200);
+    const interrupt = () => settleIntro();
+    wall.addEventListener("focusin", interrupt);
+    wall.addEventListener("pointerdown", interrupt);
+    window.addEventListener("wheel", interrupt, {passive:true});
+    window.addEventListener("touchstart", interrupt, {passive:true});
     document.addEventListener("visibilitychange", updateWall);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
@@ -89,6 +100,11 @@ export function ContactMotion() {
     narrow.addEventListener("change", onScroll);
 
     return () => {
+      window.clearTimeout(introTimer);
+      wall.removeEventListener("focusin", interrupt);
+      wall.removeEventListener("pointerdown", interrupt);
+      window.removeEventListener("wheel", interrupt);
+      window.removeEventListener("touchstart", interrupt);
       observers.forEach(observer => observer.disconnect());
       document.removeEventListener("visibilitychange", updateWall);
       window.removeEventListener("scroll", onScroll);
@@ -98,6 +114,7 @@ export function ContactMotion() {
       if (frame) window.cancelAnimationFrame(frame);
       delete page.dataset.contactMotion;
       delete wall.dataset.sceneActive;
+      delete wall.dataset.intro;
       office.style.removeProperty("--contact-photo-drift");
     };
   }, []);
