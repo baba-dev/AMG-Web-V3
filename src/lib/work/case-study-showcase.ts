@@ -9,7 +9,7 @@ export type ShowcaseChapter = Readonly<{
   slug: ShowcaseSlug; name: string; shortName: string; category: string;
   headline: readonly [string, string]; intro: string; response: string;
   disciplines: readonly string[]; metrics: readonly ShowcaseMetric[];
-  art: string; logo: string; archive?: { src: string; alt: string };
+  art: string; archive?: { src: string; alt: string };
   status: "historical-case-study" | "featured-brand";
 }>;
 export const legacyCaseSource = "https://aiwamediagroup.com/case-study/";
@@ -21,7 +21,7 @@ export const showcaseChapters: readonly ShowcaseChapter[] = [
     response: "Aiwa supported MYMO Express across digital promotion, brand management, advertising and physical promotional materials, bringing multiple communication channels together.",
     disciplines: ["Digital marketing", "Brand management", "Google Ads management", "Signage & print"],
     metrics: [{ value: 3000, display: "3,000", label: "App downloads", period: "In 30 days", source: "legacy-case-study", verificationStatus: "historical-reported" }],
-    art: "/media/case-studies/mymo-signal.svg", logo: "/media/client-logos/web/600/mymo-express.webp",
+    art: "/media/case-studies/mymo-signal.svg",
     archive: {src: "/media/archive/mymo-coffee.webp", alt: "MYMO promotional artwork from Aiwa’s published archive"},
     status: "historical-case-study"
   },
@@ -35,7 +35,7 @@ export const showcaseChapters: readonly ShowcaseChapter[] = [
       {value: 105000, display: "105K", label: "Total reach", period: "In seven days", source: "legacy-case-study", verificationStatus: "historical-reported"},
       {value: 35000, display: "35K", label: "Organic reach", period: "In the same reported campaign", source: "legacy-case-study", verificationStatus: "historical-reported"}
     ],
-    art: "/media/case-studies/casabella-form.svg", logo: "/media/client-logos/web/600/la-bella-house.webp",
+    art: "/media/case-studies/casabella-form.svg",
     archive: {src: "/media/archive/casabella-discount.webp", alt: "Casabella promotional artwork from Aiwa’s published archive"},
     status: "historical-case-study"
   },
@@ -44,7 +44,7 @@ export const showcaseChapters: readonly ShowcaseChapter[] = [
     headline: ["LIFE AT", "ITS BEST."],
     intro: "BEST by Genetco is a home-appliance brand featured in Aiwa’s public portfolio, including cooling and refrigeration products.",
     response: "An editorial look at everyday technology. Specific campaign scope and performance have not been confirmed, so this feature introduces the brand rather than attributing campaign results.",
-    disciplines: [], metrics: [], art: "/media/case-studies/best-precision.svg", logo: "/media/client-logos/web/600/best-appliances.webp",
+    disciplines: [], metrics: [], art: "/media/case-studies/best-precision.svg",
     status: "featured-brand"
   }
 ];
