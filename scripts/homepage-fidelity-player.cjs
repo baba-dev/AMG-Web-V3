@@ -20,7 +20,7 @@ async function run(browser,width,height){
  await page.route("https://www.youtube-nocookie.com/**",route=>route.abort());
  await page.goto(BASE+"/",{waitUntil:"domcontentloaded",timeout:30000});
  await page.evaluate(()=>document.fonts.ready);
- await page.waitForTimeout(1350);
+ await page.waitForFunction(()=>document.querySelector(".aiwa-sequence")?.dataset.heroIntro==="settled");
 
  const geometry=await page.evaluate(()=>{
    const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom}};
