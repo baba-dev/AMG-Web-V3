@@ -112,3 +112,9 @@
 }
 @media(max-width:360px){.spec-detail--tech .spec-detail__hero-headline{font-size:10.4vw}.spec-detail--tech .dev-vendors{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.spec-detail--tech :is(.dev-signal,.dev-link svg,.dev-service summary svg,.dev-faq summary svg,.tech-pair__desktop,.tech-pair__mobile){animation:none!important;transition:none!important}}
+
+/* Keep the large poster optically fitted rather than clipping a long italic line. */
+@media(min-width:768px){.spec-detail--tech .spec-detail__hero-headline{font-size:clamp(48px,8.4vw,142px)}}
+@media(max-width:767px){.spec-detail--tech .spec-detail__hero-headline>span{overflow-wrap:normal}.spec-detail--tech .spec-detail__hero-headline{font-size:clamp(34px,9.5vw,72px)}.spec-detail--tech .spec-detail__hero-bottom{gap:14px}}
+.spec-detail--tech .dev-projects .tech-pair__tag{color:#151613}
+.spec-detail--tech .dev-services .tech-pair__tag{color:#151613}

@@ -45,6 +45,7 @@ export default async function SpecialismDetail({params}:Props){
   description:service.lead,
   provider:{"@type":"Organization",name:"Aiwa Media Group",url:"https://aiwamediagroup.com/"},
   areaServed:{"@type":"Place",name:"Oman"},
+  ...(isDevelopment?{serviceType:["Web and app development","SaaS and business software","Cloud and DevOps","Professional and dedicated email hosting","AI and business automation","Industrial IoT and connected hardware"],url:"https://next.aiwamediagroup.com/specialisms/tech"}:{}),
  };
  return <div className={"aiwa-site spec-site spec-detail spec-detail--"+service.slug}
     style={vars} data-specialism={service.slug}>

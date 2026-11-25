@@ -12,7 +12,7 @@ const records=[
  ["sports","SPORTS",0],
  ["social","SOCIAL",2],
  ["studio","STUDIO",1],
- ["tech","TECH",2],
+ ["tech","DEVELOPMENT",2],
 ];
 fs.mkdirSync(output,{recursive:true});
 const check=(v,message)=>assert.ok(v,message);
@@ -44,7 +44,7 @@ const sample=async page=>page.evaluate(()=>{
     assert.equal(await page.locator("[data-specialism-card]").count(),6,width+": cards");
     assert.deepEqual(await page.locator(".spec-directory__card-content h3").allTextContents(),["Creatives","Marketing","Development","IT Support","Branding","Events"]);
     assert.deepEqual(await page.locator(".spec-directory__card").evaluateAll(x=>x.map(v=>v.getAttribute("href"))),
-      ["/specialisms/creatives",...Array(5).fill("#")],width+": wrong project href order");
+      ["/specialisms/creatives", "#", "/specialisms/tech", "#", "#", "#"],width+": wrong project href order");
     const state=await sample(page);
     check(state.overflow<=2,width+": directory overflow "+state.overflow);
     check(/space[_ ]?grotesk|aiwa roc grotesk/i.test(state.font),width+": directory body font "+state.font);
@@ -74,6 +74,22 @@ const sample=async page=>page.evaluate(()=>{
           "Sports honesty disclosure missing");
       }else{
        assert.equal(await page.locator("[data-no-verified-case-study]").count(),0);
+      }
+      if(slug==="tech"){
+        assert.equal(await page.locator(".dev-services > ol > li").count(),6);
+        assert.equal(await page.locator(".dev-iot-card").count(),4);
+        assert.equal(await page.locator(".dev-projects article").count(),3);
+        assert.equal(await page.locator(".dev-vendors article").count(),4);
+        assert.equal(await page.locator(".dev-certifications__marks > div").count(),3);
+        assert.equal(await page.locator(".dev-faq details").count(),6);
+        check(/centralised, ai-enabled video monitoring/i.test(await page.locator(".dev-iot").innerText()),"Central surveillance command centre positioning missing");
+        check(/dedicated email hosting/i.test(await page.locator("#dev-email summary").innerText()),"Dedicated hosting service missing");
+        await page.locator("#dev-iot summary").click();
+        assert.equal(await page.locator("#dev-iot details").evaluate(el=>el.open),true);
+        assert.equal(await page.locator(".dev-service details[open]").count(),1,"Service accordion exclusive state");
+        await page.locator(".dev-faq details").first().locator("summary").click();
+        assert.equal(await page.locator(".dev-faq details").first().evaluate(el=>el.open),true);
+        check((await sample(page)).overflow<=2,width+": Development expanded content overflow");
       }
       if(slug==="creatives") {
         const type=await page.evaluate(()=>{const s=q=>getComputedStyle(document.querySelector(q));return {display:[".spec-detail__hero-headline",".spec-detail__thinking h2",".spec-detail__capabilities li h3",".creative-lab h2",".creative-lab__scene strong"].map(q=>s(q).fontFamily),body:[".spec-detail__thinking-text",".spec-detail__hero-bottom>a",".creative-lab__controls button",".creative-lab__caption p"].map(q=>s(q).fontFamily),emphasis:[".spec-detail__hero-headline em",".creative-lab h2 em"].map(q=>({family:s(q).fontFamily,weight:s(q).fontWeight,style:s(q).fontStyle})),mono:s(".creative-lab__controls small").fontFamily};});
@@ -108,7 +124,7 @@ const sample=async page=>page.evaluate(()=>{
       assert.equal(await page.locator(".spec-detail__pager a").count(),2);
       const schema=JSON.parse(await page.locator('script[type="application/ld+json"]').first().textContent());
       assert.equal(schema["@type"],"Service");
-      check(schema.name.toLowerCase().includes(slug),slug+": schema incorrect");
+      check(schema.name.toLowerCase().includes(slug==="tech"?"development":slug),slug+": schema incorrect");
       check((await page.title()).toLowerCase().includes(slug),slug+": page title missing");
       assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href")!==null,true);
       const state=await sample(page);
@@ -171,7 +187,7 @@ const sample=async page=>page.evaluate(()=>{
   const homePage=await home.newPage();
   await homePage.goto(origin+"/",{waitUntil:"domcontentloaded"});
   assert.deepEqual(await homePage.locator(".aiwa-specialisms__row").evaluateAll(nodes=>nodes.map(x=>x.getAttribute("href"))),
-    ["/specialisms/creatives", ...Array(5).fill("#")],"Homepage must link Creatives and keep five placeholders");
+    ["/specialisms/creatives", "#", "/specialisms/tech", "#", "#", "#"],"Homepage must link completed Creatives and Development pages");
   assert.equal(await homePage.locator(".aiwa-specialisms__all").getAttribute("href"),"#");
   assert.equal(await homePage.locator('#aiwa-mega-panel-creatives a[href="/specialisms/creatives"]').first().getAttribute("href"),"/specialisms/creatives");
   await home.close();
@@ -186,6 +202,13 @@ const sample=async page=>page.evaluate(()=>{
   assert.equal(await theme.locator(".spec-detail__hero").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(245, 245, 243)");
   assert.equal(await theme.locator(".aiwa-inner-header").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(245, 245, 243)");
   await theme.screenshot({path:output+"/390x844-tech-light.png"});
+  await theme.goto(origin+"/specialisms/tech#dev-email",{waitUntil:"domcontentloaded"});
+  await theme.waitForFunction(()=>document.querySelector("#dev-email details")?.open);
+  check((await sample(theme)).overflow<=2,"Development deep-link layout overflow");
+  await theme.locator("#dev-connected").scrollIntoViewIfNeeded();
+  await theme.screenshot({path:output+"/390x844-development-iot-light.png"});
+  await theme.locator(".dev-faq").scrollIntoViewIfNeeded();
+  await theme.screenshot({path:output+"/390x844-development-faq-light.png"});
   await theme.goto(origin+"/specialisms",{waitUntil:"domcontentloaded"});
   await pause(theme);
   assert.equal(await theme.locator(".spec-directory__hero").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(245, 245, 243)");
@@ -195,6 +218,11 @@ const sample=async page=>page.evaluate(()=>{
   const noJsPage=await noJs.newPage();
   await noJsPage.goto(origin+"/specialisms",{waitUntil:"domcontentloaded"});
   assert.equal(await noJsPage.locator(".spec-directory__card").count(),6);
+  await noJsPage.goto(origin+"/specialisms/tech",{waitUntil:"domcontentloaded"});
+  assert.equal(await noJsPage.locator(".dev-services > ol > li").count(),6);
+  await noJsPage.locator("#dev-email summary").click();
+  assert.equal(await noJsPage.locator("#dev-email details").evaluate(el=>el.open),true);
+  assert.equal(await noJsPage.locator(".dev-iot-card").count(),4);
   await noJsPage.goto(origin+"/specialisms/sports",{waitUntil:"domcontentloaded"});
   assert.equal(await noJsPage.locator(".spec-detail__capabilities li").count(),4);
   assert.equal(await noJsPage.locator("[data-no-verified-case-study]").count(),1);

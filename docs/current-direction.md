@@ -15,7 +15,7 @@ Aiwa should feel like a bold, finished, Muscat-rooted creative agency: confident
 | Hero | Three-stage first-view reveal (headline, expanding inline film slot, navigation), approximately 3.2 seconds, separate scroll-driven film projection. Preserve its geometry and interaction escape; reduced motion settles immediately. |
 | Navigation | Six mega-menu groups (Work, About, Creatives, Campaigns, Development, Start Here), two desktop columns: links and original line-art illustration. No left filler. Submenu hierarchy smaller than primary navigation, mobile accordion, real hit targets above film. |
 | Work | Editorial project directory, List default, Grid optional and explicit preferences retained. Case-study templates and relevant work connections. |
-| Specialisms | Creatives, Marketing, Development, IT Support, Branding, Events in this order. Creatives is the redesigned detail and motion lab; five other detail experiences need migration. Consumer retired. |
+| Specialisms | Creatives, Marketing, Development, IT Support, Branding, Events in this order. Creatives is the redesigned detail and motion lab; Development is expanded at /specialisms/tech in P2 (pending merge). Other four detail experiences need migration. Consumer retired. |
 | About | Beyond the Noise narrative, real Aiwa content, editorial story/values/capabilities. |
 | Contact | Muscat Signal hero (approved Find Us / Start Here direction), local illustrative cartography, coherent enquiry and office sections. |
 | Footer | One shared ending; no redundant homepage CTA or shared office gallery. Unified legal-link typography for footer text/contact, four-column desktop rhythm, accessible responsive accordion, compact social icon strip and inline Arabic Optical Echo artwork. |
@@ -58,3 +58,11 @@ Change this document when the owner approves a new durable direction or a merge 
 ## Approved technology portfolio direction
 
 The Systems Showcase is the approved design for the technology portfolio. PR #55 supplied 18 public-facing desktop/mobile screenshot pairs. The implementation branch corrects misplaced Creators images and restores the inventory, adds /work/technology and 18 static detail routes, and integrates the Work and Development menus. Creators is the flagship. Publication scope is owner-supplied captures and conservative experience descriptions; private POS images remain excluded. The technology ecosystem and cloud certification copy is owner-supplied and does not assert a formal vendor partnership or specific credential title. Dedicated service pages remain follow-up work. Do not treat this implementation as merged or deployed until verified.
+
+## Development division P2
+
+- Canonical service landing: `/specialisms/tech`; preserve the existing public URL rather than introduce a competing overview. The separate `/work/technology` portfolio stays the evidence-led gallery.
+- Six service pillars: Web & App Development, SaaS & Business Software, Cloud & DevOps, Professional & Dedicated Email Hosting, AI & Business Automation, IoT & Connected Hardware.
+- Owner-described industrial hardware work includes flow sensors, AI-enabled multi-site central surveillance command centres, automated lighting and power tracking. We sell the centralized intelligence system rather than individual cameras. Illustrations are conceptual diagrams, not client deployment media. Detailed five-piece motion artwork series deferred by owner.
+- Relationships: Cloudflare, Oracle, BytePlus, Gallabox. Team certification platforms: AWS, Google Cloud, Oracle. No partner tier, credential name, numerical claim or unapproved badge.
+- P2 connects completed Development from homepage, service directory and mega menu; individual service anchors open native disclosures. Dedicated commercial service pages remain later slices.
