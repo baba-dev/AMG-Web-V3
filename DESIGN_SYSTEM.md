@@ -18,3 +18,7 @@ Keep the established horizontal gutter. Choose compact, standard or cinematic se
 Project media, client artwork, logos and bespoke illustrations can use their own colors; they do not define page chrome. Device bezels and screenshot mattes are media-specific exceptions. Any new UI role belongs in the canonical source, with documented rationale. Existing unrelated routes are not automatically normalized by this change.
 
 For every changed route inspect light/dark at 320, 390, 768, 1024 and 1440px; verify computed typography and palette, overflow, focus, and representative motion. Compare homepage screenshots against the base revision in the same browser and review portfolio screenshots; never claim visual parity from source inspection alone. Preserve the current static export and browser regression gates.
+
+## Automated scope
+
+`node scripts/technology-design-contract.mjs` checks technology CSS palette aliases, literal chrome colors and typography declarations, plus the Work technology callout. Device presentation rules have a deliberately narrow exception. This is a targeted source guard, not a general CSS parser or a site-wide style linter. Existing technology media CI invokes it. The existing Playwright suite compares homepage tokens and display family in both themes, captures paired homepage/portfolio references and checks all detail pages for overflow. A human must review screenshot artifacts; no pixel-perfect comparison is implied. Future routes must adopt the contract before expanding the guard.

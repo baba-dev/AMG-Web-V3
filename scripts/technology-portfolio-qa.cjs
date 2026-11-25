@@ -10,6 +10,28 @@ const slugs=inventory.projects.map(p=>p.slug);
 async function checkOverflow(page,label){
   assert((await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth))<=2,label+" horizontal overflow");
 }
+async function designSnapshot(page,selector){
+  return page.locator(selector).evaluate(node=>{
+    const root=node.closest(".aiwa-site");
+    const cs=getComputedStyle(root), head=getComputedStyle(node);
+    const keys=["--aiwa-paper","--aiwa-paper-raised","--aiwa-paper-ink","--aiwa-paper-muted","--aiwa-paper-rule","--type-display","--type-emphasis","--type-body","--type-mono","--tracking-display","--aiwa-gutter"];
+    return {tokens:Object.fromEntries(keys.map(key=>[key,cs.getPropertyValue(key).trim()])),font:head.fontFamily,tracking:head.letterSpacing,fontSize:head.fontSize,background:cs.backgroundColor,color:cs.color};
+  });
+}
+async function verifyDesign(page,baseline){
+  await page.evaluate(()=>document.fonts.ready);
+  const actual=await designSnapshot(page,"main h1");
+  assert.deepEqual(actual.tokens,baseline.tokens,"Canonical homepage tokens");
+  assert.equal(actual.font,baseline.font,"Canonical homepage display family");
+  const style=await page.locator(".tech-page").evaluate(node=>{
+    const cs=getComputedStyle(node);
+    const probe=document.createElement("span");node.append(probe);
+    probe.style.backgroundColor="var(--aiwa-paper)";probe.style.color="var(--aiwa-paper-ink)";
+    const pc=getComputedStyle(probe);const expected=[pc.backgroundColor,pc.color];probe.remove();
+    return {actual:[cs.backgroundColor,cs.color],expected};
+  });
+  assert.deepEqual(style.actual,style.expected,"Technology chrome follows canonical surface and ink");
+}
 async function decoded(locator){
   await locator.evaluate(async img=>{img.loading="eager";await img.decode();});
   assert(await locator.evaluate(img=>img.complete&&img.naturalWidth>0),"Screenshot must decode");
@@ -25,10 +47,18 @@ async function run(){
         await context.addInitScript(t=>localStorage.setItem("theme",t),theme);
         const page=await context.newPage();
         const errors=[];page.on("pageerror",e=>errors.push(e.message));
+        await page.goto(origin+"/",{waitUntil:"networkidle"});
+        await page.waitForFunction(t=>document.documentElement.classList.contains(t),theme);
+        await page.evaluate(()=>document.fonts.ready);
+        const baseline=await designSnapshot(page,".aiwa-hero__headline");
+        await page.screenshot({path:output+"/"+width+"-"+theme+"-homepage-reference.png"});
         const response=await page.goto(origin+route,{waitUntil:"networkidle"});
         assert.equal(response.status(),200);
         await page.waitForFunction(t=>document.documentElement.classList.contains(t),theme);
         assert.equal(await page.locator("main h1").count(),1);
+        assert.equal(await page.locator('.tech-connected-link a[href="/specialisms/tech#dev-connected"]').count(),1,"Industrial IoT cross-link preserved");
+        assert.equal(await page.locator('.tech-contact-note a[href="/specialisms/tech"]').count(),1,"Development services cross-link preserved");
+        await verifyDesign(page,baseline);
         assert.equal(await page.locator(".tech-index__rows li").count(),18);
         assert.equal(await page.locator(".aiwa-footer").count(),1);
         assert.equal(await page.locator(".tech-flagship a[href='/work/technology/aiwa-creators']").count(),2);
@@ -42,6 +72,8 @@ async function run(){
         await page.evaluate(()=>window.scrollTo(0,0));
         await checkOverflow(page,width+" "+theme);
         await page.screenshot({path:output+"/"+width+"-"+theme+"-hero.png"});
+        await page.locator(".tech-engineering").scrollIntoViewIfNeeded();
+        await page.screenshot({path:output+"/"+width+"-"+theme+"-engineering.png"});
         await page.locator(".tech-flagship").scrollIntoViewIfNeeded();
         await page.screenshot({path:output+"/"+width+"-"+theme+"-flagship.png"});
         await page.getByRole("button",{name:"Next project",exact:true}).click();
@@ -63,6 +95,7 @@ async function run(){
         await page.screenshot({path:output+"/"+width+"-"+theme+"-index.png"});
         await page.goto(origin+route+"/aiwa-creators",{waitUntil:"networkidle"});
         assert.equal(await page.locator(".tech-detail__header h1").textContent(),"Creators by Aiwa.");
+        await verifyDesign(page,baseline);
         assert.equal(await page.locator(".tech-detail__hero img").count(),2,"One responsive media presentation, without duplicate hidden images");
         await decoded(page.locator(".tech-detail__hero img").first());
         await page.getByRole("group",{name:"Screenshot view",exact:true}).getByRole("button",{name:"Mobile",exact:true}).click();
@@ -106,6 +139,7 @@ async function run(){
       const images=detailPage.locator(".tech-detail__hero img");
       assert.equal(await images.count(),2);
       await decoded(images.nth(0));await decoded(images.nth(1));
+      await checkOverflow(detailPage,slug+" detail");
       assert(await detailPage.locator('link[rel="canonical"]').getAttribute("href").then(v=>v.endsWith("/"+slug)),slug+" canonical");
     }
     await detailContext.close();
