@@ -306,3 +306,8 @@ html.light .tech-dot{color:#455dc0}
 .tech-reel__progress button:focus-visible{outline-offset:0}
 .tech-page main .tech-pair__tag{overflow-wrap:anywhere}
 @media(max-width:767px){.tech-viewer__caption{gap:0 14px}.tech-viewer__caption p{margin-bottom:3px}}
+
+.tech-page main .tech-connected-link{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px;border-bottom:1px solid var(--tech-rule);padding-block:clamp(22px,3vw,40px)}
+.tech-page main .tech-connected-link p{max-width:62ch;color:var(--tech-muted);margin-top:10px}
+.tech-page main .tech-outro>.tech-link{margin-right:clamp(16px,4vw,50px)}
+@media(max-width:767px){.tech-page main .tech-connected-link{grid-template-columns:minmax(0,1fr)}}

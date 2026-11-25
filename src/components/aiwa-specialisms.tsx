@@ -137,7 +137,7 @@ export function AiwaSpecialisms() {
           <li className="aiwa-specialisms__item" key={category.name}>
             <a
               className={"aiwa-specialisms__row aiwa-specialisms__row--" + category.tint}
-              href={category.name === "Creatives" ? "/specialisms/creatives" : "#"}
+              href={category.name === "Creatives" ? "/specialisms/creatives" : category.name === "Development" ? "/specialisms/tech" : "#"}
               aria-label={"Explore " + category.name + " specialism"}
               data-visible="false"
             >

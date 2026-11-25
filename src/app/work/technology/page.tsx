@@ -51,6 +51,7 @@ export default function TechnologyPortfolio(){
           <summary><span className="tech-meta">0{i+1}</span><h3>{cap.name}</h3><Plus aria-hidden="true" size={29}/></summary>
           <div className="tech-capability__body"><div><p>{cap.copy}</p><p className="tech-meta">{cap.examples}</p>{project?<Link href={`/work/technology/${project.slug}`} className="tech-link">Explore a project <ArrowUpRight size={18}/></Link>:<Link href="/contact#enquiries" className="tech-link">Discuss your requirements <ArrowUpRight size={18}/></Link>}</div>{project?<TechPair project={project} compact/>:<CapabilityArt kind={cap.id==="email"?"email":"cloud"}/>}</div>
         </details>;})}</div>
+        <div className="tech-connected-link"><div><h3>IoT &amp; connected hardware</h3><p>Industrial flow sensing, AI surveillance command centres, automated lighting and power tracking — connected to web-powered control systems.</p></div><Link href="/specialisms/tech#dev-connected" className="tech-link">Explore industrial IoT <ArrowUpRight size={20}/></Link></div>
       </section>
       <section className="tech-section tech-gutter tech-featured" aria-label="Featured technology work">
         <Chapter number="05" label="SELECTED PROJECTS" title="In the wild." copy="Different industries. Different challenges. One commitment to useful, expressive digital experiences."/>
@@ -77,7 +78,7 @@ export default function TechnologyPortfolio(){
         <Chapter number="10" label="HOW WE WORK" title="From idea to impact." copy="A clear process, from understanding the problem to building, releasing and evolving the solution."/>
         <ol>{[["Discover","Understand the business, users and priorities."],["Design","Define the experience, content and technical direction."],["Develop","Build the product with performance and accessibility in mind."],["Deploy","Test, release and establish a reliable operating foundation."],["Evolve","Support, maintain and improve the experience as needs change."]].map(([name,copy],i)=><li key={name}><span className="tech-meta">0{i+1}</span><h3>{name}.</h3><p>{copy}</p><ArrowDownRight size={26} aria-hidden="true"/></li>)}</ol>
       </section>
-      <section className="tech-section tech-gutter tech-outro" aria-labelledby="tech-outro"><p className="tech-meta">11 / START A CONVERSATION</p><h2 id="tech-outro">LET’S BUILD<br/><em>SOMETHING.</em></h2><p>Need a new website, a smarter business application, reliable cloud infrastructure or professional email hosting? Tell us what you want to achieve.</p><Link href="/contact#enquiries" className="tech-link">Start a conversation <ArrowUpRight size={26}/></Link></section>
+      <section className="tech-section tech-gutter tech-outro" aria-labelledby="tech-outro"><p className="tech-meta">11 / START A CONVERSATION</p><h2 id="tech-outro">LET’S BUILD<br/><em>SOMETHING.</em></h2><p>Need a new website, smarter business software, reliable infrastructure, email hosting or connected hardware? Tell us what you want to achieve.</p><Link href="/specialisms/tech" className="tech-link">Explore development services <ArrowUpRight size={22}/></Link><Link href="/contact#enquiries" className="tech-link">Start a conversation <ArrowUpRight size={26}/></Link></section>
     </main>
   </div>;
 }

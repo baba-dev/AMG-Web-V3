@@ -24,6 +24,7 @@ export function motionDestinationLabel(pathname: string, projects: ReadonlyArray
   if (pathname === "/work/technology") return "BEAUTIFULLY ENGINEERED.";
   if (pathname === "/work/case-studies") return "PROOF IN MOTION.";
   if (pathname === "/work/clients") return "GOOD COMPANY.";
+  if (pathname === "/specialisms/tech") return "GOOD IDEAS. GREAT ENGINEERING.";
   if (pathname === "/specialisms") return "WHAT WE DO.";
   const project = projects.find((item) => pathname === "/work/" + item.slug);
   if (project) return project.client.toUpperCase() + ".";
