@@ -118,3 +118,9 @@
 @media(max-width:767px){.spec-detail--tech .spec-detail__hero-headline>span{overflow-wrap:normal}.spec-detail--tech .spec-detail__hero-headline{font-size:clamp(34px,9.5vw,72px)}.spec-detail--tech .spec-detail__hero-bottom{gap:14px}}
 .spec-detail--tech .dev-projects .tech-pair__tag{color:#151613}
 .spec-detail--tech .dev-services .tech-pair__tag{color:#151613}
+
+.spec-detail--tech .spec-detail__art figcaption{padding-top:10px;padding-bottom:10px;background:#8ea5ff}
+.spec-detail--tech .dev-service__body>div,.spec-detail--tech .dev-service__body>a,.spec-detail--tech .dev-projects article{min-width:0}
+.spec-detail--tech .dev-projects article:first-child .tech-pair{padding:clamp(15px,3vw,45px)}
+.spec-detail--tech .dev-projects .tech-pair__screens{padding-block:clamp(12px,3vw,48px)}
+.spec-detail--tech .dev-projects article>a:focus-visible{outline:2px solid currentColor;outline-offset:4px}

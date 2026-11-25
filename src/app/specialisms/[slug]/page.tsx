@@ -65,7 +65,7 @@ export default async function SpecialismDetail({params}:Props){
       <p className="spec-detail__hero-headline"><span>{service.headline[0]}</span><span><em>{service.headline[1]}</em></span></p>
       <div className="spec-detail__hero-bottom">
        <p>{service.lead}</p>
-       <a href="#service-thinking">GET INTO IT <ArrowDown size={22} aria-hidden="true"/></a>
+       <a href="#service-thinking">{isDevelopment?"EXPLORE OUR SERVICES":"GET INTO IT"} <ArrowDown size={22} aria-hidden="true"/></a>
       </div>
      </div>
      <div className="spec-detail__hero-foot"><span>{service.position}</span><span>{isDevelopment?"ENGINEERING / MUSCAT":"CREATIVE / MUSCAT"}</span></div>

@@ -204,7 +204,7 @@ export const specialisms = [
     lead:"We design, develop and support websites, software, cloud infrastructure and connected hardware that make businesses work better.",
     position:"ENGINEERED FOR PEOPLE.",
     question:"Beyond the interface.",
-    answer:"Start with the workflow, not the framework. Aiwa's published Vitamin Phones case study describes POS and stock operations, while AquaPetro provides an example of an industrial web experience.",
+    answer:"Start with the business problem, not the framework. Reach customers online, connect everyday operations, run dependable infrastructure or monitor physical equipment. We bring the right technology together around your needs.",
     art:"/media/specialisms/development-engineering.svg",
     alt:"Connected engineering illustration showing interfaces, applications, infrastructure and sensors",
     accent:"#8ea5ff",ink:"#25264a",
