@@ -204,3 +204,18 @@ html.light .tech-dot{color:#455dc0}
 @media(prefers-reduced-motion:reduce){
  .tech-page *,.tech-page *::before,.tech-page *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Progressive enhancement: a contained scroll-linked expansion, not a pinned or hijacked scroll. */
+@supports (animation-timeline:view()) {
+ @media (prefers-reduced-motion:no-preference) and (min-width:768px){
+  .tech-reel{animation:tech-scroll-spread linear both;animation-timeline:view();animation-range:entry 0% cover 28%;transform-origin:center}
+  @keyframes tech-scroll-spread{from{transform:scale(.94)}to{transform:scale(1)}}
+  .tech-signal-path{animation:tech-signal linear both;animation-timeline:view();animation-range:entry 10% cover 45%}
+ }
+}
+/* Keep dense headings inside narrow containers, with no hidden horizontal overflow. */
+.tech-card__label>div,.tech-featured__card,.tech-card,.tech-index__rows a>span,.tech-capability summary h3,.tech-detail__header>div,.tech-chapter>div,.tech-ecosystem__item{min-width:0}
+.tech-page h3,.tech-detail__header h1,.tech-ecosystem__item h3{overflow-wrap:anywhere}
+.tech-hero__top a:hover{text-decoration:underline}
+.tech-search input:focus-visible{outline:0}
+.tech-dialog[open]{overscroll-behavior:contain}

@@ -19,7 +19,7 @@ export function TechnologyReel() {
     return ()=>observer.disconnect();
   },[]);
   useEffect(()=>{
-    if(!playing||!visible||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    if(!playing||!visible)return; // Playback is explicit; reduced-motion users may opt in.
     const timer=window.setInterval(()=>setIndex(i=>(i+1)%reel.length),3000);
     return ()=>window.clearInterval(timer);
   },[playing,visible]);
@@ -42,7 +42,7 @@ type Filter=(typeof technologyCategories)[number];
 const preferenceKey="aiwa-technology-layout";
 const changeEvent="aiwa-technology-preference";
 function subscribe(fn:()=>void){window.addEventListener("storage",fn);window.addEventListener(changeEvent,fn);window.addEventListener("popstate",fn);return()=>{window.removeEventListener("storage",fn);window.removeEventListener(changeEvent,fn);window.removeEventListener("popstate",fn);};}
-function currentLayout(){try{return localStorage.getItem(preferenceKey)==="grid"?"grid":"list";}catch{return "list";}}
+function currentLayout():"grid"|"list"{try{return localStorage.getItem(preferenceKey)==="grid"?"grid":"list";}catch{return "list";}}
 function currentFilter():Filter{const value=new URLSearchParams(location.search).get("type");return technologyCategories.find(c=>c===value)??"All";}
 export function TechnologyGallery(){
   const storedLayout=useSyncExternalStore(subscribe,currentLayout,()=>"list");
@@ -90,4 +90,29 @@ export function TechnologyViewer({project}:{project:TechnologyProject}){
       {controls("Expanded screenshot view")}{visual()}
     </dialog>
   </div>;
+}
+
+/** Open an anchored native capability disclosure when reached from the shared navigation. */
+export function TechnologyCapabilityAnchors(){
+  useEffect(()=>{
+    const reveal=(hash:string)=>{
+      if(!hash.startsWith("#tech-"))return;
+      const el=document.getElementById(hash.slice(1));
+      if(el instanceof HTMLDetailsElement && el.classList.contains("tech-capability"))el.open=true;
+    };
+    const sync=()=>reveal(location.hash);
+    const onClick=(event:MouseEvent)=>{
+      if(!(event.target instanceof Element))return;
+      const anchor=event.target.closest("a[href]");
+      if(!(anchor instanceof HTMLAnchorElement))return;
+      const url=new URL(anchor.href);
+      if(url.origin===location.origin&&url.pathname.replace(/\/+$/,"")===location.pathname.replace(/\/+$/,""))reveal(url.hash);
+    };
+    sync();
+    window.addEventListener("hashchange",sync);
+    window.addEventListener("popstate",sync);
+    document.addEventListener("click",onClick);
+    return()=>{window.removeEventListener("hashchange",sync);window.removeEventListener("popstate",sync);document.removeEventListener("click",onClick);};
+  },[]);
+  return null;
 }

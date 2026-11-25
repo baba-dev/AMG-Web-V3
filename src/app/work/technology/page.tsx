@@ -3,13 +3,13 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Plus, ArrowDownRight } from "lucide-react";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import { TechPair } from "@/components/technology/tech-media";
-import { TechnologyGallery, TechnologyReel } from "@/components/technology/tech-interactions";
+import { TechnologyGallery, TechnologyReel, TechnologyCapabilityAnchors } from "@/components/technology/tech-interactions";
 import { EngineeringArt, CapabilityArt } from "@/components/technology/tech-art";
 import { technologyProjects, technologyFeatured, technologyFlagship, technologyCapabilities, technologyEcosystem, technologyExpertise, getTechnologyProject } from "@/lib/work/technology";
 import "@/components/aiwa-polish.css";
 import "./technology.css";
 
-const title="Technology Portfolio | Web, SaaS & Cloud Development | Aiwa Media Group";
+const title="Technology Portfolio | Web & SaaS Development Oman | Aiwa";
 const description="Explore Aiwa Media Group’s technology portfolio in Oman: responsive websites, AI products, business software, cloud infrastructure and professional email hosting.";
 const url="https://next.aiwamediagroup.com/work/technology";
 export const metadata:Metadata={
@@ -28,7 +28,7 @@ export default function TechnologyPortfolio(){
     <AiwaInnerHeader/>
     <main id="main-content">
       <section className="tech-hero tech-gutter" aria-labelledby="tech-title">
-        <div className="tech-hero__top tech-meta"><span><Link href="/work">WORK</Link> / TECHNOLOGY</span><span>MUSCAT / OMAN</span></div>
+        <div className="tech-hero__top tech-meta"><span><Link href="/work">WORK</Link> / TECHNOLOGY PORTFOLIO</span><span>MUSCAT / OMAN</span></div>
         <div className="tech-hero__body">
           <h1 id="tech-title" className="tech-poster"><span>MADE FOR</span><span>THE REAL</span><em>WORLD<span className="tech-dot">.</span></em></h1>
           <div className="tech-hero__aside"><span className="tech-hero__mark" aria-hidden="true"><ArrowDownRight strokeWidth={1.1}/></span><div><p className="tech-meta">DEVELOPMENT / SYSTEMS / DIGITAL PRODUCTS</p><p>Technology should make life easier. We design, develop and support digital experiences that do more than look good.</p><Link href="#tech-projects" className="tech-link">Explore our work <ArrowDown size={20}/></Link></div></div>
@@ -46,6 +46,7 @@ export default function TechnologyPortfolio(){
       </section>
       <section className="tech-section tech-gutter tech-capabilities" id="tech-capabilities" aria-label="Development capabilities">
         <Chapter number="04" label="WHAT WE DO" title="Beyond the interface." copy="From the experience your customers see to the systems your business relies on. We bring design and engineering together."/>
+        <TechnologyCapabilityAnchors/>
         <div className="tech-capability-list">{technologyCapabilities.map((cap,i)=>{const project=cap.project?getTechnologyProject(cap.project):undefined;return <details key={cap.id} id={`tech-${cap.id}`} className="tech-capability" open={i===0?true:undefined}>
           <summary><span className="tech-meta">0{i+1}</span><h3>{cap.name}</h3><Plus aria-hidden="true" size={29}/></summary>
           <div className="tech-capability__body"><div><p>{cap.copy}</p><p className="tech-meta">{cap.examples}</p>{project?<Link href={`/work/technology/${project.slug}`} className="tech-link">Explore a project <ArrowUpRight size={18}/></Link>:<Link href="/contact#enquiries" className="tech-link">Discuss your requirements <ArrowUpRight size={18}/></Link>}</div>{project?<TechPair project={project} compact/>:<CapabilityArt kind={cap.id==="email"?"email":"cloud"}/>}</div>
@@ -64,13 +65,13 @@ export default function TechnologyPortfolio(){
         <div className="tech-engineering__grid"><EngineeringArt/><div><h3>Built as a system.</h3><p>We connect front-end experiences with business logic, integrations, cloud services and deployment workflows. From initial architecture to ongoing support, we approach reliability and security as part of the design.</p><Link href="/contact#enquiries" className="tech-link">Talk infrastructure <ArrowUpRight size={20}/></Link><p className="tech-meta tech-diagram-note">CONCEPTUAL SYSTEM MAP / NOT A CLIENT NETWORK</p></div></div>
       </section>
       <section className="tech-section tech-gutter tech-ecosystem" aria-label="Technology ecosystem">
-        <Chapter number="08" label="OUR TECHNOLOGY ECOSYSTEM" title="Built on the world’s best." copy="We work with leading technology ecosystems and select the tools that make sense for each business."/>
+        <Chapter number="08" label="OUR TECHNOLOGY ECOSYSTEM" title="Built on the world’s best." copy="Our technology relationships span Cloudflare, Oracle, BytePlus and Gallabox. We select the tools that make sense for each business."/>
         <div className="tech-ecosystem__grid">{technologyEcosystem.map(([name,copy],i)=><div key={name} className="tech-ecosystem__item"><span className="tech-meta">0{i+1} / PLATFORM</span><h3>{name}</h3><p>{copy}</p></div>)}</div>
       </section>
       <section className="tech-section tech-gutter tech-expertise" aria-label="Cloud expertise">
         <Chapter number="09" label="TECHNICAL EXPERTISE" title="Expertise that goes deeper." copy="Our team includes professionals certified across AWS, Google Cloud and Oracle Cloud. We bring cloud expertise to real business requirements."/>
         <div className="tech-expertise__grid">{technologyExpertise.map(([short,name])=><div key={short}><span className="tech-expertise__mark">{short}</span><p>{name}</p></div>)}</div>
-        <p className="tech-expertise__note">Individual credentials and platform affiliations are distinct. We choose infrastructure around the project, not a single vendor.</p>
+        <p className="tech-expertise__note">We choose infrastructure around the project, not a single vendor.</p>
       </section>
       <section className="tech-section tech-gutter tech-process" aria-label="Our development process">
         <Chapter number="10" label="HOW WE WORK" title="From idea to impact." copy="A clear process, from understanding the problem to building, releasing and evolving the solution."/>
