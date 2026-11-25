@@ -1,29 +1,28 @@
 /* Scoped Development editorial system. Shared shell and existing service tokens remain canonical. */
-.spec-detail--tech{--dev-paper:#101110;--dev-alt:#1b1d1b;--dev-ink:#f5f5f3;--dev-muted:#bcbfb7;--dev-line:#575b52;--dev-blue:#8ea5ff;--dev-green:#c3eb6a;--dev-art-bg:#dbe4ff}
-.light .spec-detail--tech{--dev-paper:#f5f5f3;--dev-alt:#e9e9e3;--dev-ink:#151613;--dev-muted:#4b5047;--dev-line:#aaaea3}
+.spec-detail--tech{--dev-paper:var(--aiwa-paper);--dev-alt:var(--aiwa-paper-raised);--dev-ink:var(--aiwa-paper-ink);--dev-muted:var(--aiwa-paper-muted);--dev-line:var(--aiwa-paper-rule);--dev-art-bg:var(--aiwa-paper)}
 .spec-detail--tech .spec-detail__hero-main{padding-block:clamp(28px,4vw,62px)}
-.spec-detail--tech .spec-detail__hero h1{font:600 clamp(19px,2.1vw,32px)/1.2 var(--type-body);letter-spacing:-.035em;margin:18px 0 28px;text-transform:none}
-.spec-detail--tech .spec-detail__hero-headline{font:400 clamp(48px,9.4vw,156px)/.94 var(--type-display);letter-spacing:-.035em}
-.spec-detail--tech .spec-detail__hero-headline em{font:italic 900 .94em/.92 var(--type-emphasis);letter-spacing:-.04em;color:#8ea5ff}
-.light .spec-detail--tech .spec-detail__hero-headline em{color:#4058b9}
+.spec-detail--tech .spec-detail__hero h1{font:600 var(--type-portfolio-media-title)/1.2 var(--type-body);letter-spacing:var(--tracking-display);margin:18px 0 28px;text-transform:none}
+.spec-detail--tech .spec-detail__hero-headline{font:400 var(--type-service-hero)/.94 var(--type-display);letter-spacing:var(--tracking-display)}
+.spec-detail--tech .spec-detail__hero-headline em{font:italic 900 .94em/.92 var(--type-emphasis);letter-spacing:var(--tracking-body);color:var(--dev-ink)}
+
 .spec-detail--tech .spec-detail__hero-headline>span{overflow-wrap:normal}
 .spec-detail--tech .spec-detail__hero-bottom{margin-top:clamp(24px,4vw,65px)}
 .spec-detail--tech .spec-detail__hero-bottom>p{margin-left:0;max-width:46ch;font:400 var(--type-body-large)/1.45 var(--type-body)}
 .spec-detail--tech .spec-detail__art{height:auto;max-height:none;aspect-ratio:auto}
 
 
-.spec-detail--tech :is(.spec-detail__thinking,.spec-detail__approach,.spec-detail__capabilities,.spec-detail__related,.spec-detail__contact){padding-block:clamp(56px,7vw,118px)}
+.spec-detail--tech :is(.spec-detail__thinking,.spec-detail__approach,.spec-detail__capabilities,.spec-detail__related,.spec-detail__contact){padding-block:var(--aiwa-section-standard)}
 .spec-detail--tech .spec-detail__thinking h2{margin-bottom:clamp(28px,3vw,55px)}
 .spec-detail--tech .spec-detail__thinking-lead{margin-bottom:18px}
-.spec-detail--tech .spec-detail__approach h2,.spec-detail--tech .spec-detail__related header h2,.spec-detail--tech .spec-detail__contact h2{font:400 clamp(44px,7vw,116px)/.94 var(--type-display);letter-spacing:-.035em}
-.spec-detail--tech .spec-detail__related header{margin-bottom:clamp(32px,5vw,75px)}
+.spec-detail--tech .spec-detail__approach h2,.spec-detail--tech .spec-detail__related header h2,.spec-detail--tech .spec-detail__contact h2{font:400 var(--type-portfolio-feature)/.94 var(--type-display);letter-spacing:var(--tracking-display)}
+.spec-detail--tech .spec-detail__related header{margin-bottom:var(--aiwa-chapter-gap)}
 .spec-detail--tech .spec-detail__approach h2 em,.spec-detail--tech .spec-detail__related h2 em,.spec-detail--tech .spec-detail__contact h2 em{font:italic 900 .96em/.94 var(--type-emphasis)}
-.spec-detail--tech .dev-section,.spec-detail--tech .dev-services{padding-block:clamp(56px,7vw,116px);background:var(--dev-paper);color:var(--dev-ink)}
+.spec-detail--tech .dev-section,.spec-detail--tech .dev-services{padding-block:var(--aiwa-section-standard);background:var(--dev-paper);color:var(--dev-ink)}
 .spec-detail--tech :is(.dev-section,.dev-services) :is(h2,h3,p,ol,ul){margin:0}
 .spec-detail--tech .dev-section p,.spec-detail--tech .dev-service__body p,.spec-detail--tech .dev-projects p{font:400 var(--type-body-size)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body)}
-.spec-detail--tech .dev-chapter,.spec-detail--tech .dev-services header{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:clamp(20px,5vw,78px);align-items:end;margin-bottom:clamp(32px,5vw,75px);padding:0;border:0}
-.spec-detail--tech .dev-chapter h2,.spec-detail--tech .dev-services header h2{font:400 clamp(43px,6.8vw,108px)/.94 var(--type-display);letter-spacing:-.035em;margin-top:18px;overflow-wrap:break-word}
-.spec-detail--tech :is(.dev-chapter,.dev-services) h2 em{font:italic 900 .96em/.94 var(--type-emphasis);letter-spacing:-.04em}
+.spec-detail--tech .dev-chapter,.spec-detail--tech .dev-services header{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:clamp(20px,5vw,78px);align-items:end;margin-bottom:var(--aiwa-chapter-gap);padding:0;border:0}
+.spec-detail--tech .dev-chapter h2,.spec-detail--tech .dev-services header h2{font:400 var(--type-portfolio-chapter)/.94 var(--type-display);letter-spacing:var(--tracking-display);margin-top:18px;overflow-wrap:break-word}
+.spec-detail--tech :is(.dev-chapter,.dev-services) h2 em{font:italic 900 .96em/.94 var(--type-emphasis);letter-spacing:var(--tracking-body)}
 .spec-detail--tech .dev-chapter>p{max-width:43ch}
 .spec-detail--tech .dev-services header{grid-template-rows:auto auto;gap:12px 40px}
 .spec-detail--tech .dev-services header>p{max-width:35ch;color:var(--dev-muted)}
@@ -32,29 +31,29 @@
 .spec-detail--tech .dev-services>ol>li{display:block;padding:0;border-bottom:1px solid var(--dev-line);scroll-margin-top:110px}
 .spec-detail--tech .dev-service summary{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:clamp(12px,2vw,30px);align-items:center;min-height:78px;padding:clamp(18px,2.8vw,40px) 0;cursor:pointer;list-style:none}
 .spec-detail--tech summary::-webkit-details-marker{display:none}
-.spec-detail--tech .dev-service summary h3{font:400 clamp(27px,4.8vw,72px)/1.04 var(--type-display);letter-spacing:-.025em;text-transform:uppercase;overflow-wrap:break-word}
+.spec-detail--tech .dev-service summary h3{font:400 var(--type-portfolio-capability)/1.04 var(--type-display);letter-spacing:var(--tracking-display);text-transform:uppercase;overflow-wrap:break-word}
 .spec-detail--tech .dev-service summary .dev-index{font:500 var(--type-meta-size)/1.3 var(--type-mono);color:var(--dev-muted)}
-.spec-detail--tech .dev-service details[open] summary{border-bottom:3px solid var(--dev-service-accent)}
-.spec-detail--tech .dev-service summary svg,.spec-detail--tech .dev-faq summary svg{transition:transform .3s ease;flex-shrink:0}
+.spec-detail--tech .dev-service details[open] summary{border-bottom:2px solid var(--dev-ink)}
+.spec-detail--tech .dev-service summary svg,.spec-detail--tech .dev-faq summary svg{transition:transform var(--aiwa-motion-fast) var(--aiwa-motion-ease);flex-shrink:0}
 .spec-detail--tech .dev-service details[open] summary svg,.spec-detail--tech .dev-faq details[open] summary svg{transform:rotate(45deg)}
 .spec-detail--tech .dev-service__body{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,5vw,70px);padding-block:clamp(24px,3.5vw,54px);align-items:center}
-.spec-detail--tech .dev-service__body strong{font:600 clamp(22px,2.8vw,38px)/1.15 var(--type-body);letter-spacing:-.04em}
+.spec-detail--tech .dev-service__body strong{font:600 var(--type-body-large)/1.15 var(--type-body);letter-spacing:var(--tracking-body)}
 .spec-detail--tech .dev-service__body p{margin:14px 0;color:var(--dev-muted);max-width:45ch}
 .spec-detail--tech .dev-service__body ul{display:flex;flex-wrap:wrap;gap:7px;padding:0;margin:16px 0}
 .spec-detail--tech .dev-service__body ul li{display:block;padding:6px 9px;border:1px solid var(--dev-line);font:500 var(--type-meta-size)/1.4 var(--type-mono)}
 .spec-detail--tech .dev-link{display:inline-flex;align-items:center;gap:20px;min-height:48px;border-bottom:1px solid currentColor;color:inherit;font:700 var(--type-ui-size)/1.3 var(--type-body);text-decoration:none;padding:9px 0;max-width:100%;width:fit-content}
-.spec-detail--tech .dev-link svg{flex-shrink:0;transition:transform .3s ease}
-.spec-detail--tech .dev-link:hover svg{transform:translate(3px,-3px)}
+.spec-detail--tech .dev-link svg{flex-shrink:0;transition:transform var(--aiwa-motion-fast) var(--aiwa-motion-ease)}
+@media(hover:hover) and (pointer:fine){.spec-detail--tech .dev-link:hover svg{transform:translate(3px,-3px)}}
 .spec-detail--tech :is(.dev-section,.dev-services,.dev-projects) :is(a,summary):focus-visible{outline:2px solid currentColor;outline-offset:4px}
-.spec-detail--tech .dev-service__art{--dev-art-bg:var(--dev-service-accent);background:var(--dev-service-accent);color:#182247;padding:clamp(12px,2vw,30px)}
+.spec-detail--tech .dev-service__art{--dev-art-bg:var(--dev-paper);background:var(--dev-alt);color:var(--dev-ink);padding:clamp(12px,2vw,30px)}
 .spec-detail--tech .dev-diagram{display:block;width:100%;height:auto}
 .spec-detail--tech .dev-signal{stroke-dashoffset:0}
 @supports(animation-timeline:view()){ @media(prefers-reduced-motion:no-preference){.spec-detail--tech .dev-signal{animation:dev-signal linear both;animation-timeline:view();animation-range:entry 5% cover 60%}@keyframes dev-signal{from{stroke-dashoffset:45}to{stroke-dashoffset:0}}}}
-.spec-detail--tech .dev-iot{background:var(--dev-green);color:#151613;--dev-art-bg:#d9f4a6}
+.spec-detail--tech .dev-iot{background:var(--dev-alt);color:var(--dev-ink)}
 .spec-detail--tech .dev-iot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,64px)}
-.spec-detail--tech .dev-iot-card__art{padding:clamp(12px,2vw,28px);border:1px solid #151613;background:#d9f4a6}
+.spec-detail--tech .dev-iot-card__art{padding:clamp(12px,2vw,28px);border:1px solid var(--dev-line);background:var(--dev-paper)}
 .spec-detail--tech .dev-iot-card__art span{font:500 var(--type-meta-size)/1.3 var(--type-mono)}
-.spec-detail--tech .dev-iot-card h3,.spec-detail--tech .dev-project-caption h3{font:700 clamp(23px,3vw,40px)/1.15 var(--type-body);letter-spacing:-.04em;margin:16px 0 8px}
+.spec-detail--tech .dev-iot-card h3,.spec-detail--tech .dev-project-caption h3{font:700 var(--type-project-title)/1.15 var(--type-body);letter-spacing:var(--tracking-body);margin:16px 0 8px}
 .spec-detail--tech .dev-iot-card p{max-width:55ch}
 .spec-detail--tech .dev-art-note{margin:24px 0 8px;font-size:var(--type-meta-size)}
 .spec-detail--tech .dev-projects{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,64px);margin-bottom:clamp(35px,5vw,80px)}
@@ -66,7 +65,7 @@
 .spec-detail--tech .dev-all-work{grid-column:1/-1}
 .spec-detail--tech .tech-pair{background:var(--project-accent);color:#151613;padding:clamp(10px,2vw,28px);overflow:hidden}
 .spec-detail--tech .tech-pair__screens{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.28fr);gap:12px;align-items:center;padding-block:clamp(12px,2vw,30px)}
-.spec-detail--tech .tech-pair__tag{display:block;font:500 clamp(9px,.85vw,13px)/1.3 var(--type-mono);color:#151613;overflow-wrap:anywhere}
+.spec-detail--tech .tech-pair__tag{display:block;font:500 var(--type-portfolio-tag)/1.3 var(--type-mono);color:#151613;overflow-wrap:anywhere}
 .spec-detail--tech .tech-pair__end{text-align:right}
 .spec-detail--tech .tech-pair img{display:block;width:100%;height:auto}
 .spec-detail--tech .tech-pair__desktop,.spec-detail--tech .tech-pair__mobile{border:1px solid #15161344;box-shadow:0 7px 18px #15161322;transition:transform .4s ease}
@@ -75,32 +74,32 @@
 .spec-detail--tech .dev-managed{background:var(--dev-alt)}
 .spec-detail--tech .dev-managed__rows{border-top:1px solid var(--dev-line);margin-bottom:24px}
 .spec-detail--tech .dev-managed__rows article{display:grid;grid-template-columns:35px minmax(0,.75fr) minmax(0,1fr) auto;gap:16px;align-items:center;padding-block:clamp(18px,2.5vw,35px);border-bottom:1px solid var(--dev-line)}
-.spec-detail--tech .dev-managed__rows h3{font:600 clamp(22px,3vw,39px)/1.1 var(--type-body);letter-spacing:-.04em}
+.spec-detail--tech .dev-managed__rows h3{font:600 var(--type-portfolio-media-title)/1.1 var(--type-body);letter-spacing:var(--tracking-body)}
 .spec-detail--tech .dev-managed__rows span{font:500 var(--type-meta-size)/1.3 var(--type-mono)}
-.spec-detail--tech .dev-ecosystem{background:#151613;color:#f5f5f3}
-.spec-detail--tech .dev-vendors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #6c7065;border-left:1px solid #6c7065}
-.spec-detail--tech .dev-vendors article{padding:clamp(14px,2vw,28px);min-height:160px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;border-right:1px solid #6c7065;border-bottom:1px solid #6c7065}
-.spec-detail--tech .dev-vendors h3{font:600 clamp(24px,3vw,46px)/1.1 var(--type-body);letter-spacing:-.04em;overflow-wrap:anywhere}
-.spec-detail--tech .dev-certifications{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:30px;align-items:end;margin-top:clamp(40px,6vw,80px);padding-top:25px;border-top:1px solid #6c7065}
-.spec-detail--tech .dev-certifications h3{font:600 clamp(25px,3.5vw,46px)/1.1 var(--type-body);margin:12px 0;letter-spacing:-.04em}
+.spec-detail--tech .dev-ecosystem{background:var(--dev-paper);color:var(--dev-ink)}
+.spec-detail--tech .dev-vendors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--dev-line);border-left:1px solid var(--dev-line)}
+.spec-detail--tech .dev-vendors article{padding:clamp(14px,2vw,28px);min-height:160px;display:flex;flex-direction:column;justify-content:space-between;gap:20px;border-right:1px solid var(--dev-line);border-bottom:1px solid var(--dev-line)}
+.spec-detail--tech .dev-vendors h3{font:600 var(--type-project-title)/1.1 var(--type-body);letter-spacing:var(--tracking-body);overflow-wrap:anywhere}
+.spec-detail--tech .dev-certifications{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:30px;align-items:end;margin-top:clamp(40px,6vw,80px);padding-top:25px;border-top:1px solid var(--dev-line)}
+.spec-detail--tech .dev-certifications h3{font:600 var(--type-project-title)/1.1 var(--type-body);margin:12px 0;letter-spacing:var(--tracking-body)}
 .spec-detail--tech .dev-certifications__marks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.spec-detail--tech .dev-certifications__marks>div{border:1px solid #6c7065;padding:15px;display:flex;flex-direction:column;gap:10px}
-.spec-detail--tech .dev-certifications__marks strong{font:400 clamp(30px,5vw,74px)/1 var(--type-display);color:#8ea5ff}
+.spec-detail--tech .dev-certifications__marks>div{border:1px solid var(--dev-line);padding:15px;display:flex;flex-direction:column;gap:10px}
+.spec-detail--tech .dev-certifications__marks strong{font:400 var(--type-portfolio-capability)/1 var(--type-display);color:var(--dev-ink)}
 .spec-detail--tech .dev-certifications__marks span{font:500 var(--type-meta-size)/1.4 var(--type-mono)}
 .spec-detail--tech .dev-faq details{border-top:1px solid var(--dev-line)}
 .spec-detail--tech .dev-faq details:last-child{border-bottom:1px solid var(--dev-line)}
-.spec-detail--tech .dev-faq summary{display:flex;justify-content:space-between;gap:20px;align-items:center;list-style:none;cursor:pointer;min-height:62px;padding:18px 0;font:600 clamp(18px,2.15vw,30px)/1.25 var(--type-body);letter-spacing:-.03em}
+.spec-detail--tech .dev-faq summary{display:flex;justify-content:space-between;gap:20px;align-items:center;list-style:none;cursor:pointer;min-height:62px;padding:18px 0;font:600 var(--type-portfolio-media-title)/1.25 var(--type-body);letter-spacing:-.03em}
 .spec-detail--tech .dev-faq details p{max-width:72ch;color:var(--dev-muted);padding-bottom:25px}
 .spec-detail--tech #dev-connected,.spec-detail--tech #dev-services{scroll-margin-top:110px}
 @media(max-width:1000px){.spec-detail--tech .dev-vendors{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:767px){
- .spec-detail--tech .spec-detail__hero-headline{font-size:clamp(43px,11vw,80px)}
+ .spec-detail--tech .spec-detail__hero-headline{font-size:var(--type-service-hero)}
  .spec-detail--tech .spec-detail__hero-main{padding-block:38px}
  .spec-detail--tech .spec-detail__hero-bottom>p{font-size:var(--type-body-size)}
  .spec-detail--tech .dev-chapter,.spec-detail--tech .dev-services header,.spec-detail--tech .dev-service__body,.spec-detail--tech .dev-certifications{grid-template-columns:minmax(0,1fr)}
- .spec-detail--tech .dev-chapter h2,.spec-detail--tech .dev-services header h2{font-size:clamp(38px,10.5vw,73px)}
+ .spec-detail--tech .dev-chapter h2,.spec-detail--tech .dev-services header h2{font-size:var(--type-portfolio-chapter)}
  .spec-detail--tech .dev-service summary{grid-template-columns:24px minmax(0,1fr) auto;gap:10px}
- .spec-detail--tech .dev-service summary h3{font-size:clamp(24px,6.8vw,45px)}
+ .spec-detail--tech .dev-service summary h3{font-size:var(--type-portfolio-capability)}
  .spec-detail--tech .dev-iot-grid,.spec-detail--tech .dev-projects{grid-template-columns:minmax(0,1fr)}
  .spec-detail--tech .dev-managed__rows article{grid-template-columns:24px minmax(0,1fr) auto;gap:8px}
  .spec-detail--tech .dev-managed__rows p{grid-column:2/-1;grid-row:2}
@@ -108,12 +107,12 @@
  .spec-detail--tech .dev-certifications__marks>div{padding:9px}
  .spec-detail--tech .dev-certifications__marks span{overflow-wrap:anywhere}
 }
-@media(max-width:360px){.spec-detail--tech .spec-detail__hero-headline{font-size:10.4vw}.spec-detail--tech .dev-vendors{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:360px){.spec-detail--tech .spec-detail__hero-headline{font-size:var(--type-service-hero)}.spec-detail--tech .dev-vendors{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.spec-detail--tech :is(.dev-signal,.dev-link svg,.dev-service summary svg,.dev-faq summary svg,.tech-pair__desktop,.tech-pair__mobile){animation:none!important;transition:none!important}}
 
 /* Keep the large poster optically fitted rather than clipping a long italic line. */
-@media(min-width:768px){.spec-detail--tech .spec-detail__hero-headline{font-size:clamp(48px,8.4vw,142px)}}
-@media(max-width:767px){.spec-detail--tech .spec-detail__hero-headline>span{overflow-wrap:normal}.spec-detail--tech .spec-detail__hero-headline{font-size:clamp(34px,9.5vw,72px)}.spec-detail--tech .spec-detail__hero-bottom{gap:14px}}
+@media(min-width:768px){.spec-detail--tech .spec-detail__hero-headline{font-size:var(--type-service-hero)}}
+@media(max-width:767px){.spec-detail--tech .spec-detail__hero-headline>span{overflow-wrap:normal}.spec-detail--tech .spec-detail__hero-headline{font-size:var(--type-service-hero)}.spec-detail--tech .spec-detail__hero-bottom{gap:14px}}
 .spec-detail--tech .dev-projects .tech-pair__tag{color:#151613}
 .spec-detail--tech .dev-services .tech-pair__tag{color:#151613}
 
@@ -145,3 +144,84 @@
  .aiwa-site.spec-detail--tech .dev-hero-svg--compact{display:block;max-width:440px}
 }
 @media(prefers-reduced-motion:reduce){.aiwa-site.spec-detail--tech .dev-hero-art__parallax,.aiwa-site.spec-detail--tech .dev-hero-signal{animation:none!important;transform:none!important}}
+
+/* Match technology portfolio and homepage editorial roles, independent of CSS import order. */
+.aiwa-site.spec-detail.spec-detail--tech{
+ --detail-page:var(--dev-paper);--detail-surface:var(--dev-paper);--detail-surface-alt:var(--dev-alt);
+ --detail-ink:var(--dev-ink);--detail-muted:var(--dev-muted);--detail-rule:var(--dev-line);
+ --detail-button:var(--dev-ink);--detail-button-ink:var(--dev-paper);
+ background:var(--dev-paper);color:var(--dev-ink);font-family:var(--type-body);font-synthesis:none;color-scheme:dark
+}
+html.light .aiwa-site.spec-detail.spec-detail--tech{color-scheme:light}
+.aiwa-site.spec-detail.spec-detail--tech :is(.spec-detail__hero,.spec-detail__thinking,.spec-detail__related,.spec-detail__pager,.dev-services,.dev-ecosystem,.dev-faq){background:var(--dev-paper);color:var(--dev-ink)}
+.aiwa-site.spec-detail.spec-detail--tech :is(.spec-detail__approach,.spec-detail__sources,.spec-detail__contact,.dev-iot,.dev-managed){background:var(--dev-alt);color:var(--dev-ink)}
+.aiwa-site.spec-detail.spec-detail--tech :is(.spec-detail__hero,.spec-detail__approach)::before{display:none}
+.aiwa-site.spec-detail--tech .spec-detail__hero-headline em{color:inherit;letter-spacing:-.045em}
+.aiwa-site.spec-detail--tech .spec-detail__hero-headline>span{overflow-wrap:anywhere}
+.aiwa-site.spec-detail--tech .spec-detail__hero h1{font:600 var(--type-portfolio-media-title)/1.2 var(--type-body);letter-spacing:var(--tracking-body)}
+.aiwa-site.spec-detail--tech .spec-detail__hero-headline{font:400 var(--type-service-hero)/.94 var(--type-display);letter-spacing:var(--tracking-display)}
+.aiwa-site.spec-detail--tech .spec-detail__thinking h2{font:400 var(--type-service-question)/1 var(--type-display);letter-spacing:var(--tracking-display);overflow-wrap:anywhere;max-width:19ch}
+.aiwa-site.spec-detail--tech :is(.spec-detail__approach,.spec-detail__related,.spec-detail__contact) h2{font:400 var(--type-portfolio-feature)/var(--leading-display) var(--type-display);letter-spacing:var(--tracking-display);overflow-wrap:anywhere}
+.aiwa-site.spec-detail--tech :is(.spec-detail__approach,.spec-detail__related,.spec-detail__contact,.dev-chapter,.dev-services) h2 em{font:italic 900 .96em/.94 var(--type-emphasis);letter-spacing:-.045em}
+.aiwa-site.spec-detail--tech .spec-kicker{font:600 var(--type-eyebrow-size)/1.3 var(--type-body);letter-spacing:var(--tracking-label)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__hero-bottom>p,.spec-detail__thinking-text,.spec-detail__approach li p,.spec-detail__related header p,.spec-detail__work-info p,.spec-detail__sources p,.dev-service__body p,.dev-iot-card p,.dev-managed__rows p,.dev-vendors p,.dev-certifications p,.dev-faq details p){font:400 var(--type-body-size)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body);color:var(--dev-muted)}
+.aiwa-site.spec-detail--tech .spec-detail__thinking-lead{font:500 var(--type-body-large)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__hero-nav,.spec-detail__hero-foot,.spec-detail__approach-top,.spec-detail__approach li>span,.spec-detail__work-info){font:500 var(--type-meta-size)/1.4 var(--type-mono);letter-spacing:var(--tracking-label)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__hero-nav>a,.spec-detail__hero-bottom>a,.spec-detail__sources a,.spec-detail__pager a,.spec-detail__contact>a,.dev-link){font:600 var(--type-ui-size)/1.3 var(--type-body);letter-spacing:var(--tracking-body);min-height:44px;max-width:100%;overflow-wrap:anywhere}
+.aiwa-site.spec-detail--tech :is(.spec-detail__hero-nav>a,.spec-detail__hero-bottom>a,.spec-detail__contact>a){border-color:var(--dev-ink)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__approach-top,.spec-detail__approach li,.spec-detail__work-info,.spec-detail__thinking-rail,.spec-detail__sources>div:first-child,.spec-detail__sources a,.spec-detail__pager a){border-color:var(--dev-line)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__hero-nav>span,.spec-detail__hero-foot,.spec-detail__hero-main>.spec-kicker,.spec-detail__thinking-rail>span:last-child,.spec-detail__approach li>span){color:var(--dev-muted)}
+.aiwa-site.spec-detail--tech .spec-detail__approach li h3{font:400 var(--type-process-title)/1.08 var(--type-display);letter-spacing:var(--tracking-display)}
+.aiwa-site.spec-detail--tech .spec-detail__work-info strong{font:400 var(--type-project-title)/1.05 var(--type-display);letter-spacing:var(--tracking-display)}
+.aiwa-site.spec-detail--tech .spec-detail__pager strong{font:600 var(--type-body-large)/1.2 var(--type-body)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__thinking,.spec-detail__approach,.spec-detail__related,.dev-section,.dev-services){padding-block:var(--aiwa-section-standard)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__sources,.spec-detail__pager,.spec-detail__contact){padding-block:var(--aiwa-section-compact)}
+.aiwa-site.spec-detail--tech :is(.spec-detail__approach,.spec-detail__contact) h2{margin-block:var(--aiwa-chapter-gap)}
+.aiwa-site.spec-detail--tech .spec-detail__thinking-rail{margin-bottom:0}
+.aiwa-site.spec-detail--tech .dev-services .dev-service__body li{font:500 var(--type-meta-size)/1.4 var(--type-body);color:var(--dev-ink);max-width:100%;overflow-wrap:anywhere}
+.aiwa-site.spec-detail--tech .dev-service__art,.aiwa-site.spec-detail--tech .dev-iot-card__art{border:1px solid var(--dev-line)}
+.aiwa-site.spec-detail--tech .dev-vendors{border-left:0;gap:0 clamp(16px,3vw,42px)}
+.aiwa-site.spec-detail--tech .dev-vendors article{border-right:0;padding-inline:0;min-height:0;justify-content:start;gap:12px}
+.aiwa-site.spec-detail--tech .dev-certifications__marks>div{border:0;border-bottom:1px solid var(--dev-line);padding-inline:0;min-width:0}
+.aiwa-site.spec-detail--tech .dev-certifications__marks strong{overflow-wrap:anywhere}
+.aiwa-site.spec-detail--tech :is(main>section,main>aside,main>nav,.dev-chapter>*,.dev-service__body>*,.dev-project-caption>*,.dev-iot-card,.dev-managed__rows article>*,.dev-vendors article,.dev-certifications>* ,.spec-detail__thinking>*,.spec-detail__related header>*,.spec-detail__pager a){min-width:0}
+.aiwa-site.spec-detail--tech :is(h1,h2,h3,strong,.dev-link,.spec-detail__pager a){overflow-wrap:anywhere}
+.aiwa-site.spec-detail--tech .dev-link svg{flex-shrink:0}
+.aiwa-site.spec-detail--tech .dev-project-caption>svg{flex-shrink:0;border:1px solid var(--dev-line);border-radius:50%;box-sizing:content-box;padding:8px}
+.aiwa-site.spec-detail--tech .spec-detail__contact>a{gap:16px}
+.aiwa-site.spec-detail--tech .dev-faq summary{min-height:60px}
+.aiwa-site.spec-detail--tech .dev-faq summary:focus-visible,.aiwa-site.spec-detail--tech .dev-service summary:focus-visible{outline-offset:2px}
+@media(max-width:1000px){
+ .aiwa-site.spec-detail--tech :is(.dev-chapter,.dev-services header,.dev-certifications,.spec-detail__thinking,.spec-detail__related header){display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+ .aiwa-site.spec-detail--tech .spec-detail__thinking-rail{position:static;margin:0;gap:8px}
+ .aiwa-site.spec-detail--tech .dev-chapter>p,.aiwa-site.spec-detail--tech .dev-services header>p{max-width:55ch}
+ .aiwa-site.spec-detail--tech .dev-service__body{gap:24px}
+}
+@media(max-width:767px){
+ .aiwa-site.spec-detail--tech .spec-detail__hero{min-height:0;padding-block:20px}
+ .aiwa-site.spec-detail--tech .spec-detail__hero-main{padding-block:clamp(28px,7vw,48px)}
+ .aiwa-site.spec-detail--tech .spec-detail__hero-bottom{display:grid;gap:14px;margin-top:24px}
+ .aiwa-site.spec-detail--tech .spec-detail__hero-bottom>p{margin:0;max-width:48ch}
+ .aiwa-site.spec-detail--tech .spec-detail__hero-bottom>a{margin:0;justify-self:start}
+ .aiwa-site.spec-detail--tech :is(.spec-detail__hero-nav,.spec-detail__hero-foot){flex-wrap:wrap;gap:8px}
+ .aiwa-site.spec-detail--tech .spec-detail__approach ol{display:grid;gap:0}
+ .aiwa-site.spec-detail--tech .spec-detail__approach li{margin:0;gap:10px;padding-block:18px}
+ .aiwa-site.spec-detail--tech .dev-services header h2,.aiwa-site.spec-detail--tech .dev-chapter h2{margin-top:8px}
+ .aiwa-site.spec-detail--tech .dev-service__body{grid-template-columns:minmax(0,1fr);gap:18px}
+ .aiwa-site.spec-detail--tech .dev-service summary{min-height:64px;padding-block:16px}
+ .aiwa-site.spec-detail--tech .dev-service summary svg{width:22px}
+ .aiwa-site.spec-detail--tech .tech-pair__screens{grid-template-columns:minmax(0,1fr) minmax(0,.36fr);gap:8px}
+ .aiwa-site.spec-detail--tech .dev-certifications__marks{grid-template-columns:minmax(0,1fr);gap:0}
+ .aiwa-site.spec-detail--tech .dev-certifications__marks>div{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;padding-block:14px}
+ .aiwa-site.spec-detail--tech .dev-certifications__marks strong{font-size:var(--type-project-title)}
+ .aiwa-site.spec-detail--tech .dev-vendors h3{font-size:var(--type-portfolio-media-title)}
+ .aiwa-site.spec-detail--tech .spec-detail__work-card{margin-bottom:32px}
+ .aiwa-site.spec-detail--tech .spec-detail__work-list{display:grid;grid-template-columns:minmax(0,1fr);gap:0}
+ .aiwa-site.spec-detail--tech .spec-detail__sources{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+ .aiwa-site.spec-detail--tech .spec-detail__sources>div:first-child{margin:0}
+ .aiwa-site.spec-detail--tech .spec-detail__pager{gap:12px}
+ .aiwa-site.spec-detail--tech .spec-detail__pager a{min-height:80px;gap:6px}
+ .aiwa-site.spec-detail--tech .spec-detail__pager strong{font-size:var(--type-body-size)}
+}
+@media(max-width:360px){.aiwa-site.spec-detail--tech .dev-vendors{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.aiwa-site.spec-detail--tech main *,.aiwa-site.spec-detail--tech main *::before,.aiwa-site.spec-detail--tech main *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
