@@ -1,10 +1,7 @@
 /* Systems Showcase. Scoped to the route; global header, footer and typography stay canonical. */
 .aiwa-site.tech-page{
- --tech-paper:#101110;--tech-raised:#191b1a;--tech-ink:#f8f8f5;--tech-muted:#c0c2bc;--tech-rule:#555953;--tech-accent:#8ea5ff;--tech-accent-ink:#151613;--tech-night:#070707;
- background:var(--tech-paper);color:var(--tech-ink);min-width:0;font-family:var(--type-body);
-}
-html.light .aiwa-site.tech-page{
- --tech-paper:#f5f3ed;--tech-raised:#e9e7df;--tech-ink:#151613;--tech-muted:#4e514b;--tech-rule:#b8b9b0;--tech-night:#151613;
+ --tech-paper:var(--aiwa-paper);--tech-raised:var(--aiwa-paper-raised);--tech-ink:var(--aiwa-paper-ink);--tech-muted:var(--aiwa-paper-muted);--tech-rule:var(--aiwa-paper-rule);--tech-accent:var(--aiwa-paper-ink);--tech-accent-ink:var(--aiwa-paper);--tech-night:var(--aiwa-paper);
+ background:var(--tech-paper);color:var(--tech-ink);min-width:0;font-family:var(--type-body);font-synthesis:none;
 }
 .tech-page main{min-width:0}
 .tech-page main :where(h1,h2,h3,p,figure,ol){margin:0}
@@ -31,7 +28,7 @@ html.light .aiwa-site.tech-page{
 .tech-poster>span,.tech-poster>em{display:block;width:fit-content;animation:tech-headline .75s cubic-bezier(.18,.72,.2,1) both}
 .tech-poster>span:nth-child(2){animation-delay:.12s}.tech-poster>em{animation-delay:.24s}
 .tech-dot{color:var(--tech-accent)}
-html.light .tech-dot{color:#455dc0}
+
 @keyframes tech-headline{from{opacity:0;transform:translateY(20px);clip-path:inset(0 0 100% 0)}to{opacity:1;transform:none;clip-path:inset(0 0 -10% 0)}}
 .tech-hero__aside{display:flex;flex-direction:column;justify-content:space-between;align-self:stretch;min-width:0;gap:36px}
 .tech-hero__mark{align-self:end;color:var(--tech-ink)}
@@ -61,13 +58,13 @@ html.light .tech-dot{color:#455dc0}
 .tech-controls button,.tech-icon-link{display:grid;place-items:center;width:46px;height:46px;border:1px solid var(--tech-rule);background:transparent;color:inherit;flex-shrink:0}
 .tech-controls>*+*{margin-left:-1px}
 .tech-controls :is(button,.tech-icon-link):hover,.tech-controls button[aria-pressed=true]{background:var(--tech-accent);color:var(--tech-accent-ink);border-color:var(--tech-accent);position:relative}
-.tech-flagship{background:#151613;color:#f5f3ed}
+.tech-flagship{background:var(--tech-raised);color:var(--tech-ink)}
 .tech-flagship__intro{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:clamp(24px,5vw,90px);align-items:end;margin-bottom:clamp(35px,5vw,72px)}
 .tech-flagship__intro h2{margin-top:18px;font-size:clamp(48px,10vw,155px)}
-.tech-flagship__intro h2 em{color:#b9a2f9}
+.tech-flagship__intro h2 em{color:inherit}
 .tech-flagship__intro p:not(.tech-meta){font-size:var(--type-body-large);margin-bottom:24px;max-width:37ch}
 .tech-flagship__visual{display:block}
-.tech-flagship__footer{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #77796f;padding-top:16px;margin-top:18px}
+.tech-flagship__footer{display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid var(--tech-rule);padding-top:16px;margin-top:18px}
 .tech-flagship__footer a{display:inline-flex;align-items:center;gap:8px;min-height:44px}
 .tech-capabilities,.tech-projects,.tech-process,.tech-detail__context,.tech-detail__next{background:var(--tech-paper);color:var(--tech-ink)}
 .tech-capability{border-top:1px solid var(--tech-rule);scroll-margin-top:105px}
@@ -111,18 +108,18 @@ html.light .tech-dot{color:#455dc0}
 .tech-index__preview p{margin:10px 0 16px;color:var(--tech-muted)}
 .tech-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(36px,5vw,78px) clamp(20px,3vw,48px)}
 .tech-empty{padding:40px 0}.tech-empty p{margin:12px 0}
-.tech-engineering{background:var(--tech-accent);color:var(--tech-accent-ink)}
+.tech-engineering{background:var(--tech-raised);color:var(--tech-ink)}
 .tech-engineering__grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.5fr);gap:clamp(20px,4vw,60px);align-items:center}
-.tech-engineering-art{width:100%;height:auto;border:1px solid #151613}
+.tech-engineering-art{width:100%;height:auto;border:1px solid var(--tech-rule)}
 .tech-engineering__grid p:not(.tech-meta){margin:18px 0 24px}
 .tech-diagram-note{margin-top:20px!important}
 .tech-signal-path{animation:tech-signal 5s ease-out 1 both;stroke-dashoffset:430}
 @keyframes tech-signal{to{stroke-dashoffset:0}}
-.tech-ecosystem{background:#151613;color:#f5f3ed}
-.tech-ecosystem__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #66675e;border-left:1px solid #66675e}
-.tech-ecosystem__item{min-height:clamp(160px,16vw,240px);border-right:1px solid #66675e;border-bottom:1px solid #66675e;padding:clamp(14px,2vw,28px);display:flex;flex-direction:column;justify-content:space-between;gap:14px;transition:background .25s,color .25s}
+.tech-ecosystem{background:var(--tech-raised);color:var(--tech-ink)}
+.tech-ecosystem__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--tech-rule);border-left:1px solid var(--tech-rule)}
+.tech-ecosystem__item{min-height:clamp(160px,16vw,240px);border-right:1px solid var(--tech-rule);border-bottom:1px solid var(--tech-rule);padding:clamp(14px,2vw,28px);display:flex;flex-direction:column;justify-content:space-between;gap:14px;transition:background .25s,color .25s}
 .tech-ecosystem__item h3{font:600 clamp(25px,3vw,46px)/1.1 var(--type-body);letter-spacing:-.055em}
-.tech-ecosystem__item:hover{background:#8ea5ff;color:#151613}
+.tech-ecosystem__item:hover{background:var(--tech-ink);color:var(--tech-paper)}
 .tech-expertise{background:var(--tech-raised);color:var(--tech-ink)}
 .tech-expertise__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--tech-rule);border-left:1px solid var(--tech-rule)}
 .tech-expertise__grid>div{padding:clamp(14px,3vw,42px);border-right:1px solid var(--tech-rule);border-bottom:1px solid var(--tech-rule);display:flex;flex-direction:column;gap:16px}
@@ -132,7 +129,7 @@ html.light .tech-dot{color:#455dc0}
 .tech-process li{border-top:1px solid var(--tech-rule);padding-block:clamp(16px,2.5vw,35px);display:grid;grid-template-columns:clamp(24px,5vw,70px) minmax(0,.7fr) minmax(0,1fr) auto;gap:16px;align-items:center}
 .tech-process li:last-child{border-bottom:1px solid var(--tech-rule)}
 .tech-process li h3{font:400 clamp(30px,5vw,72px)/1 var(--type-display);letter-spacing:-.03em;text-transform:uppercase}
-.tech-outro{background:var(--tech-accent);color:var(--tech-accent-ink)}
+.tech-outro{background:var(--tech-paper);color:var(--tech-ink)}
 .tech-outro h2{font-size:clamp(52px,11vw,168px);margin:24px 0 30px}
 .tech-outro>p:not(.tech-meta){font-size:var(--type-body-large);max-width:56ch;margin-bottom:28px}
 .tech-detail__hero{padding-block:clamp(24px,4vw,60px) clamp(40px,5vw,80px);background:var(--tech-paper);color:var(--tech-ink)}
@@ -148,7 +145,7 @@ html.light .tech-dot{color:#455dc0}
 .tech-single--desktop img{width:100%}
 .tech-single--mobile img{width:min(100%,420px)}
 .tech-dialog{position:fixed;inset:0;margin:auto;max-height:92dvh;max-width:min(1200px,94vw);width:100%;padding:clamp(12px,2vw,30px);overflow:auto;border:1px solid var(--tech-rule);background:var(--tech-paper);color:var(--tech-ink)}
-.tech-dialog::backdrop{background:#000b}
+.tech-dialog::backdrop{background:var(--aiwa-overlay)}
 .tech-dialog__top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
 .tech-dialog__top h2{font:600 clamp(24px,4vw,40px)/1.1 var(--type-body);letter-spacing:-.04em}
 .tech-dialog>.tech-filter{margin-bottom:16px}
@@ -307,6 +304,7 @@ html.light .tech-dot{color:#455dc0}
 .tech-page main .tech-pair__tag{overflow-wrap:anywhere}
 @media(max-width:767px){.tech-viewer__caption{gap:0 14px}.tech-viewer__caption p{margin-bottom:3px}}
 
+/* Development division cross-link retained from main. */
 .tech-page main .tech-connected-link{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:20px;border-bottom:1px solid var(--tech-rule);padding-block:clamp(22px,3vw,40px)}
 .tech-page main .tech-connected-link p{max-width:62ch;color:var(--tech-muted);margin-top:10px}
 .tech-page main .tech-outro>.tech-link{margin-right:clamp(16px,4vw,50px)}
