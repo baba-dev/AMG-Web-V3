@@ -30,13 +30,13 @@ export default function TechnologyPortfolio(){
       <section className="tech-hero tech-gutter" aria-labelledby="tech-title">
         <div className="tech-hero__top tech-meta"><span><Link href="/work">WORK</Link> / TECHNOLOGY PORTFOLIO</span><span>MUSCAT / OMAN</span></div>
         <div className="tech-hero__body">
-          <h1 id="tech-title" className="tech-poster"><span>MADE FOR</span><span>THE REAL</span><em>WORLD<span className="tech-dot">.</span></em></h1>
-          <div className="tech-hero__aside"><span className="tech-hero__mark" aria-hidden="true"><ArrowDownRight strokeWidth={1.1}/></span><div><p className="tech-meta">DEVELOPMENT / SYSTEMS / DIGITAL PRODUCTS</p><p>Technology should make life easier. We design, develop and support digital experiences that do more than look good.</p><Link href="#tech-projects" className="tech-link">Explore our work <ArrowDown size={20}/></Link></div></div>
+          <h1 id="tech-title" className="tech-poster"><span>MADE FOR</span>{" "}<span>THE REAL</span>{" "}<em>WORLD<span className="tech-dot">.</span></em></h1>
+          <div className="tech-hero__aside"><span className="tech-hero__mark" aria-hidden="true"><ArrowDownRight strokeWidth={1.1}/></span><div><p className="tech-meta">WEB DEVELOPMENT / SOFTWARE / CLOUD</p><p>Websites, software and cloud services that make business easier. Designed, developed and supported by our team in Muscat, Oman.</p><Link href="#tech-projects" className="tech-link">Explore our work <ArrowDown size={20}/></Link></div></div>
         </div>
         <div className="tech-hero__bottom tech-meta"><span>BEYOND THE NOISE / BEAUTIFULLY ENGINEERED.</span><span>01 — 11</span></div>
       </section>
       <section className="tech-section tech-gutter tech-motion" aria-label="Technology in motion">
-        <Chapter number="02" label="TECHNOLOGY IN MOTION" title="Good-looking is only the beginning." copy="From a first impression to a fully connected product. Explore a selection of real digital experiences."/>
+        <Chapter number="02" label="TECHNOLOGY IN MOTION" title="Good-looking is only the beginning." copy="Four digital experiences, one goal: make technology work for people. Explore the desktop and mobile designs."/>
         <TechnologyReel/>
       </section>
       <section className="tech-section tech-gutter tech-flagship" aria-label="Flagship product">
@@ -57,19 +57,19 @@ export default function TechnologyPortfolio(){
         <div className="tech-featured__grid">{technologyFeatured.map((p,i)=><article key={p.slug} className="tech-featured__card"><Link href={`/work/technology/${p.slug}`}><TechPair project={p} compact/><div className="tech-card__label"><div><p className="tech-meta">0{i+1} / {p.sector}</p><h3>{p.name}</h3></div><ArrowUpRight aria-hidden="true" size={30}/></div><p>{p.description}</p></Link></article>)}</div>
       </section>
       <section className="tech-section tech-gutter tech-projects" id="tech-projects" aria-label="Technology project index">
-        <Chapter number="06" label="PROJECT INDEX" title="Explore the work." copy="Browse responsive websites, digital products and publishing experiences. Every project opens a closer look at the captured experience."/>
+        <Chapter number="06" label="PROJECT INDEX" title="Explore the work." copy="Browse websites, SaaS products and digital publishing experiences. Filter by type or search by name and industry."/>
         <TechnologyGallery/>
       </section>
       <section className="tech-section tech-gutter tech-engineering" id="tech-infrastructure" aria-label="Technology infrastructure">
         <Chapter number="07" label="ENGINEERING / INFRASTRUCTURE" title="Under the hood." copy="A great interface is only one part of a digital product. The application, data and infrastructure need to work together."/>
-        <div className="tech-engineering__grid"><EngineeringArt/><div><h3>Built as a system.</h3><p>We connect front-end experiences with business logic, integrations, cloud services and deployment workflows. From initial architecture to ongoing support, we approach reliability and security as part of the design.</p><Link href="/contact#enquiries" className="tech-link">Talk infrastructure <ArrowUpRight size={20}/></Link><p className="tech-meta tech-diagram-note">CONCEPTUAL SYSTEM MAP / NOT A CLIENT NETWORK</p></div></div>
+        <div className="tech-engineering__grid"><EngineeringArt/><div><h3>Built as a system.</h3><p>We connect front-end experiences with business logic, integrations, cloud services and deployment workflows. From initial architecture to ongoing support, we approach reliability and security as part of the design.</p><Link href="/contact#enquiries" className="tech-link">Talk infrastructure <ArrowUpRight size={20}/></Link><p className="tech-meta tech-diagram-note">ILLUSTRATIVE SYSTEM ARCHITECTURE</p></div></div>
       </section>
       <section className="tech-section tech-gutter tech-ecosystem" aria-label="Technology ecosystem">
         <Chapter number="08" label="OUR TECHNOLOGY ECOSYSTEM" title="Built on the world’s best." copy="Our technology relationships span Cloudflare, Oracle, BytePlus and Gallabox. We select the tools that make sense for each business."/>
         <div className="tech-ecosystem__grid">{technologyEcosystem.map(([name,copy],i)=><div key={name} className="tech-ecosystem__item"><span className="tech-meta">0{i+1} / PLATFORM</span><h3>{name}</h3><p>{copy}</p></div>)}</div>
       </section>
       <section className="tech-section tech-gutter tech-expertise" aria-label="Cloud expertise">
-        <Chapter number="09" label="TECHNICAL EXPERTISE" title="Expertise that goes deeper." copy="Our team includes professionals certified across AWS, Google Cloud and Oracle Cloud. We bring cloud expertise to real business requirements."/>
+        <Chapter number="09" label="TECHNICAL EXPERTISE" title="Expertise that goes deeper." copy="Our team includes professionals certified across AWS, Google Cloud and Oracle Cloud. That expertise helps us plan, deploy and support cloud solutions around your business."/>
         <div className="tech-expertise__grid">{technologyExpertise.map(([short,name])=><div key={short}><span className="tech-expertise__mark">{short}</span><p>{name}</p></div>)}</div>
         <p className="tech-expertise__note">We choose infrastructure around the project, not a single vendor.</p>
       </section>

@@ -2,8 +2,8 @@
 import type { CSSProperties } from "react";
 import { technologyMedia, type TechnologyProject } from "@/lib/work/technology";
 
-export function TechImage({project,device,priority=false,sizes, className}:{
-  project:TechnologyProject; device:"desktop"|"mobile"; priority?:boolean; sizes?:string; className?:string;
+export function TechImage({project,device,priority=false,sizes, className, decorative=false}:{
+  project:TechnologyProject; device:"desktop"|"mobile"; priority?:boolean; sizes?:string; className?:string; decorative?:boolean;
 }) {
   const desktop=device==="desktop";
   const width=desktop?1600:560;
@@ -11,7 +11,7 @@ export function TechImage({project,device,priority=false,sizes, className}:{
   return <img className={className} src={technologyMedia(project,device)} srcSet={`${technologyMedia(project,device,true)} ${small}w, ${technologyMedia(project,device)} ${width}w`}
     sizes={sizes??(desktop?"(max-width: 767px) 90vw, 65vw":"(max-width: 767px) 30vw, 18vw")}
     width={width} height={desktop?project.desktopHeight:project.mobileHeight}
-    alt={`${project.name} ${desktop?"desktop":"mobile"} website capture`}
+    alt={decorative?"":`${project.name} ${desktop?"desktop":"mobile"} website capture`}
     loading={priority?"eager":"lazy"} fetchPriority={priority?"high":undefined} decoding="async" />;
 }
 export function TechPair({project,priority=false,compact=false}:{project:TechnologyProject;priority?:boolean;compact?:boolean}) {
@@ -19,7 +19,7 @@ export function TechPair({project,priority=false,compact=false}:{project:Technol
     <span className="tech-pair__tag" aria-hidden="true">AIWA / DIGITAL EXPERIENCE</span>
     <div className="tech-pair__screens">
       <div className="tech-pair__desktop"><TechImage project={project} device="desktop" priority={priority} sizes={compact?"(max-width: 767px) 80vw, 37vw":"(max-width: 767px) 80vw, 65vw"}/></div>
-      <div className="tech-pair__mobile"><TechImage project={project} device="mobile" sizes="(max-width: 767px) 24vw, 14vw"/></div>
+      <div className="tech-pair__mobile"><TechImage project={project} device="mobile" sizes={compact?"(max-width: 767px) 24vw, 12vw":"(max-width: 767px) 28vw, 22vw"}/></div>
     </div>
     <span className="tech-pair__tag tech-pair__end" aria-hidden="true">DESKTOP / MOBILE</span>
   </div>;
