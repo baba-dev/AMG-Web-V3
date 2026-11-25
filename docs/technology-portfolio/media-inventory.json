@@ -1,0 +1,996 @@
+{
+  "source": "Technology portfolio.zip + Aiwa Creators.PNG + Aiwa Creators - mob.PNG",
+  "note": "Owner-supplied captures; device viewport not verified. Preserve visible screenshot content. Publication approval pending.",
+  "projects": [
+    {
+      "sourceLabel": "Creators by Aiwa",
+      "slug": "aiwa-creators",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Aiwa Creators.PNG",
+          "sourceDimensions": [
+            1901,
+            1049
+          ],
+          "sourceBytes": 760103,
+          "variants": [
+            {
+              "path": "public/media/technology/aiwa-creators/desktop-1600.webp",
+              "width": 1600,
+              "height": 883,
+              "bytes": 79526,
+              "sha256": "e6d0bfb470c27e35399878c039a3906e9b391481955342f65cfc4c51732aad71"
+            },
+            {
+              "path": "public/media/technology/aiwa-creators/desktop-800.webp",
+              "width": 800,
+              "height": 441,
+              "bytes": 30584,
+              "sha256": "b1d7a96786b476f0f3a2b46dbcd4cdb03d0e6f8eae608aea8b7ea01c11b9e60e"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Aiwa Creators - mob.PNG",
+          "sourceDimensions": [
+            640,
+            927
+          ],
+          "sourceBytes": 321263,
+          "variants": [
+            {
+              "path": "public/media/technology/aiwa-creators/mobile-560.webp",
+              "width": 560,
+              "height": 811,
+              "bytes": 39248,
+              "sha256": "d4ac8f7a37b37acf0b89ccdd4136037d27aad7e36b7f0e456193f0e4f6ce0fed"
+            },
+            {
+              "path": "public/media/technology/aiwa-creators/mobile-320.webp",
+              "width": 320,
+              "height": 464,
+              "bytes": 18160,
+              "sha256": "62b1b9b1da751e8d1f7629ef26e5db2b22d69cae180894d812ae0e4fdf6f4c99"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "Aqua Petro Chemicals",
+      "slug": "aqua-petro-chemicals",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/Aqua Petro Chemicals.PNG",
+          "sourceDimensions": [
+            1893,
+            1037
+          ],
+          "sourceBytes": 2960044,
+          "variants": [
+            {
+              "path": "public/media/technology/aqua-petro-chemicals/desktop-1600.webp",
+              "width": 1600,
+              "height": 876,
+              "bytes": 130026,
+              "sha256": "631ea2e99470826846ed8379e7beb994f1d50e5bd28f5c395923570c76bbddb5"
+            },
+            {
+              "path": "public/media/technology/aqua-petro-chemicals/desktop-800.webp",
+              "width": 800,
+              "height": 438,
+              "bytes": 52126,
+              "sha256": "80ce489d9611bef7de8900e49adda09fd925044d38d5c4b97783476dc29fb3e7"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/Aqua Petro Chemicals - mob.PNG",
+          "sourceDimensions": [
+            581,
+            932
+          ],
+          "sourceBytes": 832812,
+          "variants": [
+            {
+              "path": "public/media/technology/aqua-petro-chemicals/mobile-560.webp",
+              "width": 560,
+              "height": 898,
+              "bytes": 62800,
+              "sha256": "44cd62158829ab331abb11ce4154fbc98196015abd70e8ca0f8954a4daee1085"
+            },
+            {
+              "path": "public/media/technology/aqua-petro-chemicals/mobile-320.webp",
+              "width": 320,
+              "height": 513,
+              "bytes": 28346,
+              "sha256": "6b53ea4b5855eefc4df5e9b0fd28de36b2e06d035dad6e6af05d4ecf625fa994"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "BabaBuilds",
+      "slug": "bababuilds",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/BabaBuilds.PNG",
+          "sourceDimensions": [
+            1891,
+            1047
+          ],
+          "sourceBytes": 1069579,
+          "variants": [
+            {
+              "path": "public/media/technology/bababuilds/desktop-1600.webp",
+              "width": 1600,
+              "height": 886,
+              "bytes": 81276,
+              "sha256": "19f982ca399ca04da2d3e9a0b3935df04473acf1e47d6e88d89bb831c69e473e"
+            },
+            {
+              "path": "public/media/technology/bababuilds/desktop-800.webp",
+              "width": 800,
+              "height": 443,
+              "bytes": 35778,
+              "sha256": "641bbec9d424144af114f3e724258e1b9897f26783afc6eb9a7bd174540a6d20"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/BabaBuilds - mob.PNG",
+          "sourceDimensions": [
+            583,
+            934
+          ],
+          "sourceBytes": 347966,
+          "variants": [
+            {
+              "path": "public/media/technology/bababuilds/mobile-560.webp",
+              "width": 560,
+              "height": 897,
+              "bytes": 51346,
+              "sha256": "3f61439908baf7d9bbff91016541bcfed0c71c07021f0595f1e18ea8d797e02e"
+            },
+            {
+              "path": "public/media/technology/bababuilds/mobile-320.webp",
+              "width": 320,
+              "height": 513,
+              "bytes": 24112,
+              "sha256": "563b796c83355ecd1a83c9899481c119324088b74cd1c20d63edbba327507b9c"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "BabaBuilds ERP",
+      "slug": "bababuilds-erp",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/BabaBuilds ERP.PNG",
+          "sourceDimensions": [
+            1884,
+            1047
+          ],
+          "sourceBytes": 431763,
+          "variants": [
+            {
+              "path": "public/media/technology/bababuilds-erp/desktop-1600.webp",
+              "width": 1600,
+              "height": 889,
+              "bytes": 70020,
+              "sha256": "7837de80f8b8eda969723cca6dc4a9ad682fc641be7c57743ef4cb2505d0f2e1"
+            },
+            {
+              "path": "public/media/technology/bababuilds-erp/desktop-800.webp",
+              "width": 800,
+              "height": 445,
+              "bytes": 27864,
+              "sha256": "46cdc33dad22134b396b8e2aed721809eaeb7f63dc2ded0baa5577c5abd66e39"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/BabaBuilds ERP - mob.PNG",
+          "sourceDimensions": [
+            578,
+            933
+          ],
+          "sourceBytes": 139938,
+          "variants": [
+            {
+              "path": "public/media/technology/bababuilds-erp/mobile-560.webp",
+              "width": 560,
+              "height": 904,
+              "bytes": 40764,
+              "sha256": "63bbe209a6531e55d9d9f1e57ad6a0056d9e2869ccd9775ecdc1e0d1508a7f44"
+            },
+            {
+              "path": "public/media/technology/bababuilds-erp/mobile-320.webp",
+              "width": 320,
+              "height": 517,
+              "bytes": 18600,
+              "sha256": "641d7d1c3e5b0abc8020eba13d9e66e2a2586c059f1ff7c9f5a039bfe0a04840"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "BestAppliances",
+      "slug": "best-appliances",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/BestAppliances.PNG",
+          "sourceDimensions": [
+            1892,
+            1046
+          ],
+          "sourceBytes": 2125252,
+          "variants": [
+            {
+              "path": "public/media/technology/best-appliances/desktop-1600.webp",
+              "width": 1600,
+              "height": 885,
+              "bytes": 111580,
+              "sha256": "09a34b8a7ae59851ed001dd28ddfe567c03edd6f1befc88a25d13857e9ed47a1"
+            },
+            {
+              "path": "public/media/technology/best-appliances/desktop-800.webp",
+              "width": 800,
+              "height": 442,
+              "bytes": 45230,
+              "sha256": "984405c6831c336665df86e56ce60a2081070f555797fe63553a7a3dc17878e7"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/BestAppliances - mob.PNG",
+          "sourceDimensions": [
+            584,
+            934
+          ],
+          "sourceBytes": 499975,
+          "variants": [
+            {
+              "path": "public/media/technology/best-appliances/mobile-560.webp",
+              "width": 560,
+              "height": 896,
+              "bytes": 63440,
+              "sha256": "086d46374ed193fde6167eb19f113f5820f92180e9e0f7fd20d7f1e4d8efe6d5"
+            },
+            {
+              "path": "public/media/technology/best-appliances/mobile-320.webp",
+              "width": 320,
+              "height": 512,
+              "bytes": 27662,
+              "sha256": "87f779f9c2e10113b3f72a227eeb2e1e50676f91a0c017e42b1b84cb56a07548"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "EZvesto",
+      "slug": "ezvesto",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/EZvesto.PNG",
+          "sourceDimensions": [
+            1902,
+            1056
+          ],
+          "sourceBytes": 533027,
+          "variants": [
+            {
+              "path": "public/media/technology/ezvesto/desktop-1600.webp",
+              "width": 1600,
+              "height": 888,
+              "bytes": 63850,
+              "sha256": "da074914ac5133cadf339578b074bcbbb778f8b30877311ea06dabc11dc455d4"
+            },
+            {
+              "path": "public/media/technology/ezvesto/desktop-800.webp",
+              "width": 800,
+              "height": 444,
+              "bytes": 27066,
+              "sha256": "e5a39f1f999bed3df6a2ce6d45ecd0e9d7e1f7ba40f679004b8666344400a969"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/EZvesto - mob.PNG",
+          "sourceDimensions": [
+            575,
+            963
+          ],
+          "sourceBytes": 324933,
+          "variants": [
+            {
+              "path": "public/media/technology/ezvesto/mobile-560.webp",
+              "width": 560,
+              "height": 938,
+              "bytes": 39932,
+              "sha256": "ec6cc894621fe50aba3af89da6e0652d6c292aa0e7d219347b166cada95d1710"
+            },
+            {
+              "path": "public/media/technology/ezvesto/mobile-320.webp",
+              "width": 320,
+              "height": 536,
+              "bytes": 20010,
+              "sha256": "1b6a59340f64e778ab2b7288736fb5c83aea982c7f2a77101bf5fff175b32ad4"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "Falcon Logistics",
+      "slug": "falcon-logistics",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/Falcon Logistics.PNG",
+          "sourceDimensions": [
+            1896,
+            1048
+          ],
+          "sourceBytes": 3163741,
+          "variants": [
+            {
+              "path": "public/media/technology/falcon-logistics/desktop-1600.webp",
+              "width": 1600,
+              "height": 884,
+              "bytes": 143128,
+              "sha256": "323dd1b2f3c8153b81dbb6c478527f97f7ea4170bcbeb9c503fbbccd2158bc6c"
+            },
+            {
+              "path": "public/media/technology/falcon-logistics/desktop-800.webp",
+              "width": 800,
+              "height": 442,
+              "bytes": 51544,
+              "sha256": "ef4f238384c0701c7d083c175d8df3fe880fabefdae0aedeedb85216faa78c50"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/Falcon Logistics - mob.PNG",
+          "sourceDimensions": [
+            584,
+            936
+          ],
+          "sourceBytes": 744600,
+          "variants": [
+            {
+              "path": "public/media/technology/falcon-logistics/mobile-560.webp",
+              "width": 560,
+              "height": 898,
+              "bytes": 100932,
+              "sha256": "8f5e97ca9634c982d9bec6d31a65de0e9597f1f3d63f08c7698361c0f7866d12"
+            },
+            {
+              "path": "public/media/technology/falcon-logistics/mobile-320.webp",
+              "width": 320,
+              "height": 513,
+              "bytes": 40378,
+              "sha256": "eef3456fa523cf2b936d3611ca43d42ed58c72c18d673e0048d3f2d2b3131acf"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "Flydestini",
+      "slug": "flydestini",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/Flydestini.PNG",
+          "sourceDimensions": [
+            1890,
+            1047
+          ],
+          "sourceBytes": 2859267,
+          "variants": [
+            {
+              "path": "public/media/technology/flydestini/desktop-1600.webp",
+              "width": 1600,
+              "height": 886,
+              "bytes": 151426,
+              "sha256": "5bccfce94cf6a7446d6e5e39960cafc8ad659b9ca1ab6a0d51fae65616f54feb"
+            },
+            {
+              "path": "public/media/technology/flydestini/desktop-800.webp",
+              "width": 800,
+              "height": 443,
+              "bytes": 51462,
+              "sha256": "374e84702646db3e88fdce80911b4e3ba970c1463203c9fa753eb08fbbab4b89"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/Flydestini - mob.PNG",
+          "sourceDimensions": [
+            583,
+            935
+          ],
+          "sourceBytes": 659885,
+          "variants": [
+            {
+              "path": "public/media/technology/flydestini/mobile-560.webp",
+              "width": 560,
+              "height": 898,
+              "bytes": 61368,
+              "sha256": "6c5f3052456016ef321f82e405080e1ea30b66f8be1d8829bdb1853daf0f2425"
+            },
+            {
+              "path": "public/media/technology/flydestini/mobile-320.webp",
+              "width": 320,
+              "height": 513,
+              "bytes": 26418,
+              "sha256": "f91e3fc7bb2b7cf545d46a9f66010bf34ed562c237ec3459842dd3b0f1a7f42b"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "FXRCO",
+      "slug": "fxrco",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/FXRCO.PNG",
+          "sourceDimensions": [
+            1888,
+            1033
+          ],
+          "sourceBytes": 423428,
+          "variants": [
+            {
+              "path": "public/media/technology/fxrco/desktop-1600.webp",
+              "width": 1600,
+              "height": 875,
+              "bytes": 50308,
+              "sha256": "1f46ae1b9f5d4ab7fb3b2cd43289bdd22dc41348f4b39d3509b7777d3d04398c"
+            },
+            {
+              "path": "public/media/technology/fxrco/desktop-800.webp",
+              "width": 800,
+              "height": 438,
+              "bytes": 18982,
+              "sha256": "29fa993b31e234534eabdda4332c8b2a39a738fbb15368833d47bf17b05ff691"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/FXRCO - mob.PNG",
+          "sourceDimensions": [
+            585,
+            933
+          ],
+          "sourceBytes": 148603,
+          "variants": [
+            {
+              "path": "public/media/technology/fxrco/mobile-560.webp",
+              "width": 560,
+              "height": 893,
+              "bytes": 36764,
+              "sha256": "14e23f78823c5da6fa286735f5aeb2f49eb586181b8663abedbee4cb2622f8cf"
+            },
+            {
+              "path": "public/media/technology/fxrco/mobile-320.webp",
+              "width": 320,
+              "height": 510,
+              "bytes": 17636,
+              "sha256": "258144fa12b8beefccbcafdb74e70653f2453a03e32499681f7b40a0793ea96d"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "GWIme",
+      "slug": "gwi",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/GWIme.PNG",
+          "sourceDimensions": [
+            1890,
+            1038
+          ],
+          "sourceBytes": 1129908,
+          "variants": [
+            {
+              "path": "public/media/technology/gwi/desktop-1600.webp",
+              "width": 1600,
+              "height": 879,
+              "bytes": 77078,
+              "sha256": "a0a3c24d23caf8f26166b35f18b660081427f8268a815d155e80331a5fda31da"
+            },
+            {
+              "path": "public/media/technology/gwi/desktop-800.webp",
+              "width": 800,
+              "height": 439,
+              "bytes": 29246,
+              "sha256": "3ea176511f92a7ef98b9cc0edd1670a8fd5e3b005f81adf5c9f93845fb4cbf6d"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/GWIme - mob.PNG",
+          "sourceDimensions": [
+            580,
+            931
+          ],
+          "sourceBytes": 237498,
+          "variants": [
+            {
+              "path": "public/media/technology/gwi/mobile-560.webp",
+              "width": 560,
+              "height": 899,
+              "bytes": 40656,
+              "sha256": "36f4fe2dfdd2661c559126318be2a3909200e46f9684b3eb2fc6fe857c105051"
+            },
+            {
+              "path": "public/media/technology/gwi/mobile-320.webp",
+              "width": 320,
+              "height": 514,
+              "bytes": 18730,
+              "sha256": "c67356e93a0604be922b16ab85b1ac069fe8337e0c5274fc92206a23630c9b98"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "Healthzone Oman",
+      "slug": "healthzone-oman",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/Healthzone Oman.PNG",
+          "sourceDimensions": [
+            1891,
+            1037
+          ],
+          "sourceBytes": 2952088,
+          "variants": [
+            {
+              "path": "public/media/technology/healthzone-oman/desktop-1600.webp",
+              "width": 1600,
+              "height": 877,
+              "bytes": 151526,
+              "sha256": "a1969ceedddc2b56952838af959eee71ecca1c66b6b60990335b49a4ac42373f"
+            },
+            {
+              "path": "public/media/technology/healthzone-oman/desktop-800.webp",
+              "width": 800,
+              "height": 439,
+              "bytes": 54006,
+              "sha256": "0bee4c5fcab6fc006e637f0507d24e955b7cbaf0ea388d78d1edd4d91da29eea"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/Healthzone Oman - mob.PNG",
+          "sourceDimensions": [
+            585,
+            936
+          ],
+          "sourceBytes": 671575,
+          "variants": [
+            {
+              "path": "public/media/technology/healthzone-oman/mobile-560.webp",
+              "width": 560,
+              "height": 896,
+              "bytes": 65932,
+              "sha256": "a29af149176fa62d4c529b2b360846cf43ead1941de0a561bcd3d792948f8c93"
+            },
+            {
+              "path": "public/media/technology/healthzone-oman/mobile-320.webp",
+              "width": 320,
+              "height": 512,
+              "bytes": 30712,
+              "sha256": "305388f4bab95e92e7f299fc668304680d572b2a2f8dd9de0c179a826e0a75e3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "MenuMinutes",
+      "slug": "menu-minute",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/MenuMinutes.PNG",
+          "sourceDimensions": [
+            1898,
+            1045
+          ],
+          "sourceBytes": 494211,
+          "variants": [
+            {
+              "path": "public/media/technology/menu-minute/desktop-1600.webp",
+              "width": 1600,
+              "height": 881,
+              "bytes": 70130,
+              "sha256": "0bdd540b4623f9401e9da01a6702d7db369abaac82cc1efd0834f5277f498000"
+            },
+            {
+              "path": "public/media/technology/menu-minute/desktop-800.webp",
+              "width": 800,
+              "height": 440,
+              "bytes": 29704,
+              "sha256": "9f89e5d2ff38661491dcb623aad52721dbeed98377bb6ce6a8c16f0d1044626a"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/MenuMinutes - mob.PNG",
+          "sourceDimensions": [
+            588,
+            933
+          ],
+          "sourceBytes": 228552,
+          "variants": [
+            {
+              "path": "public/media/technology/menu-minute/mobile-560.webp",
+              "width": 560,
+              "height": 889,
+              "bytes": 50996,
+              "sha256": "3a8eb453cf0a2eb78959aa5fadfa29d5ddba275fe254a372c759ddff965b006e"
+            },
+            {
+              "path": "public/media/technology/menu-minute/mobile-320.webp",
+              "width": 320,
+              "height": 508,
+              "bytes": 24844,
+              "sha256": "fec9b94644d60101b3b4cbf6d5499a1ec2d512506174ef12915ac87cd0c3f0b6"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "RCSOman",
+      "slug": "rcs-oman",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/RCSOman.PNG",
+          "sourceDimensions": [
+            1887,
+            1047
+          ],
+          "sourceBytes": 899067,
+          "variants": [
+            {
+              "path": "public/media/technology/rcs-oman/desktop-1600.webp",
+              "width": 1600,
+              "height": 888,
+              "bytes": 47644,
+              "sha256": "0e5adb64dcc8266cf8a504f1699f918f92eba17f6ae098b1d4aa70dd0d084e36"
+            },
+            {
+              "path": "public/media/technology/rcs-oman/desktop-800.webp",
+              "width": 800,
+              "height": 444,
+              "bytes": 21548,
+              "sha256": "af9083fecbb81077ac615db4d3ed6725ac4a53cffb356c506a987bfac3fcfd7a"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/RCSOman - mob.PNG",
+          "sourceDimensions": [
+            583,
+            939
+          ],
+          "sourceBytes": 185215,
+          "variants": [
+            {
+              "path": "public/media/technology/rcs-oman/mobile-560.webp",
+              "width": 560,
+              "height": 902,
+              "bytes": 42304,
+              "sha256": "c956de9fde0968405ec9c2357d27a9b198d41785ec805774a955885909e9a46c"
+            },
+            {
+              "path": "public/media/technology/rcs-oman/mobile-320.webp",
+              "width": 320,
+              "height": 515,
+              "bytes": 19390,
+              "sha256": "b6aa30029ec741d4ff49a3515438722d71bfce96e3de7428dc76439a7d595bcf"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "SoharODS",
+      "slug": "sohar-ods",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/SoharODS.PNG",
+          "sourceDimensions": [
+            1891,
+            1045
+          ],
+          "sourceBytes": 377843,
+          "variants": [
+            {
+              "path": "public/media/technology/sohar-ods/desktop-1600.webp",
+              "width": 1600,
+              "height": 884,
+              "bytes": 54126,
+              "sha256": "1a7660da326c0daf8635e9ca5a90ed1db7ffe6f409f2d6b9081f7bbc3252977f"
+            },
+            {
+              "path": "public/media/technology/sohar-ods/desktop-800.webp",
+              "width": 800,
+              "height": 442,
+              "bytes": 20902,
+              "sha256": "a862e79bdbf0206f38673d7bcfe1fe68bad219c02370a408e704a6ef87720c92"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/SoharODS - Mob.PNG",
+          "sourceDimensions": [
+            584,
+            935
+          ],
+          "sourceBytes": 70817,
+          "variants": [
+            {
+              "path": "public/media/technology/sohar-ods/mobile-560.webp",
+              "width": 560,
+              "height": 897,
+              "bytes": 55646,
+              "sha256": "a1ab5a262b11058a2b59b20e2876a151ca68782dea36efe3f346311719500008"
+            },
+            {
+              "path": "public/media/technology/sohar-ods/mobile-320.webp",
+              "width": 320,
+              "height": 512,
+              "bytes": 23322,
+              "sha256": "5c96362c4c2913bc3834da7ee938812fac8e770e3c3380e89cca70612da66b61"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "Strategic Catering",
+      "slug": "strategic-catering",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/Strategic Catering.PNG",
+          "sourceDimensions": [
+            1888,
+            1053
+          ],
+          "sourceBytes": 1439456,
+          "variants": [
+            {
+              "path": "public/media/technology/strategic-catering/desktop-1600.webp",
+              "width": 1600,
+              "height": 892,
+              "bytes": 60084,
+              "sha256": "019b8138a864582e4a77a007395d565926b7a4588ce14d1dca4101fa4d1923e6"
+            },
+            {
+              "path": "public/media/technology/strategic-catering/desktop-800.webp",
+              "width": 800,
+              "height": 446,
+              "bytes": 26336,
+              "sha256": "e1ea18c6148a7549e71c552c0a4befd8d543916746884fbba2fde6e1ad913d7d"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/Strategic Catering - mob.PNG",
+          "sourceDimensions": [
+            581,
+            935
+          ],
+          "sourceBytes": 455777,
+          "variants": [
+            {
+              "path": "public/media/technology/strategic-catering/mobile-560.webp",
+              "width": 560,
+              "height": 901,
+              "bytes": 40072,
+              "sha256": "36c64ffce392f475959266afd394c135db8a866b262a80fd8e42d725f7aa8ea1"
+            },
+            {
+              "path": "public/media/technology/strategic-catering/mobile-320.webp",
+              "width": 320,
+              "height": 515,
+              "bytes": 20238,
+              "sha256": "7abe4af17ab202a6ff359048967e0c5008a0da4ed85ca270c4d63bf7dd2217ff"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "TheGulfPost",
+      "slug": "the-gulf-post",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/TheGulfPost.PNG",
+          "sourceDimensions": [
+            1892,
+            1047
+          ],
+          "sourceBytes": 2890159,
+          "variants": [
+            {
+              "path": "public/media/technology/the-gulf-post/desktop-1600.webp",
+              "width": 1600,
+              "height": 885,
+              "bytes": 164178,
+              "sha256": "eda3e4aa91e0a1f96d69bd92afa43fdb9bca51326ec858bf8058ce110a6ff908"
+            },
+            {
+              "path": "public/media/technology/the-gulf-post/desktop-800.webp",
+              "width": 800,
+              "height": 443,
+              "bytes": 63782,
+              "sha256": "7c594b4287f3fbd4af6ab8a506baa274546dfc254336ffa027a5b3ff5264f585"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/TheGulfPost - mob.PNG",
+          "sourceDimensions": [
+            582,
+            934
+          ],
+          "sourceBytes": 620770,
+          "variants": [
+            {
+              "path": "public/media/technology/the-gulf-post/mobile-560.webp",
+              "width": 560,
+              "height": 899,
+              "bytes": 62498,
+              "sha256": "f45a7a6d3408cd4cddcd95424a8544dc3a15893511a5913de0e9823516057305"
+            },
+            {
+              "path": "public/media/technology/the-gulf-post/mobile-320.webp",
+              "width": 320,
+              "height": 514,
+              "bytes": 27596,
+              "sha256": "61dc26e63c8ec5e9899c736b9ff951953a840d546014a68724fcd0d42b2044e1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "TribeOm",
+      "slug": "tribe-oman",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/TribeOm.PNG",
+          "sourceDimensions": [
+            1893,
+            1048
+          ],
+          "sourceBytes": 1134089,
+          "variants": [
+            {
+              "path": "public/media/technology/tribe-oman/desktop-1600.webp",
+              "width": 1600,
+              "height": 886,
+              "bytes": 105162,
+              "sha256": "8db80bd7ef52e44e1cf264bcc45d2911ba4c1e38ac0bc1cb518a71cf69cd596c"
+            },
+            {
+              "path": "public/media/technology/tribe-oman/desktop-800.webp",
+              "width": 800,
+              "height": 443,
+              "bytes": 36486,
+              "sha256": "3636546c1d623e96c99636165f02f25f4c912875083855db12dee71133ef7622"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/TribeOm - mob.PNG",
+          "sourceDimensions": [
+            580,
+            939
+          ],
+          "sourceBytes": 372014,
+          "variants": [
+            {
+              "path": "public/media/technology/tribe-oman/mobile-560.webp",
+              "width": 560,
+              "height": 907,
+              "bytes": 62968,
+              "sha256": "69ea524a55255c48c254d97ca989d896b47fbe5791ae96010e1a311b6bb69ee4"
+            },
+            {
+              "path": "public/media/technology/tribe-oman/mobile-320.webp",
+              "width": 320,
+              "height": 518,
+              "bytes": 25484,
+              "sha256": "436c743304670176f491218e1353f3382dbb81398c8c62e811932e380ac0e447"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceLabel": "Xspiceo",
+      "slug": "xspiceo",
+      "publicationStatus": "pending-rights-review",
+      "captures": {
+        "desktop": {
+          "sourceFile": "Technology portfolio/Xspiceo.PNG",
+          "sourceDimensions": [
+            1893,
+            1008
+          ],
+          "sourceBytes": 1067724,
+          "variants": [
+            {
+              "path": "public/media/technology/xspiceo/desktop-1600.webp",
+              "width": 1600,
+              "height": 852,
+              "bytes": 76798,
+              "sha256": "0edcbda84e912a02b899c4aef6b49458e5ee988e87c566b1d28fcc07bdccc446"
+            },
+            {
+              "path": "public/media/technology/xspiceo/desktop-800.webp",
+              "width": 800,
+              "height": 426,
+              "bytes": 31280,
+              "sha256": "38f695fa6ef07af093aac1ddd3741481c68705e40a8e451ce8e9b6264de8c964"
+            }
+          ]
+        },
+        "mobile": {
+          "sourceFile": "Technology portfolio/Xspiceo - mob.PNG",
+          "sourceDimensions": [
+            580,
+            887
+          ],
+          "sourceBytes": 274254,
+          "variants": [
+            {
+              "path": "public/media/technology/xspiceo/mobile-560.webp",
+              "width": 560,
+              "height": 856,
+              "bytes": 45206,
+              "sha256": "78622e09588c36a68d0f84ac183776d662737c1c734bc82631240d66d134f02c"
+            },
+            {
+              "path": "public/media/technology/xspiceo/mobile-320.webp",
+              "width": 320,
+              "height": 489,
+              "bytes": 19560,
+              "sha256": "baa1f0c81d8ad4a0ad709bb6ad1b09531d133c3d5d9e9c62e8fd72a69e1c905d"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
