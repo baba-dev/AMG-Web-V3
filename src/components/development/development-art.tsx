@@ -13,3 +13,31 @@ export function DevelopmentDiagram({kind}:{kind:string}){
   };
   return <svg className="dev-diagram" viewBox="0 0 360 200" role="img" aria-label={title}><defs/><g fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{content[kind]??content.iot}</g></svg>;
 }
+
+/** Responsive original engineering artwork. All ink and plate fills inherit the current theme. */
+const engineeringLayers=["INTERFACE","APPLICATION","INFRASTRUCTURE","HARDWARE"] as const;
+function EngineeringStack({compact=false}:{compact?:boolean}){
+ const w=compact?360:1000,h=compact?320:420,cx=compact?235:565,half=compact?107:235,depth=compact?26:38,step=compact?65:86,start=compact?53:73;
+ const labelX=compact?12:64;
+ return <svg className={compact?"dev-hero-svg dev-hero-svg--compact":"dev-hero-svg dev-hero-svg--wide"} viewBox={`0 0 ${w} ${h}`} role="img" aria-label="Four connected engineering layers: interface, application, infrastructure and hardware">
+  <g stroke="currentColor" fill="none" opacity=".13" strokeWidth="1">
+   {Array.from({length:compact?12:26},(_,i)=><path key={"v"+i} d={`M${i*40} 0V${h}`}/>)}
+   {Array.from({length:compact?9:12},(_,i)=><path key={"h"+i} d={`M0 ${i*40}H${w}`}/>)}
+   <ellipse cx={cx} cy={h/2} rx={compact?115:290} ry={compact?145:188}/><ellipse cx={cx} cy={h/2} rx={compact?95:250} ry={compact?125:155} strokeDasharray="3 8"/>
+  </g>
+  <g stroke="currentColor" fill="none" strokeWidth="1.2" opacity=".55"><path d={`M${cx} 12V${h-12}M${cx-half} ${start}H${cx-half-12}V${start+step*3}H${cx-half}M${cx+half} ${start+step}H${cx+half+12}V${start+step*3}H${cx+half}`}/></g>
+  {engineeringLayers.map((label,i)=>{const y=start+i*step;const plate=`M${cx-half} ${y}L${cx} ${y-depth} ${cx+half} ${y} ${cx} ${y+depth}Z`;return <g key={label} className="dev-hero-layer">
+   <path d={plate} transform="translate(0 8)" fill="var(--dev-alt)" stroke="currentColor" strokeWidth="1.2"/>
+   <path d={plate} fill="var(--dev-paper)" stroke="currentColor" strokeWidth="1.5"/>
+   <path d={`M${cx-half} ${y}L${cx} ${y+depth} ${cx+half} ${y}`} fill="none" stroke="currentColor" opacity=".7"/>
+   <path d={`M${cx-half*.7} ${y}H${cx-15}M${cx+15} ${y}H${cx+half*.7}`} fill="none" stroke="currentColor" strokeDasharray="3 5"/>
+   <circle cx={cx} cy={y} r={compact?10:16} fill="currentColor"/><circle cx={cx} cy={y} r={compact?3:5} fill="var(--dev-paper)"/>
+   <path d={`M${labelX} ${y+9}H${cx-half-13}L${cx-half} ${y}`} fill="none" stroke="currentColor" strokeWidth="1"/>
+   <text x={labelX} y={y-3} fontFamily="var(--type-mono)" fontSize={compact?10:15} fontWeight="600" fill="currentColor">{String(i+1).padStart(2,"0")} / {label}</text>
+  </g>;})}
+  <path d={`M${cx} ${start+depth+9}V${start+step*3-depth}`} stroke="currentColor" strokeWidth="2" strokeDasharray="5 400" className="dev-hero-signal" fill="none"/>
+ </svg>;
+}
+export function DevelopmentHeroArt(){
+ return <div className="dev-hero-art__viewport"><div className="dev-hero-art__parallax"><EngineeringStack/><EngineeringStack compact/></div></div>;
+}

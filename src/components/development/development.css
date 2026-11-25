@@ -9,9 +9,9 @@
 .spec-detail--tech .spec-detail__hero-headline>span{overflow-wrap:normal}
 .spec-detail--tech .spec-detail__hero-bottom{margin-top:clamp(24px,4vw,65px)}
 .spec-detail--tech .spec-detail__hero-bottom>p{margin-left:0;max-width:46ch;font:400 var(--type-body-large)/1.45 var(--type-body)}
-.spec-detail--tech .spec-detail__art{height:auto;max-height:none;aspect-ratio:16/9}
-.spec-detail--tech .spec-detail__art img{object-fit:contain}
-.spec-detail--tech .spec-detail__art figcaption{background:none;color:#182247;text-shadow:none;position:absolute}
+.spec-detail--tech .spec-detail__art{height:auto;max-height:none;aspect-ratio:auto}
+
+
 .spec-detail--tech :is(.spec-detail__thinking,.spec-detail__approach,.spec-detail__capabilities,.spec-detail__related,.spec-detail__contact){padding-block:clamp(56px,7vw,118px)}
 .spec-detail--tech .spec-detail__thinking h2{margin-bottom:clamp(28px,3vw,55px)}
 .spec-detail--tech .spec-detail__thinking-lead{margin-bottom:18px}
@@ -97,8 +97,6 @@
  .spec-detail--tech .spec-detail__hero-headline{font-size:clamp(43px,11vw,80px)}
  .spec-detail--tech .spec-detail__hero-main{padding-block:38px}
  .spec-detail--tech .spec-detail__hero-bottom>p{font-size:var(--type-body-size)}
- .spec-detail--tech .spec-detail__art{aspect-ratio:4/3}
- .spec-detail--tech .spec-detail__art figcaption{font-size:9px;gap:8px}
  .spec-detail--tech .dev-chapter,.spec-detail--tech .dev-services header,.spec-detail--tech .dev-service__body,.spec-detail--tech .dev-certifications{grid-template-columns:minmax(0,1fr)}
  .spec-detail--tech .dev-chapter h2,.spec-detail--tech .dev-services header h2{font-size:clamp(38px,10.5vw,73px)}
  .spec-detail--tech .dev-service summary{grid-template-columns:24px minmax(0,1fr) auto;gap:10px}
@@ -119,8 +117,31 @@
 .spec-detail--tech .dev-projects .tech-pair__tag{color:#151613}
 .spec-detail--tech .dev-services .tech-pair__tag{color:#151613}
 
-.spec-detail--tech .spec-detail__art figcaption{padding-top:10px;padding-bottom:10px;background:#8ea5ff}
+
 .spec-detail--tech .dev-service__body>div,.spec-detail--tech .dev-service__body>a,.spec-detail--tech .dev-projects article{min-width:0}
 .spec-detail--tech .dev-projects article:first-child .tech-pair{padding:clamp(15px,3vw,45px)}
 .spec-detail--tech .dev-projects .tech-pair__screens{padding-block:clamp(12px,3vw,48px)}
 .spec-detail--tech .dev-projects article>a:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+
+/* A shorter editorial interlude; scroll-driven motion stays inside the art window. */
+.aiwa-site.spec-detail--tech .dev-hero-art{height:auto;aspect-ratio:auto;background:var(--dev-alt);color:var(--dev-ink);border-block:1px solid var(--dev-line);overflow:hidden}
+.aiwa-site.spec-detail--tech .dev-hero-art__viewport{display:grid;place-items:center;position:relative;height:clamp(290px,32vw,460px);overflow:hidden;padding:22px var(--aiwa-gutter)}
+.aiwa-site.spec-detail--tech .dev-hero-art__parallax{width:100%;height:100%;display:grid;place-items:center;min-width:0;min-height:0}
+.aiwa-site.spec-detail--tech .dev-hero-svg{display:block;width:100%;height:100%;max-height:100%;max-width:1140px;overflow:visible}
+.aiwa-site.spec-detail--tech .dev-hero-svg--compact{display:none}
+.aiwa-site.spec-detail--tech .dev-hero-art figcaption{position:static;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;padding:12px var(--aiwa-gutter);background:var(--dev-alt);color:var(--dev-muted);text-shadow:none;border-top:1px solid var(--dev-line);font:500 var(--type-meta-size)/1.4 var(--type-mono)}
+.aiwa-site.spec-detail--tech .dev-hero-art figcaption span:last-child{margin:0;text-align:start}
+@supports(animation-timeline:view()){
+ @media(prefers-reduced-motion:no-preference){
+  .aiwa-site.spec-detail--tech .dev-hero-art__parallax{animation:dev-art-parallax linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
+  .aiwa-site.spec-detail--tech .dev-hero-signal{animation:dev-art-pulse linear both;animation-timeline:view();animation-range:entry 5% cover 65%}
+ }
+}
+@keyframes dev-art-parallax{from{transform:translateY(18px)}to{transform:translateY(-18px)}}
+@keyframes dev-art-pulse{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+@media(max-width:600px){
+ .aiwa-site.spec-detail--tech .dev-hero-art__viewport{height:clamp(245px,75vw,330px);padding:16px var(--aiwa-gutter)}
+ .aiwa-site.spec-detail--tech .dev-hero-svg--wide{display:none}
+ .aiwa-site.spec-detail--tech .dev-hero-svg--compact{display:block;max-width:440px}
+}
+@media(prefers-reduced-motion:reduce){.aiwa-site.spec-detail--tech .dev-hero-art__parallax,.aiwa-site.spec-detail--tech .dev-hero-signal{animation:none!important;transform:none!important}}

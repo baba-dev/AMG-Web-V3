@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { AiwaCreativesMotion } from "@/components/aiwa-creatives-motion";
+import { DevelopmentHeroArt } from "@/components/development/development-art";
 import { DevelopmentServices, DevelopmentConnected, DevelopmentFeatured, DevelopmentTrust } from "@/components/development/development-division";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import {
@@ -71,9 +72,8 @@ export default async function SpecialismDetail({params}:Props){
      <div className="spec-detail__hero-foot"><span>{service.position}</span><span>{isDevelopment?"ENGINEERING / MUSCAT":"CREATIVE / MUSCAT"}</span></div>
     </section>
 
-    <figure className="spec-detail__art" aria-labelledby="specialism-art-caption">
-     <Image src={service.art} width={1200} height={900} unoptimized priority sizes="100vw"
-       alt={service.alt}/>
+    <figure className={"spec-detail__art"+(isDevelopment?" dev-hero-art":"")} aria-labelledby="specialism-art-caption">
+     {isDevelopment?<DevelopmentHeroArt/>:<Image src={service.art} width={1200} height={900} unoptimized priority sizes="100vw" alt={service.alt}/>}
      <figcaption id="specialism-art-caption"><span>AIWA / {service.name.toUpperCase()} / ORIGINAL ART</span><span>CONCEPTUAL SERVICE ILLUSTRATION / NOT CLIENT CAMPAIGN MEDIA</span></figcaption>
     </figure>
 
