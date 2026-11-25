@@ -33,7 +33,7 @@ function EngineeringStack({compact=false}:{compact?:boolean}){
    <path d={`M${cx-half*.7} ${y}H${cx-15}M${cx+15} ${y}H${cx+half*.7}`} fill="none" stroke="currentColor" strokeDasharray="3 5"/>
    <circle cx={cx} cy={y} r={compact?10:16} fill="currentColor"/><circle cx={cx} cy={y} r={compact?3:5} fill="var(--dev-paper)"/>
    <path d={`M${labelX} ${y+9}H${cx-half-13}L${cx-half} ${y}`} fill="none" stroke="currentColor" strokeWidth="1"/>
-   <text x={labelX} y={y-3} fontFamily="var(--type-mono)" fontSize={compact?10:15} fontWeight="600" fill="currentColor">{String(i+1).padStart(2,"0")} / {label}</text>
+   <text x={labelX} y={compact?y-16:y-3} fontFamily="var(--type-mono)" fontSize={compact?11:15} fontWeight="600" fill="currentColor">{compact?<><tspan x={labelX}>{String(i+1).padStart(2,"0")} /</tspan><tspan x={labelX} dy="13">{label}</tspan></>:<>{String(i+1).padStart(2,"0")} / {label}</>}</text>
   </g>;})}
   <path d={`M${cx} ${start+depth+9}V${start+step*3-depth}`} stroke="currentColor" strokeWidth="2" strokeDasharray="5 400" className="dev-hero-signal" fill="none"/>
  </svg>;

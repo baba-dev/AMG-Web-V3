@@ -17,6 +17,17 @@ const records=[
 fs.mkdirSync(output,{recursive:true});
 const check=(v,message)=>assert.ok(v,message);
 const pause=async page=>{await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(120);};
+const developmentSurfaces=async page=>page.locator(".spec-detail--tech main").evaluate(main=>{
+ const root=main.closest(".spec-detail--tech"),probe=document.createElement("span");root.append(probe);
+ const color=key=>{probe.style.color="var(--aiwa-"+key+")";return getComputedStyle(probe).color;};
+ const paper=color("paper"),raised=color("paper-raised"),ink=color("paper-ink");probe.remove();
+ const errors=[];
+ for(const section of main.querySelectorAll(":scope > section,:scope > figure,:scope > aside,:scope > nav")){
+  const cs=getComputedStyle(section);
+  if(![paper,raised].includes(cs.backgroundColor)||cs.color!==ink)errors.push(section.className+" "+cs.backgroundColor+" "+cs.color);
+ }
+ return errors;
+});
 const sample=async page=>page.evaluate(()=>{
  const rect=s=>{const x=document.querySelector(s);if(!x)return null;const r=x.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,width:r.width,height:r.height};};
  return {
@@ -77,6 +88,14 @@ const sample=async page=>page.evaluate(()=>{
       }
       if(slug==="tech"){
         assert.equal(await page.locator(".dev-services > ol > li").count(),6);
+        assert.deepEqual(await developmentSurfaces(page),[],width+": canonical dark section surfaces");
+        const menuLinks=await page.locator("#aiwa-mega-panel-development a").evaluateAll(nodes=>nodes.map(n=>n.getAttribute("href")));
+        assert.deepEqual(menuLinks,["/specialisms/tech","/work/technology"],"Desktop Development menu");
+        assert.deepEqual(await page.locator("#aiwa-mobile-group-development a").evaluateAll(nodes=>nodes.map(n=>n.getAttribute("href"))),menuLinks,"Mobile Development menu");
+        assert.equal(await page.locator(".dev-hero-svg--compact").isVisible(),width<=600);
+        const artHeight=await page.locator(".dev-hero-art__viewport").evaluate(n=>n.getBoundingClientRect().height);
+        check(artHeight<=461,width+": compact artwork too tall");
+        assert.equal(await page.locator(".dev-hero-art__parallax").evaluate(n=>getComputedStyle(n).animationName),"none","Reduced motion parallax");
         assert.equal(await page.locator(".dev-iot-card").count(),4);
         assert.equal(await page.locator(".dev-projects article").count(),3);
         assert.equal(await page.locator(".dev-vendors article").count(),4);
@@ -134,12 +153,17 @@ const sample=async page=>page.evaluate(()=>{
         check(state.hero.height<=height-83+20,
           width+"/"+slug+": first hero extends below the viewport "+state.hero.height);
       }
-      const heroImage=page.locator(".spec-detail__art img");
-      const imageDecoded=await heroImage.evaluate(async img=>{
+      if(slug==="tech"){
+       const svg=page.locator(width<=600?".dev-hero-svg--compact":".dev-hero-svg--wide");
+       check(await svg.isVisible()&&await svg.locator(".dev-hero-layer").count()===4,width+": engineering stack missing");
+      }else{
+       const heroImage=page.locator(".spec-detail__art img");
+       const imageDecoded=await heroImage.evaluate(async img=>{
         try{await img.decode();return img.naturalWidth>0 && img.naturalHeight>0;}
         catch{return false;}
-      });
-      check(imageDecoded,width+"/"+slug+": original service SVG did not decode");
+       });
+       check(imageDecoded,width+"/"+slug+": original service SVG did not decode");
+      }
       check(state.headline.left>=-12 && state.headline.right<=width+12,
         width+"/"+slug+": headline content outside viewport "+JSON.stringify(state.headline));
       const minHeights=await page.evaluate(()=>[...document.querySelectorAll(
@@ -196,9 +220,11 @@ const sample=async page=>page.evaluate(()=>{
   const theme=await themeCtx.newPage();
   await theme.goto(origin+"/specialisms/tech",{waitUntil:"domcontentloaded"});
   await pause(theme);
-  assert.equal(await theme.locator(".spec-detail__hero").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(10, 10, 10)");
+  assert.equal(await theme.locator(".spec-detail__hero").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(15, 15, 15)");
+  assert.deepEqual(await developmentSurfaces(theme),[],"Development dark theme surfaces");
   await theme.locator(".aiwa-theme-toggle").click();
-  await theme.waitForTimeout(500);
+  await theme.waitForFunction(()=>document.documentElement.classList.contains("light"));
+  assert.deepEqual(await developmentSurfaces(theme),[],"Development light theme surfaces");
   assert.equal(await theme.locator(".spec-detail__hero").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(245, 245, 243)");
   assert.equal(await theme.locator(".aiwa-inner-header").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(245, 245, 243)");
   await theme.screenshot({path:output+"/390x844-tech-light.png"});
@@ -209,10 +235,31 @@ const sample=async page=>page.evaluate(()=>{
   await theme.screenshot({path:output+"/390x844-development-iot-light.png"});
   await theme.locator(".dev-faq").scrollIntoViewIfNeeded();
   await theme.screenshot({path:output+"/390x844-development-faq-light.png"});
+  // Light mode, every service expanded in turn, at narrow and intermediate widths.
+  for(const width of [320,360,390,430,600,601,767,768,950,1024,1440]){
+   await theme.setViewportSize({width,height:844});
+   for(const summary of await theme.locator(".dev-service summary").all()){
+    await summary.evaluate(el=>{el.parentElement.open=true;});
+    check((await sample(theme)).overflow<=2,width+": light expanded service overflow");
+   }
+   assert.deepEqual(await developmentSurfaces(theme),[],width+": light canonical surfaces");
+   assert.equal(await theme.locator(".dev-hero-svg--compact").isVisible(),width<=600);
+  }
+  await theme.setViewportSize({width:844,height:390});
+  check((await sample(theme)).overflow<=2,"Landscape Development overflow");
+  await theme.setViewportSize({width:390,height:844});
   await theme.goto(origin+"/specialisms",{waitUntil:"domcontentloaded"});
   await pause(theme);
   assert.equal(await theme.locator(".spec-directory__hero").evaluate(x=>getComputedStyle(x).backgroundColor),"rgb(245, 245, 243)");
   await themeCtx.close();
+  const motionContext=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:"no-preference"});
+  const motionPage=await motionContext.newPage();
+  await motionPage.goto(origin+"/specialisms/tech",{waitUntil:"domcontentloaded"});
+  if(await motionPage.evaluate(()=>CSS.supports("animation-timeline:view()"))){
+   await motionPage.locator(".dev-hero-art").scrollIntoViewIfNeeded();
+   assert.equal(await motionPage.locator(".dev-hero-art__parallax").evaluate(el=>getComputedStyle(el).animationName),"dev-art-parallax");
+  }
+  await motionContext.close();
   // No JavaScript still yields every service card and full narrative content.
   const noJs=await browser.newContext({viewport:{width:360,height:800},javascriptEnabled:false});
   const noJsPage=await noJs.newPage();
