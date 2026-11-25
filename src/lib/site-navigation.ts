@@ -23,6 +23,7 @@ export const megaMenuGroups = [
     caption: "Campaigns, platforms and identities made with ambitious teams.",
     items: [
       { label: "Selected Work", href: "/work", description: "Our current portfolio and project stories." },
+      { label: "Technology Portfolio", href: "/work/technology", description: "Websites, products and connected digital systems." },
       { label: "Client Directory", href: "/work/clients", description: "Brands and organisations we have worked beside." },
       { label: "Case Studies", href: "/work/case-studies", description: "A closer look at the brief, thinking and outcome." },
     ],
@@ -62,9 +63,12 @@ export const megaMenuGroups = [
     title: "Beautifully engineered.", accent: "#8ea5ff",
     caption: "Useful digital products and resilient infrastructure, built as one.",
     items: [
-      { label: "Web & App Products", href: "/specialisms/tech", description: "Focused websites, applications and interfaces." },
-      { label: "Cloud & DevOps", href: "/specialisms/tech", description: "Cloud operations, automation and reliable delivery." },
-      { label: "SaaS Products", href: "/specialisms/tech", description: "Purpose-built software for real business workflows." },
+      { label: "Technology Portfolio", href: "/work/technology", description: "Explore the things we have built." },
+      { label: "Web & App Development", href: "/specialisms/tech", description: "Focused websites, applications and interfaces." },
+      { label: "SaaS & Business Software", href: "/work/technology#tech-software", description: "Purpose-built software for business workflows." },
+      { label: "Cloud & DevOps", href: "/work/technology#tech-cloud", description: "Cloud operations, automation and reliable delivery." },
+      { label: "Professional Email Hosting", href: "/work/technology#tech-email", description: "Managed and dedicated business email." },
+      { label: "AI & Business Automation", href: "/work/technology#tech-ai", description: "Intelligent products and connected workflows." },
     ],
   },
   {

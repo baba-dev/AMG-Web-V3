@@ -54,3 +54,7 @@ Main at `777a26ab3480b3667d46f473f02d737ad012e612` includes the Client Directory
 ## Updating this file
 
 Change this document when the owner approves a new durable direction or a merge changes the verified route/asset/workflow state. Include the PR link or source, distinguish approved plans from merged implementation, and leave historical release notes intact.
+
+## Approved technology portfolio direction
+
+The Systems Showcase is the approved design for the technology portfolio. PR #55 supplied 18 public-facing desktop/mobile screenshot pairs. The implementation branch corrects misplaced Creators images and restores the inventory, adds /work/technology and 18 static detail routes, and integrates the Work and Development menus. Creators is the flagship. Publication scope is owner-supplied captures and conservative experience descriptions; private POS images remain excluded. The technology ecosystem and cloud certification copy is owner-supplied and does not assert a formal vendor partnership or specific credential title. Dedicated service pages remain follow-up work. Do not treat this implementation as merged or deployed until verified.

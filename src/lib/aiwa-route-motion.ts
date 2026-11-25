@@ -21,6 +21,7 @@ export function motionDestinationLabel(pathname: string, projects: ReadonlyArray
   if (pathname === "/") return "AIWA.";
   if (pathname === "/about") return "BEYOND THE NOISE.";
   if (pathname === "/work") return "THE WORK.";
+  if (pathname === "/work/technology") return "BEAUTIFULLY ENGINEERED.";
   if (pathname === "/work/case-studies") return "PROOF IN MOTION.";
   if (pathname === "/work/clients") return "GOOD COMPANY.";
   if (pathname === "/specialisms") return "WHAT WE DO.";

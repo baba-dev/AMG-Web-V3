@@ -35,11 +35,15 @@ jobs:
         run: |
           test -f out/index.html
           test -d out/_next/static
-          for route in about contact work work/clients work/case-studies specialisms privacy terms; do
+          for route in about contact work work/clients work/case-studies work/technology specialisms privacy terms; do
             test -f "out/$route.html" || test -f "out/$route/index.html" || exit 1
           done
           for slug in mymo-express casabella-oman best-genetco aqua-petro razmazaan vitamin-phones; do
             test -f "out/work/$slug.html" || test -f "out/work/$slug/index.html" || exit 1
+          done
+          node scripts/technology-media-check.mjs --require-media
+          for slug in $(node -p "require('./docs/technology-portfolio/media-inventory.json').projects.map(p=>p.slug).join(' ')"); do
+            test -f "out/work/technology/$slug.html" || test -f "out/work/technology/$slug/index.html" || exit 1
           done
           test -f out/specialisms/creatives.html || test -f out/specialisms/creatives/index.html
           test ! -f out/specialisms/consumer.html
@@ -65,6 +69,14 @@ jobs:
           done
           curl -fsS http://127.0.0.1:4173/ >/dev/null
           node scripts/ci-browser.cjs
+      - name: Retain technology portfolio visual review
+        uses: actions/upload-artifact@v4
+        if: success() && github.event_name == 'pull_request'
+        with:
+          name: technology-portfolio-review
+          path: test-artifacts/technology-portfolio/
+          if-no-files-found: ignore
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         if: failure() || github.event_name == 'workflow_dispatch'
         with:
