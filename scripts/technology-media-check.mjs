@@ -4,7 +4,7 @@ import { join } from 'node:path';
 
 const base = 'public/media/technology';
 const manifest = 'docs/technology-portfolio/media-inventory.json';
-const expected = ["aqua-petro-chemicals","bababuilds","bababuilds-erp","best-appliances","ezvesto","falcon-logistics","flydestini","fxrco","gwi","healthzone-oman","menu-minute","rcs-oman","sohar-ods","strategic-catering","the-gulf-post","tribe-oman","xspiceo"];
+const expected = ["aiwa-creators","aqua-petro-chemicals","bababuilds","bababuilds-erp","best-appliances","ezvesto","falcon-logistics","flydestini","fxrco","gwi","healthzone-oman","menu-minute","rcs-oman","sohar-ods","strategic-catering","the-gulf-post","tribe-oman","xspiceo"];
 const names = ['desktop-1600.webp','desktop-800.webp','mobile-560.webp','mobile-320.webp'];
 const required = process.argv.includes('--require-media');
 function fail(message) { throw new Error(message); }
