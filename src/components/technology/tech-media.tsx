@@ -16,7 +16,7 @@ export function TechImage({project,device,priority=false,sizes, className, decor
 }
 export function TechPair({project,priority=false,compact=false}:{project:TechnologyProject;priority?:boolean;compact?:boolean}) {
   return <div className={`tech-pair${compact?" tech-pair--compact":""}`} style={{"--project-accent":project.accent} as CSSProperties}>
-    <span className="tech-pair__tag" aria-hidden="true">AIWA / DIGITAL EXPERIENCE</span>
+    <span className="tech-pair__tag" aria-hidden="true">{project.name.toUpperCase()} / DIGITAL EXPERIENCE</span>
     <div className="tech-pair__screens">
       <div className="tech-pair__desktop"><TechImage project={project} device="desktop" priority={priority} sizes={compact?"(max-width: 767px) 80vw, 37vw":"(max-width: 767px) 80vw, 65vw"}/></div>
       <div className="tech-pair__mobile"><TechImage project={project} device="mobile" sizes={compact?"(max-width: 767px) 24vw, 12vw":"(max-width: 767px) 28vw, 22vw"}/></div>

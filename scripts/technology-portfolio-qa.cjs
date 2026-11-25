@@ -33,6 +33,13 @@ async function run(){
         assert.equal(await page.locator(".aiwa-footer").count(),1);
         assert.equal(await page.locator(".tech-flagship a[href='/work/technology/aiwa-creators']").count(),2);
         await decoded(page.locator(".tech-flagship__visual img").first());
+        assert.equal(await page.locator(".tech-index__thumb").first().isVisible(),width<768,"Mobile rows include real media");
+        assert.equal(await page.locator(".tech-reel__progress button").count(),4);
+        await page.getByRole("button",{name:"Show FXR",exact:true}).click();
+        await page.waitForFunction(()=>document.querySelector(".tech-reel__bar strong")?.textContent==="FXR");
+        await page.getByRole("button",{name:"Show Creators by Aiwa",exact:true}).click();
+        await page.waitForFunction(()=>document.querySelector(".tech-reel__bar strong")?.textContent==="Creators by Aiwa");
+        await page.evaluate(()=>window.scrollTo(0,0));
         await checkOverflow(page,width+" "+theme);
         await page.screenshot({path:output+"/"+width+"-"+theme+"-hero.png"});
         await page.locator(".tech-flagship").scrollIntoViewIfNeeded();
@@ -44,24 +51,47 @@ async function run(){
         await page.getByRole("button",{name:"Digital products",exact:true}).click();
         await page.waitForFunction(()=>document.querySelectorAll(".tech-index__rows li").length===3);
         assert(new URL(page.url()).searchParams.get("type")==="Digital products","Shareable filter");
+        assert.deepEqual(await page.locator(".tech-index__rows li a > .tech-meta").allTextContents(),["01","04","05"],"Stable project numbering");
         await page.getByRole("button",{name:"Grid view",exact:true}).click();
         await page.waitForFunction(()=>document.querySelectorAll(".tech-grid .tech-card").length===3);
-        await page.getByRole("searchbox",{name:"Search projects"}).fill("Creators");
+        await page.getByRole("searchbox",{name:"Search projects"}).fill("Aiwa Creators");
         await page.waitForFunction(()=>document.querySelectorAll(".tech-grid .tech-card").length===1);
         await checkOverflow(page,width+" "+theme+" filtered");
+        await page.goto(origin+route+"?type=Digital%20products#tech-email",{waitUntil:"networkidle"});
+        await page.waitForFunction(()=>document.querySelectorAll(".tech-grid .tech-card").length===3&&document.querySelector("#tech-email")?.open);
+        await page.locator(".tech-projects").scrollIntoViewIfNeeded();
+        await page.screenshot({path:output+"/"+width+"-"+theme+"-index.png"});
         await page.goto(origin+route+"/aiwa-creators",{waitUntil:"networkidle"});
         assert.equal(await page.locator(".tech-detail__header h1").textContent(),"Creators by Aiwa.");
+        assert.equal(await page.locator(".tech-detail__hero img").count(),2,"One responsive media presentation, without duplicate hidden images");
         await decoded(page.locator(".tech-detail__hero img").first());
         await page.getByRole("group",{name:"Screenshot view",exact:true}).getByRole("button",{name:"Mobile",exact:true}).click();
         await decoded(page.locator(".tech-viewer > .tech-single img"));
         await page.getByRole("button",{name:"Expand",exact:true}).click();
-        assert(await page.locator(".tech-dialog").isVisible(),"Native fullscreen viewer");
+        await page.locator(".tech-dialog").waitFor({state:"visible"});
+        await page.waitForFunction(()=>document.activeElement?.getAttribute("aria-label")==="Close screenshot viewer");
+        assert.equal(await page.locator(".tech-dialog .tech-full-image").getAttribute("href"),"/media/technology/aiwa-creators/mobile-560.webp");
         await page.keyboard.press("Escape");
-        assert(!(await page.locator(".tech-dialog").isVisible()),"Escape closes dialog");
+        await page.locator(".tech-dialog").waitFor({state:"hidden"});
+        await page.waitForFunction(()=>document.activeElement?.getAttribute("aria-haspopup")==="dialog"&&document.body.style.overflow!=="hidden");
+        await page.screenshot({path:output+"/"+width+"-"+theme+"-detail.png"});
         await checkOverflow(page,width+" "+theme+" detail");
         assert.deepEqual(errors,[],width+" "+theme+" uncaught page errors");
         await context.close();
       }
+    }
+    // Check the two intermediate desktop/tablet breakpoints with normal motion.
+    for(const width of [768,1024]){
+      const context=await browser.newContext({viewport:{width,height:900},reducedMotion:"no-preference"});
+      const page=await context.newPage();await page.goto(origin+route,{waitUntil:"networkidle"});
+      await page.evaluate(()=>document.fonts.ready);
+      await checkOverflow(page,width+" normal motion");
+      await page.getByRole("button",{name:"Play showcase",exact:true}).click();
+      await page.waitForFunction(()=>document.querySelector(".tech-reel__bar strong")?.textContent==="Global Wealth Investments",{},{timeout:9000});
+      await page.getByRole("button",{name:"Pause showcase",exact:true}).click();
+      await page.locator(".tech-reel").scrollIntoViewIfNeeded();
+      await page.screenshot({path:output+"/"+width+"-motion-showcase.png"});
+      await context.close();
     }
     const context=await browser.newContext({javaScriptEnabled:false});
     const page=await context.newPage();
@@ -79,7 +109,7 @@ async function run(){
       assert(await detailPage.locator('link[rel="canonical"]').getAttribute("href").then(v=>v.endsWith("/"+slug)),slug+" canonical");
     }
     await detailContext.close();
-    console.log("AIWA_TECHNOLOGY_PORTFOLIO_PASS projects="+slugs.length+" themes=2 widths=3");
+    console.log("AIWA_TECHNOLOGY_PORTFOLIO_PASS projects="+slugs.length+" themes=2 widths=5");
   }finally{await browser.close();}
 }
 run().catch(e=>{console.error(e);process.exitCode=1;});

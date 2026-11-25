@@ -14,6 +14,7 @@ export function TechnologyReel() {
   useEffect(()=>{
     const node=root.current;
     if(!node) return;
+    if(!("IntersectionObserver" in window)){setVisible(true);return;}
     const observer=new IntersectionObserver(([entry])=>setVisible(entry.isIntersecting),{threshold:0});
     observer.observe(node);
     return ()=>observer.disconnect();
@@ -89,10 +90,11 @@ export function TechnologyViewer({project}:{project:TechnologyProject}){
   useEffect(()=>{if(expanded&&dialog.current&&!dialog.current.open){dialog.current.showModal();close.current?.focus();}},[expanded]);
   function dismiss(){setExpanded(false);expand.current?.focus();}
   const controls=(label:string)=><div className="tech-filter" role="group" aria-label={label}>{(["paired","desktop","mobile"] as const).map(v=><button key={v} type="button" aria-pressed={view===v} onClick={()=>setView(v)}>{v==="paired"?"Both":v==="desktop"?"Desktop":"Mobile"}</button>)}</div>;
-  const visual=(priority=false)=>view==="paired"?<TechPair project={project} priority={priority}/>:<div className={`tech-single tech-single--${view}`}><TechImage project={project} device={view} sizes={view==="desktop"?"92vw":"(max-width: 600px) 85vw, 420px"}/></div>;
+  const visual=(priority=false)=>view==="paired"?<TechPair project={project} priority={priority}/>:<div className={`tech-single tech-single--${view}`}><TechImage project={project} device={view} priority={priority} sizes={view==="desktop"?"92vw":"(max-width: 600px) 85vw, 420px"}/></div>;
   return <div className="tech-viewer">
-    <div className="tech-viewer__tools">{controls("Screenshot view")}<button ref={expand} type="button" className="tech-link" aria-haspopup="dialog" onClick={()=>setExpanded(true)}>Expand <Maximize2 size={18}/></button></div>
+    <div className="tech-viewer__tools">{controls("Screenshot view")}<button ref={expand} type="button" className="tech-link" aria-haspopup="dialog" aria-expanded={expanded} onClick={()=>setExpanded(true)}>Expand <Maximize2 size={18}/></button></div>
     {visual(true)}
+    <div className="tech-viewer__caption"><p>Captured desktop and mobile experiences; content and scroll positions may differ.</p><a href={technologyMedia(project,"desktop")} target="_blank" rel="noopener noreferrer">Desktop capture <ArrowUpRight size={14}/></a><a href={technologyMedia(project,"mobile")} target="_blank" rel="noopener noreferrer">Mobile capture <ArrowUpRight size={14}/></a></div>
     <dialog ref={dialog} className="tech-dialog" aria-labelledby="tech-dialog-title" onClose={dismiss} onClick={event=>{if(event.target===event.currentTarget){const rect=event.currentTarget.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)event.currentTarget.close();}}}>
       <div className="tech-dialog__top"><h2 id="tech-dialog-title">{project.name}</h2><button ref={close} type="button" className="tech-icon-link" aria-label="Close screenshot viewer" onClick={()=>dialog.current?.close()}><X size={24}/></button></div>
       {expanded&&<>{controls("Expanded screenshot view")}{visual()}<a className="tech-link tech-full-image" href={technologyMedia(project,view==="mobile"?"mobile":"desktop")} target="_blank" rel="noopener noreferrer">Open full-resolution {view==="mobile"?"mobile":"desktop"} capture <ArrowUpRight size={18}/></a></>}
