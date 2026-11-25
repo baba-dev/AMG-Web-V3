@@ -35,6 +35,10 @@ export default function WorkDirectory() {
           <WorkGallery />
           <p className="work-page__disclosure work-page__gutter">Illustrations shown are original conceptual editorial artwork, not documentary campaign photography.</p>
         </section>
+        <section className="work-page__tech-callout work-page__gutter" aria-labelledby="work-tech-title">
+          <div><span className="work-page__eyebrow">DEVELOPMENT / PRODUCTS / SYSTEMS</span><h2 id="work-tech-title">Beautifully<br/><em>engineered.</em></h2></div>
+          <div><p>Explore responsive websites, AI products, business software and the technology behind them.</p><a className="work-page__contact-link" href="/work/technology">TECHNOLOGY PORTFOLIO <ArrowUpRight size={23} aria-hidden="true"/></a></div>
+        </section>
         <WorkProcess />
         <section className="work-page__outro work-page__gutter" aria-labelledby="work-outro-title">
           <span className="work-page__eyebrow">HAVE SOMETHING IN MIND?</span>
