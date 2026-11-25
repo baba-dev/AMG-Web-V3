@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { AiwaCreativesMotion } from "@/components/aiwa-creatives-motion";
+import { DevelopmentServices, DevelopmentConnected, DevelopmentFeatured, DevelopmentTrust } from "@/components/development/development-division";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import {
  specialisms, getSpecialism, getRelatedProjects, nextSpecialism, previousSpecialism,
@@ -21,6 +22,7 @@ export async function generateMetadata({params}:Props):Promise<Metadata>{
  const service=getSpecialism(slug);
  if(!service)return {title:"Specialism not found | Aiwa Media Group",robots:{index:false}};
  const description=service.lead;
+ if(slug==="tech"){const title="Technology Development in Oman | Web, SaaS, Cloud & IoT | Aiwa",url="https://next.aiwamediagroup.com/specialisms/tech";return {title,description,alternates:{canonical:url},openGraph:{title,description,url,type:"website",images:["https://next.aiwamediagroup.com/media/technology/aiwa-creators/desktop-1600.webp"]},twitter:{card:"summary_large_image",title,description}};}
  return {
   title:service.name+" — "+service.title+" | Aiwa Media Group",
   description,
@@ -33,6 +35,7 @@ export default async function SpecialismDetail({params}:Props){
  const {slug}=await params;
  const service=getSpecialism(slug);
  if(!service)notFound();
+ const isDevelopment=slug==="tech";
  const related=getRelatedProjects(service);
  const before=previousSpecialism(service),after=nextSpecialism(service);
  const vars={"--spec-accent":service.accent,"--spec-ink":service.ink} as CSSProperties;
@@ -42,6 +45,7 @@ export default async function SpecialismDetail({params}:Props){
   description:service.lead,
   provider:{"@type":"Organization",name:"Aiwa Media Group",url:"https://aiwamediagroup.com/"},
   areaServed:{"@type":"Place",name:"Oman"},
+  ...(isDevelopment?{serviceType:["Web and app development","SaaS and business software","Cloud and DevOps","Professional and dedicated email hosting","AI and business automation","Industrial IoT and connected hardware"],url:"https://next.aiwamediagroup.com/specialisms/tech"}:{}),
  };
  return <div className={"aiwa-site spec-site spec-detail spec-detail--"+service.slug}
     style={vars} data-specialism={service.slug}>
@@ -53,7 +57,7 @@ export default async function SpecialismDetail({params}:Props){
     <section className="spec-detail__hero spec-pad" aria-labelledby="specialism-heading">
      <div className="spec-detail__hero-nav">
       <Link href="/specialisms"><ArrowLeft size={19} aria-hidden="true"/> ALL SPECIALISMS</Link>
-      <span>AIWA / {String(service.index).padStart(2,"0")} OF 07</span>
+      <span>{isDevelopment?"AIWA / DEVELOPMENT":<>AIWA / {String(service.index).padStart(2,"0")} OF 07</>}</span>
      </div>
      <div className="spec-detail__hero-main">
       <span className="spec-kicker">{service.kicker}</span>
@@ -61,10 +65,10 @@ export default async function SpecialismDetail({params}:Props){
       <p className="spec-detail__hero-headline"><span>{service.headline[0]}</span><span><em>{service.headline[1]}</em></span></p>
       <div className="spec-detail__hero-bottom">
        <p>{service.lead}</p>
-       <a href="#service-thinking">GET INTO IT <ArrowDown size={22} aria-hidden="true"/></a>
+       <a href="#service-thinking">{isDevelopment?"EXPLORE OUR SERVICES":"GET INTO IT"} <ArrowDown size={22} aria-hidden="true"/></a>
       </div>
      </div>
-     <div className="spec-detail__hero-foot"><span>{service.position}</span><span>CREATIVE / MUSCAT</span></div>
+     <div className="spec-detail__hero-foot"><span>{service.position}</span><span>{isDevelopment?"ENGINEERING / MUSCAT":"CREATIVE / MUSCAT"}</span></div>
     </section>
 
     <figure className="spec-detail__art" aria-labelledby="specialism-art-caption">
@@ -100,7 +104,7 @@ export default async function SpecialismDetail({params}:Props){
      </ol>
     </section>
 
-    <section className="spec-detail__capabilities spec-pad" aria-labelledby="service-capabilities-heading">
+    {isDevelopment?<><DevelopmentServices/><DevelopmentConnected/></>:<section className="spec-detail__capabilities spec-pad" aria-labelledby="service-capabilities-heading">
      <header>
       <span className="spec-kicker">03 / CAPABILITIES</span>
       <h2 id="service-capabilities-heading">THE RIGHT<br/><em>TOOLS FOR IT.</em></h2>
@@ -113,14 +117,15 @@ export default async function SpecialismDetail({params}:Props){
        <p>{item.copy}</p>
       </li>)}
      </ol>
-    </section>
+    </section>}
 
     <section className="spec-detail__related spec-pad" aria-labelledby="service-related-heading">
      <header>
-      <span className="spec-kicker">04 / RELATED WORK</span>
+      <span className="spec-kicker">{isDevelopment?"05 / TECHNOLOGY PORTFOLIO":"04 / RELATED WORK"}</span>
       <h2 id="service-related-heading">SEE IT<br/><em>IN PRACTICE.</em></h2>
       <p>{service.evidenceNote}</p>
      </header>
+     {isDevelopment&&<DevelopmentFeatured/>}
      {related.length>0?
        <div className="spec-detail__work-list">
         {related.map((project,i)=><Link href={"/work/"+project.slug} key={project.slug} className="spec-detail__work-card" data-related-work={project.slug}>
@@ -140,6 +145,7 @@ export default async function SpecialismDetail({params}:Props){
        </div>}
     </section>
 
+    {isDevelopment&&<DevelopmentTrust/>}
     <aside className="spec-detail__sources spec-pad" aria-label="Service source references">
       <div><span className="spec-kicker">SOURCE NOTES / SERVICE SCOPE</span><p>Capabilities reflect Aiwa's published service information; adjacent case studies are selectively associated with the relevant documented work. Original illustrations are conceptual, not photographs of completed campaigns.</p></div>
       <div>{service.sources.map(source=><a key={source.href} href={source.href} target="_blank" rel="noopener noreferrer">{source.label}<ArrowUpRight size={18} aria-hidden="true"/></a>)}</div>
