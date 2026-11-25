@@ -33,7 +33,7 @@ export default function TechnologyPortfolio(){
           <h1 id="tech-title" className="tech-poster"><span>MADE FOR</span>{" "}<span>THE REAL</span>{" "}<em>WORLD<span className="tech-dot">.</span></em></h1>
           <div className="tech-hero__aside"><span className="tech-hero__mark" aria-hidden="true"><ArrowDownRight strokeWidth={1.1}/></span><div><p className="tech-meta">WEB DEVELOPMENT / SOFTWARE / CLOUD</p><p>Websites, software and cloud services that make business easier. Designed, developed and supported by our team in Muscat, Oman.</p><Link href="#tech-projects" className="tech-link">Explore our work <ArrowDown size={20}/></Link></div></div>
         </div>
-        <div className="tech-hero__bottom tech-meta"><span>BEYOND THE NOISE / BEAUTIFULLY ENGINEERED.</span><span>01 — 11</span></div>
+        <div className="tech-hero__bottom tech-meta"><span>BEYOND THE NOISE / BEAUTIFULLY ENGINEERED.</span><span>01 — 10</span></div>
       </section>
       <section className="tech-section tech-gutter tech-motion" aria-label="Technology in motion">
         <Chapter number="02" label="TECHNOLOGY IN MOTION" title="Good-looking is only the beginning." copy="Four digital experiences, one goal: make technology work for people. Explore the desktop and mobile designs."/>
@@ -78,7 +78,7 @@ export default function TechnologyPortfolio(){
         <Chapter number="10" label="HOW WE WORK" title="From idea to impact." copy="A clear process, from understanding the problem to building, releasing and evolving the solution."/>
         <ol>{[["Discover","Understand the business, users and priorities."],["Design","Define the experience, content and technical direction."],["Develop","Build the product with performance and accessibility in mind."],["Deploy","Test, release and establish a reliable operating foundation."],["Evolve","Support, maintain and improve the experience as needs change."]].map(([name,copy],i)=><li key={name}><span className="tech-meta">0{i+1}</span><h3>{name}.</h3><p>{copy}</p><ArrowDownRight size={26} aria-hidden="true"/></li>)}</ol>
       </section>
-      <section className="tech-section tech-gutter tech-outro" aria-labelledby="tech-outro"><p className="tech-meta">11 / START A CONVERSATION</p><h2 id="tech-outro">LET’S BUILD<br/><em>SOMETHING.</em></h2><p>Need a new website, smarter business software, reliable infrastructure, email hosting or connected hardware? Tell us what you want to achieve.</p><Link href="/specialisms/tech" className="tech-link">Explore development services <ArrowUpRight size={22}/></Link><Link href="/contact#enquiries" className="tech-link">Start a conversation <ArrowUpRight size={26}/></Link></section>
+      <div className="tech-gutter tech-contact-note"><p>Have a website, business application, cloud or connected hardware project in mind?</p><div className="tech-contact-note__links"><Link href="/specialisms/tech" className="tech-link">Explore development services <ArrowUpRight size={22}/></Link><Link href="/contact#enquiries" className="tech-link">Discuss your technology project <ArrowUpRight size={22}/></Link></div></div>
     </main>
   </div>;
 }
