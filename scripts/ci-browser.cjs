@@ -23,6 +23,7 @@ const suites=[
  ["homepage-finale-smoke.cjs",false,[...finale,...shared]],
  ["work-section-smoke.cjs",false,[...work,...home]],
  ["work-directory-qa.cjs",false,[...work,...shared]],
+ ["technology-portfolio-qa.cjs",false,[/^src\/app\/work\/technology\//,/^src\/components\/technology\//,/^src\/lib\/work\/technology\.ts$/,/^public\/media\/technology\//,/^docs\/technology-portfolio\//,...shared]],
  ["client-directory-qa.cjs",false,[/^src\/app\/work\/clients\//,/^src\/components\/client-directory\//,/^src\/lib\/client-directory\.ts$/,/^public\/media\/client-logos\//,/^docs\/client-logos\//,/^scripts\/client-directory-assets\.mjs$/,...shared]],
  ["work-case-study-qa.cjs",false,[...work,...shared]],
  ["case-study-showcase-qa.cjs",false,[/^src\/app\/work\/case-studies\//,/^src\/components\/case-studies\//,/^src\/lib\/work\/case-study-showcase\.ts$/,/^public\/media\/case-studies\//,/^public\/media\/archive\//,...shared]],
