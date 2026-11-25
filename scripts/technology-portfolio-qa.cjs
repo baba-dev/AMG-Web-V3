@@ -50,7 +50,7 @@ async function run(){
         await page.waitForFunction(()=>document.querySelectorAll(".tech-grid .tech-card").length===1);
         await checkOverflow(page,width+" "+theme+" filtered");
         await page.goto(origin+route+"/aiwa-creators",{waitUntil:"networkidle"});
-        assert.equal(await page.locator(".tech-detail__header h1").innerText(),"Creators by Aiwa.");
+        assert.equal(await page.locator(".tech-detail__header h1").textContent(),"Creators by Aiwa.");
         await decoded(page.locator(".tech-detail__hero img").first());
         await page.getByRole("group",{name:"Screenshot view",exact:true}).getByRole("button",{name:"Mobile",exact:true}).click();
         await decoded(page.locator(".tech-viewer > .tech-single img"));
