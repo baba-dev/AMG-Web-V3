@@ -5,6 +5,8 @@ export type Client = Readonly<{
   name: string;
   industry?: string;
   project?: string;
+  /** Official destination supplied by the site owner; not proof of work delivered. */
+  website?: `https://${string}`;
   publicationStatus: "approved-for-directory" | "pending-identity";
 }>;
 
@@ -14,6 +16,7 @@ export type Client = Readonly<{
 export const clientRegistry: readonly Client[] = [
   {
     "id": "aquapetro-chemicals",
+    "website": "https://aquapetrochemicals.com/",
     "name": "AquaPetro Chemicals",
     "industry": "Industrial",
     "project": "aqua-petro",
@@ -21,12 +24,14 @@ export const clientRegistry: readonly Client[] = [
   },
   {
     "id": "bababuilds",
+    "website": "https://bababuilds.com/",
     "name": "BabaBuilds.com",
     "industry": "Technology",
     "publicationStatus": "approved-for-directory"
   },
   {
     "id": "best-appliances",
+    "website": "https://bestappliances.net/",
     "name": "Best Appliances",
     "industry": "Retail",
     "project": "best-genetco",
@@ -62,12 +67,14 @@ export const clientRegistry: readonly Client[] = [
   },
   {
     "id": "flydestini",
+    "website": "https://flydestini.com/",
     "name": "FlyDestini",
     "industry": "Travel",
     "publicationStatus": "approved-for-directory"
   },
   {
     "id": "fundoo-toys",
+    "website": "https://fundootoys.com/",
     "name": "Fundoo Toys",
     "industry": "Retail",
     "publicationStatus": "approved-for-directory"
@@ -79,6 +86,7 @@ export const clientRegistry: readonly Client[] = [
   },
   {
     "id": "global-wealth-investments",
+    "website": "https://gwi-me.com/",
     "name": "Global Wealth Investments",
     "industry": "Finance",
     "publicationStatus": "approved-for-directory"
@@ -156,6 +164,7 @@ export const clientRegistry: readonly Client[] = [
   },
   {
     "id": "the-gulf-post",
+    "website": "https://thegulfpost.com/",
     "name": "The Gulf Post",
     "industry": "Media",
     "publicationStatus": "approved-for-directory"
@@ -167,6 +176,7 @@ export const clientRegistry: readonly Client[] = [
   },
   {
     "id": "vitamin-phones",
+    "website": "https://vitaminphones.com/",
     "name": "Vitamin Phones",
     "industry": "Retail",
     "project": "vitamin-phones",
