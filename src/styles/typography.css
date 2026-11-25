@@ -111,3 +111,20 @@
 :root{--type-signal-hero:clamp(72px,9.6vw,176px)}
 @media(max-width:1100px){:root{--type-signal-hero:clamp(62px,9.2vw,110px)}}
 @media(max-width:767px){:root{--type-signal-hero:clamp(42px,12vw,90px)}}
+
+/* Fit-aware shared portfolio chapter roles for split editorial layouts. */
+:root{
+ --type-portfolio-chapter:clamp(38px,6.15vw,100px);
+ --type-portfolio-feature:clamp(44px,7.7vw,118px);
+ --type-portfolio-capability:clamp(28px,5.2vw,78px);
+ --type-portfolio-detail:clamp(44px,7.5vw,116px);
+ --type-portfolio-media-title:clamp(16px,2vw,26px);
+ --type-portfolio-index-compact:clamp(17px,4.6vw,28px);
+ --type-portfolio-tag:clamp(10px,.85vw,13px);
+}
+@media(max-width:767px){:root{
+ --type-portfolio-chapter:clamp(36px,9.8vw,68px);
+ --type-portfolio-feature:clamp(41px,10.8vw,76px);
+ --type-portfolio-capability:clamp(24px,6.8vw,48px);
+ --type-portfolio-detail:clamp(32px,10vw,75px);
+}}
