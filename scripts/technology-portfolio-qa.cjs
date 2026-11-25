@@ -32,6 +32,49 @@ async function verifyDesign(page,baseline){
   });
   assert.deepEqual(style.actual,style.expected,"Technology chrome follows canonical surface and ink");
 }
+// Inspect rendered section surfaces, meaningful text and actual touch control boxes.
+async function checkThemeSections(page,label){
+  const issues=await page.locator(".tech-page main").evaluate(main=>{
+    const failures=[],root=main.closest(".tech-page");
+    const probe=document.createElement("span");
+    root.append(probe);
+    const colors={};
+    for(const key of ["paper","paper-raised","paper-ink","paper-muted"]){
+      probe.style.color="var(--aiwa-"+key+")";colors[key]=getComputedStyle(probe).color;
+    }
+    probe.remove();
+    const isVisible=el=>el.getClientRects().length>0&&getComputedStyle(el).visibility==="visible"&&(!el.closest("details:not([open])")||!!el.closest("summary"));
+    const rgba=value=>{const match=value.match(/^rgba?\(([^)]+)\)$/);return match?match[1].split(/[, /]+/).map(Number):null;};
+    const luminance=rgb=>rgb.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+    function background(el){
+      for(let node=el;node&&node!==document.documentElement;node=node.parentElement){
+        const raw=getComputedStyle(node).backgroundColor;
+        const c=rgba(raw);if(c&&(c.length<4||c[3]===1))return c;
+        if(c&&c[3]>0)return null; // translucent surfaces need compositing; not used by the section chrome
+      }
+      return null;
+    }
+    for(const section of main.querySelectorAll(":scope > section,:scope > .tech-contact-note")){
+      const s=getComputedStyle(section);
+      if(![colors.paper,colors["paper-raised"]].includes(s.backgroundColor))failures.push(section.className+" has noncanonical surface "+s.backgroundColor);
+      if(s.color!==colors["paper-ink"])failures.push(section.className+" has noncanonical ink "+s.color);
+    }
+    for(const el of main.querySelectorAll("h1,h2,h3,p,.tech-meta,.tech-pair__tag,.tech-index__rows strong,.tech-index__rows small,.tech-link,.tech-filter button,.tech-reel__progress button,.tech-search input")){
+      if(!isVisible(el)||el.closest("svg"))continue;
+      const fg=rgba(getComputedStyle(el).color),bg=background(el);
+      if(!fg||!bg)continue;
+      const l=[luminance(fg),luminance(bg)].sort((a,b)=>b-a);
+      if((l[0]+.05)/(l[1]+.05)<4.49)failures.push((el.textContent||el.getAttribute("placeholder")||el.className).trim().slice(0,70)+" fails text contrast");
+    }
+    for(const el of main.querySelectorAll(".tech-controls button,.tech-icon-link,.tech-filter button,.tech-reel__progress button,.tech-link")){
+      if(!isVisible(el))continue;
+      const r=el.getBoundingClientRect();
+      if(r.width<43.5||r.height<43.5)failures.push((el.getAttribute("aria-label")||el.textContent||el.className).trim().slice(0,70)+" has undersized touch target");
+    }
+    return failures;
+  });
+  assert.deepEqual(issues,[],label+" theme and touch controls");
+}
 async function decoded(locator){
   await locator.evaluate(async img=>{img.loading="eager";await img.decode();});
   assert(await locator.evaluate(img=>img.complete&&img.naturalWidth>0),"Screenshot must decode");
@@ -59,6 +102,7 @@ async function run(){
         assert.equal(await page.locator('.tech-connected-link a[href="/specialisms/tech#dev-connected"]').count(),1,"Industrial IoT cross-link preserved");
         assert.equal(await page.locator('.tech-contact-note a[href="/specialisms/tech"]').count(),1,"Development services cross-link preserved");
         await verifyDesign(page,baseline);
+        await checkThemeSections(page,width+" "+theme+" index");
         assert.equal(await page.locator(".tech-index__rows li").count(),18);
         assert.equal(await page.locator(".aiwa-footer").count(),1);
         assert.equal(await page.locator(".tech-flagship a[href='/work/technology/aiwa-creators']").count(),2);
@@ -80,6 +124,7 @@ async function run(){
         await page.waitForFunction(()=>document.querySelector(".tech-reel__bar strong")?.textContent==="Global Wealth Investments");
         await page.locator("#tech-email summary").click();
         assert(await page.locator("#tech-email").evaluate(el=>el.open),"Email service disclosure opens");
+        await checkThemeSections(page,width+" "+theme+" disclosure");
         await page.getByRole("button",{name:"Digital products",exact:true}).click();
         await page.waitForFunction(()=>document.querySelectorAll(".tech-index__rows li").length===3);
         assert(new URL(page.url()).searchParams.get("type")==="Digital products","Shareable filter");
@@ -102,6 +147,8 @@ async function run(){
         await decoded(page.locator(".tech-viewer > .tech-single img"));
         await page.getByRole("button",{name:"Expand",exact:true}).click();
         await page.locator(".tech-dialog").waitFor({state:"visible"});
+        await checkThemeSections(page,width+" "+theme+" dialog");
+        await page.screenshot({path:output+"/"+width+"-"+theme+"-dialog.png"});
         await page.waitForFunction(()=>document.activeElement?.getAttribute("aria-label")==="Close screenshot viewer");
         assert.equal(await page.locator(".tech-dialog .tech-full-image").getAttribute("href"),"/media/technology/aiwa-creators/mobile-560.webp");
         await page.keyboard.press("Escape");
@@ -126,24 +173,63 @@ async function run(){
       await page.screenshot({path:output+"/"+width+"-motion-showcase.png"});
       await context.close();
     }
+    // Exercise layout boundaries at both themes on one rendered page per theme.
+    for(const theme of ["light","dark"]){
+      const context=await browser.newContext({viewport:{width:390,height:844},colorScheme:theme,reducedMotion:"reduce",hasTouch:true});
+      await context.addInitScript(t=>localStorage.setItem("theme",t),theme);
+      const page=await context.newPage();
+      await page.goto(origin+route,{waitUntil:"domcontentloaded"});
+      await page.waitForFunction(t=>document.documentElement.classList.contains(t),theme);
+      await page.evaluate(()=>document.fonts.ready);
+      await page.locator(".tech-capability").evaluateAll(nodes=>nodes.forEach(node=>node.open=true));
+      for(const width of [320,360,375,390,414,480,481,600,601,640,767,768,820,1000,1001,1024]){
+        await page.setViewportSize({width,height:844});
+        await checkOverflow(page,width+" "+theme+" all capabilities open");
+        await checkThemeSections(page,width+" "+theme);
+        assert.equal(await page.locator(".tech-engineering-art--compact").isVisible(),width<=600,"Responsive system diagram");
+      }
+      await page.setViewportSize({width:844,height:390});
+      await checkOverflow(page,"landscape "+theme);
+      await checkThemeSections(page,"landscape "+theme);
+      await page.setViewportSize({width:390,height:844});
+      const opposite=theme==="dark"?"light":"dark";
+      await page.getByRole("button",{name:"Toggle colour theme",exact:true}).click();
+      await page.waitForFunction(t=>document.documentElement.classList.contains(t),opposite);
+      await checkThemeSections(page,"live toggle "+opposite);
+      await checkOverflow(page,"live toggle "+opposite);
+      await page.locator(".tech-engineering").scrollIntoViewIfNeeded();
+      await page.screenshot({path:output+"/390-"+opposite+"-live-toggle.png"});
+      await context.close();
+    }
     const context=await browser.newContext({javaScriptEnabled:false});
     const page=await context.newPage();
     await page.goto(origin+route);
     assert.equal(await page.locator(".tech-index__rows li a").count(),18,"All projects available without JS");
     await context.close();
-    const detailContext=await browser.newContext({reducedMotion:"reduce"});
-    const detailPage=await detailContext.newPage();
-    for(const slug of slugs){
-      const response=await detailPage.goto(origin+route+"/"+slug,{waitUntil:"domcontentloaded"});
-      assert.equal(response.status(),200,slug+" static route");
-      const images=detailPage.locator(".tech-detail__hero img");
-      assert.equal(await images.count(),2);
-      await decoded(images.nth(0));await decoded(images.nth(1));
-      await checkOverflow(detailPage,slug+" detail");
-      assert(await detailPage.locator('link[rel="canonical"]').getAttribute("href").then(v=>v.endsWith("/"+slug)),slug+" canonical");
+    // Every project detail in both themes at the smallest and desktop viewport.
+    for(const theme of ["light","dark"]){
+      const detailContext=await browser.newContext({viewport:{width:320,height:844},colorScheme:theme,reducedMotion:"reduce"});
+      await detailContext.addInitScript(t=>localStorage.setItem("theme",t),theme);
+      const detailPage=await detailContext.newPage();
+      for(const slug of slugs){
+        await detailPage.setViewportSize({width:320,height:844});
+        const response=await detailPage.goto(origin+route+"/"+slug,{waitUntil:"domcontentloaded"});
+        assert.equal(response.status(),200,slug+" static route");
+        await detailPage.waitForFunction(t=>document.documentElement.classList.contains(t),theme);
+        await detailPage.evaluate(()=>document.fonts.ready);
+        const images=detailPage.locator(".tech-detail__hero img");
+        assert.equal(await images.count(),2);
+        await decoded(images.nth(0));await decoded(images.nth(1));
+        for(const width of [320,1440]){
+          await detailPage.setViewportSize({width,height:width===320?844:900});
+          await checkOverflow(detailPage,slug+" "+theme+" "+width);
+          await checkThemeSections(detailPage,slug+" "+theme+" "+width);
+        }
+        assert(await detailPage.locator('link[rel="canonical"]').getAttribute("href").then(v=>v.endsWith("/"+slug)),slug+" canonical");
+      }
+      await detailContext.close();
     }
-    await detailContext.close();
-    console.log("AIWA_TECHNOLOGY_PORTFOLIO_PASS projects="+slugs.length+" themes=2 widths=5");
+    console.log("AIWA_TECHNOLOGY_PORTFOLIO_PASS projects="+slugs.length+" themes=2 responsive=320..1440");
   }finally{await browser.close();}
 }
 run().catch(e=>{console.error(e);process.exitCode=1;});
