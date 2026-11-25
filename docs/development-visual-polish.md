@@ -1,0 +1,5 @@
+# Development visual unification
+
+Scope: /specialisms/tech and shared Development menu only. Keep Development Overview and Technology Portfolio links; all six service disclosures and existing deep-link anchors remain. Replace the tall static hero illustration with original compact inline SVG variants; preserve the four engineering layers and captions. Desktop illustration viewport max 460px; narrow layout max 330px. Scroll-driven parallax moves the art within its reserved frame, no pinning or scroll interception; unsupported browsers and reduced-motion users receive a static illustration. Every content section consumes canonical Aiwa paper, raised paper, ink, muted and rule tokens; original project media retain their authored colors. Existing service copy, evidence, project routes and global navigation/footer remain intact.
+
+Reuse current browser suites for desktop/mobile menu count, section surfaces, light/dark switching, artwork height and breakpoint, reduced motion, normal-motion support, responsive overflow and direct service anchors. CI is required before merge; visual screenshot review remains a human gate.

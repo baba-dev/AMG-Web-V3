@@ -65,12 +65,6 @@ export const megaMenuGroups = [
     items: [
       { label: "Development Overview", href: "/specialisms/tech", description: "Explore our complete technology offering." },
       { label: "Technology Portfolio", href: "/work/technology", description: "Explore the things we have built." },
-      { label: "Web & App Development", href: "/specialisms/tech#dev-web", description: "Focused websites, applications and interfaces." },
-      { label: "SaaS & Business Software", href: "/specialisms/tech#dev-software", description: "Purpose-built software for business workflows." },
-      { label: "Cloud & DevOps", href: "/specialisms/tech#dev-cloud", description: "Cloud operations, automation and reliable delivery." },
-      { label: "Professional Email Hosting", href: "/specialisms/tech#dev-email", description: "Managed and dedicated business email." },
-      { label: "AI & Business Automation", href: "/specialisms/tech#dev-ai", description: "Intelligent products and connected workflows." },
-      { label: "IoT & Connected Hardware", href: "/specialisms/tech#dev-iot", description: "Industrial sensors, monitoring and automation." },
     ],
   },
   {
