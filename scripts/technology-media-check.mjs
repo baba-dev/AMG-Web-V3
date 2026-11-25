@@ -1,3 +1,4 @@
+import './technology-design-contract.mjs';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';

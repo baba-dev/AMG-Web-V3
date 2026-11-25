@@ -247,10 +247,10 @@
   font-style: normal;
   font-display: swap;
 }
-html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory) {
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory):not(.tech-page) {
   --aiwa-font-body: "Aiwa Roc Grotesk Web", var(--font-space-grotesk), Arial, Helvetica, sans-serif;
 }
-html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory) :where(
+html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-ending):not(.about-page):not(.contact-page):not(.spec-directory):not(.tech-page) :where(
   .aiwa-specialisms__footer p,
   .aiwa-about__description,
   .aiwa-work__caption span,
@@ -283,3 +283,20 @@ html[data-aiwa-roc="true"] .aiwa-site:not(:has(.aiwa-hero)):not(.aiwa-global-end
 
 /* Real touch geometry: keep the film tile over 44 CSS px despite font metric changes. */
 .aiwa-site .aiwa-hero__film-tile { min-height: 45px; }
+
+/* Shared editorial composition roles; opt-in, no homepage geometry changes. */
+.aiwa-site.aiwa-site {
+  --aiwa-section-compact:clamp(40px,5vw,80px);
+  --aiwa-section-standard:clamp(56px,7vw,112px);
+  --aiwa-section-cinematic:clamp(70px,8vw,145px);
+  --aiwa-chapter-gap:clamp(28px,4vw,64px);
+  --aiwa-motion-fast:280ms;
+  --aiwa-motion-reveal:750ms;
+  --aiwa-motion-ease:cubic-bezier(.18,.72,.2,1);
+  --aiwa-overlay:rgb(0 0 0 / 72%);
+}
+@media(max-width:767px){.aiwa-site.aiwa-site{
+  --aiwa-section-compact:clamp(36px,9vw,56px);
+  --aiwa-section-standard:clamp(48px,11vw,76px);
+  --aiwa-section-cinematic:clamp(60px,13vw,96px);
+}}
