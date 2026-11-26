@@ -30,7 +30,10 @@
 [data-flight-mode="fly"] .tech-flight__intro h2{margin-top:0;font-size:clamp(32px,4vw,64px)}
 [data-flight-mode="fly"] .tech-flight__intro>p:last-child{display:none}
 [data-flight-mode="fly"] .tech-wall{position:absolute;inset:clamp(150px,20vh,210px) 0 0 0;perspective:1200px;perspective-origin:50% 48%}
-[data-flight-mode="fly"] .tech-wall__world{position:absolute;inset:0;display:block;padding:0;transform-style:preserve-3d;will-change:transform}
+/* The world is a flat plane in front of most tiles (they sit at negative depth), so it must not take pointer hits:
+   it is click-through, and only the tiles themselves receive the pointer. */
+[data-flight-mode="fly"] .tech-wall__world{position:absolute;inset:0;display:block;padding:0;transform-style:preserve-3d;will-change:transform;pointer-events:none}
+[data-flight-mode="fly"] .tech-wall__tile{pointer-events:auto}
 [data-flight-mode="fly"] .tech-wall__tile{position:absolute;left:50%;top:50%;width:440px;transform-style:preserve-3d;
   transform:translate(-50%,-50%) translate3d(var(--x),var(--y),var(--z)) rotateY(var(--ry)) rotateX(var(--rx)) rotateX(var(--tiltx,0deg)) rotateY(var(--tilty,0deg));
   transition:box-shadow .4s var(--t-ease),filter .4s var(--t-ease)}

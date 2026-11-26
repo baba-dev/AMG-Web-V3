@@ -33,7 +33,7 @@ export function IotStage({ children, ghost }: { children: ReactNode; ghost: stri
         const tl = gsap.timeline({
           defaults: { ease: "none" },
           scrollTrigger: {
-            trigger: section, start: () => "top top+=" + headerH(), end: () => "+=" + Math.round(distance() * 0.85 + window.innerHeight * 0.25),
+            trigger: section, refreshPriority: 1, start: () => "top top+=" + headerH(), end: () => "+=" + Math.round(distance() * 0.85 + window.innerHeight * 0.25),
             pin: true, scrub: 0.6, invalidateOnRefresh: true,
             onUpdate: self => {
               const active = Math.min(cards.length - 1, Math.round(self.progress * (cards.length - 1)));

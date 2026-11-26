@@ -46,4 +46,3 @@
 .tech-scene__art-light{display:none}
 .light .tech-scene__art-dark{display:none}
 .light .tech-scene__art-light{display:block}
-.tech-scene__art figcaption{padding:10px 14px;background:var(--t-bg);color:var(--t-muted);border-top:1px solid var(--t-line);font:500 var(--type-meta-size)/1.4 var(--type-mono);letter-spacing:var(--tracking-label)}

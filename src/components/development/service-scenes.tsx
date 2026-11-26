@@ -51,7 +51,6 @@ export function ServiceScenes() {
               ? <figure className="tech-scene__art">
                   <img className="tech-scene__art-img tech-scene__art-dark" data-theme="dark" src={art.dark} alt={art.alt} width={1600} height={900} loading="lazy" decoding="async"/>
                   <img className="tech-scene__art-img tech-scene__art-light" data-theme="light" src={art.light} alt={art.alt} width={1600} height={900} loading="lazy" decoding="async"/>
-                  <figcaption>ILLUSTRATED SYSTEM CONCEPT / SAMPLE DATA, NOT A CLIENT INSTALLATION</figcaption>
                 </figure>
               : project
               ? <Link href={"/work/technology/" + project.slug} aria-label={"Explore " + project.name} className="tech-scene__project"><TechPair project={project} compact/></Link>

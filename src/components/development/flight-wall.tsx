@@ -21,6 +21,7 @@ export function FlightWall() {
   const [started, setStarted] = useState(false);
   const [request, setRequest] = useState<ModalRequest | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const hashSettled = useRef(false); // settle on a URL hash once per page visit, never again when effects re-run
   const worldRef = useRef<HTMLDivElement>(null);
   const current = developmentServices.find(s => s.id === station)!;
   const index = stations.findIndex(s => s.id === station);
@@ -49,7 +50,7 @@ export function FlightWall() {
         const tl = gsap.timeline({
           defaults: { ease: "power2.inOut" },
           scrollTrigger: {
-            trigger: section, start: () => "top top+=" + headerH(), end: "+=600%", pin: true, scrub: 1, invalidateOnRefresh: true,
+            trigger: section, refreshPriority: 2, start: () => "top top+=" + headerH(), end: "+=600%", pin: true, scrub: 1, invalidateOnRefresh: true,
             onUpdate: self => {
               const nowStarted = self.progress > 0.012;
               if (nowStarted !== lastStarted) { lastStarted = nowStarted; setStarted(nowStarted); }
@@ -79,6 +80,8 @@ export function FlightWall() {
         // Pinning changes page height after the browser resolved the URL hash: settle on the target again.
         requestAnimationFrame(() => {
           ScrollTrigger.refresh();
+          if (hashSettled.current) return;
+          hashSettled.current = true;
           const id = decodeURIComponent(location.hash.slice(1));
           if (id) document.getElementById(id)?.scrollIntoView();
         });

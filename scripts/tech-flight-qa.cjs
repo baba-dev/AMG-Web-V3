@@ -143,6 +143,39 @@ const skip = n => only && only !== String(n);
       await context.close();
     }
     }
+    // --- Task 16: wall tiles are clickable at every desktop size, and scrolling cannot get stuck
+    s16: {
+    if (skip(16)) break s16;
+    for (const [width, height] of [[1440, 900], [1600, 900], [1910, 1047], [1979, 862]]) {
+      const { context, page, errors } = await open(browser, { width, height });
+      await page.waitForFunction(() => document.querySelector("[data-flight-mode]").dataset.flightMode === "fly");
+      await toOverview(page);
+      const misses = await page.evaluate(() => [...document.querySelectorAll(".tech-wall__tile")].filter(t => {
+        const b = t.getBoundingClientRect();
+        const pts = [[.5, .5], [.2, .25], [.8, .25], [.2, .75], [.8, .75]].map(([fx, fy]) => [b.left + b.width * fx, b.top + b.height * fy]);
+        return !pts.some(([x, y]) => { const e = document.elementFromPoint(x, y); return e && e.closest(".tech-wall__tile") === t; });
+      }).map(t => t.dataset.slug));
+      assert.deepEqual(misses, [], `${width}x${height}: wall tiles that cannot be hit: ${misses.join(", ")}`);
+      await page.locator('.tech-wall__tile[data-slug="gwi"]').click();
+      await page.waitForFunction(() => document.querySelector("dialog[data-tech-modal]").open, null, { timeout: 5000 });
+      await page.keyboard.press("Escape");
+      await page.waitForFunction(() => !document.querySelector("dialog[data-tech-modal]").open);
+      // after the popup closes the page must scroll again (the popup pauses smooth scrolling while open)
+      await page.mouse.move(width / 2, height / 2);
+      const y0 = await page.evaluate(() => Math.round(scrollY));
+      for (let i = 0; i < 6; i++) { await page.mouse.wheel(0, 200); await page.waitForTimeout(80); }
+      await page.waitForTimeout(500);
+      assert.ok((await page.evaluate(() => Math.round(scrollY))) - y0 > 400, `${width}x${height}: page scrolls after closing the popup`);
+      // if smooth scrolling is ever left paused without a popup, the first wheel event revives it
+      await page.evaluate(() => window.__techFlightDebug.stopLenis());
+      const y1 = await page.evaluate(() => Math.round(scrollY));
+      for (let i = 0; i < 6; i++) { await page.mouse.wheel(0, 200); await page.waitForTimeout(80); }
+      await page.waitForTimeout(500);
+      assert.ok((await page.evaluate(() => Math.round(scrollY))) - y1 > 400, `${width}x${height}: a stalled smooth scroller recovers on the next wheel`);
+      assert.deepEqual(errors, [], "page errors");
+      await context.close();
+    }
+    }
     // --- Task 5: project popup
     s5: {
     if (skip(5)) break s5;
@@ -448,7 +481,7 @@ const skip = n => only && only !== String(n);
       await page.waitForFunction(() => [...document.querySelectorAll(".dev-vendors img, .dev-certifications img")].every(i => i.complete && i.naturalWidth > 0), null, { timeout: 15000 });
       // owner request: these disclaimer and source-note texts are not shown on the page
       const body = (await page.locator("body").innerText()).replace(/\s+/g, " ").toLowerCase();
-      for (const gone of ["illustrated system concepts, not photographs or screenshots of installations", "trademarks of their respective owners", "source notes / service scope", "capabilities reflect aiwa's published service information"]) assert.ok(!body.includes(gone), "removed from the page: " + gone);
+      for (const gone of ["illustrated system concepts, not photographs or screenshots of installations", "trademarks of their respective owners", "source notes / service scope", "capabilities reflect aiwa's published service information", "illustrated system concept / sample data"]) assert.ok(!body.includes(gone), "removed from the page: " + gone);
       assert.equal(await page.locator(".spec-detail__sources").count(), 0, "no source-notes block on the Development page");
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, true, "overflow");
       if (scheme === "dark" || width < 900) { await page.locator(".dev-vendors").scrollIntoViewIfNeeded(); await page.screenshot({ path: `${output}/ecosystem-${width}-${scheme}.png` }); }
