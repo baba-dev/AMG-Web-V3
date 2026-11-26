@@ -180,6 +180,39 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
         await ctx.close();
       }
     }
+    // --- Task 7: IoT, trust and finale
+    for (const [width, height, reduced] of [[1440, 900, false], [320, 700, false], [1440, 900, true]]) for (const scheme of ["light", "dark"]) {
+      const { context, page, errors } = await open(browser, { width, height, scheme, reduced });
+      assert.deepEqual(await page.locator("[data-tech-section]").evaluateAll(n => n.map(x => x.dataset.techSection)), ["hero", "flight", "services", "iot", "trust", "finale"], "section order");
+      assert.equal(await page.locator("#dev-connected .dev-iot-card").count(), 4);
+      assert.equal(await page.locator(".dev-managed__rows article").count(), 3);
+      assert.equal(await page.locator(".dev-vendors article").count(), 4);
+      assert.equal(await page.locator(".dev-certifications__marks > div").count(), 3);
+      assert.equal(await page.locator(".dev-faq details").count(), 6);
+      assert.ok(/centralised, ai-enabled video monitoring/i.test(await page.locator("#dev-connected").innerText()), "central surveillance positioning");
+      assert.ok(/dedicated email hosting/i.test(await page.locator("#dev-email").innerText()), "dedicated email hosting");
+      const marquee = page.locator(".tech-marquee__track");
+      assert.equal(await marquee.count(), 1, "marquee");
+      if (!reduced) assert.equal(await marquee.evaluate(n => getComputedStyle(n).animationPlayState), "paused", "marquee paused offscreen");
+      await page.locator(".dev-faq details").first().locator("summary").click();
+      assert.equal(await page.locator(".dev-faq details").first().evaluate(el => el.open), true);
+      assert.equal(await page.locator(".tech-marquee__track li").count() >= 36, true, "marquee lists the project names");
+      await marquee.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(400);
+      if (reduced) assert.equal(await marquee.evaluate(n => getComputedStyle(n).animationName), "none", "reduced motion: marquee static");
+      else assert.equal(await marquee.evaluate(n => getComputedStyle(n).animationPlayState), "running", "marquee runs when visible");
+      const cta = page.locator('[data-tech-section="finale"] a[href="/contact#enquiries"]');
+      assert.equal(await cta.count(), 1, "finale CTA");
+      assert.equal(await page.locator('[data-tech-section="finale"] a[href="/work/technology"]').count(), 1, "all technology work link");
+      assert.equal(await page.locator(".tech-finale__ink").count(), 1, "finale ink slot");
+      const [ctaColor, ctaBg] = await cta.evaluate(n => [getComputedStyle(n).color, getComputedStyle(n).backgroundColor]);
+      assert.notEqual(ctaColor, ctaBg, `${scheme}: finale CTA text must differ from its pill`);
+      await page.locator('[data-tech-section="finale"]').scrollIntoViewIfNeeded();
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, true, `${width} ${scheme}: overflow`);
+      if (!reduced) { await page.locator("#dev-connected").scrollIntoViewIfNeeded(); await page.waitForTimeout(500); await page.screenshot({ path: `${output}/iot-${width}-${scheme}.png` }); await page.locator(".tech-marquee").scrollIntoViewIfNeeded(); await page.screenshot({ path: `${output}/trust-${width}-${scheme}.png` }); await page.locator('[data-tech-section="finale"]').scrollIntoViewIfNeeded(); await page.screenshot({ path: `${output}/finale-${width}-${scheme}.png` }); }
+      assert.deepEqual(errors, [], "page errors");
+      await context.close();
+    }
     console.log("AIWA_TECH_FLIGHT_QA_PASS");
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

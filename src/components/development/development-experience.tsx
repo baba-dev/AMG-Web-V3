@@ -1,7 +1,9 @@
-import { DevelopmentConnected, DevelopmentFeatured, DevelopmentTrust } from "./development-division";
-import { ServiceScenes } from "./service-scenes";
 import { FlightWall } from "./flight-wall";
+import { Finale } from "./finale";
+import { IotSection } from "./iot-section";
+import { ServiceScenes } from "./service-scenes";
 import { TechHero } from "./tech-hero";
+import { TrustSection } from "./trust-section";
 import "./development-experience.css";
 
 /** Server-rendered composition of the Development page. Interactive islands live in their own client components. */
@@ -10,8 +12,8 @@ export function DevelopmentExperience() {
     <TechHero/>
     <FlightWall/>
     <ServiceScenes/>
-    <div data-tech-section="iot"><DevelopmentConnected/></div>
-    <div data-tech-section="portfolio"><DevelopmentFeatured/></div>
-    <div data-tech-section="trust"><DevelopmentTrust/></div>
+    <IotSection/>
+    <TrustSection/>
+    <Finale/>
   </>;
 }
