@@ -399,6 +399,60 @@ const skip = n => only && only !== String(n);
       await context.close();
     }
     }
+    // --- Task 15: Arabic placements, balanced IoT cards, ecosystem logos
+    s15: {
+    if (skip(15)) break s15;
+    const box = (page, sel) => page.locator(sel).first().evaluate(n => { const r = n.getBoundingClientRect(); return { l: r.left, r: r.right, t: r.top + scrollY, b: r.bottom + scrollY, w: r.width, h: r.height }; });
+    const hit = (a, b) => a.l < b.r && a.r > b.l && a.t < b.b && a.b > b.t;
+    for (const [width, height] of [[1440, 900], [390, 844]]) for (const scheme of ["dark", "light"]) {
+      const { context, page, errors } = await open(browser, { width, height, scheme });
+      const vw = width;
+      // hero: the Arabic word sits below the paragraph, clear of every other element
+      const ink = await box(page, ".tech-hero svg.tech-ink");
+      for (const sel of [".tech-hero__kicker", ".tech-hero__headline", ".tech-hero__bottom>p", ".tech-hero__bottom>a"]) assert.ok(!hit(ink, await box(page, sel)), `hero Arabic collides with ${sel}`);
+      assert.ok(ink.t >= (await box(page, ".tech-hero__bottom")).b - 2, "hero Arabic sits below the paragraph row");
+      assert.ok(ink.l < vw * 0.5, "hero Arabic is at the left");
+      assert.equal(await page.locator(".tech-hero .tech-hero__ink svg.tech-ink").count(), 0, "hero Arabic no longer floats in the background layer");
+      // our specialisms: Arabic replaces the English line on the right
+      assert.equal(await page.getByText("One technology team", { exact: false }).count(), 0, "English line removed from the specialisms header");
+      const sInk = await box(page, ".tech-services__head svg.tech-ink");
+      if (width >= 900) assert.ok((sInk.l + sInk.r) / 2 > vw * 0.62, "specialisms Arabic sits on the right");
+      // managed technology
+      assert.equal(await page.getByText("Launching a product", { exact: false }).count(), 0, "English line removed from managed technology");
+      const mInk = await box(page, ".dev-managed .tech-chapter svg.tech-ink");
+      if (width >= 900) assert.ok((mInk.l + mInk.r) / 2 > vw * 0.62, "managed technology Arabic sits on the right");
+      // finale: top right, clear of the heading and the CTA
+      const fin = await box(page, '[data-tech-section="finale"]'), fInk = await box(page, ".tech-finale__ink svg.tech-ink");
+      assert.ok(fInk.t - fin.t < fin.h * 0.4 && (fInk.l + fInk.r) / 2 > vw * 0.5, "finale Arabic is at the top right");
+      for (const sel of ["#dev-finale-title", ".tech-finale__cta"]) assert.ok(!hit(fInk, await box(page, sel)), `finale Arabic collides with ${sel}`);
+      // IoT scene 06 shares the 50/50 style split with the other scenes
+      if (width >= 900) {
+        for (const id of ["dev-web", "dev-software", "dev-cloud", "dev-email", "dev-ai", "dev-iot"]) {
+          const v = await box(page, `#${id} .tech-scene__visual`), t = await box(page, `#${id} .tech-scene__text`);
+          assert.ok(Math.abs(v.w - t.w) <= Math.max(v.w, t.w) * 0.04, `${id}: image and text columns split 50/50 (${Math.round(v.w)} vs ${Math.round(t.w)})`);
+        }
+        assert.equal(await page.locator("#dev-iot.tech-scene--feature").count(), 0, "IoT scene is no longer a full-width feature");
+      }
+      // IoT cards carry a balanced amount of copy
+      const copy = await page.locator("#dev-connected .tech-iot-card__copy").allInnerTexts();
+      const lens = copy.map(t => t.trim().length);
+      assert.ok(Math.max(...lens) - Math.min(...lens) <= 24, "IoT card copy is balanced: " + lens.join("/"));
+      const hooks = await page.locator("#dev-connected .tech-iot-card__hook").allInnerTexts();
+      assert.ok(Math.max(...hooks.map(t => t.length)) - Math.min(...hooks.map(t => t.length)) <= 10, "IoT hooks are balanced");
+      // ecosystem: real logos
+      const vendors = page.locator(".dev-vendors article");
+      assert.equal(await vendors.count(), 4);
+      for (const slug of ["cloudflare", "oracle", "byteplus", "gallabox"]) assert.equal(await page.locator(`.dev-vendors img[src$="/${slug}.svg"]`).count(), 1, slug + " logo");
+      for (const slug of ["aws", "google-cloud", "oracle"]) assert.ok(await page.locator(`.dev-certifications img[src$="/${slug}.svg"]`).count() >= 1, slug + " certification logo");
+      await page.locator(".dev-vendors").scrollIntoViewIfNeeded();
+      await page.waitForFunction(() => [...document.querySelectorAll(".dev-vendors img, .dev-certifications img")].every(i => i.complete && i.naturalWidth > 0), null, { timeout: 15000 });
+      assert.ok(/trademarks of their respective owners/i.test(await page.locator(".dev-ecosystem").innerText()), "logo attribution note");
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, true, "overflow");
+      if (scheme === "dark" || width < 900) { await page.locator(".dev-vendors").scrollIntoViewIfNeeded(); await page.screenshot({ path: `${output}/ecosystem-${width}-${scheme}.png` }); }
+      assert.deepEqual(errors, [], "page errors");
+      await context.close();
+    }
+    }
     console.log("AIWA_TECH_FLIGHT_QA_PASS");
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

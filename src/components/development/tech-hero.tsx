@@ -7,7 +7,7 @@ import { PcbSignal } from "./pcb-signal";
 export function TechHero() {
   return <section className="tech-hero spec-pad" data-tech-section="hero" aria-labelledby="specialism-heading">
     <PcbSignal/>
-    <div className="tech-hero__ink" aria-hidden="true"><InkFieldLoader/><InkCalligraphy word="tech" variant="background"/></div>
+    <div className="tech-hero__ink" aria-hidden="true"><InkFieldLoader/></div>
     <div className="tech-hero__main">
       <p className="tech-hero__kicker">AIWA DEVELOPMENT / MUSCAT, OMAN</p>
       <h1 id="specialism-heading">Development</h1>
@@ -16,6 +16,7 @@ export function TechHero() {
         <p>We design, develop and support websites, software, cloud infrastructure and connected hardware that make businesses work better.</p>
         <a href="#dev-services">EXPLORE OUR SERVICES <ArrowDown size={22} aria-hidden="true"/></a>
       </div>
+      <InkCalligraphy word="tech" variant="background" className="tech-ink--inflow"/>
     </div>
   </section>;
 }

@@ -23,17 +23,16 @@ const sceneArt: Partial<Record<string, { light: string; dark: string; alt: strin
 export function ServiceScenes() {
   return <section id="dev-services" className="tech-services spec-pad" data-tech-section="services" aria-labelledby="dev-services-title">
     <header className="tech-services__head">
-      <InkCalligraphy word="innovation" variant="header"/>
       <p className="tech-services__kicker">02 / OUR SPECIALISMS</p>
       <h2 id="dev-services-title">SIX WAYS TO<br/><em>MOVE FORWARD.</em></h2>
-      <p>One technology team. Six ways to make business work better.</p>
+      <InkCalligraphy word="innovation" variant="header" className="tech-services__ink"/>
     </header>
     <div className="tech-scenes">
       {developmentServices.map((service, i) => {
         const project = service.project ? getTechnologyProject(service.project) : undefined;
         const toIot = service.id === "iot";
         const art = sceneArt[service.id];
-        return <section key={service.id} id={"dev-" + service.id} className={"tech-scene" + (art ? " tech-scene--feature" : "")} data-scene={service.id}
+        return <section key={service.id} id={"dev-" + service.id} className={"tech-scene"} data-scene={service.id}
           style={{ "--scene-accent": service.accent } as CSSProperties} aria-labelledby={"dev-" + service.id + "-title"}>
           <span className="tech-scene__num" aria-hidden="true">0{i + 1}</span>
           <div className="tech-scene__text">

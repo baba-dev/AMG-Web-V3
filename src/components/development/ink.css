@@ -10,6 +10,7 @@
 /* Armed: hidden until the pen writes it. Without JS or with reduced motion this never applies, so the finished word shows. */
 .tech-ink[data-state="armed"] [data-pen]{stroke-dasharray:var(--len);stroke-dashoffset:var(--len)}
 .tech-ink[data-state="armed"] [data-dot]{opacity:0}
-.tech-hero__ink .tech-ink--background{right:-2%;top:8%;width:min(1180px,96vw)}
-.tech-finale__ink .tech-ink--background{left:-2%;bottom:-6%;width:min(1100px,96vw)}
-.tech-services__head .tech-ink--header{grid-column:1/-1}
+.tech-hero__main .tech-ink--inflow{position:relative;width:clamp(190px,16vw,300px);margin:clamp(14px,2.6vh,30px) 0 0;align-self:flex-start}
+.tech-finale__ink .tech-ink--background{right:var(--aiwa-gutter);top:clamp(22px,4vw,56px);width:clamp(180px,22vw,360px)}
+.tech-services__head .tech-services__ink,.tech-chapter .tech-chapter__ink{justify-self:end;align-self:end;width:clamp(190px,26vw,400px);margin:0}
+@media (max-width:760px){.tech-services__head .tech-services__ink,.tech-chapter .tech-chapter__ink{justify-self:start;width:clamp(170px,52vw,260px)}}
