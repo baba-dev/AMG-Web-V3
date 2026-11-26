@@ -9,7 +9,22 @@ Decorative **Thuluth** (ثلث) calligraphy for page backgrounds and header acce
 | `source/` | Raw images from ChatGPT (PNG/WebP) or any original art. Input for tracing. |
 | `svg/` | Final SVG files if you already have clean vector art. Optional: otherwise the build converts `source/` for you. |
 
-## File names (one word per file, lowercase)
+## File names and word keys
+
+Source images keep the names they were supplied with; the build script maps each to a lowercase word key (the SVG file name and the key used by `InkCalligraphy word=...`).
+
+| Word | Meaning | Key | Source file |
+| --- | --- | --- | --- |
+| تقنية | technology | `tech` | `technology-arabic.png` |
+| ابتكار | innovation | `innovation` | `innovation-arabic.png` |
+| عُمان | Oman | `oman` | `Oman-arabic.png` |
+| هندسة | engineering | `engineering` | `engineering-arabic.png` |
+| برمجة | programming | `programming` | `programming-arabic.png` |
+| تصميم | design | `design` | `design-arabic.png` |
+
+To add or replace a word: put the PNG in `source/`, add it to the `WORDS` map in `scripts/calligraphy-build.mjs`, run `node scripts/calligraphy-build.mjs`, then `node scripts/calligraphy-check.mjs`.
+
+## Original naming guidance (superseded by the table above)
 
 | Word | Meaning | Name |
 | --- | --- | --- |

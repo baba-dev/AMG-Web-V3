@@ -260,13 +260,17 @@ const skip = n => only && only !== String(n);
       await ctx.close();
     }
     const inkWords = await (async () => { const { context, page } = await open(browser, { width: 1440, height: 900 }); const n = await page.locator("svg.tech-ink").count(); await context.close(); return n; })();
-    if (!inkWords) console.log("NOTE: no calligraphy artwork supplied yet; ink drawing checks skipped (page verified complete without it)");
-    else for (const reduced of [true, false]) {
+    if (!inkWords) throw new Error("calligraphy artwork is supplied, so the Development page must render it");
+    for (const reduced of [true, false]) {
       const { context, page, errors } = await open(browser, { width: 1440, height: 900, reduced });
       for (const ink of await page.locator("svg.tech-ink").all()) {
         assert.equal(await ink.getAttribute("aria-hidden"), "true", "calligraphy is decorative");
         assert.equal(await ink.locator("a,button,[tabindex]").count(), 0, "calligraphy has no focusable children");
       }
+      assert.deepEqual(await page.locator("svg.tech-ink").evaluateAll(n => n.map(x => x.dataset.ink).sort()), ["engineering", "innovation", "oman", "programming", "tech"], "calligraphy placements");
+      const tone = await page.locator("svg.tech-ink--header").first().evaluate(n => getComputedStyle(n).color);
+      const [r, g, b] = tone.match(/\d+/g).map(Number);
+      assert.ok(Math.abs(r - g) < 6 && Math.abs(g - b) < 6 && r > 100 && r < 180, "dark theme: black artwork is greyed (got " + tone + ")");
       const hero = page.locator(".tech-hero svg.tech-ink").first();
       if (reduced) {
         assert.notEqual(await hero.getAttribute("data-state"), "armed", "reduced motion: finished word shows");

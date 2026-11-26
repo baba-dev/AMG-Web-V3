@@ -1,6 +1,10 @@
-.tech-ink{display:block;width:100%;height:auto;color:var(--t-ink);overflow:visible}
-.tech-ink--background{position:absolute;opacity:.1;pointer-events:none}
+/* Calligraphy is supplied as black ink: keep it black on paper, and grey it on dark so it reads as quiet texture. */
+.tech-ink{display:block;width:100%;height:auto;color:#101010;overflow:visible}
+.dark .tech-ink{color:#8d8d88}
+.tech-ink--background{position:absolute;opacity:.08;pointer-events:none}
+.dark .tech-ink--background{opacity:.17}
 .tech-ink--header{width:clamp(150px,24vw,340px);opacity:.85;margin-bottom:6px}
+.dark .tech-ink--header{opacity:.75}
 .tech-ink-field{position:absolute;inset:0;pointer-events:none}
 .tech-ink-field canvas{display:block;width:100%;height:100%}
 /* Armed: hidden until the pen writes it. Without JS or with reduced motion this never applies, so the finished word shows. */
