@@ -7,7 +7,6 @@
 @media (max-width:760px){.tech-chapter{grid-template-columns:minmax(0,1fr)}}
 .tech-link{display:inline-flex;align-items:center;gap:10px;min-height:48px;color:inherit;font:600 var(--type-eyebrow-size)/1.2 var(--type-body);letter-spacing:var(--tracking-label);text-decoration:none;border-bottom:2px solid var(--t-blue)}
 .tech-link:focus-visible,.tech-finale__cta:focus-visible{outline:3px solid var(--t-blue);outline-offset:4px}
-.tech-note{margin:22px 0 10px;color:var(--t-muted);font:500 var(--type-meta-size)/1.4 var(--type-mono)}
 
 /* Trust */
 .tech-trust{background:var(--t-bg);color:var(--t-ink);border-top:1px solid var(--t-line);padding-block:clamp(56px,9vw,130px);display:grid;gap:clamp(56px,9vw,120px)}
@@ -27,7 +26,6 @@
 .dev-logo-tile--small{height:64px;padding:10px 14px}
 .dev-logo{display:block;max-width:100%;width:auto;height:44px;object-fit:contain}
 .dev-logo-tile--small .dev-logo{height:30px}
-.dev-logo-note{margin:12px 0 0!important;max-width:52ch;color:var(--t-muted);font:500 var(--type-meta-size)/1.5 var(--type-mono)!important}
 .dev-vendors p{margin:0;color:var(--t-muted);font:400 var(--type-body-size)/var(--leading-body) var(--type-body)}
 .dev-certifications{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(20px,4vw,60px);align-items:center;margin-top:clamp(28px,4vw,56px);padding-top:clamp(24px,3vw,40px);border-top:1px solid var(--t-line)}
 @media (max-width:820px){.dev-certifications{grid-template-columns:minmax(0,1fr)}}

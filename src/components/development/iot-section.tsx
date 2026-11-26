@@ -30,7 +30,6 @@ export function IotSection() {
       </article>)}
     </IotStage>
     <div className="tech-iot__foot">
-      <p className="tech-note">Illustrated system concepts, not photographs or screenshots of installations.</p>
       <Link href="/contact#enquiries" className="tech-link">Discuss an industrial IoT solution <ArrowUpRight size={22} aria-hidden="true"/></Link>
     </div>
   </section>;

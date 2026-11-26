@@ -1,16 +1,11 @@
 /* Rules carried over from the retired development.css that the new page still relies on:
    the shared source-notes strip, the specialism pager and the compact project pair used in scenes and the popup. */
 .aiwa-site.spec-detail--tech .spec-detail__pager{background:var(--aiwa-paper);color:var(--aiwa-paper-ink)}
-.aiwa-site.spec-detail--tech .spec-detail__sources{background:var(--aiwa-paper-raised);color:var(--aiwa-paper-ink)}
-.aiwa-site.spec-detail--tech :is(.spec-detail__sources,.spec-detail__pager){padding-block:var(--aiwa-section-compact)}
-.aiwa-site.spec-detail--tech .spec-detail__sources p{font:400 var(--type-body-size)/var(--leading-body) var(--type-body);letter-spacing:var(--tracking-body);color:var(--aiwa-paper-muted)}
-.aiwa-site.spec-detail--tech :is(.spec-detail__sources a,.spec-detail__pager a){font:600 var(--type-ui-size)/1.3 var(--type-body);letter-spacing:var(--tracking-body);min-height:44px;max-width:100%;overflow-wrap:anywhere;border-color:var(--aiwa-paper-rule)}
-.aiwa-site.spec-detail--tech .spec-detail__sources>div:first-child{border-color:var(--aiwa-paper-rule)}
+.aiwa-site.spec-detail--tech .spec-detail__pager{padding-block:var(--aiwa-section-compact)}
+.aiwa-site.spec-detail--tech .spec-detail__pager a{font:600 var(--type-ui-size)/1.3 var(--type-body);letter-spacing:var(--tracking-body);min-height:44px;max-width:100%;overflow-wrap:anywhere;border-color:var(--aiwa-paper-rule)}
 .aiwa-site.spec-detail--tech .spec-detail__pager strong{font:600 var(--type-body-large)/1.2 var(--type-body)}
 .aiwa-site.spec-detail--tech :is(main>aside,main>nav,.spec-detail__pager a){min-width:0}
 @media(max-width:767px){
- .aiwa-site.spec-detail--tech .spec-detail__sources{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
- .aiwa-site.spec-detail--tech .spec-detail__sources>div:first-child{margin:0}
  .aiwa-site.spec-detail--tech .spec-detail__pager{gap:12px}
  .aiwa-site.spec-detail--tech .spec-detail__pager a{min-height:80px;gap:6px}
  .aiwa-site.spec-detail--tech .spec-detail__pager strong{font-size:var(--type-body-size)}

@@ -36,7 +36,7 @@ const pages = [
   {
     id: "specialism-detail",
     path: "/specialisms/tech.html",
-    surfaces: [".tech-hero", ".tech-services", ".tech-iot", ".tech-trust", ".tech-finale", ".spec-detail__sources", ".spec-detail__pager", ".aiwa-footer"],
+    surfaces: [".tech-hero", ".tech-services", ".tech-iot", ".tech-trust", ".tech-finale", ".spec-detail__pager", ".aiwa-footer"],
     shots: [".tech-hero", ".tech-services", ".tech-iot", ".tech-trust", ".tech-finale"],
   },
   {

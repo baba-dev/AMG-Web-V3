@@ -446,7 +446,10 @@ const skip = n => only && only !== String(n);
       for (const slug of ["aws", "google-cloud", "oracle"]) assert.ok(await page.locator(`.dev-certifications img[src$="/${slug}.svg"]`).count() >= 1, slug + " certification logo");
       await page.locator(".dev-vendors").scrollIntoViewIfNeeded();
       await page.waitForFunction(() => [...document.querySelectorAll(".dev-vendors img, .dev-certifications img")].every(i => i.complete && i.naturalWidth > 0), null, { timeout: 15000 });
-      assert.ok(/trademarks of their respective owners/i.test(await page.locator(".dev-ecosystem").innerText()), "logo attribution note");
+      // owner request: these disclaimer and source-note texts are not shown on the page
+      const body = (await page.locator("body").innerText()).replace(/\s+/g, " ").toLowerCase();
+      for (const gone of ["illustrated system concepts, not photographs or screenshots of installations", "trademarks of their respective owners", "source notes / service scope", "capabilities reflect aiwa's published service information"]) assert.ok(!body.includes(gone), "removed from the page: " + gone);
+      assert.equal(await page.locator(".spec-detail__sources").count(), 0, "no source-notes block on the Development page");
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, true, "overflow");
       if (scheme === "dark" || width < 900) { await page.locator(".dev-vendors").scrollIntoViewIfNeeded(); await page.screenshot({ path: `${output}/ecosystem-${width}-${scheme}.png` }); }
       assert.deepEqual(errors, [], "page errors");

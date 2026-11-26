@@ -31,8 +31,7 @@
 
 .tech-iot__rail{display:none;height:2px;margin-inline:var(--aiwa-gutter);background:var(--t-line)}
 .tech-iot__rail span{display:block;height:100%;background:var(--t-lime);transform-origin:left;transform:scaleX(0)}
-.tech-iot__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 28px}
-.tech-iot__foot .tech-note{margin:0}
+.tech-iot__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:10px 28px}
 
 /* Fly mode: the section pins to the viewport and the track is driven by scroll. Only on screens tall enough to hold it. */
 @media (min-height:800px){

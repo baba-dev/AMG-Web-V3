@@ -31,7 +31,7 @@ export function TrustSection() {
       <div className="tech-chapter"><div><p className="tech-chapter__kicker">05 / TECHNOLOGY ECOSYSTEM</p><h2>GOOD COMPANY.<br/><em>GREAT TECHNOLOGY.</em></h2></div><p>Our technology relationships span Cloudflare, Oracle, BytePlus and Gallabox. We select the tools that fit your business rather than forcing a single platform.</p></div>
       <div className="dev-vendors">{technologyEcosystem.map(([name, copy]) => <article key={name}><div className="dev-logo-tile"><img className="dev-logo" src={logos[name].src} alt={logos[name].label + " logo"} height={44} loading="lazy" decoding="async"/></div><h3>{name}</h3><p>{copy}</p></article>)}</div>
       <div className="dev-certifications">
-        <div><p className="tech-chapter__kicker">CLOUD EXPERTISE</p><h3>Certified across leading cloud platforms.</h3><p>Our team includes professionals certified across AWS, Google Cloud and Oracle Cloud.</p><p className="dev-logo-note">Logos are trademarks of their respective owners, shown to identify the platforms we work with. Their use does not imply endorsement.</p></div>
+        <div><p className="tech-chapter__kicker">CLOUD EXPERTISE</p><h3>Certified across leading cloud platforms.</h3><p>Our team includes professionals certified across AWS, Google Cloud and Oracle Cloud.</p></div>
         <div className="dev-certifications__marks">{technologyExpertise.map(([short, name]) => <div key={short}><div className="dev-logo-tile dev-logo-tile--small"><img className="dev-logo" src={logos[short].src} alt={logos[short].label + " logo"} height={30} loading="lazy" decoding="async"/></div><span>{name}</span></div>)}</div>
       </div>
     </div>

@@ -148,10 +148,10 @@ export default async function SpecialismDetail({params}:Props){
 
     </>}
 
-    <aside className="spec-detail__sources spec-pad" aria-label="Service source references">
+    {!isDevelopment&&<aside className="spec-detail__sources spec-pad" aria-label="Service source references">
       <div><span className="spec-kicker">SOURCE NOTES / SERVICE SCOPE</span><p>Capabilities reflect Aiwa's published service information; adjacent case studies are selectively associated with the relevant documented work. Original illustrations are conceptual, not photographs of completed campaigns.</p></div>
       <div>{service.sources.map(source=><a key={source.href} href={source.href} target="_blank" rel="noopener noreferrer">{source.label}<ArrowUpRight size={18} aria-hidden="true"/></a>)}</div>
-    </aside>
+    </aside>}
 
     <nav className="spec-detail__pager spec-pad" aria-label="Browse specialisms">
      <Link href={"/specialisms/"+before.slug}><ArrowLeft size={21} aria-hidden="true"/> PREVIOUS SPECIALISM <strong>{before.name}</strong></Link>

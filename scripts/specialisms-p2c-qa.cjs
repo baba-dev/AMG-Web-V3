@@ -97,12 +97,10 @@ const sample=async page=>page.evaluate(()=>{
         check(schema.name.toLowerCase().includes("development"),"tech: schema incorrect");
         assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"),"https://next.aiwamediagroup.com/specialisms/tech");
         assert.equal(await page.locator(".spec-detail__pager a").count(),2);
-        const sources=await page.locator(".spec-detail__sources a").evaluateAll(list=>list.map(x=>({protocol:new URL(x.href).protocol,domain:new URL(x.href).hostname,target:x.target,rel:x.rel})));
-        check(sources.length>=1&&sources.every(x=>x.protocol==="https:"&&x.domain==="aiwamediagroup.com"&&x.target==="_blank"&&x.rel.includes("noopener")),"tech: unsupported source URL");
         const hero=await page.locator(".tech-hero").evaluate(n=>{const r=n.getBoundingClientRect(),h=document.querySelector(".tech-hero__headline").getBoundingClientRect();return {height:r.height,left:h.left,right:h.right};});
         check(hero.height>=200,width+"/tech: hero collapsed");
         check(hero.left>=-12&&hero.right<=width+12,width+"/tech: headline outside viewport "+JSON.stringify(hero));
-        const small=await page.evaluate(()=>[...document.querySelectorAll(".tech-hero__nav a,.tech-hero__bottom a,.spec-detail__sources a,.spec-detail__pager a,.tech-finale a")].map(x=>({label:(x.textContent||"").trim().slice(0,25),height:x.getBoundingClientRect().height})));
+        const small=await page.evaluate(()=>[...document.querySelectorAll(".tech-hero__bottom a,.spec-detail__pager a,.tech-finale a")].map(x=>({label:(x.textContent||"").trim().slice(0,25),height:x.getBoundingClientRect().height})));
         check(small.every(x=>x.height>=43.5),width+"/tech: undersized CTA "+JSON.stringify(small));
         assert.equal(await page.locator(".tech-hero__line>span").first().evaluate(x=>getComputedStyle(x).animationName),"none","tech: reduced-motion should disable hero animation");
         check((await sample(page)).overflow<=2,width+"/tech: horizontal overflow");
