@@ -355,6 +355,50 @@ const skip = n => only && only !== String(n);
       await context.close();
     }
     }
+    // --- Task 14: decluttered hero and PCB signal graphic
+    s14: {
+    if (skip(14)) break s14;
+    for (const [width, height, reduced] of [[1440, 900, false], [390, 844, false], [1440, 900, true]]) for (const scheme of ["dark", "light"]) {
+      const { context, page, errors } = await open(browser, { width, height, scheme, reduced });
+      const hero = page.locator('[data-tech-section="hero"]');
+      const text = (await hero.innerText()).replace(/\s+/g, " ").toUpperCase();
+      for (const gone of ["ALL SPECIALISMS", "AIWA / DEVELOPMENT", "ENGINEERED FOR PEOPLE", "ENGINEERING / MUSCAT"]) assert.ok(!text.includes(gone), "removed from the hero: " + gone);
+      assert.ok(text.includes("AIWA DEVELOPMENT / MUSCAT, OMAN"), "kicker kept");
+      assert.equal(await hero.locator(".tech-hero__nav, .tech-hero__foot").count(), 0, "no nav or footer rows in the hero");
+      const h1 = await hero.locator("h1").evaluate(n => { const r = n.getBoundingClientRect(); return { w: r.width, h: r.height, text: n.textContent.trim() }; });
+      assert.equal(h1.text, "Development", "h1 stays for structure");
+      assert.ok(h1.w <= 2 && h1.h <= 2, "h1 is visually hidden");
+      const pcb = hero.locator(".tech-hero__pcb");
+      assert.equal(await pcb.getAttribute("aria-hidden"), "true", "PCB art is decorative");
+      const visible = await pcb.locator("svg.tech-pcb").evaluateAll(n => n.filter(x => getComputedStyle(x).display !== "none").map(x => x.dataset.layout));
+      assert.deepEqual(visible, [width >= 700 ? "wide" : "tall"], "one PCB composition per screen shape");
+      const art = pcb.locator(`svg.tech-pcb[data-layout="${visible[0]}"]`);
+      assert.ok(await art.locator(".tech-pcb__trace").count() >= 24, "enough traces to read as a board");
+      assert.ok(await art.locator(".tech-pcb__pulse").count() >= 8, "several signals travel the traces");
+      const baseOpacity = await art.locator(".tech-pcb__trace").first().evaluate(n => parseFloat(getComputedStyle(n).strokeOpacity));
+      assert.ok(baseOpacity <= 0.2, "traces are blended into the background (opacity " + baseOpacity + ")");
+      const pulse = art.locator(".tech-pcb__pulse").first();
+      if (reduced) {
+        assert.equal(await pulse.evaluate(n => getComputedStyle(n).animationName), "none", "reduced motion: signals do not travel");
+      } else {
+        const offset = () => pulse.evaluate(n => parseFloat(getComputedStyle(n).strokeDashoffset));
+        const a = await offset(); await page.waitForTimeout(700); const b = await offset();
+        assert.notEqual(a, b, "the signal is travelling along the trace");
+        await page.evaluate(() => document.querySelector("#dev-services").scrollIntoView());
+        await page.waitForTimeout(500);
+        assert.equal(await pulse.evaluate(n => getComputedStyle(n).animationPlayState), "paused", "animation pauses when the hero is offscreen");
+        await page.evaluate(() => scrollTo(0, 0));
+        await page.waitForTimeout(500);
+        assert.equal(await pulse.evaluate(n => getComputedStyle(n).animationPlayState), "running", "animation resumes when the hero returns");
+      }
+      const clipped = await hero.locator(".tech-hero__headline").evaluate(n => n.scrollWidth > n.clientWidth + 1);
+      assert.equal(clipped, false, "headline not clipped");
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, true, "hero overflow");
+      if (!reduced) { await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(1200); await page.screenshot({ path: `${output}/hero2-${width}-${scheme}.png` }); }
+      assert.deepEqual(errors, [], "page errors");
+      await context.close();
+    }
+    }
     console.log("AIWA_TECH_FLIGHT_QA_PASS");
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });
