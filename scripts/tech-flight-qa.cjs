@@ -115,10 +115,16 @@ const skip = n => only && only !== String(n);
       } else {
         await page.waitForSelector(".pin-spacer");
         const geometry = await page.evaluate(() => { const sp = document.querySelector(".pin-spacer"); return { top: sp.getBoundingClientRect().top + scrollY, len: sp.offsetHeight - innerHeight }; });
-        const first = (await page.locator("[data-station]").innerText()).trim();
+        assert.equal(await page.locator(".tech-flight__kicker").count(), 0, "no 01 / SELECTED SCREENS kicker");
+        const hud = page.locator("[data-station]");
+        assert.equal(await hud.evaluate(n => getComputedStyle(n).visibility), "hidden", "service card is hidden before the flight starts");
+        // the heading never sits on top of a screen at the overview
+        const clash = await page.evaluate(() => { const h = document.querySelector(".tech-flight__intro h2").getBoundingClientRect(); return [...document.querySelectorAll(".tech-wall__tile")].filter(t => { const r = t.getBoundingClientRect(); return r.left < h.right && r.right > h.left && r.top < h.bottom && r.bottom > h.top; }).map(t => t.dataset.slug); });
+        assert.deepEqual(clash, [], "heading overlaps wall tiles: " + clash.join(","));
+        const first = (await hud.textContent()).trim();
         await page.evaluate(g => window.scrollTo(0, g.top + g.len * 0.3), geometry);
-        await page.waitForFunction(t => document.querySelector("[data-station]").innerText.trim() !== t, first);
-        const mid = (await page.locator("[data-station]").innerText()).trim();
+        await page.waitForFunction(t => { const n = document.querySelector("[data-station]"); return getComputedStyle(n).visibility === "visible" && n.textContent.trim() !== t; }, first);
+        const mid = (await hud.innerText()).trim();
         assert.notEqual(mid, first, "station label changes along the flight");
         await page.screenshot({ path: `${output}/flight-30-${scheme}.png` });
         await page.evaluate(g => window.scrollTo(0, g.top + g.len * 0.75), geometry);

@@ -9,7 +9,8 @@ import { ProjectModal, type ModalRequest } from "./project-modal";
 import "./flight-wall.css";
 
 const COLUMNS = 6;
-const OVERVIEW_Z = -1400;
+/** Camera depth that frames the whole wall (about 3100px wide) inside the viewport, never closer than the design scale. */
+const overviewZ = () => 1200 - 1200 / Math.min(0.46, (window.innerWidth * 0.94) / 3100);
 /** Free-flight waypoints (wall coordinates) for stations without a client tile. */
 const FREE_POINTS = { cloud: { x: -320, y: 10, z: -380 }, email: { x: 330, y: -60, z: -620 }, iot: { x: 0, y: 0, z: -1150 } } as const;
 
@@ -17,6 +18,7 @@ export function FlightWall() {
   const { mode, lenis } = useFlightContext();
   const wall = useMemo(() => buildWall(technologyProjects.map(p => p.slug), COLUMNS), []);
   const [station, setStation] = useState<ServiceId>("web");
+  const [started, setStarted] = useState(false);
   const [request, setRequest] = useState<ModalRequest | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
@@ -43,11 +45,14 @@ export function FlightWall() {
       const sway = { web: -5, software: 4, cloud: -3, email: 5, ai: -4, iot: 0 } as const;
       const ctx = gsap.context(() => {
         let last: ServiceId | null = null;
+        let lastStarted = false;
         const tl = gsap.timeline({
           defaults: { ease: "power2.inOut" },
           scrollTrigger: {
             trigger: section, start: () => "top top+=" + headerH(), end: "+=600%", pin: true, scrub: 1, invalidateOnRefresh: true,
             onUpdate: self => {
+              const nowStarted = self.progress > 0.012;
+              if (nowStarted !== lastStarted) { lastStarted = nowStarted; setStarted(nowStarted); }
               const id = stationAt(self.progress);
               if (id === last) return;
               last = id;
@@ -61,7 +66,7 @@ export function FlightWall() {
         stations.forEach((s, i) => {
           const p = pointFor(s.id);
           const vars = { x: -p.x, y: -p.y, z: () => -p.z + focusZ(), rotationY: sway[s.id], duration: s.at - previous };
-          if (i === 0) tl.fromTo(world, { x: 0, y: 0, z: OVERVIEW_Z, rotationY: 0 }, vars, 0);
+          if (i === 0) tl.fromTo(world, { x: 0, y: 0, z: overviewZ, rotationY: 0 }, vars, 0);
           else tl.to(world, vars, previous);
           previous = s.at;
         });
@@ -101,12 +106,11 @@ export function FlightWall() {
       }, section);
       revert = () => ctx.revert();
     })();
-    return () => { disposed = true; revert(); setStation("web"); };
+    return () => { disposed = true; revert(); setStation("web"); setStarted(false); };
   }, [mode, lenis, wall]);
 
   return <section ref={sectionRef} id="dev-flight" className="tech-flight-section" data-tech-section="flight" aria-labelledby="dev-flight-title">
     <div className="tech-flight__intro spec-pad">
-      <p className="tech-flight__kicker">01 / SELECTED SCREENS</p>
       <h2 id="dev-flight-title">EIGHTEEN SCREENS.<br/><em>ONE TEAM.</em></h2>
       <p>Websites, products and platforms we have built and launched. Fly through them, or open any screen.</p>
     </div>
@@ -115,7 +119,7 @@ export function FlightWall() {
         {technologyProjects.map((project, i) => <WallTile key={project.slug} project={project} tile={wall[i]} index={i} onOpen={(p, opener) => setRequest({ project: p, opener, rect: opener.getBoundingClientRect() })}/>)}
       </div>
     </div>
-    <div className="tech-flight__hud" data-station aria-live="polite">
+    <div className="tech-flight__hud" data-station data-visible={started} aria-live="polite">
       <span className="tech-flight__count">{String(index + 1).padStart(2, "0")} / 06</span>
       <h3>{current.name}</h3>
       <p>{current.lead}</p>
