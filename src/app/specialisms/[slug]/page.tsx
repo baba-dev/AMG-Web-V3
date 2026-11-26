@@ -5,8 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { AiwaCreativesMotion } from "@/components/aiwa-creatives-motion";
-import { DevelopmentHeroArt } from "@/components/development/development-art";
-import { DevelopmentServices, DevelopmentConnected, DevelopmentFeatured, DevelopmentTrust } from "@/components/development/development-division";
+import { DevelopmentExperience } from "@/components/development/development-experience";
 import { FlightRuntime } from "@/components/development/flight-runtime";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import {
@@ -57,10 +56,11 @@ export default async function SpecialismDetail({params}:Props){
    }}/>
    <AiwaInnerHeader/>
    <Runtime><main id="main-content">
+    {isDevelopment?<DevelopmentExperience/>:<>
     <section className="spec-detail__hero spec-pad" aria-labelledby="specialism-heading">
      <div className="spec-detail__hero-nav">
       <Link href="/specialisms"><ArrowLeft size={19} aria-hidden="true"/> ALL SPECIALISMS</Link>
-      <span>{isDevelopment?"AIWA / DEVELOPMENT":<>AIWA / {String(service.index).padStart(2,"0")} OF 07</>}</span>
+      <span>AIWA / {String(service.index).padStart(2,"0")} OF 07</span>
      </div>
      <div className="spec-detail__hero-main">
       <span className="spec-kicker">{service.kicker}</span>
@@ -68,14 +68,14 @@ export default async function SpecialismDetail({params}:Props){
       <p className="spec-detail__hero-headline"><span>{service.headline[0]}</span><span><em>{service.headline[1]}</em></span></p>
       <div className="spec-detail__hero-bottom">
        <p>{service.lead}</p>
-       <a href="#service-thinking">{isDevelopment?"EXPLORE OUR SERVICES":"GET INTO IT"} <ArrowDown size={22} aria-hidden="true"/></a>
+       <a href="#service-thinking">GET INTO IT <ArrowDown size={22} aria-hidden="true"/></a>
       </div>
      </div>
-     <div className="spec-detail__hero-foot"><span>{service.position}</span><span>{isDevelopment?"ENGINEERING / MUSCAT":"CREATIVE / MUSCAT"}</span></div>
+     <div className="spec-detail__hero-foot"><span>{service.position}</span><span>CREATIVE / MUSCAT</span></div>
     </section>
 
-    <figure className={"spec-detail__art"+(isDevelopment?" dev-hero-art":"")} aria-labelledby="specialism-art-caption">
-     {isDevelopment?<DevelopmentHeroArt/>:<Image src={service.art} width={1200} height={900} unoptimized priority sizes="100vw" alt={service.alt}/>}
+    <figure className="spec-detail__art" aria-labelledby="specialism-art-caption">
+     <Image src={service.art} width={1200} height={900} unoptimized priority sizes="100vw" alt={service.alt}/>
      <figcaption id="specialism-art-caption"><span>AIWA / {service.name.toUpperCase()} / ORIGINAL ART</span><span>CONCEPTUAL SERVICE ILLUSTRATION / NOT CLIENT CAMPAIGN MEDIA</span></figcaption>
     </figure>
 
@@ -106,7 +106,7 @@ export default async function SpecialismDetail({params}:Props){
      </ol>
     </section>
 
-    {isDevelopment?<><DevelopmentServices/><DevelopmentConnected/></>:<section className="spec-detail__capabilities spec-pad" aria-labelledby="service-capabilities-heading">
+    <section className="spec-detail__capabilities spec-pad" aria-labelledby="service-capabilities-heading">
      <header>
       <span className="spec-kicker">03 / CAPABILITIES</span>
       <h2 id="service-capabilities-heading">THE RIGHT<br/><em>TOOLS FOR IT.</em></h2>
@@ -119,15 +119,14 @@ export default async function SpecialismDetail({params}:Props){
        <p>{item.copy}</p>
       </li>)}
      </ol>
-    </section>}
+    </section>
 
     <section className="spec-detail__related spec-pad" aria-labelledby="service-related-heading">
      <header>
-      <span className="spec-kicker">{isDevelopment?"05 / TECHNOLOGY PORTFOLIO":"04 / RELATED WORK"}</span>
+      <span className="spec-kicker">04 / RELATED WORK</span>
       <h2 id="service-related-heading">SEE IT<br/><em>IN PRACTICE.</em></h2>
       <p>{service.evidenceNote}</p>
      </header>
-     {isDevelopment&&<DevelopmentFeatured/>}
      {related.length>0?
        <div className="spec-detail__work-list">
         {related.map((project,i)=><Link href={"/work/"+project.slug} key={project.slug} className="spec-detail__work-card" data-related-work={project.slug}>
@@ -147,7 +146,8 @@ export default async function SpecialismDetail({params}:Props){
        </div>}
     </section>
 
-    {isDevelopment&&<DevelopmentTrust/>}
+    </>}
+
     <aside className="spec-detail__sources spec-pad" aria-label="Service source references">
       <div><span className="spec-kicker">SOURCE NOTES / SERVICE SCOPE</span><p>Capabilities reflect Aiwa's published service information; adjacent case studies are selectively associated with the relevant documented work. Original illustrations are conceptual, not photographs of completed campaigns.</p></div>
       <div>{service.sources.map(source=><a key={source.href} href={source.href} target="_blank" rel="noopener noreferrer">{source.label}<ArrowUpRight size={18} aria-hidden="true"/></a>)}</div>
@@ -158,11 +158,11 @@ export default async function SpecialismDetail({params}:Props){
      <Link href={"/specialisms/"+after.slug}>NEXT SPECIALISM <ArrowRight size={21} aria-hidden="true"/><strong>{after.name}</strong></Link>
     </nav>
 
-    <section className="spec-detail__contact spec-pad" aria-labelledby="specialism-contact-heading">
+    {!isDevelopment&&<section className="spec-detail__contact spec-pad" aria-labelledby="specialism-contact-heading">
      <span className="spec-kicker">LET'S TALK ABOUT YOUR IDEA.</span>
      <h2 id="specialism-contact-heading">READY FOR<br/><em>THE NEXT MOVE?</em></h2>
      <a href="/contact">START A CONVERSATION <ArrowUpRight size={24} aria-hidden="true"/></a>
-    </section>
+    </section>}
    </main></Runtime>
   </div>;
 }

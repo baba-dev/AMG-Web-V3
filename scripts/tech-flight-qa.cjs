@@ -52,6 +52,24 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       assert.equal(await page.evaluate(() => window.__techFlightDebug?.lenis()), false, "reduced motion destroys Lenis");
       await context.close();
     }
+    // --- Task 3: shell and hero
+    for (const [width, height] of viewports) for (const scheme of ["light", "dark"]) {
+      const { context, page } = await open(browser, { width, height, scheme });
+      const hero = page.locator('[data-tech-section="hero"]');
+      assert.equal(await hero.count(), 1, "one hero section");
+      assert.equal((await hero.locator("h1").innerText()).trim().toLowerCase(), "development");
+      const headline = (await hero.locator(".tech-hero__headline").innerText()).replace(/\s+/g, " ").toUpperCase();
+      assert.ok(headline.includes("GOOD IDEAS.") && headline.includes("GREAT ENGINEERING."), "hero headline copy");
+      assert.equal(await hero.locator('a[href="#dev-services"]').count(), 1, "hero services link");
+      assert.equal(await hero.locator(".tech-hero__ink").count(), 1, "hero ink slot");
+      const ld = JSON.parse(await page.locator('script[type="application/ld+json"]').first().innerText());
+      assert.equal(ld.serviceType.length, 6, "JSON-LD service types");
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://next.aiwamediagroup.com/specialisms/tech");
+      const clipped = await hero.locator(".tech-hero__headline").evaluate(n => n.scrollWidth > n.clientWidth + 1);
+      assert.equal(clipped, false, `${width} ${scheme}: headline clipped`);
+      if (scheme === "dark") await page.screenshot({ path: `${output}/hero-${width}-${scheme}.png` });
+      await context.close();
+    }
     console.log("AIWA_TECH_FLIGHT_QA_PASS");
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });
