@@ -27,10 +27,14 @@ async function toOverview(page) {
 }
 const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first().getAttribute("data-flight-mode");
 
+const only = process.env.TECH_QA_ONLY;
+const skip = n => only && only !== String(n);
 (async () => {
   const browser = await chromium.launch({ headless: true, args: ["--disable-dev-shm-usage"] });
   try {
     // --- Task 2: mode detection and runtime lifecycle
+    s2: {
+    if (skip(2)) break s2;
     for (const [width, height] of viewports) for (const scheme of ["light", "dark"]) {
       const { context, page, errors } = await open(browser, { width, height, scheme });
       const expected = width >= 900 ? "fly" : "static";
@@ -60,7 +64,10 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       assert.equal(await page.evaluate(() => window.__techFlightDebug?.lenis()), false, "reduced motion destroys Lenis");
       await context.close();
     }
+    }
     // --- Task 3: shell and hero
+    s3: {
+    if (skip(3)) break s3;
     for (const [width, height] of viewports) for (const scheme of ["light", "dark"]) {
       const { context, page } = await open(browser, { width, height, scheme });
       const hero = page.locator('[data-tech-section="hero"]');
@@ -78,7 +85,10 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       if (scheme === "dark") await page.screenshot({ path: `${output}/hero-${width}-${scheme}.png` });
       await context.close();
     }
+    }
     // --- Task 4: flight wall and static gallery
+    s4: {
+    if (skip(4)) break s4;
     const inventory = require("../docs/technology-portfolio/media-inventory.json");
     const expectedSlugs = inventory.projects.map(p => p.slug).sort();
     for (const [width, height] of [[1440, 900], [390, 844]]) for (const scheme of ["light", "dark"]) {
@@ -126,7 +136,10 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       assert.deepEqual(errors, [], "page errors");
       await context.close();
     }
+    }
     // --- Task 5: project popup
+    s5: {
+    if (skip(5)) break s5;
     for (const [width, height, reduced] of [[1440, 900, false], [390, 844, false], [1440, 900, true]]) {
       const { context, page, errors } = await open(browser, { width, height, reduced });
       const dialog = page.locator("dialog[data-tech-modal]");
@@ -158,7 +171,10 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       assert.deepEqual(errors, [], "page errors");
       await context.close();
     }
+    }
     // --- Task 6: service scenes and deep links
+    s6: {
+    if (skip(6)) break s6;
     const serviceNames = ["Web & app development", "SaaS & business software", "Cloud & DevOps", "Professional & dedicated email hosting", "AI & business automation", "IoT & connected hardware"];
     for (const [width, height] of [[1440, 900], [390, 844]]) {
       const { context, page } = await open(browser, { width, height });
@@ -180,7 +196,10 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
         await ctx.close();
       }
     }
+    }
     // --- Task 7: IoT, trust and finale
+    s7: {
+    if (skip(7)) break s7;
     for (const [width, height, reduced] of [[1440, 900, false], [320, 700, false], [1440, 900, true]]) for (const scheme of ["light", "dark"]) {
       const { context, page, errors } = await open(browser, { width, height, scheme, reduced });
       assert.deepEqual(await page.locator("[data-tech-section]").evaluateAll(n => n.map(x => x.dataset.techSection)), ["hero", "flight", "services", "iot", "trust", "finale"], "section order");
@@ -213,7 +232,10 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       assert.deepEqual(errors, [], "page errors");
       await context.close();
     }
+    }
     // --- Task 9: calligraphy and ink layer
+    s9: {
+    if (skip(9)) break s9;
     {
       const fly = await open(browser, { width: 1440, height: 900 });
       await fly.page.waitForFunction(() => document.querySelector("[data-flight-mode]").dataset.flightMode === "fly");
@@ -252,7 +274,7 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
         // The hero word writes itself on load: sample the pen stroke while it draws.
         const fresh = await context.newPage();
         await fresh.goto(origin + route, { waitUntil: "commit" });
-        await fresh.waitForSelector(".tech-hero svg.tech-ink [data-pen]");
+        await fresh.waitForSelector(".tech-hero svg.tech-ink [data-pen]", { state: "attached" });
         const samples = [];
         for (let i = 0; i < 16; i++) { samples.push(await fresh.evaluate(() => parseFloat(getComputedStyle(document.querySelector(".tech-hero svg.tech-ink [data-pen]")).strokeDashoffset) || 0)); await fresh.waitForTimeout(300); }
         assert.ok(Math.max(...samples) > 0, "pen stroke starts hidden");
@@ -264,6 +286,7 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       }
       assert.deepEqual(errors, [], "calligraphy page errors");
       await context.close();
+    }
     }
     console.log("AIWA_TECH_FLIGHT_QA_PASS");
   } finally { await browser.close(); }

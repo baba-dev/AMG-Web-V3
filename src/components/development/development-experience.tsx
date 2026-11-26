@@ -5,6 +5,7 @@ import { ServiceScenes } from "./service-scenes";
 import { TechHero } from "./tech-hero";
 import { TrustSection } from "./trust-section";
 import "./development-experience.css";
+import "./tech-shared.css";
 
 /** Server-rendered composition of the Development page. Interactive islands live in their own client components. */
 export function DevelopmentExperience() {
