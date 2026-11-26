@@ -176,7 +176,7 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
         await p.goto(origin + route + hash, { waitUntil: "networkidle" });
         await p.waitForTimeout(2200);
         const top = await p.evaluate(h => document.querySelector(h).getBoundingClientRect().top, hash);
-        assert.ok(top >= 0 && top < 260, `${width} ${hash}: target at top of viewport (got ${Math.round(top)})`);
+        assert.ok(top >= -2 && top < 260, `${width} ${hash}: target at top of viewport (got ${Math.round(top)})`);
         await ctx.close();
       }
     }

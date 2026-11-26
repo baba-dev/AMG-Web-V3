@@ -36,8 +36,8 @@ const pages = [
   {
     id: "specialism-detail",
     path: "/specialisms/tech.html",
-    surfaces: [".spec-detail__hero", ".spec-detail__thinking", ".spec-detail__approach", ".spec-detail__capabilities", ".dev-hero-art", ".dev-iot", ".spec-detail__related", ".dev-managed", ".dev-ecosystem", ".dev-faq", ".spec-detail__sources", ".spec-detail__pager", ".spec-detail__contact", ".aiwa-footer"],
-    shots: [".spec-detail__hero", ".dev-hero-art", ".spec-detail__thinking", ".spec-detail__capabilities", ".dev-iot", ".spec-detail__related", ".dev-managed", ".dev-ecosystem", ".dev-faq"],
+    surfaces: [".tech-hero", ".tech-services", ".tech-iot", ".tech-trust", ".tech-finale", ".spec-detail__sources", ".spec-detail__pager", ".aiwa-footer"],
+    shots: [".tech-hero", ".tech-services", ".tech-iot", ".tech-trust", ".tech-finale"],
   },
   {
     id: "contact",
