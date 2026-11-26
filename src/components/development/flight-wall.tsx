@@ -5,6 +5,7 @@ import { developmentServices } from "@/lib/development";
 import { buildWall, stationAt, stations, type ServiceId } from "@/lib/development-wall";
 import { useFlightContext } from "./flight-runtime";
 import { WallTile } from "./wall-tile";
+import { ProjectModal, type ModalRequest } from "./project-modal";
 import "./flight-wall.css";
 
 const COLUMNS = 6;
@@ -16,6 +17,7 @@ export function FlightWall() {
   const { mode, lenis } = useFlightContext();
   const wall = useMemo(() => buildWall(technologyProjects.map(p => p.slug), COLUMNS), []);
   const [station, setStation] = useState<ServiceId>("web");
+  const [request, setRequest] = useState<ModalRequest | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const worldRef = useRef<HTMLDivElement>(null);
   const current = developmentServices.find(s => s.id === station)!;
@@ -104,7 +106,7 @@ export function FlightWall() {
     </div>
     <div className="tech-wall">
       <div ref={worldRef} className="tech-wall__world">
-        {technologyProjects.map((project, i) => <WallTile key={project.slug} project={project} tile={wall[i]} index={i}/>)}
+        {technologyProjects.map((project, i) => <WallTile key={project.slug} project={project} tile={wall[i]} index={i} onOpen={(p, opener) => setRequest({ project: p, opener, rect: opener.getBoundingClientRect() })}/>)}
       </div>
     </div>
     <div className="tech-flight__hud" data-station aria-live="polite">
@@ -114,5 +116,6 @@ export function FlightWall() {
       <a href={"#dev-" + current.id}>SEE THE SERVICE</a>
     </div>
     <p className="tech-flight__hint" aria-hidden="true">SCROLL TO FLY</p>
+    <ProjectModal request={request} onClose={() => setRequest(null)}/>
   </section>;
 }

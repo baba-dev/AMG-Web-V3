@@ -21,6 +21,10 @@ async function open(browser, { width, height, scheme = "dark", reduced = false }
   }
   return { context, page, errors };
 }
+async function toOverview(page) {
+  if (await page.locator(".pin-spacer").count()) { await page.evaluate(() => { const sp = document.querySelector(".pin-spacer"); scrollTo(0, sp.getBoundingClientRect().top + scrollY - 84); }); await page.waitForTimeout(1500); }
+  else await page.locator("#dev-flight").scrollIntoViewIfNeeded();
+}
 const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first().getAttribute("data-flight-mode");
 
 (async () => {
@@ -119,6 +123,38 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
         const box = await page.locator(".tech-wall__tile").last().boundingBox();
         assert.ok(box && box.x >= -2 && box.y >= -2 && box.x + box.width <= width + 2 && box.y + box.height <= height + 2, "focused tile is inside the viewport");
       }
+      assert.deepEqual(errors, [], "page errors");
+      await context.close();
+    }
+    // --- Task 5: project popup
+    for (const [width, height, reduced] of [[1440, 900, false], [390, 844, false], [1440, 900, true]]) {
+      const { context, page, errors } = await open(browser, { width, height, reduced });
+      const dialog = page.locator("dialog[data-tech-modal]");
+      assert.equal(await dialog.count(), 1, "single popup element");
+      assert.equal(await dialog.evaluate(d => d.open), false, "closed by default");
+      await toOverview(page);
+      const tile = page.locator('.tech-wall__tile[data-slug="gwi"]');
+      if (width < 900 || reduced) await tile.scrollIntoViewIfNeeded();
+      await tile.click();
+      await page.waitForFunction(() => document.querySelector("dialog[data-tech-modal]").open);
+      assert.match(await dialog.locator("h2").innerText(), /Global Wealth Investments/i);
+      assert.equal(await dialog.evaluate(d => d.contains(document.activeElement)), true, "focus moves into popup");
+      for (let i = 0; i < 10; i++) { await page.keyboard.press("Tab"); assert.equal(await dialog.evaluate(d => d.contains(document.activeElement)), true, "focus stays in popup"); }
+      assert.equal(await dialog.locator('a[href="/work/technology/gwi"]').count(), 1, "view project link");
+      assert.equal(await dialog.locator('a[href="https://gwi-me.com/"]').count(), 1, "visit site link when website exists");
+      if (reduced) assert.equal(await dialog.evaluate(d => d.getAnimations({ subtree: true }).length), 0, "no animation under reduced motion");
+      if (!reduced) await page.screenshot({ path: `${output}/popup-${width}.png` });
+      await page.keyboard.press("Escape");
+      await page.waitForFunction(() => !document.querySelector("dialog[data-tech-modal]").open);
+      assert.equal(await page.evaluate(() => document.activeElement?.getAttribute("data-slug")), "gwi", "focus returns to the opener");
+      // a project without a public website offers no Visit site link
+      await toOverview(page);
+      if (width < 900 || reduced) await page.locator('.tech-wall__tile[data-slug="bababuilds-erp"]').scrollIntoViewIfNeeded();
+      await page.locator('.tech-wall__tile[data-slug="bababuilds-erp"]').click();
+      await page.waitForFunction(() => document.querySelector("dialog[data-tech-modal]").open);
+      assert.equal(await dialog.locator('a[target="_blank"]').count(), 0, "no Visit site link without website");
+      await page.locator("dialog[data-tech-modal] button[data-close]").click();
+      await page.waitForFunction(() => !document.querySelector("dialog[data-tech-modal]").open);
       assert.deepEqual(errors, [], "page errors");
       await context.close();
     }
