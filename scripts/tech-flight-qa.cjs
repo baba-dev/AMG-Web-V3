@@ -311,6 +311,50 @@ const skip = n => only && only !== String(n);
       await context.close();
     }
     }
+    // --- Task 13: Industrial IoT strip (side-by-side cards, horizontal on scroll, counter-moving backdrop)
+    s13: {
+    if (skip(13)) break s13;
+    for (const [width, height, reduced] of [[1440, 900, false], [390, 844, false], [1440, 900, true]]) {
+      const { context, page, errors } = await open(browser, { width, height, reduced });
+      const fly = width >= 900 && !reduced;
+      await page.waitForFunction(m => document.querySelector("[data-flight-mode]").dataset.flightMode === m, fly ? "fly" : "static");
+      const cards = page.locator("#dev-connected .dev-iot-card");
+      assert.equal(await cards.count(), 4, "four IoT cards");
+      assert.equal(await page.locator("#dev-connected .tech-iot-card__hook").count(), 4, "each card has a selling hook");
+      for (const hook of await page.locator("#dev-connected .tech-iot-card__hook").allInnerTexts()) assert.ok(hook.trim().length > 6, "hook has copy");
+      const rowTops = await cards.evaluateAll(n => n.map(x => x.offsetTop));
+      assert.ok(Math.max(...rowTops) - Math.min(...rowTops) <= 2, "cards sit side by side in one row");
+      const track = page.locator("#dev-connected .tech-iot__track");
+      assert.equal(await track.count(), 1, "IoT track");
+      if (fly) {
+        await page.waitForFunction(() => document.querySelector("#dev-connected")?.parentElement?.classList.contains("pin-spacer"), null, { timeout: 8000 });
+        const geo = await page.evaluate(() => { const sp = document.querySelector("#dev-connected").parentElement; const sec = document.querySelector("#dev-connected"); return { top: sp.getBoundingClientRect().top + scrollY, len: sp.offsetHeight - sec.offsetHeight, secH: sec.offsetHeight, vh: innerHeight }; });
+        assert.ok(geo.len <= geo.vh * 2.4, `pinned scroll length stays short (${geo.len}px)`);
+        assert.ok(geo.secH <= geo.vh, "the pinned strip fits the viewport");
+        const reading = () => page.evaluate(() => ({ card: document.querySelector("#dev-connected .dev-iot-card").getBoundingClientRect().left, ghost: new DOMMatrix(getComputedStyle(document.querySelector("#dev-connected .tech-iot__ghost")).transform).m41 }));
+        await page.evaluate(g => scrollTo(0, g.top - 84), geo);
+        await page.waitForTimeout(1600);
+        const start = await reading();
+        await page.evaluate(g => scrollTo(0, g.top - 84 + g.len * 0.7), geo);
+        await page.waitForTimeout(1800);
+        const later = await reading();
+        assert.ok(later.card < start.card - 120, `cards move left as you scroll (${start.card} -> ${later.card})`);
+        assert.ok(later.ghost > start.ghost + 40, `backdrop moves the opposite way (${start.ghost} -> ${later.ghost})`);
+        await page.screenshot({ path: `${output}/iot-strip-${width}.png` });
+      } else {
+        assert.equal(await page.locator(".pin-spacer").evaluateAll(n => n.some(x => x.querySelector("#dev-connected"))), false, "no pin for the IoT strip");
+        const t = await track.evaluate(n => { const cs = getComputedStyle(n); return { ox: cs.overflowX, snap: cs.scrollSnapType, scroll: n.scrollWidth > n.clientWidth, tab: n.getAttribute("tabindex"), card: n.querySelector(".dev-iot-card").getBoundingClientRect().width }; });
+        assert.equal(t.ox, "auto", "swipeable row"); assert.match(t.snap, /x/, "snaps horizontally"); assert.ok(t.scroll, "row is wider than the screen");
+        assert.equal(t.tab, "0", "keyboard users can scroll the row");
+        assert.ok(t.card >= Math.min(300, width * 0.7), "card is large enough to read");
+        await page.locator("#dev-connected").scrollIntoViewIfNeeded();
+        await page.screenshot({ path: `${output}/iot-strip-${width}${reduced ? "-reduced" : ""}.png` });
+      }
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) <= 0, true, "IoT strip causes no page overflow");
+      assert.deepEqual(errors, [], "page errors");
+      await context.close();
+    }
+    }
     console.log("AIWA_TECH_FLIGHT_QA_PASS");
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });
