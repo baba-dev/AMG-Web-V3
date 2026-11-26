@@ -4,7 +4,7 @@ Optional supporting images for `/specialisms/tech` service scenes. Drop files he
 
 ## IoT & connected hardware (scene 06)
 
-Currently the scene shows an illustrated diagram. To replace it with a photo or render:
+Done: the scene uses `aiwa-fluid-intelligence.svg` (light) and `aiwa-fluid-intelligence-dark.svg` (dark). To replace it with a photo or render:
 
 - **Where:** `public/media/development/` (this folder).
 - **Name:** `iot-connected-hardware.<ext>` (for example `iot-connected-hardware.png`). PNG, JPG or WebP all work; the build step converts and sizes it.

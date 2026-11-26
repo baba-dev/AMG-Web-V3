@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element -- static export: owner-supplied SVGs are served as-is, there is no image optimizer. */
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -8,6 +9,15 @@ import { InkCalligraphy } from "./ink-calligraphy";
 import { DevelopmentDiagram } from "./development-art";
 import "@/app/work/technology/technology.css";
 import "./service-scenes.css";
+
+/** Owner-supplied motion illustrations that replace a scene's diagram. Light and dark variants swap with the theme. */
+const sceneArt: Partial<Record<string, { light: string; dark: string; alt: string }>> = {
+  iot: {
+    light: "/media/development/aiwa-fluid-intelligence.svg",
+    dark: "/media/development/aiwa-fluid-intelligence-dark.svg",
+    alt: "Animated conceptual illustration of fluid flowing through an industrial sensor, becoming electronic pulses and a web monitoring dashboard. All readings are illustrative.",
+  },
+};
 
 /** Six full-width scenes, one per Development service. Plain sections (no accordion) so every service is readable and linkable. */
 export function ServiceScenes() {
@@ -22,7 +32,8 @@ export function ServiceScenes() {
       {developmentServices.map((service, i) => {
         const project = service.project ? getTechnologyProject(service.project) : undefined;
         const toIot = service.id === "iot";
-        return <section key={service.id} id={"dev-" + service.id} className="tech-scene" data-scene={service.id}
+        const art = sceneArt[service.id];
+        return <section key={service.id} id={"dev-" + service.id} className={"tech-scene" + (art ? " tech-scene--feature" : "")} data-scene={service.id}
           style={{ "--scene-accent": service.accent } as CSSProperties} aria-labelledby={"dev-" + service.id + "-title"}>
           <span className="tech-scene__num" aria-hidden="true">0{i + 1}</span>
           <div className="tech-scene__text">
@@ -37,7 +48,13 @@ export function ServiceScenes() {
           </div>
           <div className="tech-scene__visual">
             <span className="tech-scene__glow" aria-hidden="true"/>
-            {project
+            {art
+              ? <figure className="tech-scene__art">
+                  <img className="tech-scene__art-img tech-scene__art-dark" data-theme="dark" src={art.dark} alt={art.alt} width={1600} height={900} loading="lazy" decoding="async"/>
+                  <img className="tech-scene__art-img tech-scene__art-light" data-theme="light" src={art.light} alt={art.alt} width={1600} height={900} loading="lazy" decoding="async"/>
+                  <figcaption>ILLUSTRATED SYSTEM CONCEPT / SAMPLE DATA, NOT A CLIENT INSTALLATION</figcaption>
+                </figure>
+              : project
               ? <Link href={"/work/technology/" + project.slug} aria-label={"Explore " + project.name} className="tech-scene__project"><TechPair project={project} compact/></Link>
               : <div className="tech-scene__diagram"><DevelopmentDiagram kind={service.id}/></div>}
           </div>
