@@ -12,7 +12,7 @@ The signature idea, chosen by the owner: **a wall of tiles showing real client s
 
 - A pinned, scroll-driven 3D fly-through of a wall of the 18 owner-supplied project screens, with the six Development services surfacing as stations along the flight.
 - Motion that feels authored: moving illustration, parallax, magnetic/tilt hover, popups (project modal with shared-element expand), counters, drawn signal lines, marquee.
-- Arabic calligraphy (Diwani, Thuluth, and Noto Kufi Arabic Bold outlines) as low-opacity background texture and header accents, animated as an ink reveal.
+- Arabic calligraphy in **Thuluth** (owner decision, 26 Nov 2026; Diwani and Kufi dropped) as low-opacity background texture and header accents, animated as a pen write-on (right to left, dots last). Upload folder and animation contract: `public/media/calligraphy/README.md`.
 - Keep all existing owner-approved content (six services, IoT solutions, ecosystem, certifications, FAQ, SEO, JSON-LD) and the links into `/work/technology/*` and `/contact#enquiries`.
 - Fully usable without motion: reduced-motion, touch, 320px, keyboard and screen readers get a calm, complete layout.
 - Both light and dark themes.
@@ -89,7 +89,7 @@ Owner picked **C**. The WebGL layer is purely additive: if it fails, is unsuppor
 
 ## What the owner provides
 
-1. Calligraphy images (Diwani, Thuluth) from the supplied ChatGPT prompt: priority تقنية, ابتكار, عُمان. I trace to SVG. Noto Kufi Arabic Bold outlines come from the OFL font by me.
+1. Thuluth calligraphy images from the supplied ChatGPT prompt, uploaded to `public/media/calligraphy/source/`: priority تقنية, ابتكار, عُمان. I trace them to SVG and build the write-on pen paths.
 2. Optional: 6–10 s silent looping screen recordings (MP4/WebM) of the best 5–8 projects, to make tiles genuinely live.
 
 ## Verification plan
