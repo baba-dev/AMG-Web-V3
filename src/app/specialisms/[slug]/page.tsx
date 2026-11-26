@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { AiwaCreativesMotion } from "@/components/aiwa-creatives-motion";
 import { DevelopmentHeroArt } from "@/components/development/development-art";
 import { DevelopmentServices, DevelopmentConnected, DevelopmentFeatured, DevelopmentTrust } from "@/components/development/development-division";
+import { FlightRuntime } from "@/components/development/flight-runtime";
 import { AiwaInnerHeader } from "@/components/aiwa-inner-header";
 import {
  specialisms, getSpecialism, getRelatedProjects, nextSpecialism, previousSpecialism,
@@ -37,6 +38,7 @@ export default async function SpecialismDetail({params}:Props){
  const service=getSpecialism(slug);
  if(!service)notFound();
  const isDevelopment=slug==="tech";
+ const Runtime=isDevelopment?FlightRuntime:Fragment;
  const related=getRelatedProjects(service);
  const before=previousSpecialism(service),after=nextSpecialism(service);
  const vars={"--spec-accent":service.accent,"--spec-ink":service.ink} as CSSProperties;
@@ -54,7 +56,7 @@ export default async function SpecialismDetail({params}:Props){
     __html:JSON.stringify(structured).replace(/</g,"\\u003c"),
    }}/>
    <AiwaInnerHeader/>
-   <main id="main-content">
+   <Runtime><main id="main-content">
     <section className="spec-detail__hero spec-pad" aria-labelledby="specialism-heading">
      <div className="spec-detail__hero-nav">
       <Link href="/specialisms"><ArrowLeft size={19} aria-hidden="true"/> ALL SPECIALISMS</Link>
@@ -161,6 +163,6 @@ export default async function SpecialismDetail({params}:Props){
      <h2 id="specialism-contact-heading">READY FOR<br/><em>THE NEXT MOVE?</em></h2>
      <a href="/contact">START A CONVERSATION <ArrowUpRight size={24} aria-hidden="true"/></a>
     </section>
-   </main>
+   </main></Runtime>
   </div>;
 }
