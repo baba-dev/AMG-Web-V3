@@ -2,6 +2,7 @@ import { Plus, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { developmentFaqs } from "@/lib/development";
 import { technologyEcosystem, technologyExpertise, technologyProjects } from "@/lib/work/technology";
+import { InkCalligraphy } from "./ink-calligraphy";
 import { Marquee } from "./marquee";
 import "./lower-sections.css";
 
@@ -10,7 +11,7 @@ const managed = [["Cloud & hosting", "Infrastructure and deployment support tail
 export function TrustSection() {
   return <section className="tech-trust spec-pad" data-tech-section="trust" aria-label="Managed technology, ecosystem and questions">
     <div className="dev-managed">
-      <div className="tech-chapter"><div><p className="tech-chapter__kicker">04 / MANAGED TECHNOLOGY</p><h2>BUILT TO LAST.<br/><em>SUPPORTED TO GROW.</em></h2></div><p>Launching a product is only the beginning. Keep your systems working as your business changes.</p></div>
+      <div className="tech-chapter"><div><InkCalligraphy word="programming" variant="header"/><p className="tech-chapter__kicker">04 / MANAGED TECHNOLOGY</p><h2>BUILT TO LAST.<br/><em>SUPPORTED TO GROW.</em></h2></div><p>Launching a product is only the beginning. Keep your systems working as your business changes.</p></div>
       <div className="dev-managed__rows">{managed.map(([name, copy], i) => <article key={name}><span>0{i + 1}</span><h3>{name}</h3><p>{copy}</p><ArrowUpRight aria-hidden="true" size={20}/></article>)}</div>
       <Link href="/contact#enquiries" className="tech-link">Discuss managed services <ArrowUpRight size={20} aria-hidden="true"/></Link>
     </div>

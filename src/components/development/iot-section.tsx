@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { iotSolutions } from "@/lib/development";
+import { InkCalligraphy } from "./ink-calligraphy";
 import { DevelopmentDiagram } from "./development-art";
 import { SignalLines } from "./signal-lines";
 import "./lower-sections.css";
@@ -9,7 +10,7 @@ export function IotSection() {
   return <section id="dev-connected" className="tech-iot dev-iot spec-pad" data-tech-section="iot" aria-labelledby="dev-iot-heading">
     <SignalLines/>
     <div className="tech-chapter">
-      <div><p className="tech-chapter__kicker">03 / INDUSTRIAL IoT</p><h2 id="dev-iot-heading">THE PHYSICAL.<br/>THE DIGITAL.<br/><em>CONNECTED.</em></h2></div>
+      <div><InkCalligraphy word="engineering" variant="header"/><p className="tech-chapter__kicker">03 / INDUSTRIAL IoT</p><h2 id="dev-iot-heading">THE PHYSICAL.<br/>THE DIGITAL.<br/><em>CONNECTED.</em></h2></div>
       <p>We create web-powered hardware and connected monitoring systems for industrial and commercial environments. From sensing to control, bring physical operations into one digital picture.</p>
     </div>
     <div className="tech-iot__grid">{iotSolutions.map((item, i) => <article key={item.id} className="dev-iot-card">

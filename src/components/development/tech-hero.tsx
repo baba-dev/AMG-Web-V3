@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { ArrowDown, ArrowLeft } from "lucide-react";
+import { InkCalligraphy } from "./ink-calligraphy";
+import { InkFieldLoader } from "./ink-field-loader";
 
 /** Hero: headline copy stays real text; the ink slot is reserved for the Thuluth calligraphy layer (Task 9). */
 export function TechHero() {
   return <section className="tech-hero spec-pad" data-tech-section="hero" aria-labelledby="specialism-heading">
-    <div className="tech-hero__ink" aria-hidden="true"/>
+    <div className="tech-hero__ink" aria-hidden="true"><InkFieldLoader/><InkCalligraphy word="tech" variant="background"/></div>
     <div className="tech-hero__rings" aria-hidden="true"><i/><i/><i/></div>
     <div className="tech-hero__nav">
       <Link href="/specialisms"><ArrowLeft size={19} aria-hidden="true"/> ALL SPECIALISMS</Link>

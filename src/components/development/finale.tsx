@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { InkCalligraphy } from "./ink-calligraphy";
 import { MagneticLink } from "./magnetic-link";
 import "./lower-sections.css";
 
 export function Finale() {
   return <section className="tech-finale spec-pad" data-tech-section="finale" aria-labelledby="dev-finale-title">
-    <div className="tech-finale__ink" aria-hidden="true"/>
+    <div className="tech-finale__ink" aria-hidden="true"><InkCalligraphy word="oman" variant="background"/></div>
     <p className="tech-chapter__kicker">LET'S TALK ABOUT YOUR IDEA.</p>
     <h2 id="dev-finale-title">READY FOR<br/><em>THE NEXT MOVE?</em></h2>
     <div className="tech-finale__actions">

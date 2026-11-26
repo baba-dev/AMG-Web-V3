@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { developmentServices } from "@/lib/development";
 import { getTechnologyProject } from "@/lib/work/technology";
 import { TechPair } from "@/components/technology/tech-media";
+import { InkCalligraphy } from "./ink-calligraphy";
 import { DevelopmentDiagram } from "./development-art";
 import "@/app/work/technology/technology.css";
 import "./service-scenes.css";
@@ -12,6 +13,7 @@ import "./service-scenes.css";
 export function ServiceScenes() {
   return <section id="dev-services" className="tech-services spec-pad" data-tech-section="services" aria-labelledby="dev-services-title">
     <header className="tech-services__head">
+      <InkCalligraphy word="innovation" variant="header"/>
       <p className="tech-services__kicker">02 / OUR SPECIALISMS</p>
       <h2 id="dev-services-title">SIX WAYS TO<br/><em>MOVE FORWARD.</em></h2>
       <p>One technology team. Six ways to make business work better.</p>
