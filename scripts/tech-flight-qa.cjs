@@ -158,6 +158,28 @@ const mode = page => page.locator(".spec-detail--tech [data-flight-mode]").first
       assert.deepEqual(errors, [], "page errors");
       await context.close();
     }
+    // --- Task 6: service scenes and deep links
+    const serviceNames = ["Web & app development", "SaaS & business software", "Cloud & DevOps", "Professional & dedicated email hosting", "AI & business automation", "IoT & connected hardware"];
+    for (const [width, height] of [[1440, 900], [390, 844]]) {
+      const { context, page } = await open(browser, { width, height });
+      assert.equal(await page.locator('#dev-services[data-tech-section="services"]').count(), 1, "services section");
+      assert.deepEqual(await page.locator("#dev-services > .tech-scene, #dev-services .tech-scenes > .tech-scene").evaluateAll(n => n.map(x => x.id)), ["dev-web", "dev-software", "dev-cloud", "dev-email", "dev-ai", "dev-iot"], "scene order");
+      const names = (await page.locator("#dev-services .tech-scene h3").allInnerTexts()).map(t => t.trim().toLowerCase());
+      serviceNames.forEach((n, i) => assert.equal(names[i], n.toLowerCase(), "scene name " + n));
+      assert.equal(await page.locator("#dev-services details").count(), 0, "no accordion in scenes");
+      assert.equal(await page.locator('#dev-iot a[href="#dev-connected"]').count(), 1, "IoT scene links to the IoT section");
+      assert.equal(await page.locator('#dev-web a[href="/contact#enquiries"]').count(), 1, "contact CTA");
+      await context.close();
+      for (const hash of ["#dev-email", "#dev-ai", "#dev-connected"]) {
+        const ctx = await browser.newContext({ viewport: { width, height }, reducedMotion: "no-preference" });
+        const p = await ctx.newPage();
+        await p.goto(origin + route + hash, { waitUntil: "networkidle" });
+        await p.waitForTimeout(2200);
+        const top = await p.evaluate(h => document.querySelector(h).getBoundingClientRect().top, hash);
+        assert.ok(top >= 0 && top < 260, `${width} ${hash}: target at top of viewport (got ${Math.round(top)})`);
+        await ctx.close();
+      }
+    }
     console.log("AIWA_TECH_FLIGHT_QA_PASS");
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

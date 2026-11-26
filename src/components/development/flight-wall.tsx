@@ -71,6 +71,12 @@ export function FlightWall() {
         tl.to(section.querySelector(".tech-flight__hint"), { autoAlpha: 0, duration: 0.03 }, 0);
 
         const st = tl.scrollTrigger!;
+        // Pinning changes page height after the browser resolved the URL hash: settle on the target again.
+        requestAnimationFrame(() => {
+          ScrollTrigger.refresh();
+          const id = decodeURIComponent(location.hash.slice(1));
+          if (id) document.getElementById(id)?.scrollIntoView();
+        });
         const onFocusIn = (event: FocusEvent) => {
           const tile = (event.target as HTMLElement).closest<HTMLElement>(".tech-wall__tile");
           if (!tile) return;

@@ -1,23 +1,11 @@
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Plus } from "lucide-react";
-import { developmentServices,iotSolutions,developmentFaqs } from "@/lib/development";
+import { iotSolutions,developmentFaqs } from "@/lib/development";
 import { getTechnologyProject,technologyEcosystem,technologyExpertise } from "@/lib/work/technology";
 import { TechPair } from "@/components/technology/tech-media";
-import { DevelopmentAnchorSync } from "./development-anchor-sync";
 import { DevelopmentDiagram } from "./development-art";
 import "./development.css";
 
-export function DevelopmentServices(){
- return <section className="spec-detail__capabilities spec-pad dev-services" id="dev-services" aria-labelledby="service-capabilities-heading">
-  <header><span className="spec-kicker">03 / OUR SPECIALISMS</span><h2 id="service-capabilities-heading">SIX WAYS TO<br/><em>MOVE FORWARD.</em></h2><p>One technology team. Six ways to make business work better.</p></header>
-  <DevelopmentAnchorSync/><ol>{developmentServices.map((service,i)=>{const project=service.project?getTechnologyProject(service.project):undefined;return <li key={service.id} id={"dev-"+service.id} className="dev-service" style={{"--dev-service-accent":service.accent} as CSSProperties}>
-   <details name="dev-service" open={i===0?true:undefined}><summary><span className="dev-index">0{i+1}</span><h3>{service.name}</h3><Plus aria-hidden="true" size={24}/></summary>
-    <div className="dev-service__body"><div><strong>{service.lead}</strong><p>{service.copy}</p><ul>{service.deliverables.map(d=><li key={d}>{d}</li>)}</ul><Link href={service.id==="iot"?"#dev-connected":"/contact#enquiries"} className="dev-link">{service.id==="iot"?"Explore connected hardware":"Discuss your project"} <ArrowUpRight size={19}/></Link></div>
-    {project?<Link href={"/work/technology/"+project.slug} aria-label={"Explore "+project.name}><TechPair project={project} compact/></Link>:<div className="dev-service__art"><DevelopmentDiagram kind={service.id}/></div>}</div>
-   </details></li>;})}</ol>
- </section>;
-}
 export function DevelopmentConnected(){
  return <section id="dev-connected" className="dev-section dev-iot spec-pad" aria-labelledby="dev-iot-heading">
   <div className="dev-chapter"><div><p className="spec-kicker">04 / INDUSTRIAL IoT</p><h2 id="dev-iot-heading">THE PHYSICAL.<br/>THE DIGITAL.<br/><em>CONNECTED.</em></h2></div><p>We create web-powered hardware and connected monitoring systems for industrial and commercial environments. From sensing to control, bring physical operations into one digital picture.</p></div>
