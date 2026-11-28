@@ -1,6 +1,6 @@
 # Development page rebuild — "Fly-through" design
 
-Route: `/specialisms/tech` (Development). Status: **draft for owner approval**. Date: 26 Nov 2026.
+Route: `/specialisms/tech` (Development). Status: **approved and implemented in PR #60**, except plan Task 10 (live tile loops), which waits for owner screen recordings. Later owner decisions (hero declutter and PCB graphic, IoT strip, Arabic placements, vendor logos, removed disclaimer texts) are recorded in `docs/current-direction.md`. Date: 26 Nov 2026.
 
 ## Intent and why
 
