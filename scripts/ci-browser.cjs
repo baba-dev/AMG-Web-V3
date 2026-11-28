@@ -28,6 +28,7 @@ const suites=[
  ["work-case-study-qa.cjs",false,[...work,...shared]],
  ["case-study-showcase-qa.cjs",false,[/^src\/app\/work\/case-studies\//,/^src\/components\/case-studies\//,/^src\/lib\/work\/case-study-showcase\.ts$/,/^public\/media\/case-studies\//,/^public\/media\/archive\//,...shared]],
  ["specialisms-p2c-qa.cjs",false,[...specialisms,...shared]],
+ ["tech-flight-qa.cjs",false,[/^src\/components\/development\//,/^src\/lib\/development/,/^src\/lib\/calligraphy-data\.ts$/,/^public\/media\/calligraphy\//,/^src\/app\/specialisms\//,/^scripts\/tech-flight/]],
  ["about-page-qa.cjs",false,[/^src\/app\/about\//,/^src\/components\/about\//,...shared]],
  ["contact-page-qa.cjs",false,[...contact,...shared]],
  ["aiwa-route-transition-qa.cjs",false,[...shared,...work,...contact,...specialisms]]

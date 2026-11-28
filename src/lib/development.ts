@@ -8,10 +8,10 @@ export const developmentServices = [
  {id:"iot",name:"IoT & connected hardware",accent:"#c3eb6a",lead:"Connect the physical and digital.",copy:"Purpose-built connected hardware, embedded firmware and web-powered control systems for industrial and commercial environments. Connect sensors, equipment and monitoring systems to useful digital interfaces.",deliverables:["Flow sensors","AI surveillance command centres","Lighting automation","Power monitoring"],project:null},
 ] as const;
 export const iotSolutions=[
- {id:"flow",name:"Flow intelligence",copy:"Connected flow sensors, live measurements and consumption tracking.",metric:"MEASURE / MONITOR"},
- {id:"vision",name:"AI surveillance command centres",copy:"Centralised, AI-enabled video monitoring designed for large-scale, multi-site operations. Bring feeds, event detection and operator workflows together in one command centre.",metric:"CONNECT / DETECT / RESPOND"},
- {id:"light",name:"Automated lighting",copy:"Sensor-led lighting control, schedules and environmental automation.",metric:"SENSE / CONTROL"},
- {id:"power",name:"Power tracking",copy:"Connected energy measurements, consumption tracking and web-based reporting.",metric:"TRACK / UNDERSTAND"},
+ {id:"flow",hook:"See every litre.",name:"Flow intelligence",copy:"Connected flow sensors give you live measurements and consumption tracking, so nothing flows unnoticed.",metric:"MEASURE / MONITOR"},
+ {id:"vision",hook:"One screen. Every site.",name:"AI surveillance command centres",copy:"Centralised, AI-enabled video monitoring for multi-site operations, with feeds and event detection in one place.",metric:"CONNECT / DETECT / RESPOND"},
+ {id:"light",hook:"Light that responds.",name:"Automated lighting",copy:"Sensor-led lighting control with schedules and environmental automation, so spaces adjust to how they are used.",metric:"SENSE / CONTROL"},
+ {id:"power",hook:"Know every watt.",name:"Power tracking",copy:"Connected energy measurements, consumption tracking and web-based reporting for a clear view of usage.",metric:"TRACK / UNDERSTAND"},
 ] as const;
 export const developmentFaqs=[
  ["Do you build custom software or only websites?","Both. We develop responsive websites, web applications, SaaS products, business systems and connected hardware. Scope depends on your business needs."],

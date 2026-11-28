@@ -1,0 +1,38 @@
+/* Development page: own palette on top of the theme-aware paper/ink pair, so light and dark both work. */
+.spec-detail--tech{
+  --t-bg:var(--aiwa-paper);--t-ink:var(--aiwa-paper-ink);--t-muted:var(--aiwa-paper-muted);--t-line:var(--aiwa-paper-rule);
+  --t-blue:#8ea5ff;--t-amber:#f2ad67;--t-cyan:#71b9d3;--t-pink:#f59abb;--t-violet:#b9a2f9;--t-lime:#c3eb6a;
+  --t-ease:cubic-bezier(.22,1,.36,1);
+}
+/* Light theme: darker accent text colours so accent type keeps contrast on paper. */
+.light .spec-detail--tech{--t-blue:#3f55d4;--t-amber:#a85a12;--t-cyan:#1d7794;--t-pink:#b82e66;--t-violet:#6a47d0;--t-lime:#4f7a0a}
+/* ---------- hero ---------- */
+.tech-hero{position:relative;isolation:isolate;overflow:hidden;min-height:calc(100svh - 84px);display:flex;flex-direction:column;justify-content:center;padding-block:clamp(32px,6vh,72px);background:var(--t-bg);color:var(--t-ink)}
+.tech-hero__main{position:relative;z-index:1}
+.tech-hero__kicker{margin:0 0 clamp(14px,2.4vh,26px);font:600 var(--type-eyebrow-size)/1.3 var(--type-body);letter-spacing:var(--tracking-label)}
+/* The h1 carries the page title for assistive tech and search; the headline below is the visible title. */
+.tech-hero h1{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.tech-hero__headline{margin:0;font:400 var(--type-service-hero)/.94 var(--type-display);letter-spacing:var(--tracking-display)}
+.tech-hero__line{display:block;overflow:hidden;padding-bottom:.06em}
+.tech-hero__line>span{display:block}
+.tech-hero__headline em{font:italic 900 .94em/.92 var(--type-emphasis);letter-spacing:var(--tracking-body);background:linear-gradient(100deg,var(--t-blue),var(--t-violet) 40%,var(--t-pink) 70%,var(--t-blue));background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+.tech-hero__led{font:inherit;letter-spacing:inherit}
+.tech-hero__bottom{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 40px;margin-top:clamp(24px,5vh,64px)}
+.tech-hero__bottom>p{margin:0;max-width:46ch;font:400 var(--type-body-large)/1.45 var(--type-body)}
+.tech-hero__bottom a{display:inline-flex;align-items:center;gap:12px;min-height:48px;padding:0 4px;color:inherit;font:600 var(--type-eyebrow-size)/1.2 var(--type-body);letter-spacing:var(--tracking-label);text-decoration:none;border-bottom:2px solid currentColor;transition:gap .3s var(--t-ease)}
+.tech-hero__bottom a:hover{gap:20px}
+.tech-hero__bottom a:focus-visible{outline:3px solid var(--t-blue);outline-offset:4px}
+.tech-hero__ink{position:absolute;inset:0;z-index:-1;pointer-events:none}
+@media (prefers-reduced-motion:no-preference){
+  .tech-hero__line>span{animation:tech-rise .9s var(--t-ease) both}
+  .tech-hero__line:nth-child(2)>span{animation-delay:.14s}
+  .tech-hero__kicker{animation:tech-fade .8s var(--t-ease) .05s both}
+  .tech-hero__bottom>*{animation:tech-fade .9s var(--t-ease) .55s both}
+  .tech-hero__bottom>a{animation-delay:.7s}
+  .tech-hero__headline em{animation:tech-sheen 9s ease-in-out 1.2s infinite alternate}
+  .tech-hero__led{animation:tech-led 2.4s ease-in-out infinite}
+}
+@keyframes tech-rise{from{transform:translateY(105%)}to{transform:none}}
+@keyframes tech-fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes tech-sheen{from{background-position:0 0}to{background-position:100% 0}}
+@keyframes tech-led{0%,100%{opacity:1}50%{opacity:.35}}

@@ -1,0 +1,50 @@
+/* Industrial IoT strip. Small screens and reduced motion: swipeable snap row. Fly mode: pinned, cards slide as you scroll, backdrop counter-moves. */
+.tech-iot{position:relative;isolation:isolate;overflow:clip;display:flex;flex-direction:column;gap:clamp(18px,2.6vw,36px);padding-block:clamp(32px,5vw,72px) clamp(24px,3.4vw,48px);background:var(--t-bg);color:var(--t-ink);border-top:1px solid var(--t-line);--dev-art-bg:var(--t-bg)}
+.tech-signal{position:absolute;inset:0;z-index:-1;width:100%;height:100%;color:color-mix(in srgb,var(--t-lime) 55%,transparent);opacity:.45;pointer-events:none}
+.tech-signal path{stroke-dasharray:100;stroke-dashoffset:0}
+@supports(animation-timeline:view()){@media (prefers-reduced-motion:no-preference){.tech-signal path{animation:tech-signal-draw linear both;animation-timeline:view();animation-range:entry 0% cover 55%}}}
+@keyframes tech-signal-draw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+
+.tech-iot__head{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.7fr);gap:clamp(18px,5vw,78px);align-items:end}
+.tech-iot__head .tech-ink--header{width:clamp(110px,11vw,170px);margin-bottom:2px}
+.tech-iot__head h2{margin:10px 0 0;font:400 clamp(36px,5.2vw,82px)/.94 var(--type-display);letter-spacing:var(--tracking-display);overflow-wrap:break-word}
+.tech-iot__head h2 em{font:italic 900 .96em/.94 var(--type-emphasis);letter-spacing:var(--tracking-body);color:var(--t-blue)}
+.tech-iot__head>p{margin:0;max-width:40ch;font:400 var(--type-body-size)/var(--leading-body) var(--type-body)}
+@media (max-width:760px){.tech-iot__head{grid-template-columns:minmax(0,1fr)}}
+
+.tech-iot__stage{position:relative;margin-inline:calc(-1 * var(--aiwa-gutter));min-width:0}
+.tech-iot__ghost{position:absolute;left:0;bottom:-4%;z-index:0;white-space:nowrap;font:400 clamp(110px,15vw,240px)/1 var(--type-display);letter-spacing:var(--tracking-display);color:transparent;-webkit-text-stroke:1px color-mix(in srgb,var(--t-ink) 20%,transparent);pointer-events:none;user-select:none}
+.tech-iot__track{position:relative;z-index:1;display:flex;gap:clamp(14px,2vw,28px);padding:10px var(--aiwa-gutter) 14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--aiwa-gutter);scrollbar-width:thin;overscroll-behavior-x:contain}
+.tech-iot__track::after{content:"";flex:0 0 1px}
+.tech-iot__track:focus-visible{outline:3px solid var(--t-blue);outline-offset:-3px}
+
+.dev-iot-card{position:relative;isolation:isolate;flex:0 0 min(86vw,520px);scroll-snap-align:start;display:flex;flex-direction:column;gap:8px;padding:clamp(14px,1.8vw,22px);overflow:hidden;background:color-mix(in srgb,var(--t-bg) 88%,var(--t-ink));border:1px solid var(--t-line);border-radius:16px;transition:transform .5s var(--t-ease),border-color .3s,box-shadow .5s var(--t-ease)}
+.dev-iot-card::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 80% at 100% 0%,color-mix(in srgb,var(--card-accent) 22%,transparent),transparent 62%);pointer-events:none}
+.dev-iot-card[data-active]{border-color:var(--card-accent);box-shadow:0 22px 60px color-mix(in srgb,var(--card-accent) 24%,transparent)}
+@media (hover:hover){.dev-iot-card:hover{border-color:var(--card-accent);transform:translateY(-6px)}}
+.dev-iot-card__art{color:var(--t-ink)}
+.dev-iot-card__art>span{display:block;margin-bottom:8px;font:500 var(--type-meta-size)/1.3 var(--type-mono);letter-spacing:var(--tracking-label);color:var(--t-muted)}
+.dev-iot-card__art svg{display:block;width:100%;height:auto;max-height:clamp(120px,19vh,200px)}
+.tech-iot-card__hook{margin:6px 0 0;font:400 clamp(28px,2.8vw,44px)/1 var(--type-display);letter-spacing:var(--tracking-display);text-transform:uppercase;color:var(--card-accent)}
+.dev-iot-card h3{margin:0;font:600 var(--type-body-large)/1.2 var(--type-body);letter-spacing:var(--tracking-body)}
+.tech-iot-card__copy{margin:0;color:var(--t-muted);font:400 var(--type-body-size)/var(--leading-body) var(--type-body)}
+
+.tech-iot__rail{display:none;height:2px;margin-inline:var(--aiwa-gutter);background:var(--t-line)}
+.tech-iot__rail span{display:block;height:100%;background:var(--t-lime);transform-origin:left;transform:scaleX(0)}
+.tech-iot__foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:10px 28px}
+
+/* Fly mode: the section pins to the viewport and the track is driven by scroll. Only on screens tall enough to hold it. */
+@media (min-height:800px){
+.tech-iot{padding-block:clamp(24px,4.2vh,56px) clamp(18px,3vh,40px);gap:clamp(14px,2.4vh,28px)}
+.tech-iot__head h2{font-size:clamp(34px,min(5.2vw,8vh),76px)}
+[data-flight-mode="fly"] .tech-iot{min-height:calc(100svh - var(--tech-header,84px));justify-content:space-between}
+[data-flight-mode="fly"] .tech-iot__stage{flex:1;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+[data-flight-mode="fly"] .tech-iot__track{overflow:visible;scroll-snap-type:none;will-change:transform}
+[data-flight-mode="fly"] .dev-iot-card{flex-basis:min(30vw,500px)}
+[data-flight-mode="fly"] .dev-iot-card[data-active]{transform:translateY(-8px)}
+[data-flight-mode="fly"] .tech-iot__rail{display:block}
+[data-flight-mode="fly"] .tech-iot__ghost{will-change:transform}
+.tech-iot-card__hook{font-size:clamp(24px,min(2.6vw,4.2vh),40px)}
+.dev-iot-card{gap:6px;padding:clamp(12px,1.5vw,20px)}
+.dev-iot-card__art svg{max-height:clamp(90px,15vh,170px)}
+}
